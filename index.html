@@ -314,10 +314,6 @@
             padding: 18px;
             border-left: 5px solid var(--accent);
         }
-        /* Цвет текста ответа в темной теме — белый */
-        body.dark .result-box #answerText {
-            color: white;
-        }
         .answer-actions {
             display: flex;
             gap: 12px;
@@ -362,13 +358,13 @@
         .history-item:hover { background: var(--history-hover); }
         .ad-placeholder {
             margin: 24px 0 16px;
-            background: transparent;
+            background: rgba(0,0,0,0.05);
             border-radius: 28px;
-            padding: 0;
+            padding: 18px 8px;
             text-align: center;
             font-size: 0.7rem;
             color: var(--text-secondary);
-            border: none;
+            border: 1px dashed var(--border);
         }
         .extra-pc-banner {
             margin-top: 24px;
@@ -479,7 +475,7 @@
         <button class="theme-toggle" id="themeToggle">🌙</button>
         <h1 id="mainTitle">📚 AI Репетитор</h1>
         <div class="info-animation" style="margin-top: 12px; background: rgba(255,255,255,0.1);">
-            <span class="info-text" id="headerBadge">✨ Любой вопрос - за 1 минуту ответ ✨</span>
+            <span class="info-text" id="headerBadge">✨ Любой вопрос = 1 минута + ответ ✨</span>
         </div>
     </div>
 
@@ -493,7 +489,9 @@
             <div class="field-group"><label id="countryLabel">🌍 Страна</label><input type="text" id="country" placeholder="Введите страну"></div>
             <div class="field-group"><label id="cityLabel">🏙️ Город</label><input type="text" id="city" placeholder="Введите город"></div>
         </div>
-        <div class="field-group"><label id="gradeLabel">📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>    
+        <div class="field-group"><label id="gradeLabel">📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
+
+
 
         <label id="questionLabel">✍️ Задание / вопрос</label>
         <textarea id="questionInput" rows="3" placeholder="Напиши уравнение, пример, биологию, историю..."></textarea>
@@ -519,8 +517,9 @@
             <div class="history-list" id="historyList"></div>
         </div>
 
-        <!-- Рекламное место (пустое, надпись убрана) -->
-        <div class="ad-placeholder" id="adSpace"></div>
+        <div class="ad-placeholder" id="adSpace">
+            📢 Реклама (ваш баннер/adsense)
+        </div>
 
         <!-- Дополнительный баннер для ПК (2435604) -->
         <div class="extra-pc-banner">
@@ -529,6 +528,7 @@
                     style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
             </div>
         </div>
+
     </div>
     <footer id="footerText">🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Ключ в админ-панели</footer>
 </div>
@@ -784,7 +784,7 @@
 
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
 
-        // ⚠️ ВАЖНО: используем актуальную модель gemini-2.5-flash
+        // ⚠️ ВАЖНО: используем актуальную модель gemini-2.5-flash вместо устаревшей 1.5
         const MODEL_NAME = "gemini-2.5-flash";
         
         try {
