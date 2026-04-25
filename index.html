@@ -461,10 +461,10 @@
 </div>
 
 <script>
-    // ---------------------- ВАШ РАБОЧИЙ URL WORKER (исправлен) -------------------------
-    const WORKER_URL = "https://gemini-proxy.keryxa-ai.workers.dev";   // ✅ рабочий URL
+    // ====================== ВАШ РАБОЧИЙ URL WORKER (убедитесь, что он корректен) ======================
+    const WORKER_URL = "https://gemini-proxy.kerryxa-ai.workers.dev";
 
-    // ---------------------- ПОЛНЫЙ ПЕРЕВОД НА 12 ЯЗЫКОВ ------------------------------
+    // ====================== ПОЛНЫЙ ПЕРЕВОД НА 12 ЯЗЫКОВ ======================
     const languages = [
         { code: "ru", name: "Русский", native: "Русский" },
         { code: "uk", name: "Українська", native: "Українська" },
@@ -549,7 +549,6 @@
         dropdownMenu.classList.remove('show');
     }
 
-    // выпадашка языков
     function renderLanguageDropdown() {
         dropdownMenu.innerHTML = '';
         languages.forEach(lang => {
@@ -570,7 +569,6 @@
     });
     document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
 
-    // тёмная тема
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark');
         themeToggle.textContent = '☀️';
@@ -582,7 +580,6 @@
         themeToggle.textContent = dark ? '☀️' : '🌙';
     });
 
-    // Голос
     const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechAPI) {
         recognition = new SpeechAPI();
@@ -609,7 +606,6 @@
     }
     micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
 
-    // История
     function loadHistory() { const h = localStorage.getItem('ai_history_v4'); if(h) historyArr = JSON.parse(h); renderHistory(); }
     function saveHistory(q, ans) { historyArr.unshift({ q: q.slice(0, 80), a: ans, date: new Date().toLocaleString() }); if(historyArr.length>12) historyArr.pop(); localStorage.setItem('ai_history_v4', JSON.stringify(historyArr)); renderHistory(); }
     function renderHistory() {
@@ -638,12 +634,11 @@
         }
     });
 
-    // Модалка "Что я могу"
     whatCanBtn.addEventListener('click', () => modal.classList.add('show'));
     closeModal.addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
 
-    // Запрос к Worker
+    // ====================== ИСПРАВЛЕННЫЙ ЗАПРОС К WORKER ======================
     async function askWorker(questionText) {
         const t = translations[currentLang];
         const grade = gradeSelect.value;
@@ -652,18 +647,32 @@
         try {
             const response = await fetch(WORKER_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: questionText, grade, country, city, subject: "general", lang: currentLang })
+                headers: { 
+                    'Content-Type': 'application/json',   // ЯВНО УКАЗЫВАЕМ ЗАГОЛОВОК
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    prompt: questionText, 
+                    grade: grade, 
+                    country: country, 
+                    city: city, 
+                    subject: "general", 
+                    lang: currentLang 
+                })
             });
-            if(!response.ok) throw new Error(`HTTP ${response.status}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            if(data.success) {
+            if (data.success) {
                 answerDiv.innerHTML = data.answer.replace(/\n/g, '<br>');
                 saveHistory(questionText, data.answer);
                 return true;
-            } else { answerDiv.innerHTML = t.serverErr + (data.error || ''); return false; }
+            } else { 
+                answerDiv.innerHTML = t.serverErr + (data.error || ''); 
+                return false; 
+            }
         } catch(e) {
-            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 URL: ' + WORKER_URL + '</span>';
+            console.error("Worker error:", e);
+            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 Worker URL: ' + WORKER_URL + '</span>';
             return false;
         }
     }
@@ -671,7 +680,11 @@
     sendBtn.addEventListener('click', async () => {
         const q = questionInput.value.trim();
         const t = translations[currentLang];
-        if(!q) { answerDiv.innerHTML = t.errorNoText; resultBox.style.display = 'block'; return; }
+        if (!q) { 
+            answerDiv.innerHTML = t.errorNoText; 
+            resultBox.style.display = 'block'; 
+            return; 
+        }
         resultBox.style.display = 'block';
         answerDiv.innerHTML = `<span class="loader"></span> ${t.sending}`;
         await askWorker(q);
