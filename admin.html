@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель AI Репетитор</title>
+    <style>
+        body {
+            font-family: system-ui;
+            background: #1e1e2f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 32px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        h2 { color: #764ba2; margin-bottom: 20px; }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 60px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background: #764ba2;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        .hidden { display: none; }
+        .success { color: green; margin-top: 10px; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>🔐 Админ-панель</h2>
+    <div id="loginDiv">
+        <input type="password" id="adminPass" placeholder="Введите пароль">
+        <button id="loginBtn">Войти</button>
+        <div id="loginError" class="error"></div>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+        <label>🔑 API-ключ Gemini</label>
+        <input type="text" id="apiKeyInput" placeholder="AIza...">
+        <button id="saveKeyBtn">💾 Сохранить ключ</button>
+        <div id="saveMessage"></div>
+        <hr style="margin: 20px 0;">
+        <div style="font-size: 14px; color: gray;">
+            📌 Текущий ключ: <span id="currentKeyPreview">не задан</span>
+        </div>
+        <button id="logoutBtn" style="background: #ef4444; margin-top: 20px;">Выйти</button>
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASSWORD = "keryxa2025"; // Замени на свой пароль
+
+    document.getElementById('loginBtn').onclick = () => {
+        const pass = document.getElementById('adminPass').value;
+        if (pass === ADMIN_PASSWORD) {
+            localStorage.setItem('admin_logged', 'true');
+            document.getElementById('loginDiv').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadCurrentKey();
+        } else {
+            document.getElementById('loginError').innerText = 'Неверный пароль';
+        }
+    };
+
+    function loadCurrentKey() {
+        const key = localStorage.getItem('GEMINI_API_KEY');
+        document.getElementById('currentKeyPreview').innerText = key ? key.substring(0, 20) + '...' : 'не задан';
+    }
+
+    document.getElementById('saveKeyBtn').onclick = () => {
+        const newKey = document.getElementById('apiKeyInput').value.trim();
+        if (newKey.length > 10) {
+            localStorage.setItem('GEMINI_API_KEY', newKey);
+            document.getElementById('saveMessage').innerHTML = '<span class="success">✅ Ключ сохранён! Теперь все пользователи сайта будут использовать его.</span>';
+            loadCurrentKey();
+            document.getElementById('apiKeyInput').value = '';
+        } else {
+            document.getElementById('saveMessage').innerHTML = '<span class="error">❌ Введите корректный ключ</span>';
+        }
+    };
+
+    document.getElementById('logoutBtn').onclick = () => {
+        localStorage.removeItem('admin_logged');
+        location.reload();
+    };
+
+    if (localStorage.getItem('admin_logged') === 'true') {
+        document.getElementById('loginDiv').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadCurrentKey();
+    }
+</script>
+</body>
+</html>
