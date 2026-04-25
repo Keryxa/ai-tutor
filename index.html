@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>AI Tutor — Решение задач за минуту</title>
-    <!-- Иконка сайта (фавикон) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%237c3aed' rx='20'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3E🤖%3C/text%3E%3C/svg%3E">
     <style>
         * {
@@ -457,10 +456,36 @@
 </div>
 
 <script>
-    // ====================== API KEY ИЗ LOCALSTORAGE (устанавливается через admin.html) ======================
+    // ====================== API KEY ИЗ LOCALSTORAGE ======================
     let currentLang = "ru";
     let historyArr = [];
     let recognition = null, isListening = false;
+
+    // ========== СТАТИСТИКА ПОСЕЩЕНИЙ ==========
+    function updateVisitStats() {
+        let stats = localStorage.getItem('site_visits_stats');
+        if (!stats) {
+            stats = { total: 0, daily: {} };
+        } else {
+            stats = JSON.parse(stats);
+        }
+        const today = new Date().toISOString().slice(0,10);
+        stats.total = (stats.total || 0) + 1;
+        stats.daily[today] = (stats.daily[today] || 0) + 1;
+        localStorage.setItem('site_visits_stats', JSON.stringify(stats));
+        
+        let fp = localStorage.getItem('user_fingerprint');
+        if (!fp) {
+            fp = Math.random().toString(36) + Date.now();
+            localStorage.setItem('user_fingerprint', fp);
+            let allFp = JSON.parse(localStorage.getItem('all_fingerprints') || '[]');
+            if (!allFp.includes(fp)) {
+                allFp.push(fp);
+                localStorage.setItem('all_fingerprints', JSON.stringify(allFp));
+            }
+        }
+    }
+    updateVisitStats();
 
     // DOM элементы
     const sendBtn = document.getElementById('sendButton');
@@ -505,7 +530,8 @@
         uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ шкільне завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання / питання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія запитів", footerText: "🎤 Голос | 🔊 Озвучка | 🔐 Ключ в адмін-панелі", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка. Перевірте API-ключ", serverErr: "⚠️ Помилка сервера", copyOk: "Скопійовано", placeholder: "Напиши рівняння, приклад, біологію...", noKey: "❌ API-ключ не налаштовано. Адміністратор додасть його." },
         en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 minute", questionLabel: "✍️ Assignment / question", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read aloud", historyTitle: "📜 Request history", footerText: "🎤 Voice | 🔊 Read | 🔐 Key in admin panel", errorNoText: "📢 Write your task", sending: "Solving...", errConnect: "⚠️ Error. Check API key", serverErr: "⚠️ Server error", copyOk: "Copied", placeholder: "Write equation, example...", noKey: "❌ API key not configured. Administrator will add it." }
     };
-    // Добавим остальные языки
+    
+    // Быстрое копирование для остальных языков
     translations.be = { ...translations.ru, mainTitle: "📚 AI Рэпетытар", headerBadge: "✨ Любы прадмет · 1 хвіліна ✨", countryLabel: "🌍 Краіна", cityLabel: "🏙️ Горад", gradeLabel: "📖 Клас", solveText: "⚡ Вырашыць ЛЮБОЕ школьнае заданне", timerText: "менш 1 хвіліны", questionLabel: "✍️ Заданне / пытанне", micText: "Спытаць голасам", sendText: "🚀 Атрымаць рашэнне", copyText: "📋 Капіраваць", speakText: "🔊 Азвучыць", historyTitle: "📜 Гісторыя запытаў", footerText: "🎤 Голас | 🔊 Азвучка | 🔐 Ключ у адмін-панэлі", errorNoText: "📢 Напішыце заданне", sending: "Вырашаю...", errConnect: "⚠️ Памылка. Праверце API-ключ", serverErr: "⚠️ Памылка сервера", copyOk: "Скапіявана", placeholder: "Напішы ўраўненне, прыклад...", noKey: "❌ API-ключ не наладжаны. Адміністратар дадасць яго." };
     translations.pl = { ...translations.en, mainTitle: "📚 AI Korepetytor", headerBadge: "✨ Każdy przedmiot · 1 minuta ✨", countryLabel: "🌍 Kraj", cityLabel: "🏙️ Miasto", gradeLabel: "📖 Klasa", solveText: "⚡ Rozwiąże KAŻDE zadanie szkolne", timerText: "mniej niż 1 minuta", questionLabel: "✍️ Zadanie / pytanie", micText: "Zapytaj głosem", sendText: "🚀 Uzyskaj rozwiązanie", copyText: "📋 Kopiuj", speakText: "🔊 Czytaj", historyTitle: "📜 Historia zapytań", footerText: "🎤 Głos | 🔊 Czytanie | 🔐 Klucz w panelu admina", errorNoText: "📢 Napisz zadanie", sending: "Rozwiązuję...", errConnect: "⚠️ Błąd. Sprawdź klucz API", serverErr: "⚠️ Błąd serwera", copyOk: "Skopiowano", placeholder: "Napisz równanie, przykład...", noKey: "❌ Klucz API nie skonfigurowany. Administrator doda go." };
     translations.ro = { ...translations.en, mainTitle: "📚 AI Profesor", headerBadge: "✨ Orice materie · 1 minută ✨", countryLabel: "🌍 Țara", cityLabel: "🏙️ Oraș", gradeLabel: "📖 Clasa", solveText: "⚡ Rezolvă ORICE temă școlară", timerText: "mai puțin de 1 minut", questionLabel: "✍️ Tema / întrebare", micText: "Întreabă vocal", sendText: "🚀 Obține soluția", copyText: "📋 Copiază", speakText: "🔊 Citește", historyTitle: "📜 Istoric întrebări", footerText: "🎤 Voce | 🔊 Lectură | 🔐 Cheie în panoul admin", errorNoText: "📢 Scrie tema", sending: "Rezolv...", errConnect: "⚠️ Eroare. Verifică cheia API", serverErr: "⚠️ Eroare server", copyOk: "Copiat", placeholder: "Scrie ecuația, exemplu...", noKey: "❌ Cheia API nu este configurată. Administratorul o va adăuga." };
@@ -602,7 +628,22 @@
     micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
 
     function loadHistory() { const h = localStorage.getItem('ai_history_v4'); if(h) historyArr = JSON.parse(h); renderHistory(); }
-    function saveHistory(q, ans) { historyArr.unshift({ q: q.slice(0, 80), a: ans, date: new Date().toLocaleString() }); if(historyArr.length>12) historyArr.pop(); localStorage.setItem('ai_history_v4', JSON.stringify(historyArr)); renderHistory(); }
+    function saveHistory(q, ans) {
+        const grade = gradeSelect.value;
+        const country = countryInput.value.trim();
+        const city = cityInput.value.trim();
+        historyArr.unshift({ 
+            q: q.slice(0, 80), 
+            a: ans, 
+            date: new Date().toLocaleString(),
+            grade: grade,
+            country: country,
+            city: city
+        });
+        if(historyArr.length>12) historyArr.pop();
+        localStorage.setItem('ai_history_v4', JSON.stringify(historyArr));
+        renderHistory();
+    }
     function renderHistory() {
         if(!historyArr.length) { historyListDiv.innerHTML = '<div style="padding:8px;">📭 Пусто</div>'; return; }
         historyListDiv.innerHTML = historyArr.map((item, idx)=>`<div class="history-item" data-idx="${idx}">📌 ${item.q}<br><span style="font-size:0.6rem;">${item.date}</span></div>`).join('');
@@ -633,7 +674,7 @@
     closeModal.addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
 
-    // ====================== ПРЯМОЙ ЗАПРОС К GEMINI (без Worker) ======================
+    // ====================== ПРЯМОЙ ЗАПРОС К GEMINI (ОБНОВЛЁННАЯ МОДЕЛЬ) ======================
     async function askGeminiDirect(questionText) {
         const t = translations[currentLang];
         const grade = gradeSelect.value;
@@ -649,8 +690,11 @@
 
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
 
+        // ⚠️ ВАЖНО: используем актуальную модель gemini-2.5-flash вместо устаревшей 1.5
+        const MODEL_NAME = "gemini-2.5-flash";
+        
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -661,6 +705,7 @@
 
             if (!response.ok) {
                 const errorData = await response.json();
+                console.error("API Error:", errorData);
                 throw new Error(errorData.error?.message || 'Ошибка Gemini');
             }
 
@@ -672,7 +717,11 @@
             return true;
         } catch (err) {
             console.error("Gemini error:", err);
-            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 ' + err.message + '</span>';
+            let errorMsg = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 ' + err.message + '</span>';
+            if (err.message.includes('not found') || err.message.includes('404')) {
+                errorMsg = '⚠️ Модель временно недоступна. Попробуйте другой API-ключ или модель.<br><span style="font-size:0.7rem;">🔧 Актуальные модели: gemini-2.5-flash, gemini-2.0-flash-exp, gemini-3.1-flash-lite-preview</span>';
+            }
+            answerDiv.innerHTML = errorMsg;
             return false;
         }
     }
