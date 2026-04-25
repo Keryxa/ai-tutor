@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>AI Tutor | Домашка за минуту</title>
+    <title>AI Tutor — Решение задач за минуту</title>
+    <!-- Иконка сайта (фавикон) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%237c3aed' rx='20'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3E🤖%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -12,10 +14,9 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Переменные светлой темы */
         :root {
-            --bg-gradient-start: #667eea;
-            --bg-gradient-end: #764ba2;
+            --bg-start: #667eea;
+            --bg-end: #764ba2;
             --card-bg: rgba(255, 255, 255, 0.96);
             --text-primary: #1e293b;
             --text-secondary: #334155;
@@ -28,13 +29,12 @@
             --result-bg: #f8fafc;
             --history-hover: #f1f5f9;
             --placeholder: #94a3b8;
-            --shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            --modal-bg: rgba(0,0,0,0.7);
         }
 
-        /* Тёмная тема — полное переопределение цветов */
         body.dark {
-            --bg-gradient-start: #0f172a;
-            --bg-gradient-end: #1e1b4b;
+            --bg-start: #0f172a;
+            --bg-end: #1e1b4b;
             --card-bg: #1e293b;
             --text-primary: #f1f5f9;
             --text-secondary: #cbd5e6;
@@ -47,11 +47,12 @@
             --result-bg: #0f172a;
             --history-hover: #334155;
             --placeholder: #94a3b8;
+            --modal-bg: rgba(0,0,0,0.85);
         }
 
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             min-height: 100vh;
             padding: 16px 12px 40px;
             transition: background 0.3s, color 0.2s;
@@ -63,46 +64,24 @@
             background: var(--card-bg);
             border-radius: 44px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(2px);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
             transition: background 0.2s;
         }
 
-        /* Шапка */
         .header {
             padding: 22px 18px 18px;
             text-align: center;
             background: rgba(0,0,0,0.08);
             border-bottom: 1px solid var(--border);
+            position: relative;
         }
 
         .header h1 {
             font-size: 1.9rem;
             color: white;
             text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            letter-spacing: -0.3px;
         }
 
-        .sub-badge {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 6px 14px;
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: white;
-            animation: gentlePulse 2s infinite;
-        }
-
-        @keyframes gentlePulse {
-            0% { opacity: 0.8; transform: scale(1);}
-            50% { opacity: 1; transform: scale(1.02); background: rgba(255,255,255,0.3);}
-            100% { opacity: 0.8; transform: scale(1);}
-        }
-
-        /* Кнопка темы */
         .theme-toggle {
             position: absolute;
             top: 16px;
@@ -118,55 +97,41 @@
             color: white;
         }
 
-        /* Языковая панель: флаги + кнопка */
-        .lang-zone {
-            padding: 14px 18px 0 18px;
+        /* панель языка */
+        .lang-panel {
             display: flex;
             justify-content: flex-end;
+            padding: 12px 18px 0;
             position: relative;
         }
-        .flags-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            margin-bottom: 8px;
-        }
-        .flag-icon {
-            font-size: 1.7rem;
-            cursor: pointer;
-            transition: transform 0.1s ease;
-            opacity: 0.7;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-        }
-        .flag-icon:hover { transform: scale(1.1); opacity: 1; }
         .lang-select-btn {
             background: var(--accent);
             border: none;
             color: white;
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 60px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: bold;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            margin-left: 8px;
+            gap: 8px;
         }
         .dropdown-lang {
             position: absolute;
-            top: 70px;
+            top: 55px;
             right: 18px;
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 28px;
-            padding: 12px 16px;
+            padding: 10px;
             width: 210px;
             z-index: 200;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            backdrop-filter: blur(16px);
             display: none;
+            max-height: 320px;
+            overflow-y: auto;
         }
         .dropdown-lang.show {
             display: block;
@@ -177,11 +142,10 @@
             width: 100%;
             background: transparent;
             border: none;
-            padding: 8px 8px;
+            padding: 8px 10px;
             text-align: left;
             font-size: 0.85rem;
             border-radius: 40px;
-            margin: 4px 0;
             cursor: pointer;
             color: var(--text-primary);
         }
@@ -208,7 +172,6 @@
             color: var(--label-color);
             display: block;
             margin-bottom: 5px;
-            letter-spacing: 0.4px;
         }
         input, select, textarea {
             width: 100%;
@@ -218,7 +181,7 @@
             font-size: 0.9rem;
             background: var(--card-bg);
             color: var(--text-primary);
-            transition: all 0.2s;
+            transition: 0.2s;
             font-family: inherit;
         }
         input:focus, select:focus, textarea:focus {
@@ -226,44 +189,30 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
-        .animated-placeholder::placeholder {
-            color: var(--placeholder);
-            font-style: italic;
-        }
-
-        /* Анимированная инфо-зона */
         .info-animation {
-            background: rgba(124, 58, 237, 0.08);
+            background: rgba(124, 58, 237, 0.1);
             border-radius: 38px;
-            padding: 14px 18px;
-            margin: 18px 0 10px;
+            padding: 12px 16px;
+            margin: 18px 0 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
             flex-wrap: wrap;
-            justify-content: center;
+            gap: 8px;
             border: 1px dashed var(--accent);
         }
-        .info-text {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
+        .info-text { font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
         .timer-badge {
             background: var(--accent);
             padding: 5px 12px;
             border-radius: 60px;
             color: white;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            animation: blink 1.4s infinite;
+            animation: pulseSoft 1.5s infinite;
         }
-        @keyframes blink {
-            0% { opacity: 0.7; box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.5);}
-            100% { opacity: 1; box-shadow: 0 0 0 8px rgba(168, 85, 247, 0);}
-        }
+        @keyframes pulseSoft { 0% { opacity: 0.8; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.8; } }
 
-        /* голос и кнопка */
         .voice-row {
             display: flex;
             align-items: center;
@@ -278,9 +227,6 @@
             padding: 12px 22px;
             border-radius: 60px;
             font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -301,11 +247,7 @@
             cursor: pointer;
             transition: 0.2s;
             margin-top: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        .send-btn:active { transform: scale(0.97); }
-
-        /* ответ и рекламное место */
         .result-box {
             margin-top: 22px;
             background: var(--result-bg);
@@ -339,6 +281,7 @@
             justify-content: space-between;
             cursor: pointer;
             padding: 6px 0;
+            color: var(--text-primary);
         }
         .history-list {
             max-height: 250px;
@@ -351,11 +294,9 @@
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             border-radius: 20px;
-            transition: 0.1s;
+            color: var(--text-primary);
         }
         .history-item:hover { background: var(--history-hover); }
-
-        /* рекламный блок */
         .ad-placeholder {
             margin: 24px 0 16px;
             background: rgba(0,0,0,0.05);
@@ -365,9 +306,7 @@
             font-size: 0.7rem;
             color: var(--text-secondary);
             border: 1px dashed var(--border);
-            backdrop-filter: blur(2px);
         }
-
         footer {
             font-size: 0.6rem;
             text-align: center;
@@ -385,6 +324,60 @@
             animation: spin 0.6s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+        /* модалка "Что я могу" */
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            width: 85%;
+            max-width: 340px;
+            border-radius: 48px;
+            padding: 24px 20px;
+            text-align: center;
+            color: var(--text-primary);
+            border: 1px solid var(--accent);
+            box-shadow: 0 30px 40px rgba(0,0,0,0.4);
+        }
+        .modal-content h3 { font-size: 1.6rem; margin-bottom: 16px; color: var(--accent); }
+        .modal-content ul { text-align: left; margin: 16px 0; padding-left: 20px; }
+        .modal-content li { margin: 10px 0; font-size: 0.9rem; }
+        .close-modal {
+            background: var(--accent);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+        .what-btn {
+            background: rgba(124,58,237,0.2);
+            border: 1px solid var(--accent);
+            padding: 8px 14px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            color: var(--text-primary);
+        }
         @media (max-width: 500px) {
             .container { border-radius: 36px; }
             .header h1 { font-size: 1.6rem; }
@@ -394,108 +387,119 @@
 <body>
 
 <div class="container">
-    <div class="header" style="position: relative;">
+    <div class="header">
         <button class="theme-toggle" id="themeToggle">🌙</button>
-        <h1>📚 AI Репетитор</h1>
-        <div class="sub-badge">✨ Любой предмет · 1 минута ✨</div>
+        <h1 id="mainTitle">📚 AI Репетитор</h1>
+        <div class="info-animation" style="margin-top: 12px; background: rgba(255,255,255,0.1);">
+            <span class="info-text" id="headerBadge">✨ Любой предмет · 1 минута ✨</span>
+        </div>
     </div>
 
-    <!-- Языковая зона: флаги + выпадашка -->
-    <div class="lang-zone">
-        <div class="flags-row" id="flagsRow">
-            <!-- флаги будут динамически, но вставим основные -->
-        </div>
-        <button id="langDropdownBtn" class="lang-select-btn">🌐 Язык ▼</button>
+    <div class="lang-panel">
+        <button id="langDropdownBtn" class="lang-select-btn">🌐 <span id="currentLangLabel">Русский</span> ▼</button>
         <div id="dropdownMenu" class="dropdown-lang"></div>
     </div>
 
     <div class="form-card">
-        <!-- страна + город (пустые поля) -->
         <div class="row-2col">
-            <div class="field-group"><label>🌍 Страна</label><input type="text" id="country" class="animated-placeholder" placeholder="Ваша страна"></div>
-            <div class="field-group"><label>🏙️ Город</label><input type="text" id="city" class="animated-placeholder" placeholder="Ваш город"></div>
+            <div class="field-group"><label id="countryLabel">🌍 Страна</label><input type="text" id="country" placeholder="Введите страну"></div>
+            <div class="field-group"><label id="cityLabel">🏙️ Город</label><input type="text" id="city" placeholder="Введите город"></div>
         </div>
-        <div class="field-group"><label>📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
+        <div class="field-group"><label id="gradeLabel">📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
 
-        <!-- Анимированная инфа без уроков -->
         <div class="info-animation">
-            <span class="info-text">⚡ Решит ЛЮБУЮ школьную задачу</span>
-            <span class="timer-badge">менее 1 минуты</span>
+            <span class="info-text" id="solveText">⚡ Решит ЛЮБУЮ школьную задачу</span>
+            <span class="timer-badge" id="timerText">менее 1 минуты</span>
         </div>
 
-        <label>✍️ Задание / вопрос</label>
-        <textarea id="questionInput" rows="3" placeholder="Напиши уравнение, пример, биологию, историю, языки..."></textarea>
+        <label id="questionLabel">✍️ Задание / вопрос</label>
+        <textarea id="questionInput" rows="3" placeholder="Напиши уравнение, пример, биологию, историю..."></textarea>
         
         <div class="voice-row">
-            <button id="micButton" class="mic-btn">🎙️ Спросить голосом</button>
+            <button id="micButton" class="mic-btn">🎙️ <span id="micText">Спросить голосом</span></button>
             <span id="voiceStatus" class="status-text" style="font-size:0.7rem;">🎤 нажми и говори</span>
+            <button id="whatCanBtn" class="what-btn">❓ Что я могу</button>
         </div>
         
-        <button id="sendButton" class="send-btn">🚀 Получить решение</button>
+        <button id="sendButton" class="send-btn"><span id="sendText">🚀 Получить решение</span></button>
 
-        <!-- БЛОК ОТВЕТА -->
         <div class="result-box" id="resultBox" style="display: none;">
             <div id="answerText" style="white-space: pre-wrap; line-height: 1.45;"></div>
             <div class="answer-actions">
-                <button id="copyBtn" class="action-btn">📋 Копировать</button>
-                <button id="speakBtn" class="action-btn">🔊 Озвучить</button>
+                <button id="copyBtn" class="action-btn"><span id="copyText">📋 Копировать</span></button>
+                <button id="speakBtn" class="action-btn"><span id="speakText">🔊 Озвучить</span></button>
             </div>
         </div>
 
-        <!-- История -->
         <div class="history-section">
-            <div class="history-title" id="historyToggle">📜 История запросов <span>▼</span></div>
+            <div class="history-title" id="historyToggle"><span id="historyTitle">📜 История запросов</span> <span>▼</span></div>
             <div class="history-list" id="historyList"></div>
         </div>
 
-        <!-- Место под рекламу -->
         <div class="ad-placeholder" id="adSpace">
             📢 Реклама (ваш баннер/adsense)
         </div>
     </div>
-    <footer>🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Безопасно через Worker</footer>
+    <footer id="footerText">🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Безопасно через Worker</footer>
+</div>
+
+<!-- Модалка "Что я могу" -->
+<div id="capabilitiesModal" class="modal">
+    <div class="modal-content">
+        <h3>✨ Я умею ✨</h3>
+        <ul>
+            <li>📐 Решать математику, физику, химию</li>
+            <li>📖 Писать сочинения и изложения</li>
+            <li>📜 Анализировать стихи и литературу</li>
+            <li>🌍 Переводить тексты на 12 языков</li>
+            <li>🧠 Объяснять сложные темы простыми словами</li>
+            <li>🎤 Отвечать голосом и слушать задания</li>
+            <li>✍️ Помогать с домашкой за 1 минуту</li>
+        </ul>
+        <button class="close-modal" id="closeModalBtn">Понятно!</button>
+    </div>
 </div>
 
 <script>
-    // ---------------------- ВАШ РАБОЧИЙ URL WORKER -------------------------
-    const WORKER_URL = "https://gemini-proxy.keryxa-ai.workers.dev";   // ✅ ваш сайт
+    // ---------------------- ВАШ РАБОЧИЙ URL WORKER (исправлен) -------------------------
+    const WORKER_URL = "https://gemini-proxy.keryxa-ai.workers.dev";   // ✅ рабочий URL
 
-    // ---------------------- ПЕРЕВОДЫ + ФЛАГИ ------------------------------
+    // ---------------------- ПОЛНЫЙ ПЕРЕВОД НА 12 ЯЗЫКОВ ------------------------------
     const languages = [
-        { code: "ru", name: "Русский", flag: "🇷🇺", native: "Русский" },
-        { code: "uk", name: "Українська", flag: "🇺🇦", native: "Українська" },
-        { code: "be", name: "Беларуская", flag: "🇧🇾", native: "Беларуская" },
-        { code: "pl", name: "Polski", flag: "🇵🇱", native: "Polski" },
-        { code: "ro", name: "Română", flag: "🇷🇴", native: "Română" },
-        { code: "en", name: "English", flag: "🇬🇧", native: "English" },
-        { code: "ja", name: "日本語", flag: "🇯🇵", native: "日本語" },
-        { code: "de", name: "Deutsch", flag: "🇩🇪", native: "Deutsch" },
-        { code: "fr", name: "Français", flag: "🇫🇷", native: "Français" },
-        { code: "es", name: "Español", flag: "🇪🇸", native: "Español" },
-        { code: "it", name: "Italiano", flag: "🇮🇹", native: "Italiano" },
-        { code: "el", name: "Ελληνικά", flag: "🇬🇷", native: "Ελληνικά" }
+        { code: "ru", name: "Русский", native: "Русский" },
+        { code: "uk", name: "Українська", native: "Українська" },
+        { code: "be", name: "Беларуская", native: "Беларуская" },
+        { code: "pl", name: "Polski", native: "Polski" },
+        { code: "ro", name: "Română", native: "Română" },
+        { code: "en", name: "English", native: "English" },
+        { code: "ja", name: "日本語", native: "日本語" },
+        { code: "de", name: "Deutsch", native: "Deutsch" },
+        { code: "fr", name: "Français", native: "Français" },
+        { code: "es", name: "Español", native: "Español" },
+        { code: "it", name: "Italiano", native: "Italiano" },
+        { code: "el", name: "Ελληνικά", native: "Ελληνικά" }
     ];
 
     const translations = {
-        ru: { send: "🚀 Получить решение", mic: "Спросить голосом", copyOk: "Скопировано", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка соединения. Проверьте интернет или Worker.", serverErr: "⚠️ Ошибка сервера", answerPrefix: "🤖 Ответ" },
-        uk: { send: "🚀 Отримати рішення", mic: "Запитати голосом", copyOk: "Скопійовано", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка з'єднання. Перевірте Worker.", serverErr: "⚠️ Помилка сервера", answerPrefix: "🤖 Відповідь" },
-        be: { send: "🚀 Атрымаць рашэнне", mic: "Спытаць голасам", copyOk: "Скапіявана", errorNoText: "📢 Напішыце заданне", sending: "Вырашаю...", errConnect: "⚠️ Памылка злучэння", serverErr: "⚠️ Памылка сервера", answerPrefix: "🤖 Адказ" },
-        pl: { send: "🚀 Uzyskaj rozwiązanie", mic: "Zapytaj głosem", copyOk: "Skopiowano", errorNoText: "📢 Napisz zadanie", sending: "Rozwiązuję...", errConnect: "⚠️ Błąd połączenia", serverErr: "⚠️ Błąd serwera", answerPrefix: "🤖 Odpowiedź" },
-        ro: { send: "🚀 Obține soluția", mic: "Întreabă vocal", copyOk: "Copiat", errorNoText: "📢 Scrie tema", sending: "Rezolv...", errConnect: "⚠️ Eroare conexiune", serverErr: "⚠️ Eroare server", answerPrefix: "🤖 Răspuns" },
-        en: { send: "🚀 Get solution", mic: "Ask by voice", copyOk: "Copied", errorNoText: "📢 Write your task", sending: "Solving...", errConnect: "⚠️ Connection error", serverErr: "⚠️ Server error", answerPrefix: "🤖 Answer" },
-        ja: { send: "🚀 解答を取得", mic: "音声で質問", copyOk: "コピーしました", errorNoText: "📢 課題を入力", sending: "回答中...", errConnect: "⚠️ 接続エラー", serverErr: "⚠️ サーバーエラー", answerPrefix: "🤖 回答" },
-        de: { send: "🚀 Lösung erhalten", mic: "Per Sprache fragen", copyOk: "Kopiert", errorNoText: "📢 Aufgabe eingeben", sending: "Löse...", errConnect: "⚠️ Verbindungsfehler", serverErr: "⚠️ Serverfehler", answerPrefix: "🤖 Antwort" },
-        fr: { send: "🚀 Obtenir solution", mic: "Demander vocal", copyOk: "Copié", errorNoText: "📢 Écris ton devoir", sending: "Résolution...", errConnect: "⚠️ Erreur connexion", serverErr: "⚠️ Erreur serveur", answerPrefix: "🤖 Réponse" },
-        es: { send: "🚀 Obtener solución", mic: "Preguntar por voz", copyOk: "Copiado", errorNoText: "📢 Escribe tu tarea", sending: "Resolviendo...", errConnect: "⚠️ Error conexión", serverErr: "⚠️ Error servidor", answerPrefix: "🤖 Respuesta" },
-        it: { send: "🚀 Ottieni soluzione", mic: "Chiedi a voce", copyOk: "Copiato", errorNoText: "📢 Scrivi il compito", sending: "Risolvo...", errConnect: "⚠️ Errore connessione", serverErr: "⚠️ Errore server", answerPrefix: "🤖 Risposta" },
-        el: { send: "🚀 Λήψη λύσης", mic: "Ρώτησε με φωνή", copyOk: "Αντιγράφηκε", errorNoText: "📢 Γράψε την εργασία", sending: "Επίλυση...", errConnect: "⚠️ Σφάλμα σύνδεσης", serverErr: "⚠️ Σφάλμα διακομιστή", answerPrefix: "🤖 Απάντηση" }
+        ru: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Любой предмет · 1 минута ✨", countryLabel: "🌍 Страна", cityLabel: "🏙️ Город", gradeLabel: "📖 Класс", solveText: "⚡ Решит ЛЮБУЮ школьную задачу", timerText: "менее 1 минуты", questionLabel: "✍️ Задание / вопрос", micText: "Спросить голосом", sendText: "🚀 Получить решение", copyText: "📋 Копировать", speakText: "🔊 Озвучить", historyTitle: "📜 История запросов", footerText: "🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Безопасно через Worker", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка соединения. Проверьте интернет или Worker URL.", serverErr: "⚠️ Ошибка сервера", copyOk: "Скопировано", placeholder: "Напиши уравнение, пример, биологию, историю..." },
+        uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ шкільне завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання / питання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія запитів", footerText: "🎤 Голос | 🔊 Озвучка | 🔐 Безпечно", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка з'єднання. Перевірте Worker URL.", serverErr: "⚠️ Помилка сервера", copyOk: "Скопійовано", placeholder: "Напиши рівняння, приклад, біологію..." },
+        be: { mainTitle: "📚 AI Рэпетытар", headerBadge: "✨ Любы прадмет · 1 хвіліна ✨", countryLabel: "🌍 Краіна", cityLabel: "🏙️ Горад", gradeLabel: "📖 Клас", solveText: "⚡ Вырашыць ЛЮБОЕ школьнае заданне", timerText: "менш 1 хвіліны", questionLabel: "✍️ Заданне / пытанне", micText: "Спытаць голасам", sendText: "🚀 Атрымаць рашэнне", copyText: "📋 Капіраваць", speakText: "🔊 Азвучыць", historyTitle: "📜 Гісторыя запытаў", footerText: "🎤 Голас | 🔊 Азвучка | 🔐 Бяспечна", errorNoText: "📢 Напішыце заданне", sending: "Вырашаю...", errConnect: "⚠️ Памылка злучэння", serverErr: "⚠️ Памылка сервера", copyOk: "Скапіявана", placeholder: "Напішы ўраўненне, прыклад..." },
+        pl: { mainTitle: "📚 AI Korepetytor", headerBadge: "✨ Każdy przedmiot · 1 minuta ✨", countryLabel: "🌍 Kraj", cityLabel: "🏙️ Miasto", gradeLabel: "📖 Klasa", solveText: "⚡ Rozwiąże KAŻDE zadanie szkolne", timerText: "mniej niż 1 minuta", questionLabel: "✍️ Zadanie / pytanie", micText: "Zapytaj głosem", sendText: "🚀 Uzyskaj rozwiązanie", copyText: "📋 Kopiuj", speakText: "🔊 Czytaj", historyTitle: "📜 Historia zapytań", footerText: "🎤 Głos | 🔊 Czytanie | 🔐 Bezpieczne", errorNoText: "📢 Napisz zadanie", sending: "Rozwiązuję...", errConnect: "⚠️ Błąd połączenia", serverErr: "⚠️ Błąd serwera", copyOk: "Skopiowano", placeholder: "Napisz równanie, przykład..." },
+        ro: { mainTitle: "📚 AI Profesor", headerBadge: "✨ Orice materie · 1 minută ✨", countryLabel: "🌍 Țara", cityLabel: "🏙️ Oraș", gradeLabel: "📖 Clasa", solveText: "⚡ Rezolvă ORICE temă școlară", timerText: "mai puțin de 1 minut", questionLabel: "✍️ Tema / întrebare", micText: "Întreabă vocal", sendText: "🚀 Obține soluția", copyText: "📋 Copiază", speakText: "🔊 Citește", historyTitle: "📜 Istoric întrebări", footerText: "🎤 Voce | 🔊 Lectură | 🔐 Sigur", errorNoText: "📢 Scrie tema", sending: "Rezolv...", errConnect: "⚠️ Eroare conexiune", serverErr: "⚠️ Eroare server", copyOk: "Copiat", placeholder: "Scrie ecuația, exemplu..." },
+        en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 minute", questionLabel: "✍️ Assignment / question", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read aloud", historyTitle: "📜 Request history", footerText: "🎤 Voice | 🔊 Read | 🔐 Secure", errorNoText: "📢 Write your task", sending: "Solving...", errConnect: "⚠️ Connection error", serverErr: "⚠️ Server error", copyOk: "Copied", placeholder: "Write equation, example..." },
+        ja: { mainTitle: "📚 AIチューター", headerBadge: "✨ 全教科・1分 ✨", countryLabel: "🌍 国", cityLabel: "🏙️ 都市", gradeLabel: "📖 学年", solveText: "⚡ あらゆる宿題を解決", timerText: "1分以内", questionLabel: "✍️ 課題 / 質問", micText: "音声で質問", sendText: "🚀 解答を取得", copyText: "📋 コピー", speakText: "🔊 読み上げ", historyTitle: "📜 履歴", footerText: "🎤 音声 | 🔊 読み上げ | 🔐 安全", errorNoText: "📢 課題を入力", sending: "回答中...", errConnect: "⚠️ 接続エラー", serverErr: "⚠️ サーバーエラー", copyOk: "コピーしました", placeholder: "方程式や例を入力..." },
+        de: { mainTitle: "📚 KI-Nachhilfe", headerBadge: "✨ Jedes Fach · 1 Minute ✨", countryLabel: "🌍 Land", cityLabel: "🏙️ Stadt", gradeLabel: "📖 Klasse", solveText: "⚡ Löst JEDE Schulaufgabe", timerText: "weniger als 1 Minute", questionLabel: "✍️ Aufgabe / Frage", micText: "Per Sprache fragen", sendText: "🚀 Lösung erhalten", copyText: "📋 Kopieren", speakText: "🔊 Vorlesen", historyTitle: "📜 Verlauf", footerText: "🎤 Sprache | 🔊 Vorlesen | 🔐 Sicher", errorNoText: "📢 Aufgabe eingeben", sending: "Löse...", errConnect: "⚠️ Verbindungsfehler", serverErr: "⚠️ Serverfehler", copyOk: "Kopiert", placeholder: "Gleichung, Beispiel..." },
+        fr: { mainTitle: "📚 Répétiteur IA", headerBadge: "✨ Toute matière · 1 minute ✨", countryLabel: "🌍 Pays", cityLabel: "🏙️ Ville", gradeLabel: "📖 Classe", solveText: "⚡ Résout TOUT devoir scolaire", timerText: "moins d'1 minute", questionLabel: "✍️ Devoir / question", micText: "Demander vocalement", sendText: "🚀 Obtenir solution", copyText: "📋 Copier", speakText: "🔊 Lire", historyTitle: "📜 Historique", footerText: "🎤 Voix | 🔊 Lecture | 🔐 Sécurisé", errorNoText: "📢 Écris ton devoir", sending: "Résolution...", errConnect: "⚠️ Erreur connexion", serverErr: "⚠️ Erreur serveur", copyOk: "Copié", placeholder: "Écris équation, exemple..." },
+        es: { mainTitle: "📚 Tutor IA", headerBadge: "✨ Cualquier materia · 1 minuto ✨", countryLabel: "🌍 País", cityLabel: "🏙️ Ciudad", gradeLabel: "📖 Grado", solveText: "⚡ Resuelve CUALQUIER tarea escolar", timerText: "menos de 1 minuto", questionLabel: "✍️ Tarea / pregunta", micText: "Preguntar por voz", sendText: "🚀 Obtener solución", copyText: "📋 Copiar", speakText: "🔊 Leer", historyTitle: "📜 Historial", footerText: "🎤 Voz | 🔊 Lectura | 🔐 Seguro", errorNoText: "📢 Escribe tu tarea", sending: "Resolviendo...", errConnect: "⚠️ Error conexión", serverErr: "⚠️ Error servidor", copyOk: "Copiado", placeholder: "Escribe ecuación, ejemplo..." },
+        it: { mainTitle: "📚 Tutor IA", headerBadge: "✨ Qualsiasi materia · 1 minuto ✨", countryLabel: "🌍 Paese", cityLabel: "🏙️ Città", gradeLabel: "📖 Classe", solveText: "⚡ Risolve QUALSIASI compito", timerText: "meno di 1 minuto", questionLabel: "✍️ Compito / domanda", micText: "Chiedi a voce", sendText: "🚀 Ottieni soluzione", copyText: "📋 Copia", speakText: "🔊 Leggi", historyTitle: "📜 Cronologia", footerText: "🎤 Voce | 🔊 Lettura | 🔐 Sicuro", errorNoText: "📢 Scrivi il compito", sending: "Risolvo...", errConnect: "⚠️ Errore connessione", serverErr: "⚠️ Errore server", copyOk: "Copiato", placeholder: "Scrivi equazione, esempio..." },
+        el: { mainTitle: "📚 AI Εκπαιδευτής", headerBadge: "✨ Οποιοδήποτε μάθημα · 1 λεπτό ✨", countryLabel: "🌍 Χώρα", cityLabel: "🏙️ Πόλη", gradeLabel: "📖 Τάξη", solveText: "⚡ Λύνει ΟΠΟΙΑΔΗΠΟΤΕ σχολική εργασία", timerText: "λιγότερο από 1 λεπτό", questionLabel: "✍️ Εργασία / ερώτηση", micText: "Ρώτησε με φωνή", sendText: "🚀 Λήψη λύσης", copyText: "📋 Αντιγραφή", speakText: "🔊 Ανάγνωση", historyTitle: "📜 Ιστορικό", footerText: "🎤 Φωνή | 🔊 Ανάγνωση | 🔐 Ασφαλές", errorNoText: "📢 Γράψε την εργασία", sending: "Επίλυση...", errConnect: "⚠️ Σφάλμα σύνδεσης", serverErr: "⚠️ Σφάλμα διακομιστή", copyOk: "Αντιγράφηκε", placeholder: "Γράψε εξίσωση, παράδειγμα..." }
     };
 
     let currentLang = "ru";
     let historyArr = [];
     let recognition = null, isListening = false;
 
-    // DOM
+    // DOM элементы
     const sendBtn = document.getElementById('sendButton');
     const micBtn = document.getElementById('micButton');
     const voiceSpan = document.getElementById('voiceStatus');
@@ -512,60 +516,61 @@
     const themeToggle = document.getElementById('themeToggle');
     const langDropdownBtn = document.getElementById('langDropdownBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
-    const flagsRow = document.getElementById('flagsRow');
+    const currentLangLabel = document.getElementById('currentLangLabel');
+    const whatCanBtn = document.getElementById('whatCanBtn');
+    const modal = document.getElementById('capabilitiesModal');
+    const closeModal = document.getElementById('closeModalBtn');
 
-    // --- генерация флагов и выпадающего списка ---
-    function renderLanguages() {
-        flagsRow.innerHTML = '';
-        languages.slice(0, 6).forEach(lang => {
-            const flagSpan = document.createElement('span');
-            flagSpan.className = 'flag-icon';
-            flagSpan.textContent = lang.flag;
-            flagSpan.title = lang.name;
-            flagSpan.addEventListener('click', (e) => {
-                e.stopPropagation();
-                setLanguage(lang.code);
-                dropdownMenu.classList.remove('show');
-            });
-            flagsRow.appendChild(flagSpan);
-        });
-        // выпадашка полная
-        dropdownMenu.innerHTML = '';
-        languages.forEach(lang => {
-            const btn = document.createElement('button');
-            btn.textContent = `${lang.flag} ${lang.native}`;
-            btn.addEventListener('click', () => {
-                setLanguage(lang.code);
-                dropdownMenu.classList.remove('show');
-            });
-            dropdownMenu.appendChild(btn);
-        });
+    function applyLanguage(langCode) {
+        const t = translations[langCode];
+        if (!t) return;
+        document.getElementById('mainTitle').innerText = t.mainTitle;
+        document.getElementById('headerBadge').innerText = t.headerBadge;
+        document.getElementById('countryLabel').innerText = t.countryLabel;
+        document.getElementById('cityLabel').innerText = t.cityLabel;
+        document.getElementById('gradeLabel').innerText = t.gradeLabel;
+        document.getElementById('solveText').innerText = t.solveText;
+        document.getElementById('timerText').innerText = t.timerText;
+        document.getElementById('questionLabel').innerText = t.questionLabel;
+        document.getElementById('micText').innerText = t.micText;
+        document.getElementById('sendText').innerText = t.sendText;
+        document.getElementById('copyText').innerText = t.copyText;
+        document.getElementById('speakText').innerText = t.speakText;
+        document.getElementById('historyTitle').innerText = t.historyTitle;
+        document.getElementById('footerText').innerText = t.footerText;
+        questionInput.placeholder = t.placeholder;
+        currentLangLabel.innerText = languages.find(l=>l.code===langCode)?.native || langCode;
     }
+
     function setLanguage(code) {
         currentLang = code;
         localStorage.setItem('ai_lang', code);
-        updateUITexts();
+        applyLanguage(code);
+        dropdownMenu.classList.remove('show');
     }
-    function updateUITexts() {
-        const t = translations[currentLang];
-        if (!t) return;
-        sendBtn.innerHTML = t.send;
-        micBtn.innerHTML = `🎙️ ${t.mic}`;
-        document.querySelector('.sub-badge').innerHTML = `✨ Любой предмет · 1 минута ✨`;
-        if (questionInput.placeholder === "Напиши уравнение, пример, биологию, историю, языки...") return;
-        questionInput.placeholder = "Напиши уравнение, пример, биологию...";
+
+    // выпадашка языков
+    function renderLanguageDropdown() {
+        dropdownMenu.innerHTML = '';
+        languages.forEach(lang => {
+            const btn = document.createElement('button');
+            btn.textContent = `${lang.native}`;
+            btn.addEventListener('click', () => setLanguage(lang.code));
+            dropdownMenu.appendChild(btn);
+        });
     }
+    renderLanguageDropdown();
+    const savedLang = localStorage.getItem('ai_lang');
+    if (savedLang && languages.find(l=>l.code===savedLang)) setLanguage(savedLang);
+    else setLanguage('ru');
+
     langDropdownBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         dropdownMenu.classList.toggle('show');
     });
     document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
-    renderLanguages();
-    const savedLang = localStorage.getItem('ai_lang');
-    if (savedLang && languages.find(l=>l.code===savedLang)) setLanguage(savedLang);
-    else setLanguage('ru');
 
-    // тёмная тема + полная смена цветов текста
+    // тёмная тема
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark');
         themeToggle.textContent = '☀️';
@@ -577,7 +582,7 @@
         themeToggle.textContent = dark ? '☀️' : '🌙';
     });
 
-    // голос
+    // Голос
     const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechAPI) {
         recognition = new SpeechAPI();
@@ -604,9 +609,9 @@
     }
     micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
 
-    // история
-    function loadHistory() { const h = localStorage.getItem('ai_history_v3'); if(h) historyArr = JSON.parse(h); renderHistory(); }
-    function saveHistory(q, ans) { historyArr.unshift({ q: q.slice(0, 80), a: ans, date: new Date().toLocaleString() }); if(historyArr.length>12) historyArr.pop(); localStorage.setItem('ai_history_v3', JSON.stringify(historyArr)); renderHistory(); }
+    // История
+    function loadHistory() { const h = localStorage.getItem('ai_history_v4'); if(h) historyArr = JSON.parse(h); renderHistory(); }
+    function saveHistory(q, ans) { historyArr.unshift({ q: q.slice(0, 80), a: ans, date: new Date().toLocaleString() }); if(historyArr.length>12) historyArr.pop(); localStorage.setItem('ai_history_v4', JSON.stringify(historyArr)); renderHistory(); }
     function renderHistory() {
         if(!historyArr.length) { historyListDiv.innerHTML = '<div style="padding:8px;">📭 Пусто</div>'; return; }
         historyListDiv.innerHTML = historyArr.map((item, idx)=>`<div class="history-item" data-idx="${idx}">📌 ${item.q}<br><span style="font-size:0.6rem;">${item.date}</span></div>`).join('');
@@ -620,7 +625,7 @@
             });
         });
     }
-    historyToggle.addEventListener('click',()=>{ historyListDiv.classList.toggle('show'); historyToggle.querySelector('span').innerHTML = historyListDiv.classList.contains('show') ? '▲' : '▼'; });
+    historyToggle.addEventListener('click',()=>{ historyListDiv.classList.toggle('show'); const span = historyToggle.querySelector('span'); if(span) span.innerHTML = historyListDiv.classList.contains('show') ? '▲' : '▼'; });
     loadHistory();
 
     copyBtn.addEventListener('click', ()=>{ navigator.clipboard.writeText(answerDiv.innerText); alert(translations[currentLang]?.copyOk || 'Copied'); });
@@ -633,7 +638,12 @@
         }
     });
 
-    // ----- ОТПРАВКА В WORKER ---- ваш ключ на бэкенде, безопасно
+    // Модалка "Что я могу"
+    whatCanBtn.addEventListener('click', () => modal.classList.add('show'));
+    closeModal.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
+
+    // Запрос к Worker
     async function askWorker(questionText) {
         const t = translations[currentLang];
         const grade = gradeSelect.value;
@@ -653,8 +663,7 @@
                 return true;
             } else { answerDiv.innerHTML = t.serverErr + (data.error || ''); return false; }
         } catch(e) {
-            console.error(e);
-            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 Убедитесь, что Worker запущен: ' + WORKER_URL + '</span>';
+            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 URL: ' + WORKER_URL + '</span>';
             return false;
         }
     }
