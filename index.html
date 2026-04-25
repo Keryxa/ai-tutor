@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AI Репетитор</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; color: #764ba2; margin-bottom: 10px; }
+        .sub { text-align: center; color: #666; margin-bottom: 30px; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        textarea { resize: vertical; }
+        button {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 20px;
+            display: none;
+        }
+        .subject-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .subject-btn {
+            width: auto;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            color: #333;
+        }
+        .subject-btn.active {
+            background: #764ba2;
+            color: white;
+        }
+        .voice-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .mic-btn {
+            background: #ef4444;
+            width: auto;
+            padding: 12px 20px;
+        }
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #764ba2;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .answer-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .action-btn { width: auto; padding: 8px 16px; background: #e2e8f0; color: #333; }
+        .status-text { font-size: 12px; color: #666; margin-left: 10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📚 AI Репетитор</h1>
+    <div class="sub">🎤 Голосом или текстом — решение за секунды</div>
+
+    <label>🌍 Страна</label>
+    <input type="text" id="country" value="Россия">
+    
+    <div style="display: flex; gap: 10px;">
+        <div style="flex:1"><label>🏙️ Город</label><input type="text" id="city" value="Москва"></div>
+        <div style="flex:1"><label>📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
+    </div>
+
+    <label>📚 Предмет</label>
+    <div class="subject-buttons" id="subjectButtons">
+        <button class="subject-btn" data-subject="Математика">📐 Математика</button>
+        <button class="subject-btn" data-subject="Русский язык">📖 Русский</button>
+        <button class="subject-btn" data-subject="Физика">⚡ Физика</button>
+        <button class="subject-btn" data-subject="Химия">🧪 Химия</button>
+    </div>
+
+    <label>✍️ Задание</label>
+    <textarea id="questionInput" rows="3" placeholder="Например: реши задачу номер 35, уравнение 5x-3=12..."></textarea>
+    
+    <div class="voice-row">
+        <button id="micButton" class="mic-btn">🎙️ Спросить голосом</button>
+        <span id="voiceStatus" class="status-text">Нажми и говори</span>
+    </div>
+    
+    <button id="sendButton">🚀 Получить решение</button>
+
+    <div class="result" id="resultBox">
+        <div id="answerText"></div>
+        <div class="answer-actions">
+            <button id="copyBtn" class="action-btn">📋 Копировать</button>
+            <button id="speakBtn" class="action-btn">🔊 Озвучить</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ⚠️ ВАЖНО: ВСТАВЬТЕ СЮДА ВАШУ ССЫЛКУ ОТ CLOUDFLARE WORKER
+    const WORKER_URL = "https://<subdomain>.workers.dev"; // ← ЗАМЕНИТЕ НА ВАШУ!
+
+    const questionInput = document.getElementById('questionInput');
+    const sendBtn = document.getElementById('sendButton');
+    const micBtn = document.getElementById('micButton');
+    const voiceStatus = document.getElementById('voiceStatus');
+    const resultBox = document.getElementById('resultBox');
+    const answerDiv = document.getElementById('answerText');
+    const copyBtn = document.getElementById('copyBtn');
+    const speakBtn = document.getElementById('speakBtn');
+    const gradeSelect = document.getElementById('grade');
+    
+    let currentSubject = "Математика";
+
+    document.querySelectorAll('.subject-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSubject = btn.getAttribute('data-subject');
+        });
+    });
+    document.querySelector('.subject-btn').classList.add('active');
+
+    // Голосовой ввод
+    let recognition = null;
+    let isListening = false;
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognitionAPI) {
+        recognition = new SpeechRecognitionAPI();
+        recognition.lang = 'ru-RU';
+        recognition.onresult = (event) => {
+            questionInput.value = event.results[0][0].transcript;
+            voiceStatus.innerHTML = '🎤 Распознано';
+            stopListening();
+        };
+        recognition.onerror = () => { voiceStatus.innerHTML = '❌ Ошибка'; stopListening(); };
+    } else {
+        micBtn.disabled = true;
+        voiceStatus.innerHTML = '❌ Голос не поддерживается';
+    }
+    function startListening() {
+        if (!recognition || isListening) return;
+        recognition.start();
+        isListening = true;
+        micBtn.style.background = '#10b981';
+        micBtn.innerHTML = '⏺️ Слушаю...';
+        voiceStatus.innerHTML = '🎙️ Говорите...';
+    }
+    function stopListening() {
+        if (recognition && isListening) recognition.abort();
+        isListening = false;
+        micBtn.style.background = '#ef4444';
+        micBtn.innerHTML = '🎙️ Спросить голосом';
+    }
+    micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
+
+    // Отправка запроса
+    sendBtn.addEventListener('click', async () => {
+        const question = questionInput.value.trim();
+        if (!question) {
+            answerDiv.innerHTML = '📢 Напишите или скажите задание';
+            resultBox.style.display = 'block';
+            return;
+        }
+        
+        resultBox.style.display = 'block';
+        answerDiv.innerHTML = '<span class="loader"></span> Решаю...';
+        
+        const country = document.getElementById('country').value;
+        const city = document.getElementById('city').value;
+        const grade = gradeSelect.value;
+        
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: question,
+                    grade: grade,
+                    country: country,
+                    city: city,
+                    subject: currentSubject
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                answerDiv.innerHTML = data.answer.replace(/\n/g, '<br>');
+            } else {
+                answerDiv.innerHTML = '⚠️ Ошибка: ' + (data.error || 'Что-то пошло не так');
+            }
+        } catch (err) {
+            answerDiv.innerHTML = '⚠️ Ошибка соединения. Проверьте интернет.';
+        }
+    });
+
+    // Копировать
+    copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(answerDiv.innerText);
+        alert('Скопировано!');
+    });
+    
+    // Озвучить
+    speakBtn.addEventListener('click', () => {
+        const text = answerDiv.innerText;
+        if (text && !text.includes('Решаю')) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ru-RU';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+    });
+</script>
+</body>
+</html>
