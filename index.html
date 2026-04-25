@@ -28,7 +28,7 @@
             --result-bg: #f8fafc;
             --history-hover: #f1f5f9;
             --placeholder: #94a3b8;
-            --modal-bg: rgba(0,0,0,0.75);
+            --modal-bg: rgba(0,0,0,0.7);
         }
 
         body.dark {
@@ -291,125 +291,55 @@
         }
         .loader {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 2px solid var(--border);
             border-radius: 50%;
             border-top-color: var(--accent);
             animation: spin 0.6s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Модальное окно для ответа (всплывающее) */
-        .answer-modal {
+        .modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: var(--modal-bg);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(6px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
+            z-index: 1000;
             visibility: hidden;
             opacity: 0;
-            transition: visibility 0.2s, opacity 0.2s;
-            padding: 20px;
+            transition: 0.2s;
         }
-        .answer-modal.show {
+        .modal.show {
             visibility: visible;
             opacity: 1;
         }
-        .answer-modal-content {
+        .modal-content {
             background: var(--card-bg);
-            max-width: 90%;
-            width: 600px;
-            max-height: 85vh;
+            width: 85%;
+            max-width: 340px;
             border-radius: 48px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
-            border: 1px solid var(--accent);
-            overflow: hidden;
-        }
-        .answer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .answer-header h3 {
-            color: var(--accent);
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .close-answer {
-            background: transparent;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            line-height: 1;
-            padding: 0 8px;
-            border-radius: 40px;
-        }
-        .close-answer:hover {
-            background: var(--history-hover);
-        }
-        .answer-scroll {
-            overflow-y: auto;
-            flex: 1;
-            padding-right: 8px;
-            max-height: calc(85vh - 130px);
-        }
-        .answer-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .answer-scroll::-webkit-scrollbar-track {
-            background: var(--border);
-            border-radius: 10px;
-        }
-        .answer-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
-        .modal-answer-text {
-            white-space: pre-wrap;
-            line-height: 1.55;
-            font-size: 0.95rem;
+            padding: 24px 20px;
+            text-align: center;
             color: var(--text-primary);
+            border: 1px solid var(--accent);
+            box-shadow: 0 30px 40px rgba(0,0,0,0.4);
         }
-        .modal-answer-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-            margin-top: 16px;
-        }
-        .modal-action-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            transition: 0.2s;
-        }
-        .modal-action-btn:hover {
+        .modal-content h3 { font-size: 1.6rem; margin-bottom: 16px; color: var(--accent); }
+        .modal-content ul { text-align: left; margin: 16px 0; padding-left: 20px; }
+        .modal-content li { margin: 10px 0; font-size: 0.9rem; }
+        .close-modal {
             background: var(--accent);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
             color: white;
-            border-color: var(--accent);
+            font-weight: bold;
+            margin-top: 16px;
+            cursor: pointer;
         }
         .what-btn {
             background: rgba(124,58,237,0.2);
@@ -422,8 +352,89 @@
             margin-right: 10px;
             color: var(--text-primary);
         }
+        
+        /* Стили для всплывающего окна с ответом */
+        .answer-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+            padding: 20px;
+        }
+        .answer-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .answer-card {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 580px;
+            max-height: 85vh;
+            border-radius: 44px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--accent);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+        }
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .answer-header h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+        .close-answer {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0 8px;
+        }
+        .answer-scroll {
+            overflow-y: auto;
+            max-height: calc(85vh - 130px);
+            padding-right: 8px;
+        }
+        .answer-text {
+            white-space: pre-wrap;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .modal-action-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
         @media (max-width: 550px) {
-            .answer-modal-content { width: 95%; padding: 16px; }
+            .answer-card { width: 95%; padding: 16px; }
             .answer-header h3 { font-size: 1.1rem; }
         }
     </style>
@@ -472,22 +483,24 @@
             <div class="history-list" id="historyList"></div>
         </div>
 
-        <div class="ad-placeholder" id="adSpace">📢 Реклама (ваш баннер/adsense)</div>
+        <div class="ad-placeholder" id="adSpace">
+            📢 Реклама (ваш баннер/adsense)
+        </div>
     </div>
     <footer id="footerText">🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Ключ в админ-панели</footer>
 </div>
 
 <!-- Всплывающее окно для ответа -->
 <div id="answerModal" class="answer-modal">
-    <div class="answer-modal-content">
+    <div class="answer-card">
         <div class="answer-header">
             <h3>🤖 Ответ AI</h3>
-            <button id="closeModalBtn" class="close-answer">✖</button>
+            <button id="closeAnswerModal" class="close-answer">✖</button>
         </div>
-        <div class="answer-scroll" id="modalAnswerScroll">
-            <div id="modalAnswerText" class="modal-answer-text"></div>
+        <div class="answer-scroll" id="answerScroll">
+            <div id="answerText" class="answer-text"></div>
         </div>
-        <div class="modal-answer-actions">
+        <div class="modal-actions">
             <button id="modalCopyBtn" class="modal-action-btn">📋 Копировать</button>
             <button id="modalSpeakBtn" class="modal-action-btn">🔊 Озвучить</button>
         </div>
@@ -506,7 +519,7 @@
             <li>🎤 Отвечать голосом и слушать задания</li>
             <li>✍️ Помогать с домашкой за 1 минуту</li>
         </ul>
-        <button class="close-modal" id="closeModalBtnCap">Понятно!</button>
+        <button class="close-modal" id="closeModalBtn">Понятно!</button>
     </div>
 </div>
 
@@ -517,7 +530,7 @@
     let recognition = null, isListening = false;
     let currentAnswerText = "";
 
-    // DOM
+    // DOM элементы
     const sendBtn = document.getElementById('sendButton');
     const micBtn = document.getElementById('micButton');
     const voiceSpan = document.getElementById('voiceStatus');
@@ -533,50 +546,67 @@
     const currentLangLabel = document.getElementById('currentLangLabel');
     const whatCanBtn = document.getElementById('whatCanBtn');
     const capabilitiesModal = document.getElementById('capabilitiesModal');
-    const closeCapBtn = document.getElementById('closeModalBtnCap');
-    
-    // Модальное окно ответа
-    const answerModal = document.getElementById('answerModal');
-    const modalAnswerText = document.getElementById('modalAnswerText');
     const closeModalBtn = document.getElementById('closeModalBtn');
+    
+    // Элементы модального окна ответа
+    const answerModal = document.getElementById('answerModal');
+    const answerTextDiv = document.getElementById('answerText');
+    const closeAnswerModal = document.getElementById('closeAnswerModal');
     const modalCopyBtn = document.getElementById('modalCopyBtn');
     const modalSpeakBtn = document.getElementById('modalSpeakBtn');
 
     // ========== СТАТИСТИКА ПОСЕЩЕНИЙ ==========
     function updateVisitStats() {
         let stats = localStorage.getItem('site_visits_stats');
-        if (!stats) stats = { total: 0, daily: {} };
-        else stats = JSON.parse(stats);
+        if (!stats) {
+            stats = { total: 0, daily: {} };
+        } else {
+            stats = JSON.parse(stats);
+        }
         const today = new Date().toISOString().slice(0,10);
         stats.total = (stats.total || 0) + 1;
         stats.daily[today] = (stats.daily[today] || 0) + 1;
         localStorage.setItem('site_visits_stats', JSON.stringify(stats));
+        
         let fp = localStorage.getItem('user_fingerprint');
         if (!fp) {
             fp = Math.random().toString(36) + Date.now();
             localStorage.setItem('user_fingerprint', fp);
             let allFp = JSON.parse(localStorage.getItem('all_fingerprints') || '[]');
-            if (!allFp.includes(fp)) { allFp.push(fp); localStorage.setItem('all_fingerprints', JSON.stringify(allFp)); }
+            if (!allFp.includes(fp)) {
+                allFp.push(fp);
+                localStorage.setItem('all_fingerprints', JSON.stringify(allFp));
+            }
         }
     }
     updateVisitStats();
 
-    // ====================== ПЕРЕВОДЫ (сокращённо, основные) ======================
+    // ====================== ПЕРЕВОДЫ ======================
     const languages = [
-        { code: "ru", native: "Русский" }, { code: "uk", native: "Українська" }, { code: "en", native: "English" },
-        { code: "pl", native: "Polski" }, { code: "de", native: "Deutsch" }, { code: "fr", native: "Français" },
-        { code: "es", native: "Español" }, { code: "ja", native: "日本語" }
+        { code: "ru", name: "Русский", native: "Русский" },
+        { code: "uk", name: "Українська", native: "Українська" },
+        { code: "en", name: "English", native: "English" },
+        { code: "pl", name: "Polski", native: "Polski" },
+        { code: "de", name: "Deutsch", native: "Deutsch" },
+        { code: "fr", name: "Français", native: "Français" },
+        { code: "es", name: "Español", native: "Español" },
+        { code: "ja", name: "日本語", native: "日本語" }
     ];
+
     const translations = {
-        ru: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Любой предмет · 1 минута ✨", countryLabel: "🌍 Страна", cityLabel: "🏙️ Город", gradeLabel: "📖 Класс", solveText: "⚡ Решит ЛЮБУЮ школьную задачу", timerText: "менее 1 минуты", questionLabel: "✍️ Задание / вопрос", micText: "Спросить голосом", sendText: "🚀 Получить решение", copyText: "📋 Копировать", speakText: "🔊 Озвучить", historyTitle: "📜 История запросов", footerText: "🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Ключ в админ-панели", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка. Проверьте API-ключ в админ-панели", noKey: "❌ API-ключ не настроен." },
-        uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія", footerText: "🎤 Голос | 🔊 Озвучка | 🔐 Ключ в адмін-панелі", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка. Перевірте ключ", noKey: "❌ API-ключ не налаштовано." },
-        en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 min", questionLabel: "✍️ Question", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read", historyTitle: "📜 History", footerText: "🎤 Voice | 🔊 Read | 🔐 Key in admin", errorNoText: "📢 Write task", sending: "Solving...", errConnect: "⚠️ Error. Check API key", noKey: "❌ API key missing." }
+        ru: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Любой предмет · 1 минута ✨", countryLabel: "🌍 Страна", cityLabel: "🏙️ Город", gradeLabel: "📖 Класс", solveText: "⚡ Решит ЛЮБУЮ школьную задачу", timerText: "менее 1 минуты", questionLabel: "✍️ Задание / вопрос", micText: "Спросить голосом", sendText: "🚀 Получить решение", copyText: "📋 Копировать", speakText: "🔊 Озвучить", historyTitle: "📜 История запросов", footerText: "🎤 Голосовой ввод | 🔊 Озвучка | 🔐 Ключ в админ-панели", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка. Проверьте API-ключ в админ-панели", serverErr: "⚠️ Ошибка сервера", copyOk: "Скопировано", placeholder: "Напиши уравнение, пример, биологию, историю...", noKey: "❌ API-ключ не настроен. Администратор добавит его в админ-панели." },
+        uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ шкільне завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання / питання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія запитів", footerText: "🎤 Голос | 🔊 Озвучка | 🔐 Ключ в адмін-панелі", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка. Перевірте API-ключ", serverErr: "⚠️ Помилка сервера", copyOk: "Скопійовано", placeholder: "Напиши рівняння, приклад, біологію...", noKey: "❌ API-ключ не налаштовано. Адміністратор додасть його." },
+        en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 minute", questionLabel: "✍️ Assignment / question", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read aloud", historyTitle: "📜 Request history", footerText: "🎤 Voice | 🔊 Read | 🔐 Key in admin panel", errorNoText: "📢 Write your task", sending: "Solving...", errConnect: "⚠️ Error. Check API key", serverErr: "⚠️ Server error", copyOk: "Copied", placeholder: "Write equation, example...", noKey: "❌ API key not configured." }
     };
-    for (let lang of ['pl','de','fr','es','ja']) translations[lang] = { ...translations.en };
-    translations.pl.mainTitle = "📚 AI Korepetytor"; translations.de.mainTitle = "📚 KI-Nachhilfe"; translations.fr.mainTitle = "📚 Répétiteur IA"; translations.es.mainTitle = "📚 Tutor IA"; translations.ja.mainTitle = "📚 AIチューター";
+    translations.pl = { ...translations.en, mainTitle: "📚 AI Korepetytor", headerBadge: "✨ Każdy przedmiot · 1 minuta ✨", countryLabel: "🌍 Kraj", cityLabel: "🏙️ Miasto", gradeLabel: "📖 Klasa", solveText: "⚡ Rozwiąże KAŻDE zadanie", timerText: "mniej niż 1 minuta", questionLabel: "✍️ Zadanie / pytanie", micText: "Zapytaj głosem", sendText: "🚀 Uzyskaj rozwiązanie", copyText: "📋 Kopiuj", speakText: "🔊 Czytaj", historyTitle: "📜 Historia zapytań", footerText: "🎤 Głos | 🔊 Czytanie | 🔐 Klucz w panelu admina", errorNoText: "📢 Napisz zadanie", sending: "Rozwiązuję...", errConnect: "⚠️ Błąd. Sprawdź klucz API", noKey: "❌ Klucz API nie skonfigurowany." };
+    translations.de = { ...translations.en, mainTitle: "📚 KI-Nachhilfe", headerBadge: "✨ Jedes Fach · 1 Minute ✨", countryLabel: "🌍 Land", cityLabel: "🏙️ Stadt", gradeLabel: "📖 Klasse", solveText: "⚡ Löst JEDE Schulaufgabe", timerText: "weniger als 1 Minute", questionLabel: "✍️ Aufgabe / Frage", micText: "Per Sprache fragen", sendText: "🚀 Lösung erhalten", copyText: "📋 Kopieren", speakText: "🔊 Vorlesen", historyTitle: "📜 Verlauf", footerText: "🎤 Sprache | 🔊 Vorlesen | 🔐 Schlüssel im Admin-Panel", errorNoText: "📢 Aufgabe eingeben", sending: "Löse...", errConnect: "⚠️ Verbindungsfehler", noKey: "❌ API-Schlüssel nicht konfiguriert." };
+    translations.fr = { ...translations.en, mainTitle: "📚 Répétiteur IA", headerBadge: "✨ Toute matière · 1 minute ✨", countryLabel: "🌍 Pays", cityLabel: "🏙️ Ville", gradeLabel: "📖 Classe", solveText: "⚡ Résout TOUT devoir scolaire", timerText: "moins d'1 minute", questionLabel: "✍️ Devoir / question", micText: "Demander vocalement", sendText: "🚀 Obtenir solution", copyText: "📋 Copier", speakText: "🔊 Lire", historyTitle: "📜 Historique", footerText: "🎤 Voix | 🔊 Lecture | 🔐 Clé dans le panneau admin", errorNoText: "📢 Écris ton devoir", sending: "Résolution...", errConnect: "⚠️ Erreur. Vérifiez la clé API", noKey: "❌ Clé API non configurée." };
+    translations.es = { ...translations.en, mainTitle: "📚 Tutor IA", headerBadge: "✨ Cualquier materia · 1 minuto ✨", countryLabel: "🌍 País", cityLabel: "🏙️ Ciudad", gradeLabel: "📖 Grado", solveText: "⚡ Resuelve CUALQUIER tarea escolar", timerText: "menos de 1 minuto", questionLabel: "✍️ Tarea / pregunta", micText: "Preguntar por voz", sendText: "🚀 Obtener solución", copyText: "📋 Copiar", speakText: "🔊 Leer", historyTitle: "📜 Historial", footerText: "🎤 Voz | 🔊 Lectura | 🔐 Clave en el panel admin", errorNoText: "📢 Escribe tu tarea", sending: "Resolviendo...", errConnect: "⚠️ Error. Verifica la clave API", noKey: "❌ Clave API no configurada." };
+    translations.ja = { ...translations.en, mainTitle: "📚 AIチューター", headerBadge: "✨ 全教科・1分 ✨", countryLabel: "🌍 国", cityLabel: "🏙️ 都市", gradeLabel: "📖 学年", solveText: "⚡ あらゆる宿題を解決", timerText: "1分以内", questionLabel: "✍️ 課題 / 質問", micText: "音声で質問", sendText: "🚀 解答を取得", copyText: "📋 コピー", speakText: "🔊 読み上げ", historyTitle: "📜 履歴", footerText: "🎤 音声 | 🔊 読み上げ | 🔐 管理者パネルでキー設定", errorNoText: "📢 課題を入力", sending: "回答中...", errConnect: "⚠️ エラー。APIキーを確認", noKey: "❌ APIキーが設定されていません。" };
 
     function applyLanguage(langCode) {
-        const t = translations[langCode] || translations.ru;
+        const t = translations[langCode];
+        if (!t) return;
         document.getElementById('mainTitle').innerText = t.mainTitle;
         document.getElementById('headerBadge').innerText = t.headerBadge;
         document.getElementById('countryLabel').innerText = t.countryLabel;
@@ -591,80 +621,184 @@
         document.getElementById('speakText').innerText = t.speakText;
         document.getElementById('historyTitle').innerText = t.historyTitle;
         document.getElementById('footerText').innerText = t.footerText;
-        questionInput.placeholder = "Напиши уравнение...";
-        currentLangLabel.innerText = languages.find(l=>l.code===langCode)?.native || "Русский";
+        questionInput.placeholder = t.placeholder;
+        currentLangLabel.innerText = languages.find(l=>l.code===langCode)?.native || langCode;
     }
-    function setLanguage(code) { currentLang = code; localStorage.setItem('ai_lang', code); applyLanguage(code); dropdownMenu.classList.remove('show'); }
-    function renderDropdown() { dropdownMenu.innerHTML = ''; languages.forEach(lang=>{ let btn=document.createElement('button'); btn.textContent=lang.native; btn.onclick=()=>setLanguage(lang.code); dropdownMenu.appendChild(btn); }); }
-    renderDropdown();
-    const savedLang = localStorage.getItem('ai_lang'); if(savedLang) setLanguage(savedLang); else setLanguage('ru');
-    langDropdownBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdownMenu.classList.toggle('show'); });
+
+    function setLanguage(code) {
+        currentLang = code;
+        localStorage.setItem('ai_lang', code);
+        applyLanguage(code);
+        dropdownMenu.classList.remove('show');
+    }
+
+    function renderLanguageDropdown() {
+        dropdownMenu.innerHTML = '';
+        languages.forEach(lang => {
+            const btn = document.createElement('button');
+            btn.textContent = `${lang.native}`;
+            btn.addEventListener('click', () => setLanguage(lang.code));
+            dropdownMenu.appendChild(btn);
+        });
+    }
+    renderLanguageDropdown();
+    const savedLang = localStorage.getItem('ai_lang');
+    if (savedLang && languages.find(l=>l.code===savedLang)) setLanguage(savedLang);
+    else setLanguage('ru');
+
+    langDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
     document.addEventListener('click', () => dropdownMenu.classList.remove('show'));
-    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeToggle.textContent = '☀️'; } else themeToggle.textContent = '🌙';
-    themeToggle.addEventListener('click', () => { document.body.classList.toggle('dark'); const dark = document.body.classList.contains('dark'); localStorage.setItem('theme', dark ? 'dark' : 'light'); themeToggle.textContent = dark ? '☀️' : '🌙'; });
+
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.textContent = '☀️';
+    } else themeToggle.textContent = '🌙';
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const dark = document.body.classList.contains('dark');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        themeToggle.textContent = dark ? '☀️' : '🌙';
+    });
 
     // Голос
     const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechAPI) { recognition = new SpeechAPI(); recognition.lang = 'ru-RU'; recognition.onresult = (e) => { questionInput.value = e.results[0][0].transcript; voiceSpan.innerHTML = '🎤 Распознано ✅'; stopListening(); }; recognition.onerror = () => { voiceSpan.innerHTML = '❌ Ошибка микрофона'; stopListening(); }; } 
-    else { micBtn.disabled = true; voiceSpan.innerText = '❌ Нет поддержки'; }
-    function startListening() { if (!recognition || isListening) return; recognition.start(); isListening = true; micBtn.classList.add('listening'); voiceSpan.innerHTML = '🎙️ Говорите...'; }
-    function stopListening() { if (recognition && isListening) recognition.abort(); isListening = false; micBtn.classList.remove('listening'); voiceSpan.innerHTML = '🎤 нажми и говори'; }
+    if (SpeechAPI) {
+        recognition = new SpeechAPI();
+        recognition.lang = 'ru-RU';
+        recognition.onresult = (e) => {
+            questionInput.value = e.results[0][0].transcript;
+            voiceSpan.innerHTML = '🎤 Распознано ✅';
+            stopListening();
+        };
+        recognition.onerror = () => { voiceSpan.innerHTML = '❌ Ошибка микрофона'; stopListening(); };
+    } else { micBtn.disabled = true; voiceSpan.innerText = '❌ Нет поддержки'; }
+    function startListening() {
+        if (!recognition || isListening) return;
+        recognition.start();
+        isListening = true;
+        micBtn.classList.add('listening');
+        voiceSpan.innerHTML = '🎙️ Говорите...';
+    }
+    function stopListening() {
+        if (recognition && isListening) recognition.abort();
+        isListening = false;
+        micBtn.classList.remove('listening');
+        voiceSpan.innerHTML = '🎤 нажми и говори';
+    }
     micBtn.addEventListener('click', () => isListening ? stopListening() : startListening());
 
     // История
     function loadHistory() { const h = localStorage.getItem('ai_history_v4'); if(h) historyArr = JSON.parse(h); renderHistory(); }
-    function saveHistory(q, ans) { const grade = gradeSelect.value, country = countryInput.value.trim(), city = cityInput.value.trim(); historyArr.unshift({ q: q.slice(0,80), a: ans, date: new Date().toLocaleString(), grade, country, city }); if(historyArr.length>12) historyArr.pop(); localStorage.setItem('ai_history_v4', JSON.stringify(historyArr)); renderHistory(); }
-    function renderHistory() { if(!historyArr.length) { historyListDiv.innerHTML = '<div style="padding:8px;">📭 Пусто</div>'; return; } historyListDiv.innerHTML = historyArr.map((item, idx)=>`<div class="history-item" data-idx="${idx}">📌 ${item.q}<br><span style="font-size:0.6rem;">${item.date}</span></div>`).join(''); document.querySelectorAll('.history-item').forEach(el=>{ el.addEventListener('click',()=>{ const idx = el.getAttribute('data-idx'); const item = historyArr[parseInt(idx)]; questionInput.value = item.q; showAnswerInModal(item.a); }); }); }
+    function saveHistory(q, ans) {
+        const grade = gradeSelect.value;
+        const country = countryInput.value.trim();
+        const city = cityInput.value.trim();
+        historyArr.unshift({ 
+            q: q.slice(0, 80), 
+            a: ans, 
+            date: new Date().toLocaleString(),
+            grade: grade,
+            country: country,
+            city: city
+        });
+        if(historyArr.length>12) historyArr.pop();
+        localStorage.setItem('ai_history_v4', JSON.stringify(historyArr));
+        renderHistory();
+    }
+    function renderHistory() {
+        if(!historyArr.length) { historyListDiv.innerHTML = '<div style="padding:8px;">📭 Пусто</div>'; return; }
+        historyListDiv.innerHTML = historyArr.map((item, idx)=>`<div class="history-item" data-idx="${idx}">📌 ${item.q}<br><span style="font-size:0.6rem;">${item.date}</span></div>`).join('');
+        document.querySelectorAll('.history-item').forEach(el=>{
+            el.addEventListener('click',()=>{
+                const idx = el.getAttribute('data-idx');
+                const item = historyArr[parseInt(idx)];
+                questionInput.value = item.q;
+                // Открыть ответ из истории в модальном окне
+                showAnswerInModal(item.a);
+            });
+        });
+    }
     historyToggle.addEventListener('click',()=>{ historyListDiv.classList.toggle('show'); const span = historyToggle.querySelector('span'); if(span) span.innerHTML = historyListDiv.classList.contains('show') ? '▲' : '▼'; });
     loadHistory();
 
-    // Показ ответа во всплывающем окне
-    function showAnswerInModal(answer) {
-        currentAnswerText = answer;
-        modalAnswerText.innerHTML = answer.replace(/\n/g, '<br>');
+    // Функция показа ответа в модальном окне
+    function showAnswerInModal(answerText) {
+        currentAnswerText = answerText;
+        answerTextDiv.innerHTML = answerText.replace(/\n/g, '<br>');
         answerModal.classList.add('show');
-        // Автопрокрутка в начало
-        document.getElementById('modalAnswerScroll').scrollTop = 0;
+        // Прокрутка в начало
+        document.getElementById('answerScroll').scrollTop = 0;
     }
-    function closeAnswerModal() { answerModal.classList.remove('show'); }
-    closeModalBtn.addEventListener('click', closeAnswerModal);
-    answerModal.addEventListener('click', (e) => { if(e.target === answerModal) closeAnswerModal(); });
-    modalCopyBtn.addEventListener('click', () => { navigator.clipboard.writeText(currentAnswerText); alert(translations[currentLang]?.copyOk || 'Скопировано'); });
-    modalSpeakBtn.addEventListener('click', () => { if(currentAnswerText) { const utter = new SpeechSynthesisUtterance(currentAnswerText); utter.lang = currentLang==='ru'?'ru-RU':'en-US'; speechSynthesis.cancel(); speechSynthesis.speak(utter); } });
+
+    // Закрытие модального окна
+    closeAnswerModal.addEventListener('click', () => answerModal.classList.remove('show'));
+    answerModal.addEventListener('click', (e) => { if(e.target === answerModal) answerModal.classList.remove('show'); });
+
+    // Кнопки в модалке
+    modalCopyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(currentAnswerText);
+        alert(translations[currentLang]?.copyOk || 'Скопировано');
+    });
+    modalSpeakBtn.addEventListener('click', () => {
+        if(currentAnswerText) {
+            const utterance = new SpeechSynthesisUtterance(currentAnswerText);
+            utterance.lang = currentLang==='ru'?'ru-RU':'en-US';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+    });
 
     // Модалка "Что я могу"
     whatCanBtn.addEventListener('click', () => capabilitiesModal.classList.add('show'));
-    closeCapBtn.addEventListener('click', () => capabilitiesModal.classList.remove('show'));
+    closeModalBtn.addEventListener('click', () => capabilitiesModal.classList.remove('show'));
     capabilitiesModal.addEventListener('click', (e) => { if(e.target === capabilitiesModal) capabilitiesModal.classList.remove('show'); });
 
     // ====================== ЗАПРОС К GEMINI ======================
     async function askGeminiDirect(questionText) {
-        const t = translations[currentLang] || translations.ru;
+        const t = translations[currentLang];
         const grade = gradeSelect.value;
         const country = countryInput.value.trim() || "не указана";
         const city = cityInput.value.trim() || "не указан";
+        
         const apiKey = localStorage.getItem('GEMINI_API_KEY');
         if (!apiKey || apiKey.length < 20) {
-            showAnswerInModal(t.noKey + ' Администратор добавит ключ в админ-панели.');
+            showAnswerInModal(t.noKey);
             return false;
         }
+
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
         const MODEL_NAME = "gemini-2.5-flash";
+        
         try {
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 2500 } })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 2500 }
+                })
             });
-            if (!response.ok) { const errorData = await response.json(); throw new Error(errorData.error?.message || 'Ошибка Gemini'); }
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'Ошибка Gemini');
+            }
+
             const data = await response.json();
             const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Не удалось получить ответ';
+
             saveHistory(questionText, answer);
             showAnswerInModal(answer);
             return true;
         } catch (err) {
             console.error(err);
             let errorMsg = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 ' + err.message + '</span>';
-            if (err.message.includes('not found')) errorMsg = '⚠️ Модель временно недоступна. Обновите ключ или модель в админ-панели.';
+            if (err.message.includes('not found') || err.message.includes('404')) {
+                errorMsg = '⚠️ Модель временно недоступна. Попробуйте другой API-ключ или модель.<br><span style="font-size:0.7rem;">🔧 Актуальные модели: gemini-2.5-flash, gemini-2.0-flash-exp</span>';
+            }
             showAnswerInModal(errorMsg);
             return false;
         }
@@ -672,9 +806,11 @@
 
     sendBtn.addEventListener('click', async () => {
         const q = questionInput.value.trim();
-        const t = translations[currentLang] || translations.ru;
-        if (!q) { showAnswerInModal(t.errorNoText); return; }
-        // Показываем загрузку в модалке
+        const t = translations[currentLang];
+        if (!q) { 
+            showAnswerInModal(t.errorNoText);
+            return; 
+        }
         showAnswerInModal(`<span class="loader"></span> ${t.sending}`);
         await askGeminiDirect(q);
     });
