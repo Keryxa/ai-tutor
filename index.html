@@ -57,6 +57,7 @@
             transition: background 0.3s, color 0.2s;
         }
 
+        /* Боковые баннеры для ПК */
         .side-banner {
             position: fixed;
             top: 50%;
@@ -67,6 +68,7 @@
         }
         .side-banner.left { left: 10px; }
         .side-banner.right { right: 10px; }
+        /* Мобильный баннер внизу */
         .mobile-banner {
             display: block;
             position: fixed;
@@ -79,12 +81,14 @@
             padding: 8px;
             text-align: center;
         }
+        /* На ПК показываем боковые баннеры, скрываем мобильный */
         @media (min-width: 1100px) {
             .side-banner { display: block; }
             .mobile-banner { display: none; }
             body { padding-left: 190px; padding-right: 190px; }
             .extra-pc-banner { display: block; margin-top: 24px; text-align: center; }
         }
+        /* На телефоне скрываем боковые и дополнительный ПК-баннер */
         @media (max-width: 1099px) {
             .side-banner { display: none; }
             .mobile-banner { display: block; }
@@ -109,11 +113,13 @@
             border-bottom: 1px solid var(--border);
             position: relative;
         }
+
         .header h1 {
             font-size: 1.9rem;
             color: white;
             text-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
         .theme-toggle {
             position: absolute;
             top: 16px;
@@ -164,7 +170,10 @@
             max-height: 320px;
             overflow-y: auto;
         }
-        .dropdown-lang.show { display: block; animation: fadeIn 0.2s; }
+        .dropdown-lang.show {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
         .dropdown-lang button {
             display: block;
             width: 100%;
@@ -180,10 +189,26 @@
         .dropdown-lang button:hover { background: var(--history-hover); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px);} to { opacity: 1; transform: translateY(0);} }
 
-        .form-card { padding: 6px 18px 20px; }
-        .row-2col { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-        .field-group { flex: 1; min-width: 130px; }
-        label { font-size: 0.7rem; font-weight: 600; color: var(--label-color); display: block; margin-bottom: 5px; }
+        .form-card {
+            padding: 6px 18px 20px;
+        }
+        .row-2col {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .field-group {
+            flex: 1;
+            min-width: 130px;
+        }
+        label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--label-color);
+            display: block;
+            margin-bottom: 5px;
+        }
         input, select, textarea {
             width: 100%;
             padding: 12px 14px;
@@ -224,7 +249,13 @@
         }
         @keyframes pulseSoft { 0% { opacity: 0.8; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.8; } }
 
-        .voice-row { display: flex; align-items: center; gap: 12px; margin: 16px 0 12px; flex-wrap: wrap; }
+        .voice-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0 12px;
+            flex-wrap: wrap;
+        }
         .mic-btn {
             background: var(--mic-color);
             border: none;
@@ -260,7 +291,12 @@
             padding: 18px;
             border-left: 5px solid var(--accent);
         }
-        .answer-actions { display: flex; gap: 12px; margin-top: 14px; justify-content: flex-end; }
+        .answer-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 14px;
+            justify-content: flex-end;
+        }
         .action-btn {
             background: transparent;
             border: 1px solid var(--border);
@@ -307,7 +343,10 @@
             color: var(--text-secondary);
             border: 1px dashed var(--border);
         }
-        .extra-pc-banner { margin-top: 24px; text-align: center; }
+        .extra-pc-banner {
+            margin-top: 24px;
+            text-align: center;
+        }
         footer {
             font-size: 0.6rem;
             text-align: center;
@@ -339,7 +378,10 @@
             opacity: 0;
             transition: 0.2s;
         }
-        .modal.show { visibility: visible; opacity: 1; }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
         .modal-content {
             background: var(--card-bg);
             width: 85%;
@@ -383,19 +425,25 @@
 </head>
 <body>
 
+<!-- Боковые баннеры (ПК) -->
 <div class="side-banner left">
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-        <iframe data-aa='2435601' src='//acceptable.a-ads.com/2435601/?size=Adaptive' style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        <iframe data-aa='2435601' src='//acceptable.a-ads.com/2435601/?size=Adaptive'
+            style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
     </div>
 </div>
 <div class="side-banner right">
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-        <iframe data-aa='2435602' src='//acceptable.a-ads.com/2435602/?size=Adaptive' style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        <iframe data-aa='2435602' src='//acceptable.a-ads.com/2435602/?size=Adaptive'
+            style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
     </div>
 </div>
+
+<!-- Мобильный баннер (внизу, только для телефона) -->
 <div class="mobile-banner">
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-        <iframe data-aa='2435603' src='//acceptable.a-ads.com/2435603/?size=Adaptive' style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        <iframe data-aa='2435603' src='//acceptable.a-ads.com/2435603/?size=Adaptive'
+            style='border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
     </div>
 </div>
 
@@ -449,10 +497,15 @@
             <div class="history-list" id="historyList"></div>
         </div>
 
-        <div class="ad-placeholder" id="adSpace">📢 Реклама (ваш баннер/adsense)</div>
+        <div class="ad-placeholder" id="adSpace">
+            📢 Реклама (ваш баннер/adsense)
+        </div>
+
+        <!-- Дополнительный баннер для ПК (2435604) -->
         <div class="extra-pc-banner">
             <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-                <iframe data-aa='2435604' src='//acceptable.a-ads.com/2435604/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+                <iframe data-aa='2435604' src='//acceptable.a-ads.com/2435604/?size=Adaptive'
+                    style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
             </div>
         </div>
     </div>
@@ -476,13 +529,17 @@
 </div>
 
 <script>
-    // ====================== API КЛЮЧ ======================
+    // ====================== ТВОЙ НОВЫЙ API КЛЮЧ ======================
     const GEMINI_API_KEY = "AIzaSyA_xYRXntx2iMZ63NJ_E9ebTta53xAXeOw";
+    
+    // ПУБЛИЧНЫЙ ПРОКСИ-СЕРВЕР ДЛЯ ОБХОДА CORS
+    const PROXY_URL = "https://corsproxy.io/?";
 
     let currentLang = "ru";
     let historyArr = [];
     let recognition = null, isListening = false;
 
+    // DOM элементы
     const sendBtn = document.getElementById('sendButton');
     const micBtn = document.getElementById('micButton');
     const voiceSpan = document.getElementById('voiceStatus');
@@ -504,17 +561,22 @@
     const modal = document.getElementById('capabilitiesModal');
     const closeModal = document.getElementById('closeModalBtn');
 
+    // ====================== ПЕРЕВОДЫ ======================
     const languages = [
-        { code: "ru", native: "Русский" }, { code: "uk", native: "Українська" },
-        { code: "en", native: "English" }, { code: "pl", native: "Polski" },
-        { code: "de", native: "Deutsch" }, { code: "fr", native: "Français" },
-        { code: "es", native: "Español" }, { code: "ja", native: "日本語" }
+        { code: "ru", name: "Русский", native: "Русский" },
+        { code: "uk", name: "Українська", native: "Українська" },
+        { code: "en", name: "English", native: "English" },
+        { code: "pl", name: "Polski", native: "Polski" },
+        { code: "de", name: "Deutsch", native: "Deutsch" },
+        { code: "fr", name: "Français", native: "Français" },
+        { code: "es", name: "Español", native: "Español" },
+        { code: "ja", name: "日本語", native: "日本語" }
     ];
 
     const translations = {
-        ru: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Любой предмет · 1 минута ✨", countryLabel: "🌍 Страна", cityLabel: "🏙️ Город", gradeLabel: "📖 Класс", solveText: "⚡ Решит ЛЮБУЮ школьную задачу", timerText: "менее 1 минуты", questionLabel: "✍️ Задание / вопрос", micText: "Спросить голосом", sendText: "🚀 Получить решение", copyText: "📋 Копировать", speakText: "🔊 Озвучить", historyTitle: "📜 История запросов", footerText: "🎤 Голосовой ввод | 🔊 Озвучка | 🤖 Работает на Gemini", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка. Проверьте интернет или попробуйте позже.", copyOk: "Скопировано", placeholder: "Напиши уравнение, пример..." },
-        uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ шкільне завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання / питання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія запитів", footerText: "🎤 Голос | 🔊 Озвучка | 🤖 Працює на Gemini", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка. Перевірте інтернет.", copyOk: "Скопійовано", placeholder: "Напиши рівняння, приклад..." },
-        en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 minute", questionLabel: "✍️ Assignment", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read", historyTitle: "📜 History", footerText: "🎤 Voice | 🔊 Read | 🤖 Powered by Gemini", errorNoText: "📢 Write task", sending: "Solving...", errConnect: "⚠️ Error. Check internet.", copyOk: "Copied", placeholder: "Write equation, example..." }
+        ru: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Любой предмет · 1 минута ✨", countryLabel: "🌍 Страна", cityLabel: "🏙️ Город", gradeLabel: "📖 Класс", solveText: "⚡ Решит ЛЮБУЮ школьную задачу", timerText: "менее 1 минуты", questionLabel: "✍️ Задание / вопрос", micText: "Спросить голосом", sendText: "🚀 Получить решение", copyText: "📋 Копировать", speakText: "🔊 Озвучить", historyTitle: "📜 История запросов", footerText: "🎤 Голосовой ввод | 🔊 Озвучка | 🤖 Работает на Gemini", errorNoText: "📢 Напишите задание", sending: "Решаю...", errConnect: "⚠️ Ошибка. Проверьте интернет или попробуйте позже.", copyOk: "Скопировано", placeholder: "Напиши уравнение, пример, биологию, историю..." },
+        uk: { mainTitle: "📚 AI Репетитор", headerBadge: "✨ Будь-який предмет · 1 хвилина ✨", countryLabel: "🌍 Країна", cityLabel: "🏙️ Місто", gradeLabel: "📖 Клас", solveText: "⚡ Вирішить БУДЬ-ЯКЕ шкільне завдання", timerText: "менше 1 хвилини", questionLabel: "✍️ Завдання / питання", micText: "Запитати голосом", sendText: "🚀 Отримати рішення", copyText: "📋 Копіювати", speakText: "🔊 Озвучити", historyTitle: "📜 Історія запитів", footerText: "🎤 Голос | 🔊 Озвучка | 🤖 Працює на Gemini", errorNoText: "📢 Напишіть завдання", sending: "Вирішую...", errConnect: "⚠️ Помилка. Перевірте інтернет.", copyOk: "Скопійовано", placeholder: "Напиши рівняння, приклад, біологію..." },
+        en: { mainTitle: "📚 AI Tutor", headerBadge: "✨ Any subject · 1 minute ✨", countryLabel: "🌍 Country", cityLabel: "🏙️ City", gradeLabel: "📖 Grade", solveText: "⚡ Solves ANY school task", timerText: "less than 1 minute", questionLabel: "✍️ Assignment / question", micText: "Ask by voice", sendText: "🚀 Get solution", copyText: "📋 Copy", speakText: "🔊 Read aloud", historyTitle: "📜 Request history", footerText: "🎤 Voice | 🔊 Read | 🤖 Powered by Gemini", errorNoText: "📢 Write your task", sending: "Solving...", errConnect: "⚠️ Error. Check internet.", copyOk: "Copied", placeholder: "Write equation, example..." }
     };
     for (let lang of ['pl','de','fr','es','ja']) translations[lang] = { ...translations.en, mainTitle: translations.en.mainTitle };
 
@@ -599,29 +661,34 @@
     closeModal.addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
 
-    // ====================== ЗАПРОС К GEMINI (МОДЕЛЬ 2.0 FLASH) ======================
+    // ====================== ЗАПРОС ЧЕРЕЗ ПРОКСИ ======================
     async function askGemini(questionText) {
         const t = translations[currentLang];
         const grade = gradeSelect.value;
         const country = countryInput.value.trim() || "не указана";
         const city = cityInput.value.trim() || "не указан";
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
-        // Используем рабочую модель gemini-2.0-flash-exp
-        const MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
+        
+        const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
+        const proxyUrl = `${PROXY_URL}${encodeURIComponent(targetUrl)}`;
+        
         try {
-            const response = await fetch(MODEL_URL, {
+            const response = await fetch(proxyUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 2000 } })
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.7, maxOutputTokens: 2000 }
+                })
             });
-            if (!response.ok) throw new Error('Ошибка Gemini');
+            if (!response.ok) throw new Error('Ошибка API');
             const data = await response.json();
             const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Не удалось получить ответ';
             answerDiv.innerHTML = answer.replace(/\n/g, '<br>');
             saveHistory(questionText, answer);
             return true;
         } catch (err) {
-            answerDiv.innerHTML = t.errConnect;
+            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 ' + err.message + '</span>';
             resultBox.style.display = 'block';
             return false;
         }
