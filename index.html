@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AXIS — Premium Assistant</title>
+    <title>AXIS — Умный ассистент | Рецепты, Здоровье, Выбор</title>
+    <meta name="description" content="AXIS - все-в-одном помощник: рецепты из продуктов, трекер лекарств и колесо решений. Работает офлайн.">
+    <meta name="keywords" content="рецепты, трекер лекарств, колесо решений, голосовой ввод, PWA">
+    <meta name="theme-color" content="#0a0c12">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -13,15 +18,50 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             min-height: 100vh;
             color: #f0f3fa;
             overflow-x: hidden;
             padding-bottom: 85px;
-            transition: background 0.3s ease;
         }
 
-        /* animated backgrounds per module using dynamic classes */
+        /* ========== ТЕМАТИЧЕСКИЕ ФОНЫ С ЛЕТАЮЩИМИ ЭЛЕМЕНТАМИ ========== */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.25;
+            animation: floatAround 20s infinite ease-in-out;
+            pointer-events: none;
+            filter: blur(0.8px);
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
+            25% { transform: translate(30px, -40px) rotate(10deg); opacity: 0.3; }
+            50% { transform: translate(-20px, -70px) rotate(-5deg); opacity: 0.25; }
+            75% { transform: translate(40px, -20px) rotate(8deg); opacity: 0.2; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
+        }
+
+        /* Фон для рецептов: фрукты, салаты, блюда */
+        .bg-recipe-floating .floating-item { animation-duration: 18s; }
+        /* Фон для здоровья: таблетки, шприцы, капли */
+        .bg-health-floating .floating-item { animation-duration: 22s; }
+        /* Фон для колеса: блокноты, рестораны, кино */
+        .bg-wheel-floating .floating-item { animation-duration: 25s; }
+
+        /* Базовый градиентный фон под летающими элементами */
         .bg-recipe {
             position: fixed;
             top: 0;
@@ -30,17 +70,6 @@
             height: 100%;
             z-index: -2;
             background: radial-gradient(circle at 20% 30%, #1a2a2f, #051015);
-            animation: driftBg 18s infinite alternate;
-        }
-        .bg-recipe::after {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(ellipse at 40% 60%, rgba(80, 180, 150, 0.2), transparent 60%);
-            animation: rotateMesh 24s infinite linear;
         }
         .bg-health {
             position: fixed;
@@ -50,15 +79,6 @@
             height: 100%;
             z-index: -2;
             background: radial-gradient(circle at 70% 20%, #1e2a3a, #0a0f1c);
-            animation: softPulse 15s infinite alternate;
-        }
-        .bg-health::after {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 70%, rgba(70, 130, 200, 0.2), transparent 70%);
-            animation: driftReverse 20s infinite alternate;
         }
         .bg-wheel {
             position: fixed;
@@ -67,16 +87,7 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 40% 50%, #261c2c, #0a0710);
-            animation: hueRotateBg 22s infinite alternate;
-        }
-        .bg-wheel::after {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, rgba(200, 100, 200, 0.15), rgba(100, 200, 220, 0.1), rgba(200, 100, 200, 0.15));
-            animation: spinConic 30s infinite linear;
+            background: radial-gradient(ellipse at 40% 50%, #261c2c, #0a0710);
         }
         .bg-settings {
             position: fixed;
@@ -86,36 +97,30 @@
             height: 100%;
             z-index: -2;
             background: radial-gradient(ellipse at 80% 40%, #2c2638, #0b0812);
-            animation: gentleShift 16s infinite alternate;
         }
 
-        @keyframes driftBg { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.05); opacity: 1; } }
-        @keyframes rotateMesh { 0% { transform: rotate(0deg); } 100% { transform: rotate(8deg); } }
-        @keyframes softPulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
-        @keyframes driftReverse { 0% { transform: translate(0,0); } 100% { transform: translate(-3%, -2%); } }
-        @keyframes hueRotateBg { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(15deg); } }
-        @keyframes spinConic { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes gentleShift { 0% { background-position: 0% 0%; } 100% { background-position: 10% 15%; } }
-
-        /* glassmorphism enhanced */
+        /* Glassmorphism */
         .glass-card {
-            background: rgba(20, 26, 38, 0.55);
+            background: rgba(20, 26, 38, 0.65);
             backdrop-filter: blur(20px);
             border-radius: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.45);
-            transition: transform 0.25s ease, box-shadow 0.3s;
+            transition: transform 0.25s ease;
         }
         .glass-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
         }
 
         .app-container {
             max-width: 560px;
             margin: 0 auto;
             padding: 1rem 1rem 0.5rem;
+            position: relative;
+            z-index: 2;
         }
+
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -147,7 +152,6 @@
         .nav-btn.active {
             color: #c3ffcf;
             background: rgba(100, 210, 150, 0.2);
-            backdrop-filter: blur(8px);
         }
         .nav-btn svg {
             width: 24px;
@@ -189,7 +193,6 @@
             align-items: center;
             gap: 8px;
             backdrop-filter: blur(4px);
-            transition: 0.1s;
         }
         .recipe-card {
             background: rgba(28, 34, 50, 0.75);
@@ -197,7 +200,6 @@
             border-radius: 1.5rem;
             padding: 1rem;
             margin-bottom: 1rem;
-            transition: all 0.2s;
             border-left: 4px solid #6fcf97;
         }
         .med-item {
@@ -205,7 +207,6 @@
             border-radius: 1.4rem;
             padding: 1rem;
             margin: 0.8rem 0;
-            transition: 0.2s;
         }
         .stock-bar {
             height: 8px;
@@ -246,7 +247,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(16px);
             z-index: 2000;
             display: flex;
@@ -267,24 +268,39 @@
             margin-top: 12px;
             border-left: 3px solid gold;
         }
+        .wheel-canvas {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1/1;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+        }
+        .mt-2 { margin-top: 12px; }
     </style>
 </head>
 <body>
-    <div id="dynamicBg" class="bg-recipe"></div>
+    <!-- Динамические фоны с летающими элементами -->
+    <div id="dynamicBgGradient" class="bg-recipe"></div>
+    <div id="floatingContainer" class="floating-bg bg-recipe-floating"></div>
+
     <div class="app-container">
         <div id="moduleRecipe" class="module active-module"></div>
         <div id="moduleHealth" class="module"></div>
         <div id="moduleWheel" class="module"></div>
         <div id="moduleSettings" class="module"></div>
     </div>
+
     <div class="bottom-nav">
         <button class="nav-btn" data-module="recipe"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 6h18M9 12h6M12 3v18M8 3h8M4 3h2M18 3h2M6 21h12M4 18h16" stroke-linecap="round"/><circle cx="12" cy="12" r="2"/></svg><span>Рецепты</span></button>
         <button class="nav-btn" data-module="health"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 12H4M12 4v16M8 8l-2 2 2 2M16 8l2 2-2 2"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>Здоровье</span></button>
         <button class="nav-btn" data-module="wheel"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><path d="M12 12l2 2"/></svg><span>Колесо</span></button>
         <button class="nav-btn" data-module="settings"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 5v2M12 17v2M5 12H3M7 12H5M19 12h2M17 12h2M8.5 8.5l-1-1M15.5 15.5l1 1M15.5 8.5l1-1M8.5 15.5l-1 1"/></svg><span>Настройки</span></button>
     </div>
+
 <script>
-    // -------------------- I18N & STORAGE --------------------
+    // ==================== I18N & STORAGE ====================
     let currentLang = localStorage.getItem('axis_lang') || 'ru';
     const translations = {
         ru: { recipeTitle: "Рецепты под продукты", healthTitle: "Здоровье и лекарства", wheelTitle: "Колесо решений", settingsTitle: "Настройки", findRecipes: "Найти", noRecipes: "Нет рецептов", addMeds: "Добавить лекарство", name: "Название", dosage: "Дозировка", freq: "Раз/день", addBtn: "Добавить", stockLeft: "Осталось", doses: "доз", spin: "Крутить!", winner: "Победитель", langLabel: "Язык", install: "Установить", voiceInput: "🎤 Голосом", manualAdd: "➕ Добавить продукт", stepByStep: "Пошагово", timerMin: "мин", startTimer: "Старт", takeDose: "Принять", whatIs: "Что это?", close: "Закрыть", tipTitle: "✨ Совет дня", tipBased: "Рекомендация по вашим продуктам:" },
@@ -294,39 +310,81 @@
     function t(key) { return translations[currentLang][key] || key; }
     function haptic() { if(navigator.vibrate) navigator.vibrate(12); }
 
-    // ----- DATA -----
+    // ========== ЛЕТАЮЩИЕ ЭЛЕМЕНТЫ ==========
+    const floatingSets = {
+        recipe: ['🍎', '🍊', '🍌', '🍉', '🍒', '🥑', '🥗', '🍳', '🍕', '🍝', '🥘', '🍲', '🍔', '🌮', '🥗', '🍣', '🍰'],
+        health: ['💊', '💉', '🩺', '🧪', '⚕️', '💊', '🩹', '🧴', '💊', '🔬', '💊', '🩸', '🧫', '💊'],
+        wheel: ['📓', '📝', '🍽️', '🍜', '🍷', '🎬', '🎭', '🏛️', '✈️', '🎡', '🏝️', '🎮', '🏀', '🎨', '☕', '🍸', '🎰']
+    };
+
+    function generateFloatingItems(moduleType) {
+        const container = document.getElementById('floatingContainer');
+        container.innerHTML = '';
+        container.className = `floating-bg bg-${moduleType}-floating`;
+        const icons = floatingSets[moduleType] || floatingSets.recipe;
+        for(let i = 0; i < 22; i++) {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.textContent = icons[Math.floor(Math.random() * icons.length)];
+            const size = 24 + Math.random() * 40;
+            item.style.fontSize = `${size}px`;
+            item.style.left = `${Math.random() * 100}%`;
+            item.style.top = `${Math.random() * 100}%`;
+            item.style.animationDelay = `${Math.random() * 15}s`;
+            item.style.animationDuration = `${15 + Math.random() * 20}s`;
+            item.style.opacity = 0.2 + Math.random() * 0.25;
+            container.appendChild(item);
+        }
+    }
+
+    function setBackgroundTheme(module) {
+        const gradientDiv = document.getElementById('dynamicBgGradient');
+        gradientDiv.className = '';
+        if(module === 'recipe') gradientDiv.className = 'bg-recipe';
+        else if(module === 'health') gradientDiv.className = 'bg-health';
+        else if(module === 'wheel') gradientDiv.className = 'bg-wheel';
+        else gradientDiv.className = 'bg-settings';
+        generateFloatingItems(module);
+    }
+
+    // ========== ДАННЫЕ ==========
     let userIngredients = JSON.parse(localStorage.getItem('axis_user_ings')) || [];
     const fullRecipesDB = [
         { name: "Омлет", ings: ["яйца","молоко","соль"], steps: ["Взбить яйца с молоком","Посолить, жарить 3 минуты"], time: 5, tip: "Добавьте сыр для вкуса!" },
         { name: "Греческий салат", ings: ["помидоры","огурцы","сыр","оливки","масло"], steps: ["Нарезать овощи","Добавить сыр","Заправить маслом"], time: 7, tip: "Оливки придают пикантность" },
         { name: "Курица с рисом", ings: ["курица","рис","лук","морковь","соль"], steps: ["Обжарить курицу","Добавить лук, морковь","Добавить рис, тушить"], time: 30, tip: "Используйте куриный бульон" },
         { name: "Сырники", ings: ["творог","яйца","мука","сахар"], steps: ["Смешать творог с яйцом","Добавить муку","Жарить до золотистого"], time: 15, tip: "Подавайте со сметаной" },
-        { name: "Грибной суп", ings: ["грибы","картофель","лук","морковь"], steps: ["Отварить картофель","Обжарить грибы с луком","Смешать"], time: 40, tip: "Добавьте зелень перед подачей" },
-        { name: "Бекон с яйцами", ings: ["бекон","яйца","хлеб"], steps: ["Пожарить бекон","Поджарить яйца","Подавать с тостом"], time: 10, tip: "Хрустящий бекон = идеально" },
-        { name: "Макароны с сыром", ings: ["макароны","сыр","молоко"], steps: ["Сварить пасту","Растопить сыр с молоком","Смешать"], time: 15, tip: "Попробуйте с пармезаном" },
-        { name: "Рыбный стейк", ings: ["рыба","лимон","масло","соль"], steps: ["Посолить рыбу","Обжарить на масле", "Сбрызнуть лимоном"], time: 12, tip: "Лимон усиляет вкус" },
+        { name: "Грибной суп", ings: ["грибы","картофель","лук","морковь"], steps: ["Отварить картофель","Обжарить грибы с луком","Смешать"], time: 40, tip: "Добавьте зелень" },
+        { name: "Бекон с яйцами", ings: ["бекон","яйца","хлеб"], steps: ["Пожарить бекон","Поджарить яйца","Подавать с тостом"], time: 10, tip: "Хрустящий бекон" },
+        { name: "Макароны с сыром", ings: ["макароны","сыр","молоко"], steps: ["Сварить пасту","Растопить сыр с молоком","Смешать"], time: 15, tip: "С пармезаном вкуснее" },
+        { name: "Рыбный стейк", ings: ["рыба","лимон","масло","соль"], steps: ["Посолить рыбу","Обжарить на масле","Сбрызнуть лимоном"], time: 12, tip: "Лимон усиляет вкус" },
         { name: "Овощное рагу", ings: ["кабачки","баклажаны","помидоры","лук","морковь"], steps: ["Нарезать овощи","Тушить 25 минут"], time: 25, tip: "Идеально с рисом" },
         { name: "Сэндвич с курицей", ings: ["хлеб","курица","помидоры","листья салата"], steps: ["Поджарить хлеб","Выложить курицу, овощи"], time: 6, tip: "Добавьте соус" },
         { name: "Рис с овощами", ings: ["рис","перец","кукуруза","морковь"], steps: ["Отварить рис","Обжарить овощи","Смешать"], time: 20, tip: "Соевый соус подойдет" },
-        { name: "Картофель фри", ings: ["картофель","масло","соль"], steps: ["Нарезать брусочками","Обжарить во фритюре"], time: 20, tip: "Дважды обжарьте для хруста" },
-        { name: "Креветки с чесноком", ings: ["креветки","чеснок","масло","лимон"], steps: ["Обжарить чеснок","Добавить креветки"], time: 8, tip: "Не пережарьте креветки" },
+        { name: "Картофель фри", ings: ["картофель","масло","соль"], steps: ["Нарезать брусочками","Обжарить во фритюре"], time: 20, tip: "Дважды обжарьте" },
+        { name: "Креветки с чесноком", ings: ["креветки","чеснок","масло","лимон"], steps: ["Обжарить чеснок","Добавить креветки"], time: 8, tip: "Не пережарьте" },
         { name: "Баклажанная икра", ings: ["баклажаны","помидоры","лук","чеснок"], steps: ["Запечь баклажаны","Потушить с овощами"], time: 35, tip: "Подавайте охлажденной" },
         { name: "Гречка с грибами", ings: ["гречка","грибы","лук","масло"], steps: ["Отварить гречку","Обжарить грибы с луком","Смешать"], time: 25, tip: "Добавьте сливочное масло" }
     ];
 
     let medications = JSON.parse(localStorage.getItem('axis_meds')) || [];
-    let wheelOptions = JSON.parse(localStorage.getItem('axis_wheel_opts')) || ["Веган бургер","Суши сет","Салат Цезарь","Паста Карбонара","Пицца Маргарита"];
-    let wheelAngle = 0, spinning=false, animFrame=null, velocity=0, wheelCtx=null, wheelCanvas=null;
+    let wheelOptions = JSON.parse(localStorage.getItem('axis_wheel_opts')) || ["Ресторан", "Кино", "Прогулка", "Домашний уют", "Путешествие"];
+    let wheelAngle = 0, spinning = false, animFrame = null, velocity = 0, wheelCtx = null, wheelCanvas = null;
 
-    function saveAll() { localStorage.setItem('axis_user_ings', JSON.stringify(userIngredients)); localStorage.setItem('axis_meds', JSON.stringify(medications)); localStorage.setItem('axis_wheel_opts', JSON.stringify(wheelOptions)); localStorage.setItem('axis_lang', currentLang); }
+    function saveAll() { 
+        localStorage.setItem('axis_user_ings', JSON.stringify(userIngredients)); 
+        localStorage.setItem('axis_meds', JSON.stringify(medications)); 
+        localStorage.setItem('axis_wheel_opts', JSON.stringify(wheelOptions)); 
+        localStorage.setItem('axis_lang', currentLang); 
+    }
 
-    // ---------- МОДАЛЬНОЕ ОКНО "ЧТО ЭТО?" ----------
+    // ========== ПОМОЩЬ ==========
     function showHelpModal(moduleName) {
         let helpText = "";
-        if(moduleName === "recipe") helpText = "🍽️ РЕЦЕПТЫ: добавляйте продукты голосом или вручную. Система подберет блюда, которые можно приготовить из ВАШИХ продуктов. Карточки рецептов содержат таймер и пошаговые инструкции.";
-        else if(moduleName === "health") helpText = "💊 ЗДОРОВЬЕ: добавляйте лекарства, указывайте дозировку. Каждый прием уменьшает запас. При остатке ≤3 доз шкала станет красной. Данные хранятся локально.";
-        else if(moduleName === "wheel") helpText = "🎡 КОЛЕСО РЕШЕНИЙ: настройте варианты, нажмите крутить. Реалистичная физика, конфетти и выбор победителя. Отлично для выбора блюда или планов.";
-        else helpText = "⚙️ НАСТРОЙКИ: смена языка (русский/украинский/английский), установка PWA на домашний экран, автономная работа.";
+        if(moduleName === "recipe") helpText = "🍽️ РЕЦЕПТЫ: добавляйте продукты голосом или вручную. Система подберет блюда из ВАШИХ продуктов. Карточки содержат таймер и пошаговые инструкции.";
+        else if(moduleName === "health") helpText = "💊 ЗДОРОВЬЕ: добавляйте лекарства, указывайте дозировку. Каждый прием уменьшает запас. При остатке ≤3 доз шкала станет красной.";
+        else if(moduleName === "wheel") helpText = "🎡 КОЛЕСО РЕШЕНИЙ: настройте варианты, нажмите крутить. Реалистичная физика, конфетти и выбор победителя.";
+        else helpText = "⚙️ НАСТРОЙКИ: смена языка, установка PWA на домашний экран, автономная работа.";
         const modalDiv = document.createElement('div'); modalDiv.className = 'modal-help';
         modalDiv.innerHTML = `<div class="modal-content glass-card"><h3>❓ ${t('whatIs')}</h3><p style="margin: 12px 0;">${helpText}</p><button id="closeHelpBtn" class="primary" style="width:100%">${t('close')}</button></div>`;
         document.body.appendChild(modalDiv);
@@ -334,28 +392,16 @@
         haptic();
     }
 
-    // ---------- РЕКОМЕНДАЦИИ ПО ПРОДУКТАМ (ТОЛЬКО ИЗ НАЛИЧНЫХ) ----------
-    function getSmartRecommendation() {
-        if(userIngredients.length === 0) return null;
-        // ищем рецепт, который максимально совместим с имеющимися продуктами (хотя бы 2 совпадения)
-        let bestRec = null; let maxMatch = 0;
-        for(let rec of fullRecipesDB) {
-            let matchCount = rec.ings.filter(ing => userIngredients.includes(ing)).length;
-            if(matchCount > maxMatch && matchCount >= 1) { maxMatch = matchCount; bestRec = rec; }
-        }
-        if(bestRec && maxMatch >= 1) return { recipe: bestRec, matchCount: maxMatch };
-        return null;
-    }
-
-    // ---------- МОДУЛЬ РЕЦЕПТОВ (ГОЛОС/РУЧНОЙ + СОВЕТЫ) ----------
+    // ========== РЕЦЕПТЫ ==========
     let recognition = null;
     if('webkitSpeechRecognition' in window) { const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; recognition = new SpeechRecognition(); recognition.continuous = true; recognition.interimResults = true; recognition.lang = 'ru-RU'; }
+    
     function startVoiceAdd() {
         if(!recognition) { alert("Голосовое распознавание не поддерживается"); return; }
         haptic();
         recognition.start();
         let statusSpan = document.getElementById('voiceStatusSpan');
-        if(statusSpan) statusSpan.innerText = "🎙️ Слушаю, называйте продукты через запятую...";
+        if(statusSpan) statusSpan.innerText = "🎙️ Слушаю, называйте продукты...";
         recognition.onresult = (event) => {
             let final = "";
             for(let i=0; i<event.results.length; i++) final += event.results[i][0].transcript;
@@ -369,31 +415,42 @@
         };
         recognition.onend = () => { if(statusSpan) statusSpan.innerText = ""; renderRecipeModule(); };
     }
+    
     function addManualProduct() { let inp = document.getElementById('manualProd'); if(inp.value.trim()) { userIngredients.push(inp.value.trim().toLowerCase()); saveAll(); inp.value=""; renderRecipeModule(); haptic(); } }
     function removeIng(idx) { userIngredients.splice(idx,1); saveAll(); renderRecipeModule(); haptic(); }
+
+    function showStepByStep(recipe) {
+        let stepIndex = 0, timerInt = null;
+        const modalDiv = document.createElement('div'); modalDiv.className='modal-help';
+        modalDiv.innerHTML = `<div class="modal-content glass-card" style="max-width:320px;"><h3>${recipe.name}</h3><div id="stepText" style="margin:12px 0;">${recipe.steps[0]}</div><div id="timerDisplay">⏲️ 00:00</div><div class="flex-between" style="margin-top:14px;"><button id="nextStepBtn">➡️ Следующий шаг</button><button id="startTimerBtn">⏵ ${t('startTimer')}</button><button id="closeStepModal">✖ Закрыть</button></div></div>`;
+        document.body.appendChild(modalDiv);
+        function updateStep() { document.getElementById('stepText').innerText = recipe.steps[stepIndex] || "✅ Готово!"; if(timerInt) clearInterval(timerInt); document.getElementById('timerDisplay').innerText = "⏲️ 00:00"; }
+        document.getElementById('nextStepBtn')?.addEventListener('click',()=>{ if(stepIndex+1<recipe.steps.length) stepIndex++; updateStep(); haptic(); });
+        document.getElementById('startTimerBtn')?.addEventListener('click',()=>{ haptic(); let mins=recipe.time, secs=0; if(timerInt) clearInterval(timerInt); timerInt = setInterval(()=>{ if(mins===0 && secs===0){ clearInterval(timerInt); document.getElementById('timerDisplay').innerText='✅ Время вышло!'; haptic();} else { if(secs===0){mins--; secs=59;}else secs--; document.getElementById('timerDisplay').innerHTML = `⏲️ ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; } },1000); });
+        document.getElementById('closeStepModal')?.addEventListener('click',()=>{ if(timerInt)clearInterval(timerInt); modalDiv.remove(); });
+        updateStep();
+    }
 
     function renderRecipeModule() {
         let ingHtml = userIngredients.map((ing,i)=>`<span class="ingredient-tag">${ing} <button style="background:transparent; border:none; color:#ffaaa5;" data-rmidx="${i}">✖</button></span>`).join('');
         let matchedRecipes = fullRecipesDB.filter(rec => rec.ings.some(need => userIngredients.includes(need)));
         let recipesHtml = matchedRecipes.map(rec => `<div class="recipe-card"><div class="flex-between"><strong>🍳 ${rec.name}</strong><span class="badge">⏱️ ${rec.time} ${t('timerMin')}</span></div><div style="font-size:0.75rem; margin:8px 0">📌 ${rec.ings.join(', ')}</div><div class="flex-between"><button class="stepsModalBtn" data-recipe='${JSON.stringify(rec)}'>📖 ${t('stepByStep')}</button><span style="font-size:11px;">✨ ${rec.tip}</span></div></div>`).join('');
-        if(matchedRecipes.length === 0 && userIngredients.length) recipesHtml = `<div class="glass-card" style="padding:1rem">😕 ${t('noRecipes')}, но можно добавить больше ингредиентов!</div>`;
+        if(matchedRecipes.length === 0 && userIngredients.length) recipesHtml = `<div class="glass-card" style="padding:1rem">😕 ${t('noRecipes')}, добавьте больше ингредиентов</div>`;
         else if(userIngredients.length===0) recipesHtml = `<div class="glass-card" style="padding:1rem">✨ Добавьте продукты голосом или вручную ✨</div>`;
 
-        // рекомендация на основе продуктов пользователя
         let recommendationHtml = "";
-        let recommendation = getSmartRecommendation();
-        if(recommendation && userIngredients.length>0) {
-            recommendationHtml = `<div class="recommendation-card"><span>🌟 ${t('tipBased')}</span><div><strong>${recommendation.recipe.name}</strong> — можно приготовить с ${recommendation.matchCount} совпадениями! Попробуйте рецепт выше.</div></div>`;
+        if(userIngredients.length>0 && matchedRecipes.length>0) {
+            recommendationHtml = `<div class="recommendation-card"><span>🌟 ${t('tipBased')}</span><div><strong>${matchedRecipes[0].name}</strong> — отличный выбор!</div></div>`;
         }
 
         const container = document.getElementById('moduleRecipe');
         container.innerHTML = `
             <div class="glass-card" style="padding:1.2rem">
                 <h2>${t('recipeTitle')} <button class="info-btn" id="helpRecipeBtn">❔</button></h2>
-                <div class="voice-row"><input id="manualProd" placeholder="🍅 Добавить продукт (помидор, сыр...)" style="flex:1"><button class="primary" id="manualAddProdBtn">${t('manualAdd')}</button></div>
+                <div class="voice-row"><input id="manualProd" placeholder="🍅 Добавить продукт" style="flex:1"><button class="primary" id="manualAddProdBtn">${t('manualAdd')}</button></div>
                 <div class="voice-row"><button id="voiceAddBtn" class="voice-btn">${t('voiceInput')}</button><span id="voiceStatusSpan" style="font-size:12px;"></span></div>
-                <div style="margin:12px 0; display:flex; flex-wrap:wrap; gap:8px;">${ingHtml || '<i>Список пуст. Добавьте продукты!</i>'}</div>
-                ${userIngredients.length ? `<button id="clearAllIngs" style="background:#4a3a44;">Очистить все</button>` : ''}
+                <div style="margin:12px 0; display:flex; flex-wrap:wrap; gap:8px;">${ingHtml || '<i>Список пуст</i>'}</div>
+                ${userIngredients.length ? `<button id="clearAllIngs" style="background:#4a3a44;">Очистить всё</button>` : ''}
             </div>
             ${recommendationHtml}
             <div style="margin-top:12px;"><h3>🍲 Рецепты (${matchedRecipes.length})</h3>${recipesHtml}</div>
@@ -406,74 +463,139 @@
         document.querySelectorAll('.stepsModalBtn').forEach(btn=>btn.addEventListener('click',(e)=>{ let rec = JSON.parse(btn.dataset.recipe); showStepByStep(rec); haptic(); }));
     }
 
-    function showStepByStep(recipe) {
-        let stepIndex = 0, timerInt = null;
-        let modalDiv = document.createElement('div'); modalDiv.className='modal-help';
-        modalDiv.innerHTML = `<div class="modal-content glass-card" style="max-width:320px;"><h3>${recipe.name}</h3><div id="stepText" style="margin:12px 0;">${recipe.steps[0]}</div><div id="timerDisplay">⏲️ 00:00</div><div class="flex-between" style="margin-top:14px;"><button id="nextStepBtn">➡️ Следующий шаг</button><button id="startTimerBtn">⏵ ${t('startTimer')}</button><button id="closeStepModal">✖ Закрыть</button></div></div>`;
-        document.body.appendChild(modalDiv);
-        function updateStep() { document.getElementById('stepText').innerText = recipe.steps[stepIndex] || "✅ Готово!"; if(timerInt) clearInterval(timerInt); document.getElementById('timerDisplay').innerText = "⏲️ 00:00"; }
-        document.getElementById('nextStepBtn')?.addEventListener('click',()=>{ if(stepIndex+1<recipe.steps.length) stepIndex++; updateStep(); haptic(); });
-        document.getElementById('startTimerBtn')?.addEventListener('click',()=>{ haptic(); let mins=recipe.time, secs=0; if(timerInt) clearInterval(timerInt); timerInt = setInterval(()=>{ if(mins===0 && secs===0){ clearInterval(timerInt); document.getElementById('timerDisplay').innerText='✅ Время вышло!'; haptic();} else { if(secs===0){mins--; secs=59;}else secs--; document.getElementById('timerDisplay').innerHTML = `⏲️ ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; } },1000); });
-        document.getElementById('closeStepModal')?.addEventListener('click',()=>{ if(timerInt)clearInterval(timerInt); modalDiv.remove(); });
-        updateStep();
-    }
-
-    // ---------- ЗДОРОВЬЕ ----------
+    // ========== ЗДОРОВЬЕ ==========
     function renderHealthModule() {
         let medsHtml = medications.map((m,idx)=>`<div class="med-item"><div class="flex-between"><strong>💊 ${m.name}</strong><span>${m.dosage} | ${m.freq}x</span></div><div class="stock-bar"><div class="stock-fill ${m.stock<=3?'low':''}" style="width:${Math.min(100,(m.stock/30)*100)}%"></div></div><div>📦 ${t('stockLeft')}: ${m.stock} ${t('doses')}</div><div class="flex-between mt-2"><button class="takeMed" data-idx="${idx}">✅ ${t('takeDose')}</button><button class="delMed" data-idx="${idx}">🗑️</button></div></div>`).join('');
-        document.getElementById('moduleHealth').innerHTML = `<div class="glass-card" style="padding:1.4rem"><h2>${t('healthTitle')}<button class="info-btn" id="helpHealthBtn">❔</button></h2><input id="medNameIn" placeholder="${t('name')}"><input id="medDoseIn" placeholder="${t('dosage')}" class="mt-2"><input id="medFreqIn" type="number" placeholder="${t('freq')}" value="1" class="mt-2"><button id="addMedFinal" class="primary mt-2">➕ ${t('addBtn')}</button><div id="medListBlock" style="margin-top:18px;">${medsHtml || '<div>Нет данных</div>'}</div></div>`;
+        document.getElementById('moduleHealth').innerHTML = `<div class="glass-card" style="padding:1.4rem"><h2>${t('healthTitle')}<button class="info-btn" id="helpHealthBtn">❔</button></h2><input id="medNameIn" placeholder="${t('name')}"><input id="medDoseIn" placeholder="${t('dosage')}" class="mt-2"><input id="medFreqIn" type="number" placeholder="${t('freq')}" value="1" class="mt-2"><button id="addMedFinal" class="primary mt-2">➕ ${t('addBtn')}</button><div id="medListBlock" style="margin-top:18px;">${medsHtml || '<div>Нет лекарств</div>'}</div></div>`;
         document.getElementById('addMedFinal')?.addEventListener('click',()=>{ let name=document.getElementById('medNameIn').value.trim(); let dose=document.getElementById('medDoseIn').value.trim(); let freq=parseInt(document.getElementById('medFreqIn').value)||1; if(name && dose){ medications.push({name, dosage:dose, freq, stock:30, initialStock:30}); saveAll(); renderHealthModule(); haptic(); } });
         document.getElementById('helpHealthBtn')?.addEventListener('click',()=>showHelpModal('health'));
         document.querySelectorAll('.takeMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; if(medications[i] && medications[i].stock>0){ medications[i].stock--; saveAll(); renderHealthModule(); haptic(); } }));
         document.querySelectorAll('.delMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; medications.splice(i,1); saveAll(); renderHealthModule(); haptic(); }));
     }
 
-    // КОЛЕСО И ФИЗИКА, КОНФЕТТИ
-    function drawWheelFull() { if(!wheelCanvas||!wheelCtx||wheelOptions.length===0) return; let angStep=Math.PI*2/wheelOptions.length; wheelCtx.clearRect(0,0,wheelCanvas.width,wheelCanvas.height); for(let i=0;i<wheelOptions.length;i++){ let start=wheelAngle+i*angStep,end=start+angStep; wheelCtx.beginPath(); wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,wheelCanvas.width/2,start,end); wheelCtx.lineTo(wheelCanvas.width/2,wheelCanvas.height/2); wheelCtx.fillStyle=`hsl(${(i*360/wheelOptions.length)+200},70%,55%)`; wheelCtx.fill(); wheelCtx.save(); wheelCtx.translate(wheelCanvas.width/2,wheelCanvas.height/2); wheelCtx.rotate(start+angStep/2); wheelCtx.fillStyle="white"; wheelCtx.font="bold 14px system-ui"; wheelCtx.fillText(wheelOptions[i], wheelCanvas.width/3.2, 8); wheelCtx.restore(); } wheelCtx.beginPath(); wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,14,0,2*Math.PI); wheelCtx.fillStyle="#151e2c"; wheelCtx.fill(); wheelCtx.beginPath(); wheelCtx.moveTo(wheelCanvas.width-12,wheelCanvas.height/2); wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2-12); wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2+12); wheelCtx.fillStyle="gold"; wheelCtx.fill(); }
-    function spinWheelNow(){ if(spinning || wheelOptions.length===0) return; haptic(); velocity=20+Math.random()*12; spinning=true; function animateSpin(){ if(!spinning) return; velocity*=0.984; wheelAngle+=velocity; drawWheelFull(); if(Math.abs(velocity)<=0.008){ spinning=false; cancelAnimationFrame(animFrame); let total=wheelOptions.length; let angleRemainder=(wheelAngle%(Math.PI*2)+2*Math.PI)%(Math.PI*2); let slice=Math.PI*2/total; let index=Math.floor(((Math.PI*2-angleRemainder)%(Math.PI*2))/slice)%total; let winner=wheelOptions[index]; triggerConfettiCanvas(); alert(`🎉 ${t('winner')}: ${winner} 🎉`); haptic(); return; } animFrame=requestAnimationFrame(animateSpin); } animateSpin(); }
-    function triggerConfettiCanvas(){ let canv=document.createElement('canvas'); canv.style.position='fixed'; canv.style.top=0; canv.style.left=0; canv.style.width='100%'; canv.style.height='100%'; canv.style.pointerEvents='none'; canv.style.zIndex=2100; document.body.appendChild(canv); let ctxConf=canv.getContext('2d'); let ww=window.innerWidth,wh=window.innerHeight; canv.width=ww; canv.height=wh; let particles=[]; for(let i=0;i<110;i++) particles.push({x:Math.random()*ww,y:Math.random()*wh-80,size:4+Math.random()*7,spdY:2+Math.random()*8,color:`hsl(${Math.random()*360},75%,65%)`}); function animateConfetti(){ ctxConf.clearRect(0,0,ww,wh); let alive=false; for(let p of particles){ p.y+=p.spdY; if(p.y<wh+60)alive=true; ctxConf.fillStyle=p.color; ctxConf.fillRect(p.x,p.y,p.size,p.size); } if(alive) requestAnimationFrame(animateConfetti); else canv.remove(); } animateConfetti(); setTimeout(()=>{ if(canv.parentNode)canv.remove(); },2000);}
+    // ========== КОЛЕСО ==========
+    function drawWheelFull() { 
+        if(!wheelCanvas||!wheelCtx||wheelOptions.length===0) return; 
+        let angStep=Math.PI*2/wheelOptions.length; 
+        wheelCtx.clearRect(0,0,wheelCanvas.width,wheelCanvas.height); 
+        for(let i=0;i<wheelOptions.length;i++){ 
+            let start=wheelAngle+i*angStep,end=start+angStep; 
+            wheelCtx.beginPath(); 
+            wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,wheelCanvas.width/2,start,end); 
+            wheelCtx.lineTo(wheelCanvas.width/2,wheelCanvas.height/2); 
+            wheelCtx.fillStyle=`hsl(${(i*360/wheelOptions.length)+200},70%,55%)`; 
+            wheelCtx.fill(); 
+            wheelCtx.save(); 
+            wheelCtx.translate(wheelCanvas.width/2,wheelCanvas.height/2); 
+            wheelCtx.rotate(start+angStep/2); 
+            wheelCtx.fillStyle="white"; 
+            wheelCtx.font="bold 14px system-ui"; 
+            wheelCtx.fillText(wheelOptions[i], wheelCanvas.width/3.2, 8); 
+            wheelCtx.restore(); 
+        } 
+        wheelCtx.beginPath(); 
+        wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,14,0,2*Math.PI); 
+        wheelCtx.fillStyle="#151e2c"; 
+        wheelCtx.fill(); 
+        wheelCtx.beginPath(); 
+        wheelCtx.moveTo(wheelCanvas.width-12,wheelCanvas.height/2); 
+        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2-12); 
+        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2+12); 
+        wheelCtx.fillStyle="gold"; 
+        wheelCtx.fill(); 
+    }
+    
+    function triggerConfettiCanvas(){
+        let canv=document.createElement('canvas');
+        canv.style.position='fixed'; canv.style.top=0; canv.style.left=0; canv.style.width='100%'; canv.style.height='100%'; canv.style.pointerEvents='none'; canv.style.zIndex=2100;
+        document.body.appendChild(canv);
+        let ctxConf=canv.getContext('2d');
+        let ww=window.innerWidth,wh=window.innerHeight;
+        canv.width=ww; canv.height=wh;
+        let particles=[];
+        for(let i=0;i<110;i++) particles.push({x:Math.random()*ww,y:Math.random()*wh-80,size:4+Math.random()*7,spdY:2+Math.random()*8,color:`hsl(${Math.random()*360},75%,65%)`});
+        function animateConfetti(){ 
+            ctxConf.clearRect(0,0,ww,wh); 
+            let alive=false; 
+            for(let p of particles){ p.y+=p.spdY; if(p.y<wh+60)alive=true; ctxConf.fillStyle=p.color; ctxConf.fillRect(p.x,p.y,p.size,p.size); } 
+            if(alive) requestAnimationFrame(animateConfetti); else canv.remove(); 
+        }
+        animateConfetti();
+        setTimeout(()=>{ if(canv.parentNode)canv.remove(); },2000);
+    }
+    
+    function spinWheelNow(){ 
+        if(spinning || wheelOptions.length===0) return; 
+        haptic(); 
+        velocity=20+Math.random()*12; 
+        spinning=true; 
+        function animateSpin(){ 
+            if(!spinning) return; 
+            velocity*=0.984; 
+            wheelAngle+=velocity; 
+            drawWheelFull(); 
+            if(Math.abs(velocity)<=0.008){ 
+                spinning=false; 
+                cancelAnimationFrame(animFrame); 
+                let total=wheelOptions.length; 
+                let angleRemainder=(wheelAngle%(Math.PI*2)+2*Math.PI)%(Math.PI*2); 
+                let slice=Math.PI*2/total; 
+                let index=Math.floor(((Math.PI*2-angleRemainder)%(Math.PI*2))/slice)%total; 
+                let winner=wheelOptions[index]; 
+                triggerConfettiCanvas(); 
+                alert(`🎉 ${t('winner')}: ${winner} 🎉`); 
+                haptic(); 
+                return; 
+            } 
+            animFrame=requestAnimationFrame(animateSpin); 
+        } 
+        animateSpin(); 
+    }
+    
     function renderWheelModule(){
         let optionsHtml = wheelOptions.map((opt,i)=>`<div class="flex-between" style="margin:8px 0;"><span>🔸 ${opt}</span><button class="delWheelOpt" data-idx="${i}">❌</button></div>`).join('');
         document.getElementById('moduleWheel').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('wheelTitle')}<button class="info-btn" id="helpWheelBtn">❔</button></h2><canvas id="wheelCanvasMain" class="wheel-canvas" width="300" height="300" style="width:100%;max-width:280px;aspect-ratio:1;display:block;margin:0 auto;"></canvas><button id="spinFinalBtn" class="primary" style="margin:16px auto;">🎡 ${t('spin')}</button><div class="flex-between"><input id="newWheelOpt" placeholder="Новый вариант" style="flex:1"><button id="addWheelOptBtn">➕</button></div><div id="wheelOptionsDiv">${optionsHtml}</div></div>`;
-        wheelCanvas = document.getElementById('wheelCanvasMain'); if(wheelCanvas){ wheelCtx=wheelCanvas.getContext('2d'); drawWheelFull(); }
+        wheelCanvas = document.getElementById('wheelCanvasMain'); 
+        if(wheelCanvas){ wheelCtx=wheelCanvas.getContext('2d'); drawWheelFull(); }
         document.getElementById('spinFinalBtn')?.addEventListener('click', spinWheelNow);
         document.getElementById('addWheelOptBtn')?.addEventListener('click',()=>{ let val=document.getElementById('newWheelOpt')?.value.trim(); if(val){ wheelOptions.push(val); saveAll(); renderWheelModule(); haptic(); } });
         document.getElementById('helpWheelBtn')?.addEventListener('click',()=>showHelpModal('wheel'));
         document.querySelectorAll('.delWheelOpt').forEach(btn=>btn.addEventListener('click',(e)=>{ let idx=btn.dataset.idx; wheelOptions.splice(idx,1); saveAll(); renderWheelModule(); haptic(); }));
     }
 
+    // ========== НАСТРОЙКИ ==========
     function renderSettingsModule() {
-        document.getElementById('moduleSettings').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('settingsTitle')}<button class="info-btn" id="helpSettingsBtn">❔</button></h2><div class="flex-between"><span>🌐 ${t('langLabel')}</span><div><button class="langSet" data-lang="ru">Рус</button><button class="langSet" data-lang="uk">Укр</button><button class="langSet" data-lang="en">Eng</button></div></div><hr/><button id="installPwaBtnFinal" class="primary">📲 ${t('install')}</button><footer style="margin-top:1rem; font-size:10px;">AXIS · v2.0 · офлайн ассистент</footer></div>`;
+        document.getElementById('moduleSettings').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('settingsTitle')}<button class="info-btn" id="helpSettingsBtn">❔</button></h2><div class="flex-between"><span>🌐 ${t('langLabel')}</span><div><button class="langSet" data-lang="ru">Рус</button><button class="langSet" data-lang="uk">Укр</button><button class="langSet" data-lang="en">Eng</button></div></div><hr/><button id="installPwaBtnFinal" class="primary">📲 ${t('install')}</button><footer style="margin-top:1rem; font-size:10px;">AXIS · v3.0 · офлайн ассистент</footer></div>`;
         document.querySelectorAll('.langSet').forEach(btn=>btn.addEventListener('click',(e)=>{ currentLang=btn.dataset.lang; saveAll(); renderAllModules(); haptic(); }));
         document.getElementById('helpSettingsBtn')?.addEventListener('click',()=>showHelpModal('settings'));
-        let deferredPrompt = null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
-        document.getElementById('installPwaBtnFinal')?.addEventListener('click',()=>{ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ deferredPrompt=null;}); } else alert("PWA уже установлен или браузер не поддерживает"); });
+        let deferredPrompt = null; 
+        window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
+        document.getElementById('installPwaBtnFinal')?.addEventListener('click',()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else alert("PWA уже установлен"); });
     }
 
-    // смена фона по модулю
-    function setBackground(module) {
-        const bgDiv = document.getElementById('dynamicBg');
-        bgDiv.className = '';
-        if(module === 'recipe') bgDiv.className = 'bg-recipe';
-        else if(module === 'health') bgDiv.className = 'bg-health';
-        else if(module === 'wheel') bgDiv.className = 'bg-wheel';
-        else bgDiv.className = 'bg-settings';
-    }
-
+    function renderAllModules(){ renderRecipeModule(); renderHealthModule(); renderWheelModule(); renderSettingsModule(); }
+    
     function switchModule(moduleId) {
         document.querySelectorAll('.module').forEach(mod=>mod.classList.remove('active-module'));
         document.getElementById(`module${moduleId.charAt(0).toUpperCase()+moduleId.slice(1)}`).classList.add('active-module');
         document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
         let activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn=>btn.dataset.module===moduleId);
         if(activeBtn) activeBtn.classList.add('active');
-        setBackground(moduleId);
+        setBackgroundTheme(moduleId);
         if(moduleId === 'wheel' && wheelCanvas) drawWheelFull();
         haptic();
     }
-    function renderAllModules(){ renderRecipeModule(); renderHealthModule(); renderWheelModule(); renderSettingsModule(); }
+    
     document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchModule(btn.dataset.module)));
-    if('serviceWorker' in navigator) { const swBlob = new Blob([`self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>new Response("AXIS offline",{status:200}))))`], {type:'application/javascript'}); navigator.serviceWorker.register(URL.createObjectURL(swBlob)); }
-    renderAllModules(); switchModule('recipe');
+    
+    if('serviceWorker' in navigator) { 
+        const swBlob = new Blob([`self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>new Response("AXIS offline",{status:200}))))`], {type:'application/javascript'}); 
+        navigator.serviceWorker.register(URL.createObjectURL(swBlob)); 
+    }
+    
+    setBackgroundTheme('recipe');
+    renderAllModules(); 
+    switchModule('recipe');
 </script>
 </body>
 </html>
