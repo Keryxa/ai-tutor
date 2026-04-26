@@ -492,7 +492,7 @@
         <div class="field-group"><label id="gradeLabel">📖 Класс</label><select id="grade"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
 
         <div class="info-animation">
-            <span class="info-text" id="solveText">⚡ Решим ЛЮБУЮ школьную задачу</span>
+            <span class="info-text" id="solveText">⚡ Решит ЛЮБУЮ школьную задачу</span>
             <span class="timer-badge" id="timerText">менее 1 минуты</span>
         </div>
 
@@ -520,6 +520,9 @@
             <div class="history-list" id="historyList"></div>
         </div>
 
+        <div class="ad-placeholder" id="adSpace">
+            📢 Реклама (ваш баннер/adsense)
+        </div>
 
         <!-- Дополнительный баннер для ПК (2435604) -->
         <div class="extra-pc-banner">
@@ -776,15 +779,12 @@
         const country = countryInput.value.trim() || "не указана";
         const city = cityInput.value.trim() || "не указан";
         
+        // ИСПРАВЛЕНО: используем ТОЛЬКО захардкоженный ключ
         const apiKey = GEMINI_API_KEY;
-        if (!apiKey || apiKey.length < 20) {
-            answerDiv.innerHTML = t.noKey;
-            resultBox.style.display = 'block';
-            return false;
-        }
-
+        
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
 
+        // Модель, которая точно работает
         const MODEL_NAME = "gemini-2.0-flash-exp";
         
         try {
