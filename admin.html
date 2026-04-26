@@ -19,7 +19,6 @@
             padding: 20px;
         }
 
-        /* Контейнеры для разных версий */
         .login-container, .admin-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -34,7 +33,6 @@
             box-shadow: 0 25px 40px -12px rgba(0,0,0,0.4);
         }
 
-        /* Двухколоночный макет для ПК */
         .admin-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -94,7 +92,6 @@
         button.danger { background: #ef4444; }
         button.danger:hover { background: #dc2626; }
         button.success { background: #10b981; }
-        button.warning { background: #f59e0b; }
 
         .stats-grid {
             display: grid;
@@ -173,7 +170,6 @@
             margin-top: 10px;
         }
 
-        /* Мобильная адаптация */
         @media (max-width: 768px) {
             .admin-grid {
                 grid-template-columns: 1fr;
@@ -193,19 +189,10 @@
             h2 { font-size: 1.2rem; }
         }
 
-        /* ПК версия - компактнее */
         @media (min-width: 1200px) {
             .admin-grid {
                 gap: 30px;
             }
-        }
-
-        .badge {
-            background: #3b82f6;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin-left: 10px;
         }
 
         footer {
@@ -237,7 +224,6 @@
     <!-- Главная админ-панель -->
     <div id="adminPage" class="admin-container" style="display: none;">
         <div class="glass-card">
-            <!-- Шапка -->
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 25px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <div style="font-size: 36px;">🎛️</div>
@@ -249,11 +235,9 @@
                 <button id="logoutBtn" class="danger">🚪 Выйти</button>
             </div>
 
-            <!-- Сетка админки -->
             <div class="admin-grid">
-                <!-- Левая колонка: Статистика + ПК версия -->
+                <!-- Левая колонка -->
                 <div>
-                    <!-- Статистика -->
                     <h2>📊 Статистика сайта</h2>
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -265,75 +249,63 @@
 
                     <hr>
 
-                    <!-- ПК версия: боковые рекламы (2 левые + 2 правые) -->
-                    <h2>🖥️ ПК версия — Боковые рекламы</h2>
+                    <h2>🖥️ ПК версия — Боковые рекламы (4 блока)</h2>
                     <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px;">Отображаются на десктопе по бокам от основного контента</p>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="ad-block-card">
                             <h3>📌 Левая реклама 1</h3>
                             <textarea id="pcLeft1Ad" rows="3" placeholder='<div><img src="banner-left1.jpg" width="100%"></div>'></textarea>
-                            <button class="previewLeft1Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                         </div>
                         <div class="ad-block-card">
                             <h3>📌 Левая реклама 2</h3>
                             <textarea id="pcLeft2Ad" rows="3" placeholder='<div><a href="#">Спецпредложение</a></div>'></textarea>
-                            <button class="previewLeft2Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                         </div>
                         <div class="ad-block-card">
                             <h3>📌 Правая реклама 1</h3>
                             <textarea id="pcRight1Ad" rows="3" placeholder='<div>Баннер 300x250</div>'></textarea>
-                            <button class="previewRight1Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                         </div>
                         <div class="ad-block-card">
                             <h3>📌 Правая реклама 2</h3>
                             <textarea id="pcRight2Ad" rows="3" placeholder='<div>Акция: скидка 20%</div>'></textarea>
-                            <button class="previewRight2Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Правая колонка: Мобильные рекламы + Нижние рекламы -->
+                <!-- Правая колонка -->
                 <div>
-                    <!-- Мобильная версия -->
                     <h2>📱 Мобильная версия</h2>
                     <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px;">Отображаются на телефонах между модулями</p>
                     
                     <div class="ad-block-card">
                         <h3>📱 Мобильная реклама 1</h3>
                         <textarea id="mobileAd1" rows="3" placeholder='<div>Баннер для мобильных 320x50</div>'></textarea>
-                        <button class="previewMobile1Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                     </div>
                     <div class="ad-block-card">
                         <h3>📱 Мобильная реклама 2</h3>
                         <textarea id="mobileAd2" rows="3" placeholder='<div>Рекламный блок</div>'></textarea>
-                        <button class="previewMobile2Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                     </div>
 
                     <hr>
 
-                    <!-- Нижние рекламы (3 штуки) -->
                     <h2>📋 Нижние рекламные блоки</h2>
                     <p style="color: #94a3b8; font-size: 13px; margin-bottom: 15px;">Отображаются внизу страницы (ПК и мобильные)</p>
                     
                     <div class="ad-block-card">
                         <h3>⬇️ Нижняя реклама 1</h3>
                         <textarea id="footerAd1" rows="3" placeholder='<div>Партнёр 1</div>'></textarea>
-                        <button class="previewFooter1Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                     </div>
                     <div class="ad-block-card">
                         <h3>⬇️ Нижняя реклама 2</h3>
                         <textarea id="footerAd2" rows="3" placeholder='<div>Партнёр 2</div>'></textarea>
-                        <button class="previewFooter2Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                     </div>
                     <div class="ad-block-card">
                         <h3>⬇️ Нижняя реклама 3</h3>
                         <textarea id="footerAd3" rows="3" placeholder='<div>Партнёр 3</div>'></textarea>
-                        <button class="previewFooter3Btn success" style="padding: 8px 16px; font-size: 12px;">👁️ Предпросмотр</button>
                     </div>
                 </div>
 
-                <!-- Кнопки управления на всю ширину -->
+                <!-- Кнопки управления -->
                 <div class="full-width">
                     <hr>
                     <div class="button-group">
@@ -359,7 +331,7 @@
             </div>
 
             <footer>
-                AXIS Admin Panel v2.0 | 2 левые + 2 правые рекламы для ПК | 2 мобильные + 3 нижние рекламы
+                AXIS Admin Panel | 4 боковых блока рекламы (2 левых + 2 правых)
             </footer>
         </div>
     </div>
@@ -374,16 +346,12 @@
 
         // Структура рекламных блоков
         const defaultAds = {
-            // ПК: левые (2)
             pcLeft1: '',
             pcLeft2: '',
-            // ПК: правые (2)
             pcRight1: '',
             pcRight2: '',
-            // Мобильные (2)
             mobile1: '',
             mobile2: '',
-            // Нижние (3)
             footer1: '',
             footer2: '',
             footer3: ''
@@ -413,7 +381,6 @@
 
         function saveAds(ads) {
             localStorage.setItem(STORAGE_KEYS.ADS, JSON.stringify(ads));
-            // Триггерим событие для синхронизации с сайтом
             window.dispatchEvent(new StorageEvent('storage', {
                 key: STORAGE_KEYS.ADS,
                 newValue: JSON.stringify(ads)
@@ -475,25 +442,11 @@
         }
 
         function clearAllAds() {
-            if (confirm('Удалить ВСЮ рекламу? (ПК боковые, мобильные и нижние блоки)')) {
+            if (confirm('Удалить ВСЮ рекламу?')) {
                 saveAds({ ...defaultAds });
                 loadAllAdsToForm();
                 showMessage('Вся реклама удалена', 'success', 'loginMessage');
             }
-        }
-
-        function showPreview(content, type) {
-            const previewArea = document.getElementById('globalPreviewArea');
-            const previewContent = document.getElementById('globalPreviewContent');
-            if (content && content.trim()) {
-                previewContent.innerHTML = `<div style="background: #0f172a; padding: 15px; border-radius: 12px;">${content}</div>`;
-            } else {
-                previewContent.innerHTML = '<div style="color: #94a3b8;">Блок пуст</div>';
-            }
-            previewArea.style.display = 'block';
-            setTimeout(() => {
-                previewArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
         }
 
         function changePassword(newPass, confirmPass) {
@@ -541,10 +494,8 @@
             }
         }
 
-        // Инициализация
         initPassword();
 
-        // События входа
         document.getElementById('loginBtn')?.addEventListener('click', () => {
             const password = document.getElementById('passwordInput').value;
             if (checkPassword(password)) {
@@ -559,7 +510,6 @@
             if (e.key === 'Enter') document.getElementById('loginBtn').click();
         });
 
-        // Кнопки админки
         document.getElementById('logoutBtn')?.addEventListener('click', logout);
         document.getElementById('saveAllAdsBtn')?.addEventListener('click', saveAllAdsFromForm);
         document.getElementById('clearAllAdsBtn')?.addEventListener('click', clearAllAds);
@@ -571,35 +521,6 @@
             const newPass = document.getElementById('newPasswordInput').value;
             const confirmPass = document.getElementById('confirmPasswordInput').value;
             changePassword(newPass, confirmPass);
-        });
-
-        // Предпросмотры для каждого блока
-        document.querySelector('.previewLeft1Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('pcLeft1Ad').value, 'left1');
-        });
-        document.querySelector('.previewLeft2Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('pcLeft2Ad').value, 'left2');
-        });
-        document.querySelector('.previewRight1Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('pcRight1Ad').value, 'right1');
-        });
-        document.querySelector('.previewRight2Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('pcRight2Ad').value, 'right2');
-        });
-        document.querySelector('.previewMobile1Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('mobileAd1').value, 'mobile1');
-        });
-        document.querySelector('.previewMobile2Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('mobileAd2').value, 'mobile2');
-        });
-        document.querySelector('.previewFooter1Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('footerAd1').value, 'footer1');
-        });
-        document.querySelector('.previewFooter2Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('footerAd2').value, 'footer2');
-        });
-        document.querySelector('.previewFooter3Btn')?.addEventListener('click', () => {
-            showPreview(document.getElementById('footerAd3').value, 'footer3');
         });
 
         checkAuth();
