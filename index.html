@@ -532,8 +532,11 @@
     // ====================== ТВОЙ НОВЫЙ API КЛЮЧ ======================
     const GEMINI_API_KEY = "AIzaSyA_xYRXntx2iMZ63NJ_E9ebTta53xAXeOw";
     
-    // ПУБЛИЧНЫЙ ПРОКСИ-СЕРВЕР ДЛЯ ОБХОДА CORS
-    const PROXY_URL = "https://corsproxy.io/?";
+    // АЛЬТЕРНАТИВНЫЙ ПУБЛИЧНЫЙ ПРОКСИ
+    const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+    
+    // ПРЯМОЙ URL GEMINI (БЕЗ ПРОКСИ - НЕ РАБОТАЕТ ИЗ-ЗА CORS, НО ПРОКСИ ОБХОДИТ)
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     let currentLang = "ru";
     let historyArr = [];
@@ -669,8 +672,7 @@
         const city = cityInput.value.trim() || "не указан";
         const prompt = `Ты репетитор для ${grade} класса из ${country}, ${city}. Задание: ${questionText}. Дай подробное решение на русском языке. Пиши понятно, дружелюбно.`;
         
-        const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
-        const proxyUrl = `${PROXY_URL}${encodeURIComponent(targetUrl)}`;
+        const proxyUrl = `${PROXY_URL}${GEMINI_URL}`;
         
         try {
             const response = await fetch(proxyUrl, {
@@ -681,14 +683,24 @@
                     generationConfig: { temperature: 0.7, maxOutputTokens: 2000 }
                 })
             });
-            if (!response.ok) throw new Error('Ошибка API');
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 100)}`);
+            }
             const data = await response.json();
             const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Не удалось получить ответ';
             answerDiv.innerHTML = answer.replace(/\n/g, '<br>');
             saveHistory(questionText, answer);
             return true;
         } catch (err) {
-            answerDiv.innerHTML = t.errConnect + '<br><span style="font-size:0.7rem;">🔧 ' + err.message + '</span>';
+            console.error(err);
+            let errorMsg = t.errConnect;
+            if (err.message.includes('403')) {
+                errorMsg = '⚠️ Прокси-сервер временно заблокирован. Попробуйте позже или обновите страницу.';
+            } else if (err.message.includes('429')) {
+                errorMsg = '⚠️ Слишком много запросов. Подождите немного.';
+            }
+            answerDiv.innerHTML = errorMsg;
             resultBox.style.display = 'block';
             return false;
         }
