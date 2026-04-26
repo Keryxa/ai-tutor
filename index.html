@@ -286,6 +286,13 @@
             padding: 1.5rem;
             border: 1px solid rgba(255,255,200,0.3);
         }
+        .recommendation-card {
+            background: rgba(90, 140, 120, 0.3);
+            padding: 12px;
+            border-radius: 1rem;
+            margin-top: 12px;
+            border-left: 3px solid gold;
+        }
         .wheel-canvas {
             display: block;
             margin: 0 auto;
@@ -309,6 +316,37 @@
             border-radius: 20px;
             font-size: 11px;
             font-weight: bold;
+        }
+        .sound-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.2s;
+        }
+        .sound-btn:hover {
+            transform: scale(1.05);
+            background: rgba(0,0,0,0.8);
+        }
+        @media (max-width: 768px) {
+            .sound-btn {
+                bottom: 70px;
+                right: 10px;
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -346,7 +384,130 @@
         <button class="nav-btn" data-module="settings"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 5v2M12 17v2M5 12H3M7 12H5M19 12h2M17 12h2M8.5 8.5l-1-1M15.5 15.5l1 1M15.5 8.5l1-1M8.5 15.5l-1 1"/></svg><span>Настройки</span></button>
     </div>
 
+    <!-- Кнопка включения/выключения звука -->
+    <div id="soundToggleBtn" class="sound-btn" title="Вкл/Выкл звук">🔊</div>
+
 <script>
+    // ==================== ЗВУКИ И МУЗЫКА ====================
+    let soundEnabled = localStorage.getItem('axis_sound_enabled') !== 'false';
+    let currentAudio = null;
+    
+    // Функция воспроизведения короткого звука клика
+    function playClickSound() {
+        if (!soundEnabled) return;
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.value = 880;
+            gainNode.gain.value = 0.15;
+            oscillator.type = 'sine';
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
+            oscillator.stop(audioCtx.currentTime + 0.3);
+            audioCtx.close();
+        } catch(e) { console.log('Audio not supported'); }
+    }
+    
+    // Функция воспроизведения фоновой музыки для каждой вкладки
+    let bgmInterval = null;
+    let currentBGMOffset = 0;
+    
+    function stopBGM() {
+        if (bgmInterval) {
+            clearInterval(bgmInterval);
+            bgmInterval = null;
+        }
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+    }
+    
+    function playBGMForModule(moduleName) {
+        if (!soundEnabled) return;
+        stopBGM();
+        
+        // Создаем генератор звука для фона
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const gainNode = audioCtx.createGain();
+            gainNode.connect(audioCtx.destination);
+            gainNode.gain.value = 0.08;
+            
+            let startTime = audioCtx.currentTime;
+            let frequency = 0;
+            
+            switch(moduleName) {
+                case 'recipe':
+                    frequency = 174.61; // F3 - теплый, кулинарный
+                    break;
+                case 'health':
+                    frequency = 440; // A4 - чистый, медицинский
+                    break;
+                case 'wheel':
+                    frequency = 311.13; // Eb4 - игривый
+                    break;
+                default:
+                    frequency = 261.63; // C4
+            }
+            
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = frequency;
+            oscillator.connect(gainNode);
+            oscillator.start();
+            
+            currentAudio = { ctx: audioCtx, osc: oscillator, gain: gainNode };
+            
+            // Мягкое затухание через 30 секунд
+            setTimeout(() => {
+                if (currentAudio && currentAudio.gain) {
+                    currentAudio.gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3);
+                    setTimeout(() => {
+                        if (currentAudio && currentAudio.osc) {
+                            currentAudio.osc.stop();
+                            currentAudio.ctx.close();
+                            currentAudio = null;
+                        }
+                    }, 3000);
+                }
+            }, 28000);
+            
+        } catch(e) { console.log('BGM not supported'); }
+    }
+    
+    // Кнопка включения/выключения звука
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('axis_sound_enabled', soundEnabled);
+        const btn = document.getElementById('soundToggleBtn');
+        if (btn) {
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
+        if (!soundEnabled) {
+            stopBGM();
+        } else {
+            // Перезапускаем музыку для текущего модуля
+            const activeModule = document.querySelector('.module.active-module')?.id;
+            if (activeModule) {
+                const moduleName = activeModule.replace('module', '').toLowerCase();
+                playBGMForModule(moduleName);
+            }
+        }
+    }
+    
+    // Обновляем кнопку при загрузке
+    function updateSoundButton() {
+        const btn = document.getElementById('soundToggleBtn');
+        if (btn) {
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
+    }
+    
+    // ==================== ОСТАЛЬНОЙ КОД ====================
     let currentLang = localStorage.getItem('axis_lang') || 'ru';
     const translations = {
         ru: { recipeTitle: "Рецепты для блюд", healthTitle: "Здоровье и лекарства", wheelTitle: "Колесо решений", settingsTitle: "Настройки", findRecipes: "Найти", noRecipes: "Нет рецептов", addMeds: "Добавить лекарство", name: "Название", dosage: "Дозировка", freq: "Раз/день", addBtn: "Добавить", stockLeft: "Осталось", doses: "доз", spin: "Крутить!", winner: "Победитель", langLabel: "Язык", install: "Установить", voiceInput: "🎤 Голосом", manualAdd: "➕ Добавить продукт", stepByStep: "Пошагово", timerMin: "мин", startTimer: "Старт", takeDose: "Принять", whatIs: "Что это?", close: "Закрыть", tipTitle: "✨ Совет дня", tipBased: "Рекомендация по вашим продуктам:", exactMatches: "✅ Точные совпадения", suggestions: "💡 Предложенные рецепты", missing: "Не хватает:" },
@@ -354,7 +515,15 @@
         en: { recipeTitle: "Recipes for dishes", healthTitle: "Health Guard", wheelTitle: "Decision Wheel", settingsTitle: "Settings", findRecipes: "Find", noRecipes: "No recipes", addMeds: "Add medicine", name: "Name", dosage: "Dosage", freq: "Times/day", addBtn: "Add", stockLeft: "Stock", doses: "doses", spin: "Spin!", winner: "Winner", langLabel: "Language", install: "Install", voiceInput: "🎤 Voice", manualAdd: "➕ Add item", stepByStep: "Step by step", timerMin: "min", startTimer: "Start", takeDose: "Take", whatIs: "Info", close: "Close", tipTitle: "✨ Tip of day", tipBased: "Recommendation based on your items:", exactMatches: "✅ Exact matches", suggestions: "💡 Suggested recipes", missing: "Missing:" }
     };
     function t(key) { return translations[currentLang][key] || key; }
-    function haptic() { if(navigator.vibrate) navigator.vibrate(12); }
+    
+    // Переопределяем haptic с добавлением звука
+    const originalHaptic = function() { if(navigator.vibrate) navigator.vibrate(12); };
+    function enhancedHaptic() { 
+        originalHaptic(); 
+        playClickSound(); 
+    }
+    window.haptic = enhancedHaptic;
+    function haptic() { enhancedHaptic(); }
 
     function loadAllAds() {
         const saved = localStorage.getItem('axis_ads_full');
@@ -418,6 +587,8 @@
         else if(module === 'wheel') gradientDiv.className = 'bg-wheel';
         else gradientDiv.className = 'bg-settings';
         generateFloatingItems(module);
+        // Запускаем фоновую музыку для модуля
+        playBGMForModule(module);
     }
 
     let userIngredients = JSON.parse(localStorage.getItem('axis_user_ings')) || [];
@@ -430,6 +601,7 @@
         { name: "Яйца пашот", ings: ["яйца","соль"], steps: ["Довести воду до кипения","Добавить уксус (по желанию)","Разбить яйцо в воду","Варить 3-4 минуты"], time: 8, tip: "Вода не должна сильно кипеть" },
         { name: "Омлет с сыром", ings: ["яйца","молоко","сыр","соль","масло"], steps: ["Взбить яйца с молоком","Натереть сыр","Смешать и вылить на сковороду","Жарить 3-4 минуты"], time: 8, tip: "Сыр добавит сливочный вкус" },
         { name: "Яичница с помидорами", ings: ["яйца","помидоры","масло","соль"], steps: ["Нарезать помидоры","Обжарить их на масле","Разбить яйца","Жарить 3 минуты"], time: 8, tip: "Помидоры можно почистить" },
+        { name: "Бекон с яйцами", ings: ["бекон","яйца","масло","соль"], steps: ["Пожарить бекон","Разбить яйца","Жарить 3 минуты"], time: 10, tip: "Хрустящий бекон идеален" },
         
         // Картофельные блюда
         { name: "Картофель фри", ings: ["картофель","масло","соль"], steps: ["Нарезать картофель брусочками","Обжарить в большом количестве масла","Посолить"], time: 20, tip: "Промойте картофель от крахмала" },
@@ -441,20 +613,15 @@
         // Супы
         { name: "Грибной суп", ings: ["грибы","картофель","лук","морковь","соль"], steps: ["Отварить картофель","Обжарить грибы с луком","Смешать и варить 10 минут"], time: 40, tip: "Добавьте зелень" },
         { name: "Куриный суп", ings: ["курица","картофель","морковь","лук","соль"], steps: ["Сварить бульон из курицы","Добавить нарезанные овощи","Варить 30 минут"], time: 50, tip: "Снимите пену при закипании" },
-        { name: "Суп с лапшой", ings: ["курица","лапша","морковь","лук","соль"], steps: ["Сварить куриный бульон","Добавить нарезанные овощи","Добавить лапшу","Варить 10 минут"], time: 40, tip: "Не переварите лапшу" },
         
         // Салаты
         { name: "Греческий салат", ings: ["помидоры","огурцы","сыр","оливки","масло"], steps: ["Нарезать овощи","Добавить сыр и оливки","Заправить маслом"], time: 7, tip: "Оливки придают пикантность" },
         { name: "Овощной салат", ings: ["помидоры","огурцы","лук","масло","соль"], steps: ["Нарезать все овощи","Посолить","Заправить маслом"], time: 5, tip: "Свежие овощи самые вкусные" },
-        { name: "Салат из капусты", ings: ["капуста","морковь","масло","соль"], steps: ["Нашинковать капусту","Натереть морковь","Заправить маслом и солью"], time: 10, tip: "Помните капусту руками" },
-        { name: "Оливье", ings: ["картофель","морковь","огурцы","яйца","колбаса","майонез"], steps: ["Отварить овощи и яйца","Нарезать все кубиками","Заправить майонезом"], time: 40, tip: "Остудите все ингредиенты" },
         
         // Мясные блюда
         { name: "Курица с рисом", ings: ["курица","рис","лук","морковь","соль"], steps: ["Обжарить курицу","Добавить лук, морковь","Добавить рис и воду","Тушить 20 минут"], time: 35, tip: "Используйте куриный бульон" },
-        { name: "Куриные грудки", ings: ["курица","масло","соль","перец"], steps: ["Нагреть масло","Обжарить грудки с двух сторон","Довести до готовности", time: 15, tip: "Не пересушите курицу" },
+        { name: "Куриные грудки", ings: ["курица","масло","соль","перец"], steps: ["Нагреть масло","Обжарить грудки с двух сторон","Довести до готовности"], time: 15, tip: "Не пересушите курицу" },
         { name: "Плов", ings: ["курица","рис","морковь","лук","чеснок","специи"], steps: ["Обжарить курицу","Добавить овощи","Добавить рис и воду","Тушить 30 минут"], time: 50, tip: "Не перемешивайте во время варки" },
-        { name: "Бефстроганов", ings: ["говядина","лук","сметана","мука","масло"], steps: ["Нарезать мясо соломкой","Обжарить с луком","Добавить сметану","Тушить 15 минут"], time: 30, tip: "Подавайте с гарниром" },
-        { name: "Котлеты", ings: ["фарш","лук","яйца","хлеб","соль","перец"], steps: ["Смешать фарш с луком и яйцом","Добавить размоченный хлеб","Сформировать котлеты","Обжарить с двух сторон"], time: 25, tip: "Обваливайте в панировке" },
         
         // Выпечка и завтраки
         { name: "Блины", ings: ["молоко","яйца","мука","сахар","соль","масло"], steps: ["Смешать все ингредиенты","Жарить на разогретой сковороде","Смазывать маслом"], time: 20, tip: "Тесто должно быть жидким" },
@@ -464,22 +631,16 @@
         // Гарниры
         { name: "Рис отварной", ings: ["рис","соль","масло"], steps: ["Промыть рис","Залить водой 1:2","Варить 15 минут","Добавить масло"], time: 20, tip: "Не перемешивайте при варке" },
         { name: "Гречка с грибами", ings: ["гречка","грибы","лук","масло"], steps: ["Отварить гречку","Обжарить грибы с луком","Смешать"], time: 25, tip: "Добавьте сливочное масло" },
-        { name: "Макароны с сыром", ings: ["макароны","сыр","молоко","масло"], steps: ["Сварить макароны","Растопить сыр с молоком","Смешать"], time: 15, tip: "С пармезаном вкуснее" },
+        { name: "Макароны с сыром", ings: ["макароны","сыр","молоко"], steps: ["Сварить макароны","Растопить сыр с молоком","Смешать"], time: 15, tip: "С пармезаном вкуснее" },
         { name: "Запечённые овощи", ings: ["картофель","морковь","кабачки","масло","соль"], steps: ["Нарезать овощи","Смешать с маслом","Запечь в духовке 30 минут"], time: 40, tip: "Нарежьте одинаковыми кусочками" },
         
         // Рыбные блюда
         { name: "Рыбный стейк", ings: ["рыба","лимон","масло","соль"], steps: ["Посолить рыбу","Обжарить на масле","Сбрызнуть лимоном"], time: 12, tip: "Лимон усиляет вкус" },
         { name: "Запечённая рыба", ings: ["рыба","лимон","масло","соль","специи"], steps: ["Натереть рыбу специями","Полить маслом","Запечь 20 минут","Подавать с лимоном"], time: 25, tip: "Запекайте в фольге" },
-        { name: "Рыбные котлеты", ings: ["рыба","яйца","хлеб","лук"], steps: ["Пропустить рыбу через мясорубку","Добавить яйцо и хлеб","Сформировать котлеты","Обжарить"], time: 25, tip: "Добавьте зелень" },
         
-        // Закуски и бутерброды
+        // Закуски
         { name: "Сэндвич с курицей", ings: ["хлеб","курица","помидоры","листья салата","майонез"], steps: ["Поджарить хлеб","Выложить курицу, овощи","Добавить соус"], time: 6, tip: "Добавьте соус" },
-        { name: "Горячие бутерброды", ings: ["хлеб","сыр","колбаса","масло"], steps: ["Нарезать хлеб","Выложить сыр и колбасу","Запечь в духовке 5 минут"], time: 10, tip: "Подавать горячими" },
-        { name: "Бутерброд с маслом и сыром", ings: ["хлеб","масло","сыр"], steps: ["Намазать хлеб маслом","Положить сыр"], time: 2, tip: "Используйте сливочное масло" },
-        
-        // Соусы
-        { name: "Сметанный соус", ings: ["сметана","чеснок","укроп","соль"], steps: ["Смешать сметану","Добавить мелко рубленный чеснок","Добавить зелень", time: 5, tip: "Охладите перед подачей" },
-        { name: "Сырный соус", ings: ["сыр","молоко","мука","масло"], steps: ["Растопить масло","Добавить муку","Влить молоко","Добавить сыр"], time: 10, tip: "Постоянно помешивайте" }
+        { name: "Горячие бутерброды", ings: ["хлеб","сыр","колбаса","масло"], steps: ["Нарезать хлеб","Выложить сыр и колбасу","Запечь в духовке 5 минут"], time: 10, tip: "Подавать горячими" }
     ];
 
     let medications = JSON.parse(localStorage.getItem('axis_meds')) || [];
@@ -547,18 +708,15 @@
     function renderRecipeModule() {
         let ingHtml = userIngredients.map((ing,i)=>`<span class="ingredient-tag">${ing} <button style="background:transparent; border:none; color:#ffaaa5;" data-rmidx="${i}">✖</button></span>`).join('');
         
-        // Разделяем рецепты на точные совпадения и предложения
         const exactMatches = [];
         const suggestions = [];
         
         for (let rec of fullRecipesDB) {
-            // Проверяем, есть ли все ингредиенты
             const hasAllIngredients = rec.ings.every(need => userIngredients.includes(need));
             
             if (hasAllIngredients) {
                 exactMatches.push(rec);
             } else {
-                // Проверяем, есть ли хотя бы один ингредиент из рецепта в списке пользователя
                 const hasAnyIngredient = rec.ings.some(need => userIngredients.includes(need));
                 if (hasAnyIngredient && userIngredients.length > 0) {
                     const missingIngredients = rec.ings.filter(need => !userIngredients.includes(need));
@@ -582,7 +740,7 @@
         let noRecipesHtml = '';
         if (exactMatches.length === 0 && suggestions.length === 0 && userIngredients.length === 0) {
             noRecipesHtml = `<div class="glass-card" style="padding:1rem">✨ Добавьте продукты голосом или вручную ✨</div>`;
-        } else if (exactMatches.length === 0 && suggestions.length === 1 && userIngredients.length > 0) {
+        } else if (exactMatches.length === 0 && suggestions.length === 0 && userIngredients.length > 0) {
             noRecipesHtml = `<div class="glass-card" style="padding:1rem">😕 Нет рецептов, совместимых с вашими продуктами</div>`;
         }
 
@@ -733,9 +891,18 @@
         setBackgroundTheme(moduleId);
         if(moduleId === 'wheel' && wheelCanvas) drawWheelFull();
         haptic();
+        // Меняем фоновую музыку при смене модуля
+        playBGMForModule(moduleId);
     }
     
-    document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchModule(btn.dataset.module)));
+    document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{
+        const moduleName = btn.dataset.module;
+        switchModule(moduleName);
+    }));
+    
+    // Инициализация кнопки звука
+    document.getElementById('soundToggleBtn')?.addEventListener('click', toggleSound);
+    updateSoundButton();
     
     if('serviceWorker' in navigator) { 
         const swBlob = new Blob([`self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>new Response("AXIS offline",{status:200}))))`], {type:'application/javascript'}); 
