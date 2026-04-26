@@ -114,12 +114,29 @@
             z-index: 2;
         }
 
+        /* Рекламные контейнеры */
         .ad-container {
             text-align: center;
             margin: 10px 0;
             padding: 5px;
             background: rgba(0,0,0,0.2);
             border-radius: 16px;
+        }
+        
+        /* Боковые рекламы для ПК */
+        .ad-side {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 160px;
+            z-index: 90;
+            display: none;
+        }
+        .ad-left { left: 10px; }
+        .ad-right { right: 10px; }
+        
+        @media (min-width: 1200px) {
+            .ad-side { display: block; }
         }
 
         .bottom-nav {
@@ -288,17 +305,34 @@
     </style>
 </head>
 <body>
+    <!-- Боковые рекламные блоки для ПК -->
+    <div id="adLeft1" class="ad-side ad-left" style="top: 30%;"></div>
+    <div id="adLeft2" class="ad-side ad-left" style="top: 65%;"></div>
+    <div id="adRight1" class="ad-side ad-right" style="top: 30%;"></div>
+    <div id="adRight2" class="ad-side ad-right" style="top: 65%;"></div>
+
     <div id="dynamicBgGradient" class="bg-recipe"></div>
     <div id="floatingContainer" class="floating-bg bg-recipe-floating"></div>
 
-    <!-- Рекламные контейнеры -->
+    <!-- Верхний рекламный контейнер -->
     <div id="axisAdTop" class="ad-container" style="max-width: 560px; margin: 10px auto;"></div>
 
     <div class="app-container">
+        <!-- Мобильная реклама между модулями -->
+        <div id="adMobile1" class="ad-container"></div>
+        
         <div id="moduleRecipe" class="module active-module"></div>
+        
+        <div id="adMobile2" class="ad-container"></div>
+        
         <div id="moduleHealth" class="module"></div>
         <div id="moduleWheel" class="module"></div>
         <div id="moduleSettings" class="module"></div>
+        
+        <!-- Нижние рекламные блоки -->
+        <div id="adFooter1" class="ad-container"></div>
+        <div id="adFooter2" class="ad-container"></div>
+        <div id="adFooter3" class="ad-container"></div>
     </div>
 
     <div class="bottom-nav">
@@ -319,16 +353,37 @@
     function t(key) { return translations[currentLang][key] || key; }
     function haptic() { if(navigator.vibrate) navigator.vibrate(12); }
 
-    // ========== РЕКЛАМА И СТАТИСТИКА ==========
-    function loadAds() {
-        const saved = localStorage.getItem('axis_ads');
+    // ========== РЕКЛАМА (ПОЛНАЯ ПОДДЕРЖКА АДМИНКИ) ==========
+    function loadAllAds() {
+        const saved = localStorage.getItem('axis_ads_full');
+        let ads = {
+            pcLeft1: '', pcLeft2: '', pcRight1: '', pcRight2: '',
+            mobile1: '', mobile2: '', footer1: '', footer2: '', footer3: ''
+        };
         if (saved) {
             try {
-                const ads = JSON.parse(saved);
-                const topAd = document.getElementById('axisAdTop');
-                if (topAd && ads.top) topAd.innerHTML = ads.top;
+                ads = { ...ads, ...JSON.parse(saved) };
             } catch(e) {}
         }
+        
+        // Боковые рекламы (ПК)
+        document.getElementById('adLeft1').innerHTML = ads.pcLeft1 || '';
+        document.getElementById('adLeft2').innerHTML = ads.pcLeft2 || '';
+        document.getElementById('adRight1').innerHTML = ads.pcRight1 || '';
+        document.getElementById('adRight2').innerHTML = ads.pcRight2 || '';
+        
+        // Мобильные рекламы
+        document.getElementById('adMobile1').innerHTML = ads.mobile1 || '';
+        document.getElementById('adMobile2').innerHTML = ads.mobile2 || '';
+        
+        // Нижние рекламы
+        document.getElementById('adFooter1').innerHTML = ads.footer1 || '';
+        document.getElementById('adFooter2').innerHTML = ads.footer2 || '';
+        document.getElementById('adFooter3').innerHTML = ads.footer3 || '';
+        
+        // Верхняя реклама (старый формат для совместимости)
+        const topAd = document.getElementById('axisAdTop');
+        if (topAd && ads.top) topAd.innerHTML = ads.top;
     }
     
     function updateStats() {
@@ -344,10 +399,11 @@
     }
     
     window.addEventListener('storage', (e) => {
-        if (e.key === 'axis_ads') loadAds();
+        if (e.key === 'axis_ads_full') loadAllAds();
+        if (e.key === 'axis_ads') loadAllAds();
     });
     
-    loadAds();
+    loadAllAds();
     updateStats();
 
     // ========== ЛЕТАЮЩИЕ ЭЛЕМЕНТЫ ==========
