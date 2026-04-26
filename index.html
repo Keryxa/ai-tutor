@@ -3,509 +3,599 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AI Tutor — Персональный репетитор на основе ИИ</title>
-    <meta name="description" content="Бесплатный AI-репетитор по математике, физике, русскому языку. Объясняет сложные темы простым языком.">
-    <meta name="keywords" content="AI tutor, репетитор, искусственный интеллект, обучение, нейросеть">
-    <meta name="theme-color" content="#0a0f1a">
+    <title>AXIS — Умный ассистент | Рецепты, Здоровье, Выбор</title>
+    <meta name="description" content="AXIS - все-в-одном помощник: рецепты из продуктов, трекер лекарств и колесо решений. Работает офлайн.">
+    <meta name="keywords" content="рецепты, трекер лекарств, колесо решений, голосовой ввод, PWA">
+    <meta name="theme-color" content="#0a0c12">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a0f1a 0%, #0f1622 100%);
-            color: #eef2ff;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             min-height: 100vh;
+            color: #f0f3fa;
+            overflow-x: hidden;
+            padding-bottom: 85px;
         }
 
-        /* Рекламные контейнеры */
-        .ad-container {
-            text-align: center;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
+        /* ========== ТЕМАТИЧЕСКИЕ ФОНЫ С ЛЕТАЮЩИМИ ЭЛЕМЕНТАМИ ========== */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
             overflow: hidden;
-            margin: 20px 0;
-        }
-        .ad-top {
-            max-width: 1200px;
-            margin: 10px auto;
-        }
-        .ad-sidebar {
-            margin-bottom: 20px;
-        }
-        .ad-footer {
-            margin-top: 30px;
-        }
-        .ad-empty {
-            padding: 12px;
-            background: #1e2434;
-            border-radius: 8px;
-            color: #6b7280;
-            font-size: 12px;
-            text-align: center;
         }
 
-        .container {
-            max-width: 1300px;
+        .floating-item {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.25;
+            animation: floatAround 20s infinite ease-in-out;
+            pointer-events: none;
+            filter: blur(0.8px);
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
+            25% { transform: translate(30px, -40px) rotate(10deg); opacity: 0.3; }
+            50% { transform: translate(-20px, -70px) rotate(-5deg); opacity: 0.25; }
+            75% { transform: translate(40px, -20px) rotate(8deg); opacity: 0.2; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.15; }
+        }
+
+        /* Фон для рецептов: фрукты, салаты, блюда */
+        .bg-recipe-floating .floating-item { animation-duration: 18s; }
+        /* Фон для здоровья: таблетки, шприцы, капли */
+        .bg-health-floating .floating-item { animation-duration: 22s; }
+        /* Фон для колеса: блокноты, рестораны, кино */
+        .bg-wheel-floating .floating-item { animation-duration: 25s; }
+
+        /* Базовый градиентный фон под летающими элементами */
+        .bg-recipe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, #1a2a2f, #051015);
+        }
+        .bg-health {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 70% 20%, #1e2a3a, #0a0f1c);
+        }
+        .bg-wheel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at 40% 50%, #261c2c, #0a0710);
+        }
+        .bg-settings {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at 80% 40%, #2c2638, #0b0812);
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(20, 26, 38, 0.65);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.45);
+            transition: transform 0.25s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .app-container {
+            max-width: 560px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 1rem 1rem 0.5rem;
+            position: relative;
+            z-index: 2;
         }
 
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(120deg, #1e293b, #0f172a);
-            border-radius: 24px;
-            margin-bottom: 30px;
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 12, 22, 0.92);
+            backdrop-filter: blur(28px);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.7rem 1rem 1.2rem;
+            border-top: 1px solid rgba(255,255,210,0.2);
+            z-index: 100;
         }
-
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 24px;
-        }
-
-        .sidebar {
-            background: rgba(30, 36, 52, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .chat-area {
-            background: rgba(30, 36, 52, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+        .nav-btn {
+            background: transparent;
+            border: none;
             display: flex;
             flex-direction: column;
-            height: 70vh;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #a8b2e0;
+            transition: 0.2s;
+            padding: 6px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .nav-btn.active {
+            color: #c3ffcf;
+            background: rgba(100, 210, 150, 0.2);
+        }
+        .nav-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.6;
+        }
+        .module {
+            display: none;
+            animation: fadeRise 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        }
+        .module.active-module {
+            display: block;
+        }
+        @keyframes fadeRise {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        button, .clickable { cursor: pointer; transition: all 0.15s; }
+        button:active { transform: scale(0.96); }
+        input, textarea {
+            background: rgba(30, 36, 55, 0.85);
+            border: 1px solid rgba(255,255,240,0.25);
+            border-radius: 2rem;
+            padding: 12px 18px;
+            color: white;
+            font-size: 0.95rem;
+            width: 100%;
         }
-
-        .message {
-            display: flex;
-            gap: 12px;
-            max-width: 85%;
+        .voice-row { display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap; }
+        .ingredient-tag {
+            background: rgba(60, 85, 110, 0.8);
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(4px);
         }
-
-        .user-message {
-            align-self: flex-end;
-            flex-direction: row-reverse;
+        .recipe-card {
+            background: rgba(28, 34, 50, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #6fcf97;
         }
-
-        .message-content {
-            background: #1e293b;
-            padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.5;
+        .med-item {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 1.4rem;
+            padding: 1rem;
+            margin: 0.8rem 0;
         }
-
-        .user-message .message-content {
-            background: #3b82f6;
+        .stock-bar {
+            height: 8px;
+            background: #2a2f44;
+            border-radius: 20px;
+            overflow: hidden;
         }
-
-        .avatar {
+        .stock-fill { height: 100%; background: #55d48e; transition: width 0.2s; }
+        .stock-fill.low { background: #e35f5f; }
+        .primary {
+            background: linear-gradient(115deg, #3a6f8f, #2a5775);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+        .info-btn {
+            background: #4b5e77;
+            border-radius: 50%;
             width: 36px;
             height: 36px;
-            border-radius: 50%;
-            background: #3b82f6;
+            font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        h2 { font-weight: 600; letter-spacing: -0.3px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .modal-help {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(16px);
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
         }
-
-        .user-message .avatar {
-            background: #10b981;
+        .modal-content {
+            max-width: 340px;
+            background: rgba(25,30,44,0.95);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,200,0.3);
         }
-
-        .input-area {
-            padding: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            gap: 12px;
+        .recommendation-card {
+            background: rgba(90, 140, 120, 0.3);
+            padding: 12px;
+            border-radius: 1rem;
+            margin-top: 12px;
+            border-left: 3px solid gold;
         }
-
-        input {
-            flex: 1;
-            padding: 12px 18px;
-            border-radius: 30px;
-            border: none;
-            background: #1e293b;
-            color: white;
-            font-size: 16px;
+        .wheel-canvas {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1/1;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
         }
-
-        button {
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: none;
-            background: #3b82f6;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        button:active {
-            transform: scale(0.97);
-        }
-
-        .subject-btn {
-            background: #2d3748;
-            padding: 10px 16px;
-            margin: 5px;
-            font-size: 14px;
-        }
-
-        .subject-btn.active {
-            background: #3b82f6;
-        }
-
-        .subjects {
-            margin-bottom: 20px;
-        }
-
-        .typing {
-            opacity: 0.7;
-            font-style: italic;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            .ad-sidebar {
-                display: none;
-            }
-            .message {
-                max-width: 95%;
-            }
-        }
-
-        .clear-btn {
-            background: #ef4444;
-            margin-top: 10px;
-        }
-
-        .stat-badge {
-            font-size: 12px;
-            color: #60a5fa;
-            margin-top: 10px;
-            text-align: center;
-        }
+        .mt-2 { margin-top: 12px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Верхний рекламный блок -->
-        <div id="adTop" class="ad-container ad-top"></div>
+    <!-- Динамические фоны с летающими элементами -->
+    <div id="dynamicBgGradient" class="bg-recipe"></div>
+    <div id="floatingContainer" class="floating-bg bg-recipe-floating"></div>
 
-        <header>
-            <h1>🤖 AI Tutor</h1>
-            <p>Персональный репетитор на основе нейросети. Задай любой вопрос!</p>
-        </header>
-
-        <div class="main-grid">
-            <div class="sidebar">
-                <h3>📚 Предметы</h3>
-                <div class="subjects" id="subjects">
-                    <button class="subject-btn" data-subject="math">📐 Математика</button>
-                    <button class="subject-btn" data-subject="physics">⚡ Физика</button>
-                    <button class="subject-btn" data-subject="russian">📖 Русский язык</button>
-                    <button class="subject-btn" data-subject="general">💡 Общие вопросы</button>
-                </div>
-                
-                <!-- Боковой рекламный блок -->
-                <div id="adSidebar" class="ad-container ad-sidebar"></div>
-                
-                <button id="clearChat" class="clear-btn">🗑️ Очистить чат</button>
-                <div class="stat-badge" id="visitCounter">Загрузка...</div>
-            </div>
-
-            <div class="chat-area">
-                <div class="messages" id="messages">
-                    <div class="message">
-                        <div class="avatar">🤖</div>
-                        <div class="message-content">Привет! Я AI Tutor. Задай любой вопрос по учёбе, и я помогу разобраться. Выбери предмет или просто напиши свой вопрос.</div>
-                    </div>
-                </div>
-                <div class="input-area">
-                    <input type="text" id="questionInput" placeholder="Спроси меня о чём угодно...">
-                    <button id="sendBtn">Отправить</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Нижний рекламный блок -->
-        <div id="adFooter" class="ad-container ad-footer"></div>
-
-        <footer>
-            <p>AI Tutor — бесплатный образовательный помощник. Ответы генерируются искусственным интеллектом.</p>
-        </footer>
+    <div class="app-container">
+        <div id="moduleRecipe" class="module active-module"></div>
+        <div id="moduleHealth" class="module"></div>
+        <div id="moduleWheel" class="module"></div>
+        <div id="moduleSettings" class="module"></div>
     </div>
 
-    <script>
-        // ----- РЕКЛАМНАЯ СИСТЕМА (синхронизация с админкой) -----
-        let adCodes = {
-            top: '',
-            sidebar: '',
-            footer: ''
+    <div class="bottom-nav">
+        <button class="nav-btn" data-module="recipe"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 6h18M9 12h6M12 3v18M8 3h8M4 3h2M18 3h2M6 21h12M4 18h16" stroke-linecap="round"/><circle cx="12" cy="12" r="2"/></svg><span>Рецепты</span></button>
+        <button class="nav-btn" data-module="health"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 12H4M12 4v16M8 8l-2 2 2 2M16 8l2 2-2 2"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>Здоровье</span></button>
+        <button class="nav-btn" data-module="wheel"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><path d="M12 12l2 2"/></svg><span>Колесо</span></button>
+        <button class="nav-btn" data-module="settings"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 5v2M12 17v2M5 12H3M7 12H5M19 12h2M17 12h2M8.5 8.5l-1-1M15.5 15.5l1 1M15.5 8.5l1-1M8.5 15.5l-1 1"/></svg><span>Настройки</span></button>
+    </div>
+
+<script>
+    // ==================== I18N & STORAGE ====================
+    let currentLang = localStorage.getItem('axis_lang') || 'ru';
+    const translations = {
+        ru: { recipeTitle: "Рецепты под продукты", healthTitle: "Здоровье и лекарства", wheelTitle: "Колесо решений", settingsTitle: "Настройки", findRecipes: "Найти", noRecipes: "Нет рецептов", addMeds: "Добавить лекарство", name: "Название", dosage: "Дозировка", freq: "Раз/день", addBtn: "Добавить", stockLeft: "Осталось", doses: "доз", spin: "Крутить!", winner: "Победитель", langLabel: "Язык", install: "Установить", voiceInput: "🎤 Голосом", manualAdd: "➕ Добавить продукт", stepByStep: "Пошагово", timerMin: "мин", startTimer: "Старт", takeDose: "Принять", whatIs: "Что это?", close: "Закрыть", tipTitle: "✨ Совет дня", tipBased: "Рекомендация по вашим продуктам:" },
+        uk: { recipeTitle: "Рецепти з продуктів", healthTitle: "Трекер ліків", wheelTitle: "Колесо рішень", settingsTitle: "Налаштування", findRecipes: "Знайти", noRecipes: "Немає рецептів", addMeds: "Додати ліки", name: "Назва", dosage: "Дозування", freq: "Раз/день", addBtn: "Додати", stockLeft: "Залишилось", doses: "доз", spin: "Крутити!", winner: "Переможець", langLabel: "Мова", install: "Встановити", voiceInput: "🎤 Голосом", manualAdd: "➕ Додати продукт", stepByStep: "Покроково", timerMin: "хв", startTimer: "Старт", takeDose: "Прийняти", whatIs: "Що це?", close: "Закрити", tipTitle: "✨ Порада дня", tipBased: "Рекомендація за вашими продуктами:" },
+        en: { recipeTitle: "Fridge Recipe Finder", healthTitle: "Health Guard", wheelTitle: "Decision Wheel", settingsTitle: "Settings", findRecipes: "Find", noRecipes: "No recipes", addMeds: "Add medicine", name: "Name", dosage: "Dosage", freq: "Times/day", addBtn: "Add", stockLeft: "Stock", doses: "doses", spin: "Spin!", winner: "Winner", langLabel: "Language", install: "Install", voiceInput: "🎤 Voice", manualAdd: "➕ Add item", stepByStep: "Step by step", timerMin: "min", startTimer: "Start", takeDose: "Take", whatIs: "Info", close: "Close", tipTitle: "✨ Tip of day", tipBased: "Recommendation based on your items:" }
+    };
+    function t(key) { return translations[currentLang][key] || key; }
+    function haptic() { if(navigator.vibrate) navigator.vibrate(12); }
+
+    // ========== ЛЕТАЮЩИЕ ЭЛЕМЕНТЫ ==========
+    const floatingSets = {
+        recipe: ['🍎', '🍊', '🍌', '🍉', '🍒', '🥑', '🥗', '🍳', '🍕', '🍝', '🥘', '🍲', '🍔', '🌮', '🥗', '🍣', '🍰'],
+        health: ['💊', '💉', '🩺', '🧪', '⚕️', '💊', '🩹', '🧴', '💊', '🔬', '💊', '🩸', '🧫', '💊'],
+        wheel: ['📓', '📝', '🍽️', '🍜', '🍷', '🎬', '🎭', '🏛️', '✈️', '🎡', '🏝️', '🎮', '🏀', '🎨', '☕', '🍸', '🎰']
+    };
+
+    function generateFloatingItems(moduleType) {
+        const container = document.getElementById('floatingContainer');
+        container.innerHTML = '';
+        container.className = `floating-bg bg-${moduleType}-floating`;
+        const icons = floatingSets[moduleType] || floatingSets.recipe;
+        for(let i = 0; i < 22; i++) {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.textContent = icons[Math.floor(Math.random() * icons.length)];
+            const size = 24 + Math.random() * 40;
+            item.style.fontSize = `${size}px`;
+            item.style.left = `${Math.random() * 100}%`;
+            item.style.top = `${Math.random() * 100}%`;
+            item.style.animationDelay = `${Math.random() * 15}s`;
+            item.style.animationDuration = `${15 + Math.random() * 20}s`;
+            item.style.opacity = 0.2 + Math.random() * 0.25;
+            container.appendChild(item);
+        }
+    }
+
+    function setBackgroundTheme(module) {
+        const gradientDiv = document.getElementById('dynamicBgGradient');
+        gradientDiv.className = '';
+        if(module === 'recipe') gradientDiv.className = 'bg-recipe';
+        else if(module === 'health') gradientDiv.className = 'bg-health';
+        else if(module === 'wheel') gradientDiv.className = 'bg-wheel';
+        else gradientDiv.className = 'bg-settings';
+        generateFloatingItems(module);
+    }
+
+    // ========== ДАННЫЕ ==========
+    let userIngredients = JSON.parse(localStorage.getItem('axis_user_ings')) || [];
+    const fullRecipesDB = [
+        { name: "Омлет", ings: ["яйца","молоко","соль"], steps: ["Взбить яйца с молоком","Посолить, жарить 3 минуты"], time: 5, tip: "Добавьте сыр для вкуса!" },
+        { name: "Греческий салат", ings: ["помидоры","огурцы","сыр","оливки","масло"], steps: ["Нарезать овощи","Добавить сыр","Заправить маслом"], time: 7, tip: "Оливки придают пикантность" },
+        { name: "Курица с рисом", ings: ["курица","рис","лук","морковь","соль"], steps: ["Обжарить курицу","Добавить лук, морковь","Добавить рис, тушить"], time: 30, tip: "Используйте куриный бульон" },
+        { name: "Сырники", ings: ["творог","яйца","мука","сахар"], steps: ["Смешать творог с яйцом","Добавить муку","Жарить до золотистого"], time: 15, tip: "Подавайте со сметаной" },
+        { name: "Грибной суп", ings: ["грибы","картофель","лук","морковь"], steps: ["Отварить картофель","Обжарить грибы с луком","Смешать"], time: 40, tip: "Добавьте зелень" },
+        { name: "Бекон с яйцами", ings: ["бекон","яйца","хлеб"], steps: ["Пожарить бекон","Поджарить яйца","Подавать с тостом"], time: 10, tip: "Хрустящий бекон" },
+        { name: "Макароны с сыром", ings: ["макароны","сыр","молоко"], steps: ["Сварить пасту","Растопить сыр с молоком","Смешать"], time: 15, tip: "С пармезаном вкуснее" },
+        { name: "Рыбный стейк", ings: ["рыба","лимон","масло","соль"], steps: ["Посолить рыбу","Обжарить на масле","Сбрызнуть лимоном"], time: 12, tip: "Лимон усиляет вкус" },
+        { name: "Овощное рагу", ings: ["кабачки","баклажаны","помидоры","лук","морковь"], steps: ["Нарезать овощи","Тушить 25 минут"], time: 25, tip: "Идеально с рисом" },
+        { name: "Сэндвич с курицей", ings: ["хлеб","курица","помидоры","листья салата"], steps: ["Поджарить хлеб","Выложить курицу, овощи"], time: 6, tip: "Добавьте соус" },
+        { name: "Рис с овощами", ings: ["рис","перец","кукуруза","морковь"], steps: ["Отварить рис","Обжарить овощи","Смешать"], time: 20, tip: "Соевый соус подойдет" },
+        { name: "Картофель фри", ings: ["картофель","масло","соль"], steps: ["Нарезать брусочками","Обжарить во фритюре"], time: 20, tip: "Дважды обжарьте" },
+        { name: "Креветки с чесноком", ings: ["креветки","чеснок","масло","лимон"], steps: ["Обжарить чеснок","Добавить креветки"], time: 8, tip: "Не пережарьте" },
+        { name: "Баклажанная икра", ings: ["баклажаны","помидоры","лук","чеснок"], steps: ["Запечь баклажаны","Потушить с овощами"], time: 35, tip: "Подавайте охлажденной" },
+        { name: "Гречка с грибами", ings: ["гречка","грибы","лук","масло"], steps: ["Отварить гречку","Обжарить грибы с луком","Смешать"], time: 25, tip: "Добавьте сливочное масло" }
+    ];
+
+    let medications = JSON.parse(localStorage.getItem('axis_meds')) || [];
+    let wheelOptions = JSON.parse(localStorage.getItem('axis_wheel_opts')) || ["Ресторан", "Кино", "Прогулка", "Домашний уют", "Путешествие"];
+    let wheelAngle = 0, spinning = false, animFrame = null, velocity = 0, wheelCtx = null, wheelCanvas = null;
+
+    function saveAll() { 
+        localStorage.setItem('axis_user_ings', JSON.stringify(userIngredients)); 
+        localStorage.setItem('axis_meds', JSON.stringify(medications)); 
+        localStorage.setItem('axis_wheel_opts', JSON.stringify(wheelOptions)); 
+        localStorage.setItem('axis_lang', currentLang); 
+    }
+
+    // ========== ПОМОЩЬ ==========
+    function showHelpModal(moduleName) {
+        let helpText = "";
+        if(moduleName === "recipe") helpText = "🍽️ РЕЦЕПТЫ: добавляйте продукты голосом или вручную. Система подберет блюда из ВАШИХ продуктов. Карточки содержат таймер и пошаговые инструкции.";
+        else if(moduleName === "health") helpText = "💊 ЗДОРОВЬЕ: добавляйте лекарства, указывайте дозировку. Каждый прием уменьшает запас. При остатке ≤3 доз шкала станет красной.";
+        else if(moduleName === "wheel") helpText = "🎡 КОЛЕСО РЕШЕНИЙ: настройте варианты, нажмите крутить. Реалистичная физика, конфетти и выбор победителя.";
+        else helpText = "⚙️ НАСТРОЙКИ: смена языка, установка PWA на домашний экран, автономная работа.";
+        const modalDiv = document.createElement('div'); modalDiv.className = 'modal-help';
+        modalDiv.innerHTML = `<div class="modal-content glass-card"><h3>❓ ${t('whatIs')}</h3><p style="margin: 12px 0;">${helpText}</p><button id="closeHelpBtn" class="primary" style="width:100%">${t('close')}</button></div>`;
+        document.body.appendChild(modalDiv);
+        document.getElementById('closeHelpBtn')?.addEventListener('click',()=>{ modalDiv.remove(); haptic(); });
+        haptic();
+    }
+
+    // ========== РЕЦЕПТЫ ==========
+    let recognition = null;
+    if('webkitSpeechRecognition' in window) { const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; recognition = new SpeechRecognition(); recognition.continuous = true; recognition.interimResults = true; recognition.lang = 'ru-RU'; }
+    
+    function startVoiceAdd() {
+        if(!recognition) { alert("Голосовое распознавание не поддерживается"); return; }
+        haptic();
+        recognition.start();
+        let statusSpan = document.getElementById('voiceStatusSpan');
+        if(statusSpan) statusSpan.innerText = "🎙️ Слушаю, называйте продукты...";
+        recognition.onresult = (event) => {
+            let final = "";
+            for(let i=0; i<event.results.length; i++) final += event.results[i][0].transcript;
+            if(statusSpan) statusSpan.innerText = `📝 ${final.slice(0,50)}`;
+            if(event.results[event.results.length-1].isFinal) {
+                let words = final.toLowerCase().split(/[ ,;]+/).filter(w => w.length>1 && !userIngredients.includes(w));
+                if(words.length) { userIngredients.push(...words); saveAll(); }
+                if(confirm(`Добавлены: ${words.join(', ') || 'ничего'}. Продолжить?`)) { recognition.stop(); renderRecipeModule(); }
+                else { recognition.start(); }
+            }
         };
+        recognition.onend = () => { if(statusSpan) statusSpan.innerText = ""; renderRecipeModule(); };
+    }
+    
+    function addManualProduct() { let inp = document.getElementById('manualProd'); if(inp.value.trim()) { userIngredients.push(inp.value.trim().toLowerCase()); saveAll(); inp.value=""; renderRecipeModule(); haptic(); } }
+    function removeIng(idx) { userIngredients.splice(idx,1); saveAll(); renderRecipeModule(); haptic(); }
 
-        function loadAds() {
-            const saved = localStorage.getItem('ai_tutor_ads');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.top !== undefined) adCodes.top = parsed.top;
-                    if (parsed.sidebar !== undefined) adCodes.sidebar = parsed.sidebar;
-                    if (parsed.footer !== undefined) adCodes.footer = parsed.footer;
-                } catch(e) {}
-            }
-            renderAds();
+    function showStepByStep(recipe) {
+        let stepIndex = 0, timerInt = null;
+        const modalDiv = document.createElement('div'); modalDiv.className='modal-help';
+        modalDiv.innerHTML = `<div class="modal-content glass-card" style="max-width:320px;"><h3>${recipe.name}</h3><div id="stepText" style="margin:12px 0;">${recipe.steps[0]}</div><div id="timerDisplay">⏲️ 00:00</div><div class="flex-between" style="margin-top:14px;"><button id="nextStepBtn">➡️ Следующий шаг</button><button id="startTimerBtn">⏵ ${t('startTimer')}</button><button id="closeStepModal">✖ Закрыть</button></div></div>`;
+        document.body.appendChild(modalDiv);
+        function updateStep() { document.getElementById('stepText').innerText = recipe.steps[stepIndex] || "✅ Готово!"; if(timerInt) clearInterval(timerInt); document.getElementById('timerDisplay').innerText = "⏲️ 00:00"; }
+        document.getElementById('nextStepBtn')?.addEventListener('click',()=>{ if(stepIndex+1<recipe.steps.length) stepIndex++; updateStep(); haptic(); });
+        document.getElementById('startTimerBtn')?.addEventListener('click',()=>{ haptic(); let mins=recipe.time, secs=0; if(timerInt) clearInterval(timerInt); timerInt = setInterval(()=>{ if(mins===0 && secs===0){ clearInterval(timerInt); document.getElementById('timerDisplay').innerText='✅ Время вышло!'; haptic();} else { if(secs===0){mins--; secs=59;}else secs--; document.getElementById('timerDisplay').innerHTML = `⏲️ ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; } },1000); });
+        document.getElementById('closeStepModal')?.addEventListener('click',()=>{ if(timerInt)clearInterval(timerInt); modalDiv.remove(); });
+        updateStep();
+    }
+
+    function renderRecipeModule() {
+        let ingHtml = userIngredients.map((ing,i)=>`<span class="ingredient-tag">${ing} <button style="background:transparent; border:none; color:#ffaaa5;" data-rmidx="${i}">✖</button></span>`).join('');
+        let matchedRecipes = fullRecipesDB.filter(rec => rec.ings.some(need => userIngredients.includes(need)));
+        let recipesHtml = matchedRecipes.map(rec => `<div class="recipe-card"><div class="flex-between"><strong>🍳 ${rec.name}</strong><span class="badge">⏱️ ${rec.time} ${t('timerMin')}</span></div><div style="font-size:0.75rem; margin:8px 0">📌 ${rec.ings.join(', ')}</div><div class="flex-between"><button class="stepsModalBtn" data-recipe='${JSON.stringify(rec)}'>📖 ${t('stepByStep')}</button><span style="font-size:11px;">✨ ${rec.tip}</span></div></div>`).join('');
+        if(matchedRecipes.length === 0 && userIngredients.length) recipesHtml = `<div class="glass-card" style="padding:1rem">😕 ${t('noRecipes')}, добавьте больше ингредиентов</div>`;
+        else if(userIngredients.length===0) recipesHtml = `<div class="glass-card" style="padding:1rem">✨ Добавьте продукты голосом или вручную ✨</div>`;
+
+        let recommendationHtml = "";
+        if(userIngredients.length>0 && matchedRecipes.length>0) {
+            recommendationHtml = `<div class="recommendation-card"><span>🌟 ${t('tipBased')}</span><div><strong>${matchedRecipes[0].name}</strong> — отличный выбор!</div></div>`;
         }
 
-        function renderAds() {
-            // Верхний блок
-            const adTop = document.getElementById('adTop');
-            if (adTop) {
-                if (adCodes.top && adCodes.top.trim()) {
-                    adTop.innerHTML = adCodes.top;
-                } else {
-                    adTop.innerHTML = '<div class="ad-empty">📢 Место для рекламы</div>';
-                }
-            }
-            // Боковой блок
-            const adSidebar = document.getElementById('adSidebar');
-            if (adSidebar) {
-                if (adCodes.sidebar && adCodes.sidebar.trim()) {
-                    adSidebar.innerHTML = adCodes.sidebar;
-                } else {
-                    adSidebar.innerHTML = '<div class="ad-empty">📢 Рекламный блок</div>';
-                }
-            }
-            // Нижний блок
-            const adFooter = document.getElementById('adFooter');
-            if (adFooter) {
-                if (adCodes.footer && adCodes.footer.trim()) {
-                    adFooter.innerHTML = adCodes.footer;
-                } else {
-                    adFooter.innerHTML = '<div class="ad-empty">📢 Рекламный блок</div>';
-                }
-            }
+        const container = document.getElementById('moduleRecipe');
+        container.innerHTML = `
+            <div class="glass-card" style="padding:1.2rem">
+                <h2>${t('recipeTitle')} <button class="info-btn" id="helpRecipeBtn">❔</button></h2>
+                <div class="voice-row"><input id="manualProd" placeholder="🍅 Добавить продукт" style="flex:1"><button class="primary" id="manualAddProdBtn">${t('manualAdd')}</button></div>
+                <div class="voice-row"><button id="voiceAddBtn" class="voice-btn">${t('voiceInput')}</button><span id="voiceStatusSpan" style="font-size:12px;"></span></div>
+                <div style="margin:12px 0; display:flex; flex-wrap:wrap; gap:8px;">${ingHtml || '<i>Список пуст</i>'}</div>
+                ${userIngredients.length ? `<button id="clearAllIngs" style="background:#4a3a44;">Очистить всё</button>` : ''}
+            </div>
+            ${recommendationHtml}
+            <div style="margin-top:12px;"><h3>🍲 Рецепты (${matchedRecipes.length})</h3>${recipesHtml}</div>
+        `;
+        document.getElementById('manualAddProdBtn')?.addEventListener('click', addManualProduct);
+        document.getElementById('voiceAddBtn')?.addEventListener('click', startVoiceAdd);
+        document.getElementById('clearAllIngs')?.addEventListener('click', ()=>{ userIngredients=[]; saveAll(); renderRecipeModule(); haptic(); });
+        document.getElementById('helpRecipeBtn')?.addEventListener('click', ()=>showHelpModal('recipe'));
+        document.querySelectorAll('[data-rmidx]').forEach(btn=>btn.addEventListener('click',(e)=>{ let idx = parseInt(btn.dataset.rmidx); removeIng(idx); }));
+        document.querySelectorAll('.stepsModalBtn').forEach(btn=>btn.addEventListener('click',(e)=>{ let rec = JSON.parse(btn.dataset.recipe); showStepByStep(rec); haptic(); }));
+    }
+
+    // ========== ЗДОРОВЬЕ ==========
+    function renderHealthModule() {
+        let medsHtml = medications.map((m,idx)=>`<div class="med-item"><div class="flex-between"><strong>💊 ${m.name}</strong><span>${m.dosage} | ${m.freq}x</span></div><div class="stock-bar"><div class="stock-fill ${m.stock<=3?'low':''}" style="width:${Math.min(100,(m.stock/30)*100)}%"></div></div><div>📦 ${t('stockLeft')}: ${m.stock} ${t('doses')}</div><div class="flex-between mt-2"><button class="takeMed" data-idx="${idx}">✅ ${t('takeDose')}</button><button class="delMed" data-idx="${idx}">🗑️</button></div></div>`).join('');
+        document.getElementById('moduleHealth').innerHTML = `<div class="glass-card" style="padding:1.4rem"><h2>${t('healthTitle')}<button class="info-btn" id="helpHealthBtn">❔</button></h2><input id="medNameIn" placeholder="${t('name')}"><input id="medDoseIn" placeholder="${t('dosage')}" class="mt-2"><input id="medFreqIn" type="number" placeholder="${t('freq')}" value="1" class="mt-2"><button id="addMedFinal" class="primary mt-2">➕ ${t('addBtn')}</button><div id="medListBlock" style="margin-top:18px;">${medsHtml || '<div>Нет лекарств</div>'}</div></div>`;
+        document.getElementById('addMedFinal')?.addEventListener('click',()=>{ let name=document.getElementById('medNameIn').value.trim(); let dose=document.getElementById('medDoseIn').value.trim(); let freq=parseInt(document.getElementById('medFreqIn').value)||1; if(name && dose){ medications.push({name, dosage:dose, freq, stock:30, initialStock:30}); saveAll(); renderHealthModule(); haptic(); } });
+        document.getElementById('helpHealthBtn')?.addEventListener('click',()=>showHelpModal('health'));
+        document.querySelectorAll('.takeMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; if(medications[i] && medications[i].stock>0){ medications[i].stock--; saveAll(); renderHealthModule(); haptic(); } }));
+        document.querySelectorAll('.delMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; medications.splice(i,1); saveAll(); renderHealthModule(); haptic(); }));
+    }
+
+    // ========== КОЛЕСО ==========
+    function drawWheelFull() { 
+        if(!wheelCanvas||!wheelCtx||wheelOptions.length===0) return; 
+        let angStep=Math.PI*2/wheelOptions.length; 
+        wheelCtx.clearRect(0,0,wheelCanvas.width,wheelCanvas.height); 
+        for(let i=0;i<wheelOptions.length;i++){ 
+            let start=wheelAngle+i*angStep,end=start+angStep; 
+            wheelCtx.beginPath(); 
+            wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,wheelCanvas.width/2,start,end); 
+            wheelCtx.lineTo(wheelCanvas.width/2,wheelCanvas.height/2); 
+            wheelCtx.fillStyle=`hsl(${(i*360/wheelOptions.length)+200},70%,55%)`; 
+            wheelCtx.fill(); 
+            wheelCtx.save(); 
+            wheelCtx.translate(wheelCanvas.width/2,wheelCanvas.height/2); 
+            wheelCtx.rotate(start+angStep/2); 
+            wheelCtx.fillStyle="white"; 
+            wheelCtx.font="bold 14px system-ui"; 
+            wheelCtx.fillText(wheelOptions[i], wheelCanvas.width/3.2, 8); 
+            wheelCtx.restore(); 
+        } 
+        wheelCtx.beginPath(); 
+        wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,14,0,2*Math.PI); 
+        wheelCtx.fillStyle="#151e2c"; 
+        wheelCtx.fill(); 
+        wheelCtx.beginPath(); 
+        wheelCtx.moveTo(wheelCanvas.width-12,wheelCanvas.height/2); 
+        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2-12); 
+        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2+12); 
+        wheelCtx.fillStyle="gold"; 
+        wheelCtx.fill(); 
+    }
+    
+    function triggerConfettiCanvas(){
+        let canv=document.createElement('canvas');
+        canv.style.position='fixed'; canv.style.top=0; canv.style.left=0; canv.style.width='100%'; canv.style.height='100%'; canv.style.pointerEvents='none'; canv.style.zIndex=2100;
+        document.body.appendChild(canv);
+        let ctxConf=canv.getContext('2d');
+        let ww=window.innerWidth,wh=window.innerHeight;
+        canv.width=ww; canv.height=wh;
+        let particles=[];
+        for(let i=0;i<110;i++) particles.push({x:Math.random()*ww,y:Math.random()*wh-80,size:4+Math.random()*7,spdY:2+Math.random()*8,color:`hsl(${Math.random()*360},75%,65%)`});
+        function animateConfetti(){ 
+            ctxConf.clearRect(0,0,ww,wh); 
+            let alive=false; 
+            for(let p of particles){ p.y+=p.spdY; if(p.y<wh+60)alive=true; ctxConf.fillStyle=p.color; ctxConf.fillRect(p.x,p.y,p.size,p.size); } 
+            if(alive) requestAnimationFrame(animateConfetti); else canv.remove(); 
         }
+        animateConfetti();
+        setTimeout(()=>{ if(canv.parentNode)canv.remove(); },2000);
+    }
+    
+    function spinWheelNow(){ 
+        if(spinning || wheelOptions.length===0) return; 
+        haptic(); 
+        velocity=20+Math.random()*12; 
+        spinning=true; 
+        function animateSpin(){ 
+            if(!spinning) return; 
+            velocity*=0.984; 
+            wheelAngle+=velocity; 
+            drawWheelFull(); 
+            if(Math.abs(velocity)<=0.008){ 
+                spinning=false; 
+                cancelAnimationFrame(animFrame); 
+                let total=wheelOptions.length; 
+                let angleRemainder=(wheelAngle%(Math.PI*2)+2*Math.PI)%(Math.PI*2); 
+                let slice=Math.PI*2/total; 
+                let index=Math.floor(((Math.PI*2-angleRemainder)%(Math.PI*2))/slice)%total; 
+                let winner=wheelOptions[index]; 
+                triggerConfettiCanvas(); 
+                alert(`🎉 ${t('winner')}: ${winner} 🎉`); 
+                haptic(); 
+                return; 
+            } 
+            animFrame=requestAnimationFrame(animateSpin); 
+        } 
+        animateSpin(); 
+    }
+    
+    function renderWheelModule(){
+        let optionsHtml = wheelOptions.map((opt,i)=>`<div class="flex-between" style="margin:8px 0;"><span>🔸 ${opt}</span><button class="delWheelOpt" data-idx="${i}">❌</button></div>`).join('');
+        document.getElementById('moduleWheel').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('wheelTitle')}<button class="info-btn" id="helpWheelBtn">❔</button></h2><canvas id="wheelCanvasMain" class="wheel-canvas" width="300" height="300" style="width:100%;max-width:280px;aspect-ratio:1;display:block;margin:0 auto;"></canvas><button id="spinFinalBtn" class="primary" style="margin:16px auto;">🎡 ${t('spin')}</button><div class="flex-between"><input id="newWheelOpt" placeholder="Новый вариант" style="flex:1"><button id="addWheelOptBtn">➕</button></div><div id="wheelOptionsDiv">${optionsHtml}</div></div>`;
+        wheelCanvas = document.getElementById('wheelCanvasMain'); 
+        if(wheelCanvas){ wheelCtx=wheelCanvas.getContext('2d'); drawWheelFull(); }
+        document.getElementById('spinFinalBtn')?.addEventListener('click', spinWheelNow);
+        document.getElementById('addWheelOptBtn')?.addEventListener('click',()=>{ let val=document.getElementById('newWheelOpt')?.value.trim(); if(val){ wheelOptions.push(val); saveAll(); renderWheelModule(); haptic(); } });
+        document.getElementById('helpWheelBtn')?.addEventListener('click',()=>showHelpModal('wheel'));
+        document.querySelectorAll('.delWheelOpt').forEach(btn=>btn.addEventListener('click',(e)=>{ let idx=btn.dataset.idx; wheelOptions.splice(idx,1); saveAll(); renderWheelModule(); haptic(); }));
+    }
 
-        function syncAdsFromStorage() {
-            const saved = localStorage.getItem('ai_tutor_ads');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    adCodes = { top: parsed.top || '', sidebar: parsed.sidebar || '', footer: parsed.footer || '' };
-                    renderAds();
-                } catch(e) {}
-            }
-        }
+    // ========== НАСТРОЙКИ ==========
+    function renderSettingsModule() {
+        document.getElementById('moduleSettings').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('settingsTitle')}<button class="info-btn" id="helpSettingsBtn">❔</button></h2><div class="flex-between"><span>🌐 ${t('langLabel')}</span><div><button class="langSet" data-lang="ru">Рус</button><button class="langSet" data-lang="uk">Укр</button><button class="langSet" data-lang="en">Eng</button></div></div><hr/><button id="installPwaBtnFinal" class="primary">📲 ${t('install')}</button><footer style="margin-top:1rem; font-size:10px;">AXIS · v3.0 · офлайн ассистент</footer></div>`;
+        document.querySelectorAll('.langSet').forEach(btn=>btn.addEventListener('click',(e)=>{ currentLang=btn.dataset.lang; saveAll(); renderAllModules(); haptic(); }));
+        document.getElementById('helpSettingsBtn')?.addEventListener('click',()=>showHelpModal('settings'));
+        let deferredPrompt = null; 
+        window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
+        document.getElementById('installPwaBtnFinal')?.addEventListener('click',()=>{ if(deferredPrompt){ deferredPrompt.prompt(); } else alert("PWA уже установлен"); });
+    }
 
-        // Слушаем изменения в localStorage (синхронизация с админкой)
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'ai_tutor_ads') {
-                syncAdsFromStorage();
-            }
-            if (e.key === 'ai_tutor_stats') {
-                loadStats();
-            }
-        });
-
-        // ----- СТАТИСТИКА -----
-        function updateStats() {
-            let stats = localStorage.getItem('ai_tutor_stats');
-            let visits = 1;
-            let totalQueries = 0;
-            if (stats) {
-                try {
-                    const parsed = JSON.parse(stats);
-                    visits = (parsed.visits || 0) + 1;
-                    totalQueries = parsed.totalQueries || 0;
-                } catch(e) {}
-            }
-            const newStats = { visits, totalQueries, lastVisit: new Date().toISOString() };
-            localStorage.setItem('ai_tutor_stats', JSON.stringify(newStats));
-            displayStats();
-        }
-
-        function incrementQueries() {
-            let stats = localStorage.getItem('ai_tutor_stats');
-            if (stats) {
-                try {
-                    const parsed = JSON.parse(stats);
-                    parsed.totalQueries = (parsed.totalQueries || 0) + 1;
-                    localStorage.setItem('ai_tutor_stats', JSON.stringify(parsed));
-                    displayStats();
-                } catch(e) {}
-            }
-        }
-
-        function displayStats() {
-            const statsDiv = document.getElementById('visitCounter');
-            if (statsDiv) {
-                let stats = localStorage.getItem('ai_tutor_stats');
-                if (stats) {
-                    try {
-                        const parsed = JSON.parse(stats);
-                        statsDiv.innerHTML = `👥 Посещений: ${parsed.visits || 0} | 💬 Вопросов: ${parsed.totalQueries || 0}`;
-                    } catch(e) {
-                        statsDiv.innerHTML = `👥 Статистика загружается...`;
-                    }
-                } else {
-                    statsDiv.innerHTML = `👥 Добро пожаловать!`;
-                }
-            }
-        }
-
-        function loadStats() {
-            displayStats();
-        }
-
-        // ----- AI ЧАТ (Mock API с расширенными ответами) -----
-        let currentSubject = 'general';
-        
-        function getAIResponse(question, subject) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const responses = {
-                        math: [
-                            "Отличный вопрос по математике! Давай разберём по шагам: ",
-                            "В математике это решается так: ",
-                            "Формула, которую нужно применить: "
-                        ],
-                        physics: [
-                            "Физика говорит нам, что ",
-                            "С точки зрения физики: ",
-                            "Здесь работает закон: "
-                        ],
-                        russian: [
-                            "Правило русского языка гласит: ",
-                            "Давай разберём грамматику: ",
-                            "В русском языке это объясняется так: "
-                        ],
-                        general: [
-                            "Отличный вопрос! ",
-                            "Вот что я думаю: ",
-                            "Давай разберёмся вместе: "
-                        ]
-                    };
-                    const prefixes = responses[subject] || responses.general;
-                    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const answer = `${prefix} ${question.toLowerCase().replace(/[^а-яa-z0-9]/g, ' ').substring(0, 100)} — это важная тема. Чтобы лучше понять, рекомендую разбить задачу на части и практиковаться каждый день. Если нужны примеры, напиши подробнее!`;
-                    resolve(answer);
-                }, 500 + Math.random() * 700);
-            });
-        }
-
-        const messagesContainer = document.getElementById('messages');
-        const questionInput = document.getElementById('questionInput');
-        const sendBtn = document.getElementById('sendBtn');
-
-        function addMessage(text, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : ''}`;
-            messageDiv.innerHTML = `
-                <div class="avatar">${isUser ? '👤' : '🤖'}</div>
-                <div class="message-content">${text}</div>
-            `;
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function showTyping() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `
-                <div class="avatar">🤖</div>
-                <div class="message-content typing">Печатает...</div>
-            `;
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function removeTyping() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
-        }
-
-        async function sendMessage() {
-            const question = questionInput.value.trim();
-            if (!question) return;
-
-            addMessage(question, true);
-            questionInput.value = '';
-            incrementQueries();
-
-            showTyping();
-            const answer = await getAIResponse(question, currentSubject);
-            removeTyping();
-            addMessage(answer, false);
-        }
-
-        sendBtn.addEventListener('click', sendMessage);
-        questionInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-
-        // Выбор предмета
-        document.querySelectorAll('.subject-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSubject = btn.dataset.subject;
-                addMessage(`Вы выбрали предмет: ${btn.textContent}. Задавайте вопросы по этой теме!`, false);
-            });
-        });
-
-        // Очистка чата
-        document.getElementById('clearChat').addEventListener('click', () => {
-            messagesContainer.innerHTML = '';
-            addMessage("Чат очищен. Задавайте новые вопросы!", false);
-        });
-
-        // Инициализация
-        loadAds();
-        updateStats();
-        
-        // Загрузка рекламы каждые 3 секунды (синхронизация с админкой)
-        setInterval(syncAdsFromStorage, 3000);
-    </script>
+    function renderAllModules(){ renderRecipeModule(); renderHealthModule(); renderWheelModule(); renderSettingsModule(); }
+    
+    function switchModule(moduleId) {
+        document.querySelectorAll('.module').forEach(mod=>mod.classList.remove('active-module'));
+        document.getElementById(`module${moduleId.charAt(0).toUpperCase()+moduleId.slice(1)}`).classList.add('active-module');
+        document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
+        let activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn=>btn.dataset.module===moduleId);
+        if(activeBtn) activeBtn.classList.add('active');
+        setBackgroundTheme(moduleId);
+        if(moduleId === 'wheel' && wheelCanvas) drawWheelFull();
+        haptic();
+    }
+    
+    document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchModule(btn.dataset.module)));
+    
+    if('serviceWorker' in navigator) { 
+        const swBlob = new Blob([`self.addEventListener('fetch', e=>e.respondWith(fetch(e.request).catch(()=>new Response("AXIS offline",{status:200}))))`], {type:'application/javascript'}); 
+        navigator.serviceWorker.register(URL.createObjectURL(swBlob)); 
+    }
+    
+    setBackgroundTheme('recipe');
+    renderAllModules(); 
+    switchModule('recipe');
+</script>
 </body>
 </html>
