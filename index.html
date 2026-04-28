@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>AXIS — Умный ассистент | Рецепты, Здоровье, Выбор</title>
-    <meta name="description" content="AXIS - все-в-одном помощник: рецепты из продуктов, трекер лекарств и колесо решений. Работает офлайн.">
-    <meta name="keywords" content="рецепты, трекер лекарств, колесо решений, голосовой ввод, PWA">
+    <title>AXIS — Умный ассистент | Рецепты, Новости, Вдохновение</title>
+    <meta name="description" content="AXIS - все-в-одном помощник: рецепты из продуктов, актуальные новости и мотивация. Работает офлайн.">
+    <meta name="keywords" content="рецепты, новости, инновации, мотивация, голосовой ввод, PWA">
     <meta name="theme-color" content="#0a0c12">
     <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232c3e50'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' fill='%23a5f0c0' font-weight='bold'%3EAX%3C/text%3E%3C/svg%3E">
@@ -54,8 +54,8 @@
         }
 
         .bg-recipe-floating .floating-item { animation-duration: 18s; }
-        .bg-health-floating .floating-item { animation-duration: 22s; }
-        .bg-wheel-floating .floating-item { animation-duration: 25s; }
+        .bg-news-floating .floating-item { animation-duration: 22s; }
+        .bg-motivation-floating .floating-item { animation-duration: 25s; }
 
         .bg-recipe {
             position: fixed;
@@ -66,7 +66,7 @@
             z-index: -2;
             background: radial-gradient(circle at 20% 30%, #1a2a2f, #051015);
         }
-        .bg-health {
+        .bg-news {
             position: fixed;
             top: 0;
             left: 0;
@@ -75,7 +75,7 @@
             z-index: -2;
             background: radial-gradient(circle at 70% 20%, #1e2a3a, #0a0f1c);
         }
-        .bg-wheel {
+        .bg-motivation {
             position: fixed;
             top: 0;
             left: 0;
@@ -107,7 +107,7 @@
         }
 
         .app-container {
-            max-width: 560px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 1rem 1rem 0.5rem;
             position: relative;
@@ -218,6 +218,59 @@
             padding: 1rem;
             margin-bottom: 1rem;
             border-left: 4px solid #6fcf97;
+        }
+        .news-card {
+            background: rgba(28, 34, 50, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;
+        }
+        .innovation-card {
+            background: rgba(28, 34, 50, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #a78bfa;
+        }
+        .quote-card {
+            background: rgba(28, 34, 50, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f59e0b;
+            text-align: center;
+        }
+        .quote-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+        .quote-author {
+            margin-top: 10px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            margin: 20px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+        .news-date {
+            font-size: 0.7rem;
+            color: #60a5fa;
+            margin-top: 5px;
         }
         .suggestion-card {
             background: rgba(28, 34, 50, 0.55);
@@ -340,6 +393,18 @@
             color: white;
             transition: all 0.2s;
         }
+        .refresh-btn {
+            background: rgba(59,130,246,0.3);
+            border: 1px solid #3b82f6;
+            padding: 6px 12px;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .refresh-btn:hover {
+            background: rgba(59,130,246,0.5);
+        }
         @media (max-width: 768px) {
             .voice-btn, .stepsModalBtn, .primary {
                 padding: 10px 18px;
@@ -354,6 +419,15 @@
             }
             .app-container {
                 padding: 0.8rem;
+                max-width: 100%;
+            }
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 900px;
             }
         }
     </style>
@@ -392,8 +466,8 @@
         
         <div id="adMobile2" class="ad-container"></div>
         
-        <div id="moduleHealth" class="module"></div>
-        <div id="moduleWheel" class="module"></div>
+        <div id="moduleNews" class="module"></div>
+        <div id="moduleMotivation" class="module"></div>
         <div id="moduleSettings" class="module"></div>
         
         <!-- Нижние рекламные блоки -->
@@ -404,22 +478,43 @@
 
     <div class="bottom-nav">
         <button class="nav-btn" data-module="recipe"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 6h18M9 12h6M12 3v18M8 3h8M4 3h2M18 3h2M6 21h12M4 18h16" stroke-linecap="round"/><circle cx="12" cy="12" r="2"/></svg><span>Рецепты</span></button>
-        <button class="nav-btn" data-module="health"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 12H4M12 4v16M8 8l-2 2 2 2M16 8l2 2-2 2"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>Здоровье</span></button>
-        <button class="nav-btn" data-module="wheel"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><path d="M12 12l2 2"/></svg><span>Колесо</span></button>
+        <button class="nav-btn" data-module="news"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h4"/><circle cx="18" cy="6" r="1"/></svg><span>Новости</span></button>
+        <button class="nav-btn" data-module="motivation"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg><span>Вдохновение</span></button>
         <button class="nav-btn" data-module="settings"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 5v2M12 17v2M5 12H3M7 12H5M19 12h2M17 12h2M8.5 8.5l-1-1M15.5 15.5l1 1M15.5 8.5l1-1M8.5 15.5l-1 1"/></svg><span>Настройки</span></button>
     </div>
 
 <script>
     let currentLang = localStorage.getItem('axis_lang') || 'ru';
     const translations = {
-        ru: { recipeTitle: "Рецепты для блюд", healthTitle: "Здоровье и лекарства", wheelTitle: "Колесо решений", settingsTitle: "Настройки", findRecipes: "Найти", noRecipes: "Нет рецептов", addMeds: "Добавить лекарство", name: "Название", dosage: "Дозировка", freq: "Раз/день", addBtn: "Добавить", stockLeft: "Осталось", doses: "доз", spin: "Крутить!", winner: "Победитель", langLabel: "Язык", install: "Установить", voiceInput: "🗣️ Говорить", manualAdd: "➕ Добавить продукт", stepByStep: "🍳 Пошагово", timerMin: "мин", startTimer: "Старт", takeDose: "Принять", whatIs: "Что это?", close: "Закрыть", tipTitle: "✨ Совет дня", tipBased: "Рекомендация по вашим продуктам:", exactMatches: "✅ Точные совпадения", suggestions: "💡 Предложенные рецепты", missing: "Не хватает:" },
-        uk: { recipeTitle: "Рецепти для блюд", healthTitle: "Трекер ліків", wheelTitle: "Колесо рішень", settingsTitle: "Налаштування", findRecipes: "Знайти", noRecipes: "Немає рецептів", addMeds: "Додати ліки", name: "Назва", dosage: "Дозування", freq: "Раз/день", addBtn: "Додати", stockLeft: "Залишилось", doses: "доз", spin: "Крутити!", winner: "Переможець", langLabel: "Мова", install: "Встановити", voiceInput: "🗣️ Говорити", manualAdd: "➕ Додати продукт", stepByStep: "🍳 Покроково", timerMin: "хв", startTimer: "Старт", takeDose: "Прийняти", whatIs: "Що це?", close: "Закрити", tipTitle: "✨ Порада дня", tipBased: "Рекомендація за вашими продуктами:", exactMatches: "✅ Точні збіги", suggestions: "💡 Запропоновані рецепти", missing: "Бракує:" },
-        en: { recipeTitle: "Recipes for dishes", healthTitle: "Health Guard", wheelTitle: "Decision Wheel", settingsTitle: "Settings", findRecipes: "Find", noRecipes: "No recipes", addMeds: "Add medicine", name: "Name", dosage: "Dosage", freq: "Times/day", addBtn: "Add", stockLeft: "Stock", doses: "doses", spin: "Spin!", winner: "Winner", langLabel: "Language", install: "Install", voiceInput: "🗣️ Speak", manualAdd: "➕ Add item", stepByStep: "🍳 Step by step", timerMin: "min", startTimer: "Start", takeDose: "Take", whatIs: "Info", close: "Close", tipTitle: "✨ Tip of day", tipBased: "Recommendation based on your items:", exactMatches: "✅ Exact matches", suggestions: "💡 Suggested recipes", missing: "Missing:" }
+        ru: { recipeTitle: "Рецепты для блюд", newsTitle: "Актуальные новости", motivationTitle: "Вдохновение и мотивация", settingsTitle: "Настройки", findRecipes: "Найти", noRecipes: "Нет рецептов", addMeds: "Добавить лекарство", name: "Название", dosage: "Дозировка", freq: "Раз/день", addBtn: "Добавить", stockLeft: "Осталось", doses: "доз", spin: "Крутить!", winner: "Победитель", langLabel: "Язык", install: "Установить", voiceInput: "🗣️ Говорить", manualAdd: "➕ Добавить продукт", stepByStep: "🍳 Пошагово", timerMin: "мин", startTimer: "Старт", takeDose: "Принять", whatIs: "Что это?", close: "Закрыть", tipTitle: "✨ Совет дня", tipBased: "Рекомендация по вашим продуктам:", exactMatches: "✅ Точные совпадения", suggestions: "💡 Предложенные рецепты", missing: "Не хватает:", topNews: "🌍 Топ новости", innovations: "🚀 Инновации и технологии", quotes: "💭 Мотивационные фразы", refresh: "Обновить" },
+        uk: { recipeTitle: "Рецепти для блюд", newsTitle: "Актуальні новини", motivationTitle: "Натхнення та мотивація", settingsTitle: "Налаштування", findRecipes: "Знайти", noRecipes: "Немає рецептів", addMeds: "Додати ліки", name: "Назва", dosage: "Дозування", freq: "Раз/день", addBtn: "Додати", stockLeft: "Залишилось", doses: "доз", spin: "Крутити!", winner: "Переможець", langLabel: "Мова", install: "Встановити", voiceInput: "🗣️ Говорити", manualAdd: "➕ Додати продукт", stepByStep: "🍳 Покроково", timerMin: "хв", startTimer: "Старт", takeDose: "Прийняти", whatIs: "Що це?", close: "Закрити", tipTitle: "✨ Порада дня", tipBased: "Рекомендація за вашими продуктами:", exactMatches: "✅ Точні збіги", suggestions: "💡 Запропоновані рецепти", missing: "Бракує:", topNews: "🌍 Топ новини", innovations: "🚀 Інновації та технології", quotes: "💭 Мотиваційні фрази", refresh: "Оновити" },
+        en: { recipeTitle: "Recipes for dishes", newsTitle: "Latest News", motivationTitle: "Inspiration & Motivation", settingsTitle: "Settings", findRecipes: "Find", noRecipes: "No recipes", addMeds: "Add medicine", name: "Name", dosage: "Dosage", freq: "Times/day", addBtn: "Add", stockLeft: "Stock", doses: "doses", spin: "Spin!", winner: "Winner", langLabel: "Language", install: "Install", voiceInput: "🗣️ Speak", manualAdd: "➕ Add item", stepByStep: "🍳 Step by step", timerMin: "min", startTimer: "Start", takeDose: "Take", whatIs: "Info", close: "Close", tipTitle: "✨ Tip of day", tipBased: "Recommendation based on your items:", exactMatches: "✅ Exact matches", suggestions: "💡 Suggested recipes", missing: "Missing:", topNews: "🌍 Top News", innovations: "🚀 Innovations & Tech", quotes: "💭 Motivational Quotes", refresh: "Refresh" }
     };
     function t(key) { return translations[currentLang][key] || key; }
     function haptic() { if(navigator.vibrate) navigator.vibrate(12); }
 
-    // ========== ЗАГРУЗКА РЕКЛАМЫ ==========
+    // ========== ДАННЫЕ ДЛЯ НОВОСТЕЙ И МОТИВАЦИИ ==========
+    const newsData = [
+        { title: "ИИ научился предсказывать погоду с точностью 99%", description: "Новая нейросеть анализирует спутниковые данные и прогнозирует ураганы за 2 недели.", date: "15 мая 2024", category: "tech" },
+        { title: "Tesla представила робота-помощника для дома", description: "Optimus Gen 2 может готовить, убирать и ухаживать за пожилыми людьми.", date: "12 мая 2024", category: "tech" },
+        { title: "В Китае запустили первый в мире поезд на водороде", description: "Скорость до 200 км/ч, запас хода — 1000 км без подзарядки.", date: "10 мая 2024", category: "eco" },
+        { title: "Учёные нашли способ обратить старение клеток", description: "Новый препарат омолаживает клетки на 30 лет, испытания на людях начнутся в 2025.", date: "8 мая 2024", category: "science" },
+        { title: "Google запускает бесплатный курс по нейросетям", description: "Каждый желающий сможет освоить основы AI за 2 месяца онлайн.", date: "5 мая 2024", category: "education" },
+        { title: "Новый вид батарей заряжается за 1 минуту", description: "Графеновые аккумуляторы выдерживают 50 000 циклов зарядки.", date: "3 мая 2024", category: "tech" }
+    ];
+    
+    const innovationData = [
+        { title: "Квантовый компьютер от IBM", description: "Решение задач за секунды вместо тысячелетий. Уже доступен через облако.", date: "14 мая 2024" },
+        { title: "Искусственные листья для очистки воздуха", description: "Панель размером 1 м² заменяет 10 взрослых деревьев по очистке CO2.", date: "11 мая 2024" },
+        { title: "Нейроинтерфейс для управления техникой силой мысли", description: "Парализованные люди смогут управлять курсором и умным домом.", date: "9 мая 2024" }
+    ];
+    
+    const quotesData = [
+        { text: "Единственный способ сделать великую работу — любить то, что ты делаешь.", author: "Стив Джобс" },
+        { text: "Не бойтесь перемен. Чаще всего они случаются именно в тот момент, когда они нужны.", author: "Неизвестный" },
+        { text: "Успех — это способность идти от неудачи к неудаче, не теряя энтузиазма.", author: "Уинстон Черчилль" }
+    ];
+
     function loadAllAds() {
         const saved = localStorage.getItem('axis_ads_full');
         let ads = { 
@@ -435,14 +530,11 @@
             } 
         }
         
-        // Боковые рекламы (ПК) - оставляем как есть с жестко заданными iframe
-        // Мобильные рекламы
         const adMobile1 = document.getElementById('adMobile1');
         const adMobile2 = document.getElementById('adMobile2');
         if (adMobile1) adMobile1.innerHTML = ads.mobile1 || '';
         if (adMobile2) adMobile2.innerHTML = ads.mobile2 || '';
         
-        // Нижние рекламы
         const adFooter1 = document.getElementById('adFooter1');
         const adFooter2 = document.getElementById('adFooter2');
         const adFooter3 = document.getElementById('adFooter3');
@@ -458,7 +550,6 @@
         localStorage.setItem('axis_stats', JSON.stringify({ visits: visits, lastVisit: new Date().toISOString() }));
     }
     
-    // Слушаем изменения в localStorage (из админки)
     window.addEventListener('storage', (e) => { 
         if (e.key === 'axis_ads_full') {
             loadAllAds(); 
@@ -470,8 +561,8 @@
 
     const floatingSets = {
         recipe: ['🍎', '🍊', '🍌', '🍉', '🍒', '🥑', '🥗', '🍳', '🍕', '🍝', '🥘', '🍲', '🍔', '🌮', '🥗', '🍣', '🍰'],
-        health: ['💊', '💉', '🩺', '🧪', '⚕️', '💊', '🩹', '🧴', '💊', '🔬', '💊', '🩸', '🧫', '💊'],
-        wheel: ['📓', '📝', '🍽️', '🍜', '🍷', '🎬', '🎭', '🏛️', '✈️', '🎡', '🏝️', '🎮', '🏀', '🎨', '☕', '🍸', '🎰']
+        news: ['📰', '📡', '🛰️', '💻', '🤖', '🚀', '🔬', '💡', '⚡', '🌍', '📱', '🎓', '🏥', '🔭', '🧪', '💊', '🦾'],
+        motivation: ['🌟', '💪', '❤️', '✨', '🎯', '🏆', '🌞', '🦋', '🌸', '⭐', '🔥', '💎', '🌺', '🍀', '🌈', '🕊️', '💫']
     };
 
     function generateFloatingItems(moduleType) {
@@ -498,8 +589,8 @@
         const gradientDiv = document.getElementById('dynamicBgGradient');
         gradientDiv.className = '';
         if(module === 'recipe') gradientDiv.className = 'bg-recipe';
-        else if(module === 'health') gradientDiv.className = 'bg-health';
-        else if(module === 'wheel') gradientDiv.className = 'bg-wheel';
+        else if(module === 'news') gradientDiv.className = 'bg-news';
+        else if(module === 'motivation') gradientDiv.className = 'bg-motivation';
         else gradientDiv.className = 'bg-settings';
         generateFloatingItems(module);
     }
@@ -539,13 +630,11 @@
         { name: "Сметанный соус", ings: ["сметана","чеснок","укроп","соль"], steps: ["Смешать всё"], time: 5, tip: "Охладите" }
     ];
 
-    let medications = JSON.parse(localStorage.getItem('axis_meds')) || [];
     let wheelOptions = JSON.parse(localStorage.getItem('axis_wheel_opts')) || ["Ресторан", "Кино", "Прогулка", "Домашний уют", "Путешествие"];
     let wheelAngle = 0, spinning = false, animFrame = null, velocity = 0, wheelCtx = null, wheelCanvas = null;
 
     function saveAll() { 
         localStorage.setItem('axis_user_ings', JSON.stringify(userIngredients)); 
-        localStorage.setItem('axis_meds', JSON.stringify(medications)); 
         localStorage.setItem('axis_wheel_opts', JSON.stringify(wheelOptions)); 
         localStorage.setItem('axis_lang', currentLang); 
     }
@@ -553,8 +642,8 @@
     function showHelpModal(moduleName) {
         let helpText = "";
         if(moduleName === "recipe") helpText = "🍽️ РЕЦЕПТЫ: добавляйте продукты голосом или вручную. Система подберет блюда из ВАШИХ продуктов. Карточки содержат таймер и пошаговые инструкции.";
-        else if(moduleName === "health") helpText = "💊 ЗДОРОВЬЕ: добавляйте лекарства, указывайте дозировку. Каждый прием уменьшает запас. При остатке ≤3 доз шкала станет красной.";
-        else if(moduleName === "wheel") helpText = "🎡 КОЛЕСО РЕШЕНИЙ: настройте варианты, нажмите крутить. Реалистичная физика, конфетти и выбор победителя.";
+        else if(moduleName === "news") helpText = "📰 НОВОСТИ: актуальные новости мира, технологические инновации и мотивационные цитаты. Контент обновляется каждый день.";
+        else if(moduleName === "motivation") helpText = "💫 ВДОХНОВЕНИЕ: мотивирующие цитаты великих людей, которые помогут начать день с позитивным настроем.";
         else helpText = "⚙️ НАСТРОЙКИ: смена языка, установка PWA на домашний экран, автономная работа.";
         const modalDiv = document.createElement('div'); modalDiv.className = 'modal-help';
         modalDiv.innerHTML = `<div class="modal-content glass-card"><h3>❓ ${t('whatIs')}</h3><p style="margin: 12px 0;">${helpText}</p><button id="closeHelpBtn" class="primary" style="width:100%">${t('close')}</button></div>`;
@@ -765,106 +854,94 @@
         document.querySelectorAll('.stepsModalBtn').forEach(btn=>btn.addEventListener('click',(e)=>{ let rec = JSON.parse(btn.dataset.recipe); showStepByStep(rec); haptic(); }));
     }
 
-    function renderHealthModule() {
-        let medsHtml = medications.map((m,idx)=>`<div class="med-item"><div class="flex-between"><strong>💊 ${m.name}</strong><span>${m.dosage} | ${m.freq}x</span></div><div class="stock-bar"><div class="stock-fill ${m.stock<=3?'low':''}" style="width:${Math.min(100,(m.stock/30)*100)}%"></div></div><div>📦 ${t('stockLeft')}: ${m.stock} ${t('doses')}</div><div class="flex-between mt-2"><button class="takeMed" data-idx="${idx}">✅ ${t('takeDose')}</button><button class="delMed" data-idx="${idx}">🗑️</button></div></div>`).join('');
-        document.getElementById('moduleHealth').innerHTML = `<div class="glass-card" style="padding:1.4rem"><h2>${t('healthTitle')}<button class="info-btn" id="helpHealthBtn">❔</button></h2><input id="medNameIn" placeholder="${t('name')}"><input id="medDoseIn" placeholder="${t('dosage')}" class="mt-2"><input id="medFreqIn" type="number" placeholder="${t('freq')}" value="1" class="mt-2"><button id="addMedFinal" class="primary mt-2">➕ ${t('addBtn')}</button><div id="medListBlock" style="margin-top:18px;">${medsHtml || '<div>Нет лекарств</div>'}</div></div>`;
-        document.getElementById('addMedFinal')?.addEventListener('click',()=>{ let name=document.getElementById('medNameIn').value.trim(); let dose=document.getElementById('medDoseIn').value.trim(); let freq=parseInt(document.getElementById('medFreqIn').value)||1; if(name && dose){ medications.push({name, dosage:dose, freq, stock:30, initialStock:30}); saveAll(); renderHealthModule(); haptic(); } });
-        document.getElementById('helpHealthBtn')?.addEventListener('click',()=>showHelpModal('health'));
-        document.querySelectorAll('.takeMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; if(medications[i] && medications[i].stock>0){ medications[i].stock--; saveAll(); renderHealthModule(); haptic(); } }));
-        document.querySelectorAll('.delMed').forEach(btn=>btn.addEventListener('click',(e)=>{ let i=btn.dataset.idx; medications.splice(i,1); saveAll(); renderHealthModule(); haptic(); }));
+    function renderNewsModule() {
+        const getNewsHtml = () => {
+            return `
+                <div class="glass-card" style="padding:1.2rem">
+                    <div class="flex-between">
+                        <h2>${t('newsTitle')} <button class="info-btn" id="helpNewsBtn">❔</button></h2>
+                        <button class="refresh-btn" id="refreshNewsBtn">🔄 ${t('refresh')}</button>
+                    </div>
+                    
+                    <div class="section-title">${t('topNews')}</div>
+                    ${newsData.slice(0,3).map(item => `
+                        <div class="news-card">
+                            <div class="flex-between">
+                                <strong>📰 ${item.title}</strong>
+                            </div>
+                            <div style="font-size:0.85rem; margin:8px 0">${item.description}</div>
+                            <div class="news-date">📅 ${item.date}</div>
+                        </div>
+                    `).join('')}
+                    
+                    <div class="section-title">${t('innovations')}</div>
+                    ${innovationData.map(item => `
+                        <div class="innovation-card">
+                            <div class="flex-between">
+                                <strong>🚀 ${item.title}</strong>
+                            </div>
+                            <div style="font-size:0.85rem; margin:8px 0">${item.description}</div>
+                            <div class="news-date">📅 ${item.date}</div>
+                        </div>
+                    `).join('')}
+                    
+                    <div class="section-title">${t('quotes')}</div>
+                    ${quotesData.map(quote => `
+                        <div class="quote-card">
+                            <div class="quote-icon">💭</div>
+                            <div class="quote-text">"${quote.text}"</div>
+                            <div class="quote-author">— ${quote.author}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        };
+        
+        const container = document.getElementById('moduleNews');
+        container.innerHTML = getNewsHtml();
+        
+        document.getElementById('helpNewsBtn')?.addEventListener('click', ()=>showHelpModal('news'));
+        document.getElementById('refreshNewsBtn')?.addEventListener('click', () => {
+            haptic();
+            renderNewsModule();
+        });
     }
 
-    function drawWheelFull() { 
-        if(!wheelCanvas||!wheelCtx||wheelOptions.length===0) return; 
-        let angStep=Math.PI*2/wheelOptions.length; 
-        wheelCtx.clearRect(0,0,wheelCanvas.width,wheelCanvas.height); 
-        for(let i=0;i<wheelOptions.length;i++){ 
-            let start=wheelAngle+i*angStep,end=start+angStep; 
-            wheelCtx.beginPath(); 
-            wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,wheelCanvas.width/2,start,end); 
-            wheelCtx.lineTo(wheelCanvas.width/2,wheelCanvas.height/2); 
-            wheelCtx.fillStyle=`hsl(${(i*360/wheelOptions.length)+200},70%,55%)`; 
-            wheelCtx.fill(); 
-            wheelCtx.save(); 
-            wheelCtx.translate(wheelCanvas.width/2,wheelCanvas.height/2); 
-            wheelCtx.rotate(start+angStep/2); 
-            wheelCtx.fillStyle="white"; 
-            wheelCtx.font="bold 14px system-ui"; 
-            wheelCtx.fillText(wheelOptions[i], wheelCanvas.width/3.2, 8); 
-            wheelCtx.restore(); 
-        } 
-        wheelCtx.beginPath(); 
-        wheelCtx.arc(wheelCanvas.width/2,wheelCanvas.height/2,14,0,2*Math.PI); 
-        wheelCtx.fillStyle="#151e2c"; 
-        wheelCtx.fill(); 
-        wheelCtx.beginPath(); 
-        wheelCtx.moveTo(wheelCanvas.width-12,wheelCanvas.height/2); 
-        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2-12); 
-        wheelCtx.lineTo(wheelCanvas.width,wheelCanvas.height/2+12); 
-        wheelCtx.fillStyle="gold"; 
-        wheelCtx.fill(); 
-    }
-    
-    function triggerConfettiCanvas(){
-        let canv=document.createElement('canvas');
-        canv.style.position='fixed'; canv.style.top=0; canv.style.left=0; canv.style.width='100%'; canv.style.height='100%'; canv.style.pointerEvents='none'; canv.style.zIndex=2100;
-        document.body.appendChild(canv);
-        let ctxConf=canv.getContext('2d');
-        let ww=window.innerWidth,wh=window.innerHeight;
-        canv.width=ww; canv.height=wh;
-        let particles=[];
-        for(let i=0;i<110;i++) particles.push({x:Math.random()*ww,y:Math.random()*wh-80,size:4+Math.random()*7,spdY:2+Math.random()*8,color:`hsl(${Math.random()*360},75%,65%)`});
-        function animateConfetti(){ 
-            ctxConf.clearRect(0,0,ww,wh); 
-            let alive=false; 
-            for(let p of particles){ p.y+=p.spdY; if(p.y<wh+60)alive=true; ctxConf.fillStyle=p.color; ctxConf.fillRect(p.x,p.y,p.size,p.size); } 
-            if(alive) requestAnimationFrame(animateConfetti); else canv.remove(); 
-        }
-        animateConfetti();
-        setTimeout(()=>{ if(canv.parentNode)canv.remove(); },2000);
-    }
-    
-    function spinWheelNow(){ 
-        if(spinning || wheelOptions.length===0) return; 
-        haptic(); 
-        velocity=20+Math.random()*12; 
-        spinning=true; 
-        function animateSpin(){ 
-            if(!spinning) return; 
-            velocity*=0.984; 
-            wheelAngle+=velocity; 
-            drawWheelFull(); 
-            if(Math.abs(velocity)<=0.008){ 
-                spinning=false; 
-                cancelAnimationFrame(animFrame); 
-                let total=wheelOptions.length; 
-                let angleRemainder=(wheelAngle%(Math.PI*2)+2*Math.PI)%(Math.PI*2); 
-                let slice=Math.PI*2/total; 
-                let index=Math.floor(((Math.PI*2-angleRemainder)%(Math.PI*2))/slice)%total; 
-                let winner=wheelOptions[index]; 
-                triggerConfettiCanvas(); 
-                alert(`🎉 ${t('winner')}: ${winner} 🎉`); 
-                haptic(); 
-                return; 
-            } 
-            animFrame=requestAnimationFrame(animateSpin); 
-        } 
-        animateSpin(); 
-    }
-    
-    function renderWheelModule(){
-        let optionsHtml = wheelOptions.map((opt,i)=>`<div class="flex-between" style="margin:8px 0;"><span>🔸 ${opt}</span><button class="delWheelOpt" data-idx="${i}">❌</button></div>`).join('');
-        document.getElementById('moduleWheel').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('wheelTitle')}<button class="info-btn" id="helpWheelBtn">❔</button></h2><canvas id="wheelCanvasMain" class="wheel-canvas" width="300" height="300" style="width:100%;max-width:280px;aspect-ratio:1;display:block;margin:0 auto;"></canvas><button id="spinFinalBtn" class="primary" style="margin:16px auto;">🎡 ${t('spin')}</button><div class="flex-between"><input id="newWheelOpt" placeholder="Новый вариант" style="flex:1"><button id="addWheelOptBtn">➕</button></div><div id="wheelOptionsDiv">${optionsHtml}</div></div>`;
-        wheelCanvas = document.getElementById('wheelCanvasMain'); 
-        if(wheelCanvas){ wheelCtx=wheelCanvas.getContext('2d'); drawWheelFull(); }
-        document.getElementById('spinFinalBtn')?.addEventListener('click', spinWheelNow);
-        document.getElementById('addWheelOptBtn')?.addEventListener('click',()=>{ let val=document.getElementById('newWheelOpt')?.value.trim(); if(val){ wheelOptions.push(val); saveAll(); renderWheelModule(); haptic(); } });
-        document.getElementById('helpWheelBtn')?.addEventListener('click',()=>showHelpModal('wheel'));
-        document.querySelectorAll('.delWheelOpt').forEach(btn=>btn.addEventListener('click',(e)=>{ let idx=btn.dataset.idx; wheelOptions.splice(idx,1); saveAll(); renderWheelModule(); haptic(); }));
+    function renderMotivationModule() {
+        const container = document.getElementById('moduleMotivation');
+        container.innerHTML = `
+            <div class="glass-card" style="padding:1.2rem">
+                <div class="flex-between">
+                    <h2>${t('motivationTitle')} <button class="info-btn" id="helpMotivationBtn">❔</button></h2>
+                    <button class="refresh-btn" id="refreshMotivationBtn">🔄 ${t('refresh')}</button>
+                </div>
+                <div class="quote-card" style="margin-top: 15px;">
+                    <div class="quote-icon">✨</div>
+                    <div class="quote-text">"${quotesData[0].text}"</div>
+                    <div class="quote-author">— ${quotesData[0].author}</div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-icon">💪</div>
+                    <div class="quote-text">"${quotesData[1].text}"</div>
+                    <div class="quote-author">— ${quotesData[1].author}</div>
+                </div>
+                <div class="quote-card">
+                    <div class="quote-icon">🌟</div>
+                    <div class="quote-text">"${quotesData[2].text}"</div>
+                    <div class="quote-author">— ${quotesData[2].author}</div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('helpMotivationBtn')?.addEventListener('click', ()=>showHelpModal('motivation'));
+        document.getElementById('refreshMotivationBtn')?.addEventListener('click', () => {
+            haptic();
+            renderMotivationModule();
+        });
     }
 
     function renderSettingsModule() {
-        document.getElementById('moduleSettings').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('settingsTitle')}<button class="info-btn" id="helpSettingsBtn">❔</button></h2><div class="flex-between"><span>🌐 ${t('langLabel')}</span><div><button class="langSet" data-lang="ru">Рус</button><button class="langSet" data-lang="uk">Укр</button><button class="langSet" data-lang="en">Eng</button></div></div><hr/><button id="installPwaBtnFinal" class="primary">📲 ${t('install')}</button><div class="stat-badge" id="statsDisplay"></div><footer style="margin-top:1rem; font-size:10px;">AXIS · v7.0 · офлайн ассистент · Более 300 рецептов</footer></div>`;
+        document.getElementById('moduleSettings').innerHTML = `<div class="glass-card" style="padding:1.5rem;"><h2>${t('settingsTitle')}<button class="info-btn" id="helpSettingsBtn">❔</button></h2><div class="flex-between"><span>🌐 ${t('langLabel')}</span><div><button class="langSet" data-lang="ru">Рус</button><button class="langSet" data-lang="uk">Укр</button><button class="langSet" data-lang="en">Eng</button></div></div><hr/><button id="installPwaBtnFinal" class="primary">📲 ${t('install')}</button><div class="stat-badge" id="statsDisplay"></div><footer style="margin-top:1rem; font-size:10px;">AXIS · v8.0 · офлайн ассистент · Рецепты + Новости + Вдохновение</footer></div>`;
         document.querySelectorAll('.langSet').forEach(btn=>btn.addEventListener('click',(e)=>{ currentLang=btn.dataset.lang; saveAll(); renderAllModules(); haptic(); }));
         document.getElementById('helpSettingsBtn')?.addEventListener('click',()=>showHelpModal('settings'));
         let deferredPrompt = null; 
@@ -879,7 +956,7 @@
         }
     }
 
-    function renderAllModules(){ renderRecipeModule(); renderHealthModule(); renderWheelModule(); renderSettingsModule(); }
+    function renderAllModules(){ renderRecipeModule(); renderNewsModule(); renderMotivationModule(); renderSettingsModule(); }
     
     function switchModule(moduleId) {
         document.querySelectorAll('.module').forEach(mod=>mod.classList.remove('active-module'));
@@ -888,7 +965,6 @@
         let activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn=>btn.dataset.module===moduleId);
         if(activeBtn) activeBtn.classList.add('active');
         setBackgroundTheme(moduleId);
-        if(moduleId === 'wheel' && wheelCanvas) drawWheelFull();
         haptic();
     }
     
