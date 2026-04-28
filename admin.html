@@ -161,7 +161,7 @@
         document.getElementById('saveAllAdsBtn')?.addEventListener('click', saveAllAds);
         document.getElementById('clearAllAdsBtn')?.addEventListener('click', clearAllAds);
         document.getElementById('resetStatsBtn')?.addEventListener('click', resetStats);
-        document.getElementById('openSiteBtn')?.addEventListener('click', () => window.open('../index.html', '_blank'));
+        document.getElementById('openSiteBtn')?.addEventListener('click', () => window.open('index.html', '_blank'));
         document.getElementById('changePasswordBtn')?.addEventListener('click', () => changePassword(document.getElementById('newPasswordInput').value, document.getElementById('confirmPasswordInput').value));
         document.getElementById('passwordInput')?.addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('loginBtn').click(); });
         checkAuth();
