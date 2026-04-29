@@ -508,7 +508,15 @@ function checkReferral() {
     var ref = params.get('ref');
     if (ref && ref !== referralCode) {
         var usedRefs = JSON.parse(localStorage.getItem('vx_used_refs') || '[]');
-        if (usedRefs.indexOf(ref) === -1) { usedRefs.push(ref); localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs)); }
+        if (usedRefs.indexOf(ref) === -1) {
+            usedRefs.push(ref);
+            localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs));
+            
+            // Начисляем реферала тому, кто пригласил
+            var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
+            allRefs[ref] = (allRefs[ref] || 0) + 1;
+            localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
+        }
     }
 }
 function loadLeaderboardData() {
