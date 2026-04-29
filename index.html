@@ -537,28 +537,38 @@ function checkReferral() {
     if (!ref) return;
     if (ref === referralCode) return;
     
+    // Проверяем, не использовался ли уже этот реферальный код
     var usedRefs = JSON.parse(localStorage.getItem('vx_used_refs') || '[]');
     if (usedRefs.indexOf(ref) !== -1) return;
     
+    // Отмечаем код как использованный
     usedRefs.push(ref);
     localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs));
     
+    // Увеличиваем счётчик рефералов в localStorage
     var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
-    allRefs[ref] = (allRefs[ref] || 0) + 1;
+    var newCount = (allRefs[ref] || 0) + 1;
+    allRefs[ref] = newCount;
     localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
     
+    // Отправляем в Supabase (исправленная версия)
     if (supabase) {
-        try {
-            supabase.from('referrals').upsert({
+        supabase.from('referrals')
+            .upsert({
                 code: ref,
-                nickname: 'referrer',
-                count: allRefs[ref],
+                count: newCount,
                 updated_at: new Date().toISOString()
-            }).then(function() {
-                console.log('Реферал сохранён в Supabase: ' + ref + ' count=' + allRefs[ref]);
+            })
+            .then(function(response) {
+                if (response.error) {
+                    console.log('Ошибка сохранения реферала:', response.error.message);
+                } else {
+                    console.log('✅ Реферал сохранён! ref=' + ref + ' count=' + newCount);
+                }
             });
-        } catch(e) {}
     }
+    
+    console.log('Реферал начислен локально! ref=' + ref + ' count=' + newCount);
 }
 
 function loadLeaderboardData() {
