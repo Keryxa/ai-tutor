@@ -4,7 +4,8 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<title>Vortex Delivery Co</title>
+<title>VDC - Vortex Delivery Co</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%230ff' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23f0f' stroke-width='3' opacity='0.6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23111' stroke='%230ff' stroke-width='2'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%230ff' font-family='Arial Black' font-size='24' font-weight='900'%3EVDC%3C/text%3E%3C/svg%3E"/>
 <style>
 * { margin: 0; padding: 0; }
 html, body { 
@@ -46,7 +47,7 @@ html, body {
   .vx-s-btn{font-size:8px;padding:5px 6px;min-width:70px;}
   .main-btn-play,.main-btn-shop{font-size:16px;padding:15px 30px;min-width:180px;}
   .main-btn-leaderboard{font-size:13px;padding:10px 25px;}
-  .vx-title-letter{font-size:28px;}
+  .vx-title-letter{font-size:24px;}
   .vx-pmenu-btn{font-size:13px;padding:10px 25px;width:160px;}
   .vx-hole-card{width:280px;}
 }
@@ -318,7 +319,7 @@ html, body {
   <div id="vx-terms-box">
     <h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3>
     <h4>1. Общие положения</h4>
-    <p>Игра "Vortex Delivery Co" (далее — Игра) является развлекательным продуктом. Используя Игру, вы соглашаетесь с данными условиями.</p>
+    <p>Игра "VDC - Vortex Delivery Co" (далее — Игра) является развлекательным продуктом. Используя Игру, вы соглашаетесь с данными условиями.</p>
     <h4>2. Правила игры</h4>
     <ul><li>Управляйте чёрной дырой для сбора человечков</li><li>Не превышайте лимит груза во избежание взрыва</li><li>Высаживайте груз на планете для получения звёзд</li><li>Улучшайте характеристики дыры за заработанные звёзды</li><li>Бонусные планеты дают множитель дохода x5</li></ul>
     <h4>3. Внутриигровая валюта</h4>
@@ -377,7 +378,10 @@ html, body {
 <div id="vx-start-overlay">
   <canvas id="vx-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
   <div id="vx-stars-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
-  <div style="position:absolute;top:18px;left:0;right:0;z-index:3;display:flex;justify-content:center;">
+  <div style="position:absolute;top:10px;left:0;right:0;z-index:3;display:flex;justify-content:center;align-items:center;gap:10px;">
+    <div style="width:40px;height:40px;border-radius:50%;background:#000;border:2px solid #0ff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(0,255,255,.5);">
+      <span style="color:#0ff;font-weight:900;font-size:12px;font-family:'Arial Black',Arial,sans-serif;">VDC</span>
+    </div>
     <div class="vx-title-wrap" id="vx-title-letters"></div>
   </div>
   <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;">
@@ -457,6 +461,7 @@ var playerNickname = '';
 var referralCode = '';
 var referralCount = 0;
 var inGame = false;
+var isMobile = ('ontouchstart' in window && window.innerWidth < 768) || window.innerWidth < 768;
 
 var SUPABASE_URL = 'https://azFcv95b6rBSnDxU2jYWEA.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
@@ -499,7 +504,8 @@ function updateMiniHoles() {
 }
 
 function updateReferralDisplay() {
-    var d = document.getElementById('referral-count-display'); if (d) d.textContent = referralCount;
+    var d = document.getElementById('referral-count-display');
+    if (d) d.textContent = referralCount;
     var l = document.getElementById('referral-link-display');
     if (l) {
         var baseUrl = window.location.origin + window.location.pathname;
@@ -507,23 +513,23 @@ function updateReferralDisplay() {
     }
 }
 
+// *** ИСПРАВЛЕННАЯ ФУНКЦИЯ checkReferral ***
 function checkReferral() {
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
-    if (ref && ref !== referralCode) {
-        var usedRefs = JSON.parse(localStorage.getItem('vx_used_refs') || '[]');
-        if (usedRefs.indexOf(ref) === -1) {
-            usedRefs.push(ref);
-            localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs));
-            
-            // Начисляем реферала тому, кто пригласил
-            var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
-            allRefs[ref] = (allRefs[ref] || 0) + 1;
-            localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
-            
-            console.log('Реферал начислен! Код: ' + ref + ', новый счётчик: ' + allRefs[ref]);
-        }
-    }
+    if (!ref) return;
+    if (ref === referralCode) return;
+    
+    var usedRefs = JSON.parse(localStorage.getItem('vx_used_refs') || '[]');
+    if (usedRefs.indexOf(ref) !== -1) return;
+    
+    usedRefs.push(ref);
+    localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs));
+    
+    var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
+    allRefs[ref] = (allRefs[ref] || 0) + 1;
+    localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
+    console.log('Реферал начислен! ref=' + ref + ' count=' + allRefs[ref]);
 }
 
 function loadLeaderboardData() {
@@ -585,9 +591,11 @@ document.getElementById('vx-btn-main-menu').addEventListener('click', function()
 document.getElementById('vx-terms-btn').onclick = function() { document.getElementById('vx-terms-modal').classList.add('open'); };
 document.getElementById('vx-terms-close').onclick = function() { document.getElementById('vx-terms-modal').classList.remove('open'); };
 
+// *** ИСПРАВЛЕННАЯ ФУНКЦИЯ showReferralModal ***
 function showReferralModal() {
     referralCount = getLocalReferralCount();
     updateReferralDisplay();
+    updateMiniHoles(); // обновляем мини-дыры при открытии окна
     document.getElementById('vx-referral-modal').classList.add('open');
     document.getElementById('referral-admin-panel').style.display = (playerNickname === 'Casper0390') ? 'block' : 'none';
 }
@@ -643,8 +651,8 @@ function resize(){ canvas.width = window.innerWidth; canvas.height = window.inne
 window.addEventListener('resize',resize); resize();
 
 referralCode = generateReferralCode();
-checkReferral();
 referralCount = getLocalReferralCount();
+checkReferral(); // проверяем реферала после установки referralCount
 
 function loadNickname() { var saved = localStorage.getItem('vx_nickname'); if (saved && saved.length >= 4) { playerNickname = saved; document.getElementById('vx-nickname').value = saved; } }
 loadNickname();
@@ -654,7 +662,7 @@ var soundBtn = document.getElementById('vx-sound-btn');
 soundBtn.onclick = function(e) { e.stopPropagation(); soundOn = !soundOn; soundBtn.textContent = soundOn ? '♪' : '♪'; soundBtn.style.color = soundOn ? '#fff' : '#666'; if (soundOn && audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); };
 
 (function(){
-  var title='VORTEX DELIVERY';
+  var title='VDC DELIVERY';
   var colors=['#00ffff','#00e5ff','#40c4ff','#a855f7','#c084fc','#00ffff','#40c4ff','#00e5ff','#a855f7','#c084fc','#00ffff','#40c4ff','#a855f7','#00e5ff','#c084fc'];
   var wrap=document.getElementById('vx-title-letters'); if(!wrap)return;
   title.split('').forEach(function(ch,i){ var span=document.createElement('span'); span.className='vx-title-letter'; span.textContent=ch===' '?'\u00a0':ch; span.style.color=colors[i%colors.length]; span.style.animationDelay=(i*0.08)+'s'; span.style.animationDuration=(1.4+Math.random()*.6)+'s'; wrap.appendChild(span); });
@@ -847,16 +855,23 @@ function setup(){
   nextGreenHumanTime=Date.now()+(35000+Math.random()*30000);
   portal.x=w-70;portal.y=70;updatePop();
 }
+
+// *** УМЕНЬШЕННОЕ КОЛИЧЕСТВО ЧЕЛОВЕЧКОВ НА МОБИЛЬНЫХ ***
 function updatePop(){
-  var target=25+(g.lvls.rad*2);if(target<15)target=15;if(target>40)target=40;
+  var target = isMobile ? 12 + (g.lvls.rad * 1) : 25 + (g.lvls.rad * 2);
+  if (target < (isMobile ? 8 : 15)) target = (isMobile ? 8 : 15);
+  if (target > (isMobile ? 20 : 40)) target = (isMobile ? 20 : 40);
   var w=canvas.width,h=canvas.height;
   while(humans.length<target)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});
   while(humans.length>target)humans.pop();
 }
+
 function ensureMinHumans(){
+  var minH = isMobile ? 8 : 15;
+  var maxH = isMobile ? 20 : 40;
   var w=canvas.width,h=canvas.height;
-  while(humans.length<15)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});
-  while(humans.length>40)humans.pop();
+  while(humans.length<minH)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});
+  while(humans.length>maxH)humans.pop();
 }
 
 function buy(type){
