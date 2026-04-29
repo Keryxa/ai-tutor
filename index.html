@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title>Vortex Delivery Co</title>
 <style>
@@ -12,6 +12,7 @@ html, body {
   height: 100%; 
   overflow: hidden;
   background: #000;
+  position: fixed;
 }
 
 #vortex-app {
@@ -20,6 +21,8 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   background: #000;
   overflow: hidden;
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -38,6 +41,15 @@ html, body {
 }
 
 #vortex-app *,#vortex-app *::before,#vortex-app *::after{box-sizing:border-box;}
+
+@media (max-width: 600px) {
+  .vx-s-btn{font-size:8px;padding:5px 6px;min-width:70px;}
+  .main-btn-play,.main-btn-shop{font-size:16px;padding:15px 30px;min-width:180px;}
+  .main-btn-leaderboard{font-size:13px;padding:10px 25px;}
+  .vx-title-letter{font-size:28px;}
+  .vx-pmenu-btn{font-size:13px;padding:10px 25px;width:160px;}
+  .vx-hole-card{width:280px;}
+}
 
 .vx-s-btn{background:#6200ea;color:#fff;border:1px solid #fff;padding:8px 10px;border-radius:5px;font-weight:bold;cursor:pointer;font-size:10px;min-width:100px;display:-webkit-inline-flex;display:inline-flex;flex-direction:column;align-items:center;touch-action:manipulation;-webkit-appearance:none;appearance:none;line-height:1.3;}
 .vx-s-btn span{font-size:8px;opacity:.8;margin-top:2px;}
@@ -81,13 +93,14 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 10px 15px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .main-nickname {
   color: #0ff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   text-shadow: 0 0 10px #0ff;
   background: rgba(0,0,0,.5);
@@ -98,7 +111,7 @@ html, body {
 
 .main-balance {
   color: #ffd700;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   text-shadow: 0 0 10px #ffd700;
   background: rgba(0,0,0,.5);
@@ -128,13 +141,13 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 15px;
+  padding: 15px;
 }
 
 .main-btn-play {
-  padding: 20px 60px;
-  font-size: 20px;
+  padding: 18px 50px;
+  font-size: 18px;
   font-weight: 900;
   border-radius: 16px;
   cursor: pointer;
@@ -145,13 +158,13 @@ html, body {
   border: 3px solid #0ff;
   animation: neonPulse 2s infinite, gradientBorder 4s infinite;
   transition: all .3s;
-  min-width: 250px;
+  min-width: 200px;
   text-align: center;
 }
 
 .main-btn-shop {
-  padding: 18px 50px;
-  font-size: 18px;
+  padding: 16px 40px;
+  font-size: 16px;
   font-weight: 900;
   border-radius: 16px;
   cursor: pointer;
@@ -162,7 +175,7 @@ html, body {
   border: 3px solid #ffd700;
   animation: gradientBorder 4s infinite;
   transition: all .3s;
-  min-width: 250px;
+  min-width: 200px;
   text-align: center;
 }
 
@@ -171,8 +184,8 @@ html, body {
 }
 
 .main-btn-leaderboard {
-  padding: 14px 40px;
-  font-size: 16px;
+  padding: 12px 30px;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 12px;
   cursor: pointer;
@@ -243,7 +256,6 @@ html, body {
 .referral-admin-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin:10px 0;}
 .referral-admin-btn{width:36px;height:36px;border-radius:50%;border:2px solid #0ff;background:rgba(0,255,255,.1);color:#0ff;font-size:20px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-/* Окно условий использования */
 #vx-terms-modal{position:absolute;inset:0;z-index:230;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);}
 #vx-terms-modal.open{display:flex;}
 #vx-terms-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e);border:1px solid rgba(0,255,255,.35);border-radius:16px;padding:30px 28px;max-width:420px;width:90%;max-height:80vh;overflow-y:auto;color:#fff;text-align:left;box-shadow:0 0 40px rgba(0,255,255,.15);}
@@ -305,34 +317,20 @@ html, body {
 <div id="vx-terms-modal">
   <div id="vx-terms-box">
     <h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3>
-    
     <h4>1. Общие положения</h4>
     <p>Игра "Vortex Delivery Co" (далее — Игра) является развлекательным продуктом. Используя Игру, вы соглашаетесь с данными условиями.</p>
-    
     <h4>2. Правила игры</h4>
-    <ul>
-      <li>Управляйте чёрной дырой для сбора человечков</li>
-      <li>Не превышайте лимит груза во избежание взрыва</li>
-      <li>Высаживайте груз на планете для получения звёзд</li>
-      <li>Улучшайте характеристики дыры за заработанные звёзды</li>
-      <li>Бонусные планеты дают множитель дохода x5</li>
-    </ul>
-    
+    <ul><li>Управляйте чёрной дырой для сбора человечков</li><li>Не превышайте лимит груза во избежание взрыва</li><li>Высаживайте груз на планете для получения звёзд</li><li>Улучшайте характеристики дыры за заработанные звёзды</li><li>Бонусные планеты дают множитель дохода x5</li></ul>
     <h4>3. Внутриигровая валюта</h4>
     <p>Звёзды (★) являются внутриигровой валютой и не имеют реальной денежной стоимости. Прогресс сохраняется локально в браузере.</p>
-    
     <h4>4. Реклама</h4>
     <p>Игра может содержать рекламные материалы. Просмотр рекламы является добровольным и даёт игровые преимущества.</p>
-    
     <h4>5. Ограничение ответственности</h4>
     <p>Игра предоставляется "как есть". Разработчик не несёт ответственности за потерю игрового прогресса, ошибки или несовместимость с устройствами.</p>
-    
     <h4>6. Конфиденциальность</h4>
     <p>Мы не собираем личные данные пользователей. Никнейм и игровой прогресс хранятся локально на устройстве. Реферальные данные хранятся в зашифрованном виде.</p>
-    
     <h4>7. Изменения</h4>
     <p>Условия использования могут быть изменены в любое время. Продолжение использования Игры означает согласие с новыми условиями.</p>
-    
     <button id="vx-terms-close">ПРИНИМАЮ</button>
   </div>
 </div>
@@ -376,7 +374,6 @@ html, body {
   <button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;touch-action:manipulation;font-family:Arial,sans-serif;">НАЗАД</button>
 </div>
 
-<!-- Экран ввода никнейма -->
 <div id="vx-start-overlay">
   <canvas id="vx-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
   <div id="vx-stars-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
@@ -384,9 +381,9 @@ html, body {
     <div class="vx-title-wrap" id="vx-title-letters"></div>
   </div>
   <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;">
-    <p style="margin:0 0 28px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;font-family:Arial,sans-serif;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
+    <p style="margin:0 0 20px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;font-family:Arial,sans-serif;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
     
-    <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:26px 30px;width:300px;display:flex;flex-direction:column;align-items:center;gap:15px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
+    <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:20px 25px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
       <div style="width:100%;position:relative;">
         <input type="text" id="vx-nickname" placeholder="Твой никнейм (минимум 4 символа)..."
           style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;font-family:Arial,sans-serif;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;"
@@ -400,7 +397,6 @@ html, body {
   </div>
 </div>
 
-<!-- Главное меню -->
 <div id="vx-main-menu">
   <div class="main-menu-header">
     <div class="main-balance" id="main-menu-balance">⭐ 10</div>
@@ -418,7 +414,7 @@ html, body {
 <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
   <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
     <div style="color:#fff;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;white-space:nowrap;">★ <span id="vx-cash">10</span></div>
-    <div style="position:relative;width:375px;height:5px;margin-top:5px;">
+    <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;">
       <div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div>
       <div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div>
     </div>
@@ -436,7 +432,6 @@ html, body {
       <button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/∞</button>
       <button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button>
     </div>
-    <button id="vx-fs-btn" style="pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #555;color:#aaa;padding:5px 18px;border-radius:5px;cursor:pointer;font-size:11px;font-family:Arial,sans-serif;touch-action:manipulation;">FULLSCREEN</button>
   </div>
 </div>
 
@@ -476,10 +471,12 @@ function generateReferralCode() {
     localStorage.setItem('vx_referral_code', code);
     return code;
 }
+
 function getLocalReferralCount() {
     var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
     return allRefs[referralCode] || 0;
 }
+
 async function updateReferralCount(delta) {
     var newCount = Math.max(0, Math.min(10, referralCount + delta));
     referralCount = newCount;
@@ -492,6 +489,7 @@ async function updateReferralCount(delta) {
     if (g.active) updateMiniHoles();
     updateReferralDisplay();
 }
+
 function updateMiniHoles() {
     g.miniHoles = [];
     var count = Math.min(referralCount, 10);
@@ -499,10 +497,16 @@ function updateMiniHoles() {
         g.miniHoles.push({ offsetX: Math.cos((i/Math.max(count,1))*Math.PI*2)*(g.rad+20), offsetY: Math.sin((i/Math.max(count,1))*Math.PI*2)*(g.rad+20), rad: 8, pull: 30 });
     }
 }
+
 function updateReferralDisplay() {
     var d = document.getElementById('referral-count-display'); if (d) d.textContent = referralCount;
-    var l = document.getElementById('referral-link-display'); if (l) l.textContent = window.location.origin + window.location.pathname + '?ref=' + referralCode;
+    var l = document.getElementById('referral-link-display');
+    if (l) {
+        var baseUrl = window.location.origin + window.location.pathname;
+        l.textContent = baseUrl + '?ref=' + referralCode;
+    }
 }
+
 function checkReferral() {
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
@@ -516,14 +520,18 @@ function checkReferral() {
             var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
             allRefs[ref] = (allRefs[ref] || 0) + 1;
             localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
+            
+            console.log('Реферал начислен! Код: ' + ref + ', новый счётчик: ' + allRefs[ref]);
         }
     }
 }
+
 function loadLeaderboardData() {
     var data = localStorage.getItem('vx_leaderboard_v2');
     if (data) { try { return JSON.parse(data); } catch(e) { return { stars: [], level: [] }; } }
     return { stars: [], level: [] };
 }
+
 function saveScoreToLeaderboard(type, score) {
     var lb = loadLeaderboardData();
     var existingIdx = -1;
@@ -534,6 +542,7 @@ function saveScoreToLeaderboard(type, score) {
     lb[type] = lb[type].slice(0, 10);
     localStorage.setItem('vx_leaderboard_v2', JSON.stringify(lb));
 }
+
 function showLeaderboard(tab, listElementId) {
     tab = tab || 'stars';
     var listEl = document.getElementById(listElementId || 'leaderboard-list');
@@ -555,13 +564,16 @@ document.getElementById('vx-leaderboard-close').addEventListener('click', functi
     document.getElementById('vx-leaderboard-modal').classList.remove('open');
     if (inGame) { g.paused = false; yGameplayStart(); if(!drawRunning) draw(); }
 });
+
 document.querySelectorAll('#vx-leaderboard-modal .leaderboard-tab').forEach(function(tab) {
     tab.addEventListener('click', function() { showLeaderboard(this.dataset.tab, 'leaderboard-list'); });
 });
+
 document.getElementById('vx-btn-leaderboard').addEventListener('click', function() {
     document.getElementById('vx-pause-menu').classList.remove('open');
     showLeaderboard('stars', 'leaderboard-list');
 });
+
 document.getElementById('vx-btn-main-menu').addEventListener('click', function() {
     document.getElementById('vx-pause-menu').classList.remove('open');
     g.paused = false; g.active = false; inGame = false; yGameplayStop();
@@ -570,21 +582,25 @@ document.getElementById('vx-btn-main-menu').addEventListener('click', function()
     document.getElementById('main-menu-balance').textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
 });
 
-// Окно условий использования
 document.getElementById('vx-terms-btn').onclick = function() { document.getElementById('vx-terms-modal').classList.add('open'); };
 document.getElementById('vx-terms-close').onclick = function() { document.getElementById('vx-terms-modal').classList.remove('open'); };
 
 function showReferralModal() {
+    referralCount = getLocalReferralCount();
     updateReferralDisplay();
     document.getElementById('vx-referral-modal').classList.add('open');
     document.getElementById('referral-admin-panel').style.display = (playerNickname === 'Casper0390') ? 'block' : 'none';
 }
+
 document.getElementById('vx-referral-close').addEventListener('click', function() { document.getElementById('vx-referral-modal').classList.remove('open'); });
+
 document.getElementById('vx-copy-referral').addEventListener('click', function() {
-    var link = window.location.origin + window.location.pathname + '?ref=' + referralCode;
+    var baseUrl = window.location.origin + window.location.pathname;
+    var link = baseUrl + '?ref=' + referralCode;
     if (navigator.clipboard) navigator.clipboard.writeText(link).then(function() { alert('Ссылка скопирована!'); });
     else prompt('Скопируй ссылку:', link);
 });
+
 document.getElementById('vx-ref-plus').addEventListener('click', function() { updateReferralCount(1); });
 document.getElementById('vx-ref-minus').addEventListener('click', function() { updateReferralCount(-1); });
 
@@ -597,10 +613,12 @@ function startGameFromMenu() {
     g.active = true; setup(); refreshUI(); updateMiniHoles();
     if(!drawRunning) draw();
 }
+
 document.getElementById('vx-main-play-btn').addEventListener('click', startGameFromMenu);
 document.getElementById('vx-main-shop-btn').addEventListener('click', function() { openHoleShop(); });
 document.getElementById('vx-main-leaderboard-btn').addEventListener('click', function() { showLeaderboard('stars', 'leaderboard-list'); });
 document.getElementById('vx-main-referral-btn').addEventListener('click', function() { showReferralModal(); });
+
 document.getElementById('vx-main-sound-btn').addEventListener('click', function() {
     soundOn = !soundOn;
     var btn = document.getElementById('vx-main-sound-btn');
@@ -624,7 +642,9 @@ initCrazySDK();
 function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 window.addEventListener('resize',resize); resize();
 
-referralCode = generateReferralCode(); checkReferral(); referralCount = getLocalReferralCount();
+referralCode = generateReferralCode();
+checkReferral();
+referralCount = getLocalReferralCount();
 
 function loadNickname() { var saved = localStorage.getItem('vx_nickname'); if (saved && saved.length >= 4) { playerNickname = saved; document.getElementById('vx-nickname').value = saved; } }
 loadNickname();
@@ -666,21 +686,6 @@ soundBtn.onclick = function(e) { e.stopPropagation(); soundOn = !soundOn; soundB
 document.getElementById('vx-rules-btn').onclick=function(){document.getElementById('vx-rules-modal').classList.add('open');};
 document.getElementById('vx-rules-close').onclick=function(){document.getElementById('vx-rules-modal').classList.remove('open');};
 
-document.getElementById('vx-fs-btn').onclick=function(){
-  var el=app,doc=document;
-  var isFS=doc.fullscreenElement||doc.webkitFullscreenElement||doc.mozFullScreenElement;
-  if(!isFS){var req=el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen||el.msRequestFullscreen;if(req){req.call(el);}else{el.style.position='fixed';el.style.top='0';el.style.left='0';el.style.width='100vw';el.style.height='100vh';el.style.zIndex='99999';el.style.border='none';resize();this.textContent='EXIT';this.setAttribute('data-ios-fs','1');return;}}
-  else{var exit=doc.exitFullscreen||doc.webkitExitFullscreen||doc.mozCancelFullScreen||doc.msExitFullscreen;if(exit)exit.call(doc);}
-};
-function onFSChange(){
-  var isFS=document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement;
-  var btn=document.getElementById('vx-fs-btn');
-  if(isFS){resize();btn.textContent='EXIT';}
-  else{if(btn.getAttribute('data-ios-fs')==='1'){app.style.position='';app.style.top='';app.style.left='';app.style.width='100%';app.style.height='100vh';app.style.zIndex='';app.style.border='';btn.setAttribute('data-ios-fs','0');}btn.textContent='FULLSCREEN';resize();}
-}
-['fullscreenchange','webkitfullscreenchange','mozfullscreenchange'].forEach(function(ev){document.addEventListener(ev,onFSChange);});
-document.getElementById('vx-fs-btn').addEventListener('click',function(){if(this.getAttribute('data-ios-fs')==='1'){app.style.position='';app.style.top='';app.style.left='';app.style.width='100%';app.style.height='100vh';app.style.zIndex='';app.style.border='';this.setAttribute('data-ios-fs','0');this.textContent='FULLSCREEN';resize();}});
-
 var HOLES=[
   {id:0,name:'СЕРАЯ',desc:'Стандартная.\nДоход x1.0',multi:1.0,price:0,color:null,owned:true},
   {id:1,name:'СИНЯЯ ЗВЕЗДА',desc:'Небесная сила.\nДоход x1.3',multi:1.3,price:500,color:['#1e90ff','#00bfff','#87ceeb'],owned:false},
@@ -721,7 +726,7 @@ function ensureAC(){
   if(audioCtx.state==='suspended') audioCtx.resume();
   return audioCtx;
 }
-function playSound(type){ /* без изменений */
+function playSound(type){
   if(!soundOn) return;
   try{
     var ac=ensureAC(); if(!ac) return;
