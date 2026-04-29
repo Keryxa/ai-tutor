@@ -482,6 +482,23 @@ function getLocalReferralCount() {
     return allRefs[referralCode] || 0;
 }
 
+async function loadReferralCountFromSupabase() {
+    if (!supabase) return;
+    try {
+        var { data } = await supabase
+            .from('referrals')
+            .select('count')
+            .eq('code', referralCode)
+            .single();
+        if (data && data.count > 0) {
+            referralCount = data.count;
+            var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
+            allRefs[referralCode] = data.count;
+            localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
+        }
+    } catch(e) {}
+}
+
 async function updateReferralCount(delta) {
     var newCount = Math.max(0, Math.min(10, referralCount + delta));
     referralCount = newCount;
@@ -513,7 +530,6 @@ function updateReferralDisplay() {
     }
 }
 
-// *** ИСПРАВЛЕННАЯ checkReferral - сохраняет в Supabase ***
 function checkReferral() {
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
@@ -530,7 +546,6 @@ function checkReferral() {
     allRefs[ref] = (allRefs[ref] || 0) + 1;
     localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
     
-    // Сохраняем в Supabase
     if (supabase) {
         try {
             supabase.from('referrals').upsert({
@@ -543,8 +558,6 @@ function checkReferral() {
             });
         } catch(e) {}
     }
-    
-    console.log('Реферал начислен! ref=' + ref + ' count=' + allRefs[ref]);
 }
 
 function loadLeaderboardData() {
@@ -553,7 +566,7 @@ function loadLeaderboardData() {
     return { stars: [], level: [] };
 }
 
-function saveScoreToLeaderboard(type, score) {
+async function saveScoreToLeaderboard(type, score) {
     var lb = loadLeaderboardData();
     var existingIdx = -1;
     for (var i = 0; i < lb[type].length; i++) { if (lb[type][i].nickname === playerNickname) { existingIdx = i; break; } }
@@ -562,13 +575,55 @@ function saveScoreToLeaderboard(type, score) {
     lb[type].sort(function(a, b) { return b.score - a.score; });
     lb[type] = lb[type].slice(0, 10);
     localStorage.setItem('vx_leaderboard_v2', JSON.stringify(lb));
+    
+    if (supabase && playerNickname) {
+        try {
+            var updateData = { nickname: playerNickname, referral_code: referralCode };
+            if (type === 'stars') updateData.highscore_stars = score;
+            if (type === 'level') updateData.highscore_level = score;
+            await supabase.from('players').upsert(updateData);
+        } catch(e) {}
+    }
 }
 
-function showLeaderboard(tab, listElementId) {
+async function showLeaderboard(tab, listElementId) {
     tab = tab || 'stars';
     var listEl = document.getElementById(listElementId || 'leaderboard-list');
     if (!listEl) return;
-    document.querySelectorAll('.leaderboard-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.tab === tab); });
+    
+    document.querySelectorAll('.leaderboard-tab').forEach(function(t) {
+        t.classList.toggle('active', t.dataset.tab === tab);
+    });
+    
+    listEl.innerHTML = '<div style="color: #666; padding: 20px;">Загрузка...</div>';
+    
+    if (listElementId !== 'leaderboard-list-main') {
+        document.getElementById('vx-leaderboard-modal').classList.add('open');
+    }
+    
+    if (supabase) {
+        try {
+            var column = tab === 'stars' ? 'highscore_stars' : 'highscore_level';
+            var { data, error } = await supabase
+                .from('players')
+                .select('nickname, ' + column)
+                .order(column, { ascending: false })
+                .limit(10);
+            
+            if (data && data.length > 0 && data[0][column] > 0) {
+                listEl.innerHTML = data.map(function(item, index) {
+                    var rankClass = '', medal = '';
+                    if (index === 0) { rankClass = 'gold'; medal = '🥇'; }
+                    else if (index === 1) { rankClass = 'silver'; medal = '🥈'; }
+                    else if (index === 2) { rankClass = 'bronze'; medal = '🥉'; }
+                    var score = item[column] || 0;
+                    return '<div class="leaderboard-item ' + rankClass + '"><span class="leaderboard-rank">' + (medal || ('#' + (index + 1))) + '</span><span class="leaderboard-nick">' + item.nickname + '</span><span class="leaderboard-score">' + (tab === 'stars' ? '⭐ ' : '📦 ') + formatNumber(score) + '</span></div>';
+                }).join('');
+                return;
+            }
+        } catch(e) {}
+    }
+    
     var lb = loadLeaderboardData();
     var data = lb[tab] || [];
     listEl.innerHTML = data.map(function(item, index) {
@@ -578,7 +633,6 @@ function showLeaderboard(tab, listElementId) {
         else if (index === 2) { rankClass = 'bronze'; medal = '🥉'; }
         return '<div class="leaderboard-item ' + rankClass + '"><span class="leaderboard-rank">' + (medal || ('#' + (index + 1))) + '</span><span class="leaderboard-nick">' + item.nickname + '</span><span class="leaderboard-score">' + (tab === 'stars' ? '⭐ ' : '📦 ') + formatNumber(item.score) + '</span></div>';
     }).join('') || '<div style="color: #666; padding: 20px;">Нет данных</div>';
-    if (listElementId !== 'leaderboard-list-main') document.getElementById('vx-leaderboard-modal').classList.add('open');
 }
 
 document.getElementById('vx-leaderboard-close').addEventListener('click', function() {
@@ -607,9 +661,11 @@ document.getElementById('vx-terms-btn').onclick = function() { document.getEleme
 document.getElementById('vx-terms-close').onclick = function() { document.getElementById('vx-terms-modal').classList.remove('open'); };
 
 function showReferralModal() {
-    referralCount = getLocalReferralCount();
-    updateReferralDisplay();
-    updateMiniHoles();
+    loadReferralCountFromSupabase().then(function() {
+        referralCount = getLocalReferralCount();
+        updateReferralDisplay();
+        updateMiniHoles();
+    });
     document.getElementById('vx-referral-modal').classList.add('open');
     document.getElementById('referral-admin-panel').style.display = (playerNickname === 'Casper0390') ? 'block' : 'none';
 }
@@ -666,6 +722,7 @@ window.addEventListener('resize',resize); resize();
 
 referralCode = generateReferralCode();
 referralCount = getLocalReferralCount();
+loadReferralCountFromSupabase();
 checkReferral();
 
 function loadNickname() { var saved = localStorage.getItem('vx_nickname'); if (saved && saved.length >= 4) { playerNickname = saved; document.getElementById('vx-nickname').value = saved; } }
@@ -847,7 +904,6 @@ function drawHolePreview(pv,h){
   }
 }
 
-// *** ИСПРАВЛЕННАЯ КНОПКА СТАРТ - сохраняет игрока в Supabase ***
 document.getElementById('vx-start-btn').onclick=function(){
   var nick=document.getElementById('vx-nickname').value.trim();
   var errorEl=document.getElementById('vx-nick-error');
@@ -858,7 +914,6 @@ document.getElementById('vx-start-btn').onclick=function(){
   document.getElementById('main-menu-balance').textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
   if(nick==='Casper0390'){g.cash+=500;}
   
-  // Сохраняем игрока в Supabase
   if (supabase && playerNickname) {
     try {
       supabase.from('players').upsert({
