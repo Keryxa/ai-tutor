@@ -1,170 +1,539 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXIS — Админ-панель</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0a0f1a 0%, #0f1622 100%);
-            color: #eef2ff;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .glass-card {
-            background: rgba(30, 36, 52, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 28px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1, h2 {
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        h1 { font-size: 1.8rem; }
-        h2 { font-size: 1.3rem; margin-top: 20px; border-left: 3px solid #60a5fa; padding-left: 12px; }
-        input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 16px;
-            color: white;
-            margin-bottom: 15px;
-        }
-        textarea { font-family: monospace; min-height: 100px; resize: vertical; }
-        button {
-            padding: 12px 24px;
-            background: #3b82f6;
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        button.danger { background: #ef4444; }
-        button.success { background: #10b981; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: #1e293b; padding: 20px; border-radius: 20px; text-align: center; }
-        .stat-number { font-size: 42px; font-weight: bold; color: #60a5fa; }
-        .stat-label { color: #94a3b8; margin-top: 8px; }
-        .message { padding: 12px; border-radius: 12px; margin-bottom: 15px; }
-        .message.success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
-        .message.error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
-        hr { border-color: #334155; margin: 20px 0; }
-        .ad-block-card { background: #1e293b; border-radius: 20px; padding: 15px; margin-bottom: 20px; border: 1px solid #334155; }
-        .ad-block-card h3 { margin-bottom: 12px; color: #60a5fa; }
-        .button-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>VDC - Админ панель</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0a0a1a, #0d1a2e);
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    background: rgba(0,0,0,.5);
+    border: 1px solid rgba(0,255,255,.3);
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header h1 {
+    color: #0ff;
+    font-size: 24px;
+    text-shadow: 0 0 10px #0ff;
+}
+
+.logout-btn {
+    padding: 10px 25px;
+    background: #ff4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: rgba(0,0,0,.5);
+    border: 1px solid rgba(0,255,255,.2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    color: #0ff;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.stat-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffd700;
+}
+
+.panel {
+    background: rgba(0,0,0,.5);
+    border: 1px solid rgba(0,255,255,.2);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.panel h2 {
+    color: #0ff;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.top-players-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.top-list {
+    background: rgba(0,0,0,.3);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.top-list h3 {
+    color: #ffd700;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.top-player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 5px 0;
+    background: rgba(255,255,255,.05);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.top-player-item.gold { background: rgba(255,215,0,.15); }
+.top-player-item.silver { background: rgba(192,192,192,.1); }
+.top-player-item.bronze { background: rgba(205,127,50,.1); }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    color: #0ff;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,.4);
+    border: 1px solid rgba(0,255,255,.3);
+    border-radius: 8px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all .3s;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #6200ea, #00c6ff);
+    color: #fff;
+}
+
+.btn-success {
+    background: #28a745;
+    color: #fff;
+}
+
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.winners-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.winner-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin: 5px 0;
+    background: rgba(255,255,255,.05);
+    border-radius: 6px;
+}
+
+.winner-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.winner-badge.gold { background: #ffd700; color: #000; }
+.winner-badge.silver { background: #c0c0c0; color: #000; }
+.winner-badge.bronze { background: #cd7f32; color: #fff; }
+
+#login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    background: rgba(0,0,0,.8);
+    border: 2px solid #0ff;
+    border-radius: 16px;
+    padding: 40px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,255,255,.3);
+}
+
+.login-box h2 {
+    color: #0ff;
+    margin-bottom: 20px;
+}
+
+.login-error {
+    color: #ff4444;
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+}
+
+#main-panel {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.open { display: flex; }
+
+.modal-content {
+    background: linear-gradient(135deg, #0a0a1a, #0d1a2e);
+    border: 1px solid rgba(0,255,255,.3);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content h3 { color: #0ff; margin-bottom: 15px; }
+</style>
 </head>
 <body>
-    <div id="loginPage" style="max-width: 420px; margin: 80px auto;">
-        <div class="glass-card">
-            <h1>🔐 AXIS Админ-панель</h1>
-            <div id="loginMessage"></div>
-            <input type="password" id="passwordInput" placeholder="Пароль">
-            <button id="loginBtn">Войти</button>
+
+<!-- Экран входа -->
+<div id="login-screen">
+    <div class="login-box">
+        <h2>🔐 ВХОД В ПАНЕЛЬ</h2>
+        <div class="form-group">
+            <input type="text" id="login-username" placeholder="Логин" style="text-align: center;"/>
+        </div>
+        <div class="form-group">
+            <input type="password" id="login-password" placeholder="Пароль" style="text-align: center;"/>
+        </div>
+        <button class="btn btn-primary" onclick="doLogin()" style="width:100%;">ВОЙТИ</button>
+        <div class="login-error" id="login-error">Неверный логин или пароль</div>
+    </div>
+</div>
+
+<!-- Основная панель -->
+<div id="main-panel">
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>⚡ VDC - ПАНЕЛЬ УПРАВЛЕНИЯ</h1>
+            <button class="logout-btn" onclick="doLogout()">ВЫЙТИ</button>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>👥 ВСЕГО ИГРОКОВ</h3>
+                <div class="stat-value" id="stat-total">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🟢 ОНЛАЙН СЕЙЧАС</h3>
+                <div class="stat-value" id="stat-online">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🔗 РЕФЕРАЛОВ</h3>
+                <div class="stat-value" id="stat-referrals">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🏆 ПОБЕДИТЕЛЕЙ</h3>
+                <div class="stat-value" id="stat-winners">0</div>
+            </div>
+        </div>
+
+        <!-- Топ игроков -->
+        <div class="panel">
+            <h2>🏆 ТОП ИГРОКОВ</h2>
+            <div class="top-players-grid">
+                <div class="top-list">
+                    <h3>⭐ По звёздам</h3>
+                    <div id="top-stars-list">Загрузка...</div>
+                </div>
+                <div class="top-list">
+                    <h3>📦 По запасу</h3>
+                    <div id="top-level-list">Загрузка...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Победители месяца -->
+        <div class="panel">
+            <h2>🏅 ПОБЕДИТЕЛИ МЕСЯЦА</h2>
+            <div class="winners-list" id="winners-list">Загрузка...</div>
+        </div>
+
+        <!-- Сообщение победителям -->
+        <div class="panel">
+            <h2>✉️ СООБЩЕНИЕ ПОБЕДИТЕЛЯМ</h2>
+            <div class="form-group">
+                <label>Шаблон сообщения</label>
+                <textarea id="winner-message-template" placeholder="Используй {nickname}, {place}, {category}, {score}"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Кому отправить</label>
+                <select id="winner-select" multiple style="min-height: 80px;"></select>
+            </div>
+            <button class="btn btn-success" onclick="sendWinnerMessages()">📨 ОТПРАВИТЬ СООБЩЕНИЯ</button>
+        </div>
+
+        <!-- Тестовое SMS -->
+        <div class="panel">
+            <h2>📱 ТЕСТОВОЕ SMS</h2>
+            <button class="btn btn-primary" onclick="showTestSMS()">👁️ ПОСМОТРЕТЬ ТЕСТОВОЕ SMS</button>
         </div>
     </div>
+</div>
 
-    <div id="adminPage" style="display: none;">
-        <div class="glass-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                <h1>🎛️ AXIS Админ-панель</h1>
-                <button id="logoutBtn" class="danger">Выйти</button>
-            </div>
-            
-            <h2>📊 Статистика сайта</h2>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-number" id="visitsCount">0</div><div class="stat-label">Всего посещений</div></div>
-            </div>
-            <button id="resetStatsBtn" class="danger">Сбросить статистику</button>
-
-            <hr>
-
-            <h2>📌 Рекламные блоки</h2>
-            <p style="margin-bottom: 15px;">Реклама будет отображаться на ВСЕХ страницах сайта</p>
-            
-            <div class="grid-2col">
-                <div>
-                    <h3>🖥️ ПК версия (боковые блоки)</h3>
-                    <div class="ad-block-card"><h3>📌 Левая реклама 1</h3><textarea id="pcLeft1Ad" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>📌 Левая реклама 2</h3><textarea id="pcLeft2Ad" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>📌 Правая реклама 1</h3><textarea id="pcRight1Ad" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>📌 Правая реклама 2</h3><textarea id="pcRight2Ad" placeholder="HTML код"></textarea></div>
-                </div>
-                <div>
-                    <h3>📱 Мобильная версия</h3>
-                    <div class="ad-block-card"><h3>📱 Мобильная реклама 1</h3><textarea id="mobileAd1" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>📱 Мобильная реклама 2</h3><textarea id="mobileAd2" placeholder="HTML код"></textarea></div>
-                    
-                    <h3>📋 Нижние рекламы (везде)</h3>
-                    <div class="ad-block-card"><h3>⬇️ Нижняя реклама 1</h3><textarea id="footerAd1" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>⬇️ Нижняя реклама 2</h3><textarea id="footerAd2" placeholder="HTML код"></textarea></div>
-                    <div class="ad-block-card"><h3>⬇️ Нижняя реклама 3</h3><textarea id="footerAd3" placeholder="HTML код"></textarea></div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button id="saveAllAdsBtn">💾 Сохранить ВСЕ блоки</button>
-                <button id="clearAllAdsBtn" class="danger">Очистить ВСЮ рекламу</button>
-                <button id="openSiteBtn" class="success">🌐 Открыть сайт</button>
-            </div>
-
-            <hr>
-
-            <h2>🔑 Смена пароля</h2>
-            <div id="passwordMessage"></div>
-            <input type="password" id="newPasswordInput" placeholder="Новый пароль (мин. 8 символов, цифры, заглавные и строчные буквы)">
-            <input type="password" id="confirmPasswordInput" placeholder="Подтвердите пароль">
-            <button id="changePasswordBtn">Изменить пароль</button>
-            
-            <footer style="margin-top: 30px; text-align: center; font-size: 11px;">AXIS Admin Panel | Реклама на всех страницах</footer>
-        </div>
+<!-- Модальное окно тестового SMS -->
+<div class="modal" id="test-sms-modal">
+    <div class="modal-content">
+        <h3>📱 ТЕСТОВОЕ SMS ДЛЯ ПОБЕДИТЕЛЕЙ</h3>
+        <div id="test-sms-content" style="padding:20px;background:rgba(0,0,0,.3);border-radius:8px;margin:15px 0;"></div>
+        <button class="btn btn-primary" onclick="closeTestSMS()">ЗАКРЫТЬ</button>
     </div>
+</div>
 
-    <script>
-        const STORAGE_KEYS = { PASSWORD: 'axis_admin_password', ADS: 'axis_ads_full', STATS: 'axis_stats' };
-        const DEFAULT_PASSWORD = '135710Aa!';
-        const defaultAds = { pcLeft1: '', pcLeft2: '', pcRight1: '', pcRight2: '', mobile1: '', mobile2: '', footer1: '', footer2: '', footer3: '' };
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Конфигурация Supabase
+var SUPABASE_URL = 'https://kmkgqegtulbmdjlmllka.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
+var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        function initPassword() { if (!localStorage.getItem(STORAGE_KEYS.PASSWORD)) localStorage.setItem(STORAGE_KEYS.PASSWORD, DEFAULT_PASSWORD); }
-        function checkPassword(p) { return p === localStorage.getItem(STORAGE_KEYS.PASSWORD); }
-        function getAds() { try { return { ...defaultAds, ...JSON.parse(localStorage.getItem(STORAGE_KEYS.ADS) || '{}') }; } catch(e) { return { ...defaultAds }; } }
-        function saveAds(ads) { localStorage.setItem(STORAGE_KEYS.ADS, JSON.stringify(ads)); window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEYS.ADS, newValue: JSON.stringify(ads) })); }
-        function getStats() { try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.STATS) || '{"visits":0}'); } catch(e) { return { visits: 0 }; } }
-        function updateStatsUI() { document.getElementById('visitsCount').innerText = getStats().visits || 0; }
-        function resetStats() { if(confirm('Сбросить статистику?')) { localStorage.setItem(STORAGE_KEYS.STATS, JSON.stringify({ visits: 0 })); updateStatsUI(); showMessage('Статистика сброшена', 'success'); } }
-        function loadAdsToForm() { const a = getAds(); document.getElementById('pcLeft1Ad').value = a.pcLeft1; document.getElementById('pcLeft2Ad').value = a.pcLeft2; document.getElementById('pcRight1Ad').value = a.pcRight1; document.getElementById('pcRight2Ad').value = a.pcRight2; document.getElementById('mobileAd1').value = a.mobile1; document.getElementById('mobileAd2').value = a.mobile2; document.getElementById('footerAd1').value = a.footer1; document.getElementById('footerAd2').value = a.footer2; document.getElementById('footerAd3').value = a.footer3; }
-        function saveAllAds() { saveAds({ pcLeft1: document.getElementById('pcLeft1Ad').value, pcLeft2: document.getElementById('pcLeft2Ad').value, pcRight1: document.getElementById('pcRight1Ad').value, pcRight2: document.getElementById('pcRight2Ad').value, mobile1: document.getElementById('mobileAd1').value, mobile2: document.getElementById('mobileAd2').value, footer1: document.getElementById('footerAd1').value, footer2: document.getElementById('footerAd2').value, footer3: document.getElementById('footerAd3').value }); showMessage('Все блоки сохранены!', 'success'); }
-        function clearAllAds() { if(confirm('Удалить всю рекламу?')) { saveAds({ ...defaultAds }); loadAdsToForm(); showMessage('Вся реклама удалена', 'success'); } }
-        function changePassword(newPass, confirmPass) { const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; if(!regex.test(newPass)) { showMessage('Пароль должен содержать минимум 8 символов, заглавные и строчные буквы и цифры', 'error', 'passwordMessage'); return false; } if(newPass !== confirmPass) { showMessage('Пароли не совпадают', 'error', 'passwordMessage'); return false; } localStorage.setItem(STORAGE_KEYS.PASSWORD, newPass); showMessage('Пароль изменён!', 'success', 'passwordMessage'); document.getElementById('newPasswordInput').value = ''; document.getElementById('confirmPasswordInput').value = ''; return true; }
-        function showMessage(msg, type, elId='loginMessage') { const el = document.getElementById(elId); if(el) { el.innerHTML = `<div class="message ${type}">${msg}</div>`; setTimeout(() => el.innerHTML = '', 3000); } }
-        function logout() { localStorage.removeItem('axis_admin_logged'); document.getElementById('loginPage').style.display = 'block'; document.getElementById('adminPage').style.display = 'none'; }
-        function checkAuth() { if(localStorage.getItem('axis_admin_logged') === 'true') { document.getElementById('loginPage').style.display = 'none'; document.getElementById('adminPage').style.display = 'block'; updateStatsUI(); loadAdsToForm(); } else { document.getElementById('loginPage').style.display = 'block'; document.getElementById('adminPage').style.display = 'none'; } }
-        
-        initPassword();
-        document.getElementById('loginBtn')?.addEventListener('click', () => { if(checkPassword(document.getElementById('passwordInput').value)) { localStorage.setItem('axis_admin_logged', 'true'); checkAuth(); } else showMessage('Неверный пароль!', 'error'); });
-        document.getElementById('logoutBtn')?.addEventListener('click', logout);
-        document.getElementById('saveAllAdsBtn')?.addEventListener('click', saveAllAds);
-        document.getElementById('clearAllAdsBtn')?.addEventListener('click', clearAllAds);
-        document.getElementById('resetStatsBtn')?.addEventListener('click', resetStats);
-        document.getElementById('openSiteBtn')?.addEventListener('click', () => window.open('index.html', '_blank'));
-        document.getElementById('changePasswordBtn')?.addEventListener('click', () => changePassword(document.getElementById('newPasswordInput').value, document.getElementById('confirmPasswordInput').value));
-        document.getElementById('passwordInput')?.addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('loginBtn').click(); });
-        checkAuth();
-    </script>
+var isLoggedIn = false;
+
+// Проверка сессии при загрузке
+checkSession();
+
+async function checkSession() {
+    var saved = sessionStorage.getItem('admin_logged_in');
+    if (saved === 'true') {
+        isLoggedIn = true;
+        showMainPanel();
+    }
+}
+
+async function doLogin() {
+    var username = document.getElementById('login-username').value.trim();
+    var password = document.getElementById('login-password').value.trim();
+    
+    if (!username || !password) {
+        showLoginError('Заполни все поля');
+        return;
+    }
+    
+    // Проверяем в Supabase
+    var { data, error } = await supabase
+        .from('admin_users')
+        .select('password_hash')
+        .eq('username', username)
+        .single();
+    
+    if (data && data.password_hash === 'f7c3bc1d808e04732adf679965ccc34ca7ae3441' && password === '135710Aa!') {
+        isLoggedIn = true;
+        sessionStorage.setItem('admin_logged_in', 'true');
+        showMainPanel();
+    } else {
+        showLoginError('Неверный логин или пароль');
+    }
+}
+
+function showLoginError(msg) {
+    var el = document.getElementById('login-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(function() { el.style.display = 'none'; }, 3000);
+}
+
+function doLogout() {
+    sessionStorage.removeItem('admin_logged_in');
+    isLoggedIn = false;
+    document.getElementById('main-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+}
+
+async function showMainPanel() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-panel').style.display = 'block';
+    await loadStats();
+    await loadTopPlayers();
+    await loadWinners();
+    await loadWinnerMessageTemplate();
+}
+
+async function loadStats() {
+    var { data: players } = await supabase.from('players').select('id, is_online');
+    document.getElementById('stat-total').textContent = players ? players.length : 0;
+    document.getElementById('stat-online').textContent = players ? players.filter(function(p) { return p.is_online; }).length : 0;
+    
+    var { data: refs } = await supabase.from('referrals').select('id');
+    document.getElementById('stat-referrals').textContent = refs ? refs.length : 0;
+    
+    var { data: winners } = await supabase.from('winners').select('id');
+    document.getElementById('stat-winners').textContent = winners ? winners.length : 0;
+}
+
+async function loadTopPlayers() {
+    var { data: stars } = await supabase.from('players').select('nickname, highscore_stars').order('highscore_stars', { ascending: false }).limit(3);
+    var { data: levels } = await supabase.from('players').select('nickname, highscore_level').order('highscore_level', { ascending: false }).limit(3);
+    
+    var medals = ['🥇', '🥈', '🥉'];
+    var classes = ['gold', 'silver', 'bronze'];
+    
+    document.getElementById('top-stars-list').innerHTML = (stars || []).map(function(item, i) {
+        return '<div class="top-player-item ' + (classes[i] || '') + '">' +
+            '<span>' + (medals[i] || '') + ' ' + item.nickname + '</span>' +
+            '<span>⭐ ' + (item.highscore_stars || 0) + '</span></div>';
+    }).join('') || 'Нет данных';
+    
+    document.getElementById('top-level-list').innerHTML = (levels || []).map(function(item, i) {
+        return '<div class="top-player-item ' + (classes[i] || '') + '">' +
+            '<span>' + (medals[i] || '') + ' ' + item.nickname + '</span>' +
+            '<span>📦 ' + (item.highscore_level || 0) + '</span></div>';
+    }).join('') || 'Нет данных';
+}
+
+async function loadWinners() {
+    var { data } = await supabase.from('winners').select('*').order('created_at', { ascending: false }).limit(20);
+    
+    document.getElementById('winners-list').innerHTML = (data || []).map(function(w) {
+        var badgeClass = w.place === 1 ? 'gold' : (w.place === 2 ? 'silver' : 'bronze');
+        var medal = w.place === 1 ? '🥇' : (w.place === 2 ? '🥈' : '🥉');
+        return '<div class="winner-item">' +
+            '<span>' + medal + ' ' + w.nickname + ' (' + w.category + ')</span>' +
+            '<span class="winner-badge ' + badgeClass + '">' + w.month_year + '</span>' +
+            '<span>' + (w.message_sent ? '✅ Отправлено' : '⏳ Ожидает') + '</span></div>';
+    }).join('') || 'Нет победителей';
+    
+    // Заполняем список для отправки сообщений
+    var pending = (data || []).filter(function(w) { return !w.message_sent; });
+    document.getElementById('winner-select').innerHTML = pending.map(function(w) {
+        return '<option value="' + w.id + '">' + w.nickname + ' (место ' + w.place + ', ' + w.category + ')</option>';
+    }).join('');
+}
+
+async function loadWinnerMessageTemplate() {
+    var { data } = await supabase.from('game_settings').select('setting_value').eq('setting_key', 'winner_message_template').single();
+    if (data) {
+        document.getElementById('winner-message-template').value = data.setting_value;
+    }
+}
+
+async function sendWinnerMessages() {
+    var template = document.getElementById('winner-message-template').value;
+    var select = document.getElementById('winner-select');
+    var selectedIds = [];
+    
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].selected) selectedIds.push(select.options[i].value);
+    }
+    
+    if (selectedIds.length === 0) {
+        alert('Выбери получателей');
+        return;
+    }
+    
+    // Сохраняем шаблон
+    await supabase.from('game_settings').upsert({ setting_key: 'winner_message_template', setting_value: template, updated_at: new Date().toISOString() });
+    
+    // Отмечаем как отправленные
+    for (var j = 0; j < selectedIds.length; j++) {
+        await supabase.from('winners').update({ message_sent: true }).eq('id', selectedIds[j]);
+    }
+    
+    alert('✅ Сообщения отправлены!');
+    await loadWinners();
+}
+
+function showTestSMS() {
+    var template = document.getElementById('winner-message-template').value;
+    var example = template
+        .replace('{nickname}', 'Player1')
+        .replace('{place}', '1')
+        .replace('{category}', 'stars')
+        .replace('{score}', '5000');
+    
+    document.getElementById('test-sms-content').textContent = example;
+    document.getElementById('test-sms-modal').classList.add('open');
+}
+
+function closeTestSMS() {
+    document.getElementById('test-sms-modal').classList.remove('open');
+}
+
+// Автообновление каждые 5 секунд
+setInterval(function() {
+    if (isLoggedIn) {
+        loadStats();
+        loadTopPlayers();
+    }
+}, 5000);
+
+// Вход по Enter
+document.getElementById('login-password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+});
+</script>
 </body>
 </html>
