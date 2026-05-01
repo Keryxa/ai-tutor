@@ -65,141 +65,21 @@ html, body {
 .vx-title-wrap{display:flex;gap:2px;justify-content:center;align-items:center;margin-bottom:4px;}
 .vx-title-letter{display:inline-block;font-size:44px;font-weight:900;font-family:'Arial Black',Arial,sans-serif;letter-spacing:1px;animation:vx-letter-wave 1.8s ease-in-out infinite;}
 
-#vx-start-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  overflow: hidden;
-  background: #000;
-}
+#vx-start-overlay{position:absolute;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;background:#000;}
+#vx-register-overlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;background:#000;}
+#vx-main-menu{display:none;position:absolute;inset:0;z-index:95;background-image:url('https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png');background-size:cover;background-position:center;background-repeat:no-repeat;flex-direction:column;}
 
-#vx-main-menu {
-  display: none;
-  position: absolute;
-  inset: 0;
-  z-index: 95;
-  background-image: url('https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  flex-direction: column;
-}
+.main-menu-header{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;width:100%;flex-wrap:wrap;}
+.main-nickname{color:#0ff;font-size:14px;font-weight:bold;text-shadow:0 0 10px #0ff;background:rgba(0,0,0,.5);padding:6px 14px;border-radius:20px;border:1px solid rgba(0,255,255,.3);}
+.main-balance{color:#ffd700;font-size:14px;font-weight:bold;text-shadow:0 0 10px #ffd700;background:rgba(0,0,0,.5);padding:6px 14px;border-radius:20px;border:1px solid rgba(255,215,0,.3);}
+.main-sound-btn{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);color:#666;font-size:14px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.main-buttons-container{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;padding:15px;}
 
-.main-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.main-nickname {
-  color: #0ff;
-  font-size: 14px;
-  font-weight: bold;
-  text-shadow: 0 0 10px #0ff;
-  background: rgba(0,0,0,.5);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(0,255,255,.3);
-}
-
-.main-balance {
-  color: #ffd700;
-  font-size: 14px;
-  font-weight: bold;
-  text-shadow: 0 0 10px #ffd700;
-  background: rgba(0,0,0,.5);
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,215,0,.3);
-}
-
-.main-sound-btn {
-  background: rgba(0,0,0,.5);
-  border: 1px solid rgba(255,255,255,.3);
-  color: #666;
-  font-size: 14px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.main-buttons-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 15px;
-}
-
-.main-btn-play {
-  padding: 18px 50px;
-  font-size: 18px;
-  font-weight: 900;
-  border-radius: 16px;
-  cursor: pointer;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  background: linear-gradient(45deg, #1a1a3e, #0a2a1a);
-  color: #fff;
-  border: 3px solid #0ff;
-  animation: neonPulse 2s infinite, gradientBorder 4s infinite;
-  transition: all .3s;
-  min-width: 200px;
-  text-align: center;
-}
-
-.main-btn-shop {
-  padding: 16px 40px;
-  font-size: 16px;
-  font-weight: 900;
-  border-radius: 16px;
-  cursor: pointer;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  background: linear-gradient(45deg, #3e1a1a, #1a0a2a);
-  color: #ffd700;
-  border: 3px solid #ffd700;
-  animation: gradientBorder 4s infinite;
-  transition: all .3s;
-  min-width: 200px;
-  text-align: center;
-}
-
-.main-btn-play:hover, .main-btn-shop:hover {
-  transform: scale(1.05);
-}
-
-.main-btn-leaderboard {
-  padding: 12px 30px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 12px;
-  cursor: pointer;
-  background: rgba(0,0,0,.6);
-  color: #ffd700;
-  border: 2px solid #ffd700;
-  transition: all .3s;
-}
-
-.main-btn-leaderboard:hover {
-  transform: scale(1.05);
-  background: rgba(255,215,0,.1);
-}
+.main-btn-play{padding:18px 50px;font-size:18px;font-weight:900;border-radius:16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(45deg,#1a1a3e,#0a2a1a);color:#fff;border:3px solid #0ff;animation:neonPulse 2s infinite,gradientBorder 4s infinite;transition:all .3s;min-width:200px;text-align:center;}
+.main-btn-shop{padding:16px 40px;font-size:16px;font-weight:900;border-radius:16px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(45deg,#3e1a1a,#1a0a2a);color:#ffd700;border:3px solid #ffd700;animation:gradientBorder 4s infinite;transition:all .3s;min-width:200px;text-align:center;}
+.main-btn-play:hover,.main-btn-shop:hover{transform:scale(1.05);}
+.main-btn-leaderboard{padding:12px 30px;font-size:14px;font-weight:bold;border-radius:12px;cursor:pointer;background:rgba(0,0,0,.6);color:#ffd700;border:2px solid #ffd700;transition:all .3s;}
+.main-btn-leaderboard:hover{transform:scale(1.05);background:rgba(255,215,0,.1);}
 
 #vx-rules-modal{position:absolute;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);}
 #vx-rules-modal.open{display:flex;}
@@ -242,7 +122,6 @@ html, body {
 
 #vx-nick-error{color:#ff4444;font-size:11px;display:none;margin-top:-8px;text-align:center;font-family:Arial,sans-serif;}
 #vx-loading-screen{position:absolute;inset:0;z-index:300;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-family:Arial,sans-serif;}
-
 #vx-mobile-hint{display:none;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);color:#aaa;font-size:12px;font-family:Arial,sans-serif;text-align:center;z-index:15;}
 
 #vx-referral-modal{position:absolute;inset:0;z-index:220;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);}
@@ -266,6 +145,8 @@ html, body {
 #vx-terms-box ul{padding-left:18px;}
 #vx-terms-box li{margin-bottom:4px;}
 #vx-terms-close{padding:10px 32px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:20px;color:#fff;font-weight:bold;font-size:14px;cursor:pointer;touch-action:manipulation;display:block;margin:15px auto 0;}
+
+.reg-btn{cursor:pointer;font-size:13px;color:rgba(0,255,255,.75);background:none;border:none;text-decoration:underline;padding:5px;}
 </style>
 </head>
 <body>
@@ -275,129 +156,53 @@ html, body {
 <div id="vx-loading-screen">Загрузка...</div>
 
 <div id="vx-save-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.95);z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;">
-  <h2 style="color:#f00;margin:0 0 10px;font-family:Arial,sans-serif;">СИСТЕМА ПЕРЕГРУЖЕНА!</h2>
-  <p id="vx-save-text" style="font-size:18px;margin:0 0 30px;line-height:1.5;font-family:Arial,sans-serif;"></p>
+  <h2 style="color:#f00;margin:0 0 10px;">СИСТЕМА ПЕРЕГРУЖЕНА!</h2>
+  <p id="vx-save-text" style="font-size:18px;margin:0 0 30px;line-height:1.5;"></p>
   <div style="display:flex;gap:20px;">
-    <button id="vx-btn-save-confirm" style="padding:15px 30px;background:#28a745;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;touch-action:manipulation;font-family:Arial,sans-serif;">СОХРАНИТЬ (90%)</button>
-    <button id="vx-btn-save-cancel"  style="padding:15px 30px;background:#444;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;touch-action:manipulation;font-family:Arial,sans-serif;">ЗАКОНЧИТЬ</button>
+    <button id="vx-btn-save-confirm" style="padding:15px 30px;background:#28a745;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">СОХРАНИТЬ (90%)</button>
+    <button id="vx-btn-save-cancel" style="padding:15px 30px;background:#444;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">ЗАКОНЧИТЬ</button>
   </div>
 </div>
 
-<div id="vx-rules-modal">
-  <div id="vx-rules-box">
-    <h3>ПРАВИЛА ИГРЫ</h3>
-    <p>
-1. Собирайте людей чёрной дырой, не превышая лимит груза.<br/>
-2. Высаживайте людей на планету для получения звёзд.<br/>
-3. Очищайте планету, когда она переполнена (с просмотром рекламы).<br/>
-4. При взрыве дыры можно спасти 90% звёзд (с просмотром рекламы).<br/>
-5. Ракеты и метеориты несут бомбы или подарки.<br/>
-6. Зелёная бонус-планета даёт множитель дохода x5.<br/>
-7. Улучшайте размер, запас и скорость дыры за звёзды.<br/>
-8. Покупайте новые виды дыр в магазине за звёзды.<br/>
-9. Красные человечки взрывают дыру, зелёные дают бонус.
-    </p>
-    <button id="vx-rules-close">ПОНЯТНО!</button>
-  </div>
-</div>
+<div id="vx-rules-modal"><div id="vx-rules-box"><h3>ПРАВИЛА ИГРЫ</h3><p>1. Собирайте людей чёрной дырой, не превышая лимит груза.<br/>2. Высаживайте людей на планету для получения звёзд.<br/>3. Очищайте планету, когда она переполнена (с просмотром рекламы).<br/>4. При взрыве дыры можно спасти 90% звёзд (с просмотром рекламы).<br/>5. Ракеты и метеориты несут бомбы или подарки.<br/>6. Зелёная бонус-планета даёт множитель дохода x5.<br/>7. Улучшайте размер, запас и скорость дыры за звёзды.<br/>8. Покупайте новые виды дыр в магазине за звёзды.<br/>9. Красные человечки взрывают дыру, зелёные дают бонус.</p><button id="vx-rules-close">ПОНЯТНО!</button></div></div>
+<div id="vx-leaderboard-modal"><div id="vx-leaderboard-box"><h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3><div class="leaderboard-tabs"><button class="leaderboard-tab active" data-tab="stars">⭐ По звёздам</button><button class="leaderboard-tab" data-tab="level">📦 По уровню запаса</button></div><div class="leaderboard-list" id="leaderboard-list"><div style="color:#666;padding:20px;">Загрузка...</div></div><button id="vx-leaderboard-close" style="margin-top:15px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
+<div id="vx-terms-modal"><div id="vx-terms-box"><h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3><h4>1. Общие положения</h4><p>Игра "VDC - Vortex Delivery Co" является развлекательным продуктом.</p><h4>2. Правила игры</h4><ul><li>Управляйте чёрной дырой для сбора человечков</li><li>Не превышайте лимит груза</li><li>Высаживайте груз на планете</li><li>Улучшайте характеристики дыры</li></ul><h4>3. Внутриигровая валюта</h4><p>Звёзды (★) являются внутриигровой валютой.</p><h4>4. Конфиденциальность</h4><p>Данные хранятся в зашифрованном виде.</p><button id="vx-terms-close">ПРИНИМАЮ</button></div></div>
 
-<div id="vx-leaderboard-modal">
-  <div id="vx-leaderboard-box">
-    <h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3>
-    <div class="leaderboard-tabs">
-      <button class="leaderboard-tab active" data-tab="stars">⭐ По звёздам</button>
-      <button class="leaderboard-tab" data-tab="level">📦 По уровню запаса</button>
-    </div>
-    <div class="leaderboard-list" id="leaderboard-list">
-      <div style="color: #666; padding: 20px;">Загрузка...</div>
-    </div>
-    <button id="vx-leaderboard-close" style="margin-top:15px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button>
-  </div>
-</div>
+<div id="vx-referral-modal"><div id="vx-referral-box"><h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3><p>Приглашай друзей и получай мини-чёрные дыры!</p><div class="referral-reward"><div class="referral-minihole"></div><span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span></div><p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр.</p><div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div><div class="referral-count" id="referral-count-display">0</div><div id="referral-admin-panel" style="display:none;"><div class="referral-admin-controls"><button class="referral-admin-btn" id="vx-ref-minus">−</button><span style="font-size:14px;color:#0ff;">Админ</span><button class="referral-admin-btn" id="vx-ref-plus">+</button></div></div><div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div><div class="referral-link" id="referral-link-display">Загрузка...</div><button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button><button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
 
-<div id="vx-terms-modal">
-  <div id="vx-terms-box">
-    <h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3>
-    <h4>1. Общие положения</h4>
-    <p>Игра "VDC - Vortex Delivery Co" (далее — Игра) является развлекательным продуктом. Используя Игру, вы соглашаетесь с данными условиями.</p>
-    <h4>2. Правила игры</h4>
-    <ul><li>Управляйте чёрной дырой для сбора человечков</li><li>Не превышайте лимит груза во избежание взрыва</li><li>Высаживайте груз на планете для получения звёзд</li><li>Улучшайте характеристики дыры за заработанные звёзды</li><li>Бонусные планеты дают множитель дохода x5</li></ul>
-    <h4>3. Внутриигровая валюта</h4>
-    <p>Звёзды (★) являются внутриигровой валютой и не имеют реальной денежной стоимости. Прогресс сохраняется локально в браузере.</p>
-    <h4>4. Реклама</h4>
-    <p>Игра может содержать рекламные материалы. Просмотр рекламы является добровольным и даёт игровые преимущества.</p>
-    <h4>5. Ограничение ответственности</h4>
-    <p>Игра предоставляется "как есть". Разработчик не несёт ответственности за потерю игрового прогресса, ошибки или несовместимость с устройствами.</p>
-    <h4>6. Конфиденциальность</h4>
-    <p>Мы не собираем личные данные пользователей. Никнейм и игровой прогресс хранятся локально на устройстве. Реферальные данные хранятся в зашифрованном виде.</p>
-    <h4>7. Изменения</h4>
-    <p>Условия использования могут быть изменены в любое время. Продолжение использования Игры означает согласие с новыми условиями.</p>
-    <button id="vx-terms-close">ПРИНИМАЮ</button>
-  </div>
-</div>
+<div id="vx-pause-menu"><h2>ПАУЗА</h2><button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button><button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button><button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button><button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button></div>
+<div id="vx-hole-shop"><h2>МАГАЗИН</h2><div id="vx-shop-cards"></div><button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">НАЗАД</button></div>
 
-<div id="vx-referral-modal">
-  <div id="vx-referral-box">
-    <h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3>
-    <p>Приглашай друзей и получай мини-чёрные дыры!</p>
-    <div class="referral-reward">
-      <div class="referral-minihole"></div>
-      <span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span>
-    </div>
-    <p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр. Они не взрываются от бомб, мгновенно поглощают человечков и начисляют звёзды!</p>
-    <div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div>
-    <div class="referral-count" id="referral-count-display">0</div>
-    <div id="referral-admin-panel" style="display:none;">
-      <div class="referral-admin-controls">
-        <button class="referral-admin-btn" id="vx-ref-minus">−</button>
-        <span style="font-size:14px;color:#0ff;">Админ</span>
-        <button class="referral-admin-btn" id="vx-ref-plus">+</button>
-      </div>
-    </div>
-    <div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div>
-    <div class="referral-link" id="referral-link-display">Загрузка...</div>
-    <button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button>
-    <button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button>
-  </div>
-</div>
-
-<div id="vx-pause-menu">
-  <h2>ПАУЗА</h2>
-  <button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button>
-  <button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button>
-  <button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button>
-  <button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button>
-</div>
-
-<div id="vx-hole-shop">
-  <h2>МАГАЗИН</h2>
-  <div id="vx-shop-cards"></div>
-  <button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;touch-action:manipulation;font-family:Arial,sans-serif;">НАЗАД</button>
-</div>
-
+<!-- Экран ввода никнейма -->
 <div id="vx-start-overlay">
   <canvas id="vx-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
   <div id="vx-stars-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
   <div style="position:absolute;top:10px;left:0;right:0;z-index:3;display:flex;justify-content:center;align-items:center;gap:10px;">
-    <div style="width:40px;height:40px;border-radius:50%;background:#000;border:2px solid #0ff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(0,255,255,.5);">
-      <span style="color:#0ff;font-weight:900;font-size:12px;font-family:'Arial Black',Arial,sans-serif;">VDC</span>
-    </div>
+    <div style="width:40px;height:40px;border-radius:50%;background:#000;border:2px solid #0ff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(0,255,255,.5);"><span style="color:#0ff;font-weight:900;font-size:12px;font-family:'Arial Black',Arial,sans-serif;">VDC</span></div>
     <div class="vx-title-wrap" id="vx-title-letters"></div>
   </div>
   <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;">
-    <p style="margin:0 0 20px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;font-family:Arial,sans-serif;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
-    
+    <p style="margin:0 0 20px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
     <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:20px 25px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
-      <div style="width:100%;position:relative;">
-        <input type="text" id="vx-nickname" placeholder="Твой никнейм (минимум 4 символа)..."
-          style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;font-family:Arial,sans-serif;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;"
-          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" minlength="4"/>
-        <div id="vx-nick-error">Никнейм должен содержать минимум 4 символа</div>
-      </div>
-      <button id="vx-rules-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;font-family:Arial,sans-serif;cursor:pointer;touch-action:manipulation;text-decoration:underline;padding:0;">Правила пользования</button>
-      <button id="vx-terms-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;font-family:Arial,sans-serif;cursor:pointer;touch-action:manipulation;text-decoration:underline;padding:0;">Условия использования</button>
-      <button id="vx-start-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;letter-spacing:1px;box-shadow:0 0 25px rgba(0,198,255,.5);touch-action:manipulation;font-family:Arial,sans-serif;">ПРОДОЛЖИТЬ</button>
+      <input type="text" id="vx-nickname" placeholder="Твой никнейм (минимум 4 символа)..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" minlength="4"/>
+      <div id="vx-nick-error">Никнейм должен содержать минимум 4 символа</div>
+      <input type="password" id="vx-password" placeholder="Пароль (минимум 4 символа)..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" minlength="4"/>
+      <button id="vx-rules-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Правила пользования</button>
+      <button id="vx-terms-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Условия использования</button>
+      <button id="vx-start-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;letter-spacing:1px;box-shadow:0 0 25px rgba(0,198,255,.5);">ВХОД</button>
+      <button id="vx-register-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:5px;">Регистрация</button>
     </div>
+  </div>
+</div>
+
+<!-- Экран регистрации -->
+<div id="vx-register-overlay">
+  <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:25px 30px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
+    <h3 style="color:#0ff;">📝 РЕГИСТРАЦИЯ</h3>
+    <input type="text" id="reg-nickname" placeholder="Твой никнейм..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
+    <input type="password" id="reg-password" placeholder="Придумай пароль..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
+    <button id="reg-confirm-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+    <button id="reg-back-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;">Назад</button>
   </div>
 </div>
 
@@ -417,29 +222,18 @@ html, body {
 
 <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
   <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
-    <div style="color:#fff;font-size:15px;font-weight:bold;font-family:Arial,sans-serif;white-space:nowrap;">★ <span id="vx-cash">10</span></div>
-    <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;">
-      <div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div>
-      <div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div>
-    </div>
-    <div style="color:#0f0;font-size:11px;margin-top:5px;font-family:Arial,sans-serif;white-space:nowrap;">ДЫРА:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
+    <div style="color:#fff;font-size:15px;font-weight:bold;">★ <span id="vx-cash">10</span></div>
+    <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;"><div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div><div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div></div>
+    <div style="color:#0f0;font-size:11px;margin-top:5px;">ДЫРА:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
   </div>
-  <button id="vx-sound-btn" style="position:absolute;top:12px;right:54px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#666;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;touch-action:manipulation;font-family:Arial,sans-serif;">♪</button>
-  <button id="vx-pause-btn" style="position:absolute;top:12px;right:12px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#fff;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;touch-action:manipulation;font-family:Arial,sans-serif;">II</button>
-  <div id="vx-portal-ui" style="position:absolute;display:none;pointer-events:auto;z-index:20;transform:translate(-50%,-50%);">
-    <button id="vx-clear-btn" style="background:rgba(160,0,0,.92);border:2px solid #ff5555;border-radius:22px;color:#fff;font-size:13px;font-weight:bold;font-family:Arial,sans-serif;padding:9px 18px;cursor:pointer;touch-action:manipulation;white-space:nowrap;box-shadow:0 0 16px rgba(255,0,0,.6);-webkit-appearance:none;appearance:none;min-width:80px;min-height:40px;">ОЧИСТИТЬ</button>
-  </div>
+  <button id="vx-sound-btn" style="position:absolute;top:12px;right:54px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#666;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">♪</button>
+  <button id="vx-pause-btn" style="position:absolute;top:12px;right:12px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#fff;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">II</button>
+  <div id="vx-portal-ui" style="position:absolute;display:none;pointer-events:auto;z-index:20;transform:translate(-50%,-50%);"><button id="vx-clear-btn" style="background:rgba(160,0,0,.92);border:2px solid #ff5555;border-radius:22px;color:#fff;font-size:13px;font-weight:bold;padding:9px 18px;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(255,0,0,.6);">ОЧИСТИТЬ</button></div>
   <div id="vx-mobile-hint">Проведите пальцем для перемещения дыры</div>
-  <div style="position:absolute;bottom:15px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;">
-    <div style="display:flex;gap:8px;pointer-events:auto;">
-      <button class="vx-s-btn" id="vx-btn-rad">РАЗМЕР 0/10</button>
-      <button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/∞</button>
-      <button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button>
-    </div>
-  </div>
+  <div style="position:absolute;bottom:15px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="display:flex;gap:8px;pointer-events:auto;"><button class="vx-s-btn" id="vx-btn-rad">РАЗМЕР 0/10</button><button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/∞</button><button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button></div></div>
 </div>
 
-<div id="vx-death-msg" style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#f00;font-size:32px;font-weight:bold;opacity:0;pointer-events:none;transition:.5s;z-index:110;text-align:center;font-family:Arial,sans-serif;">ВЗРЫВ!</div>
+<div id="vx-death-msg" style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#f00;font-size:32px;font-weight:bold;opacity:0;pointer-events:none;transition:.5s;z-index:110;text-align:center;">ВЗРЫВ!</div>
 <canvas id="vx-canvas" style="display:block;background:#000;width:100%;height:100%;"></canvas>
 </div>
 </div>
@@ -453,24 +247,75 @@ var scaler=document.getElementById('game-scaler');
 var canvas=document.getElementById('vx-canvas');
 var ctx=canvas.getContext('2d');
 var audioCtx;
-var crazySDK = null;
-var gameplayStarted = false;
-var sdkReady = false;
-var soundOn = false;
-var playerNickname = '';
-var referralCode = '';
-var referralCount = 0;
-var inGame = false;
-var isMobile = ('ontouchstart' in window && window.innerWidth < 768) || window.innerWidth < 768;
+var musicGain;
+var musicSource;
+var musicPlaying=false;
+var crazySDK=null;
+var gameplayStarted=false;
+var sdkReady=false;
+var soundOn=false;
+var playerNickname='';
+var referralCode='';
+var referralCount=0;
+var inGame=false;
+var isMobile=('ontouchstart' in window&&window.innerWidth<768)||window.innerWidth<768;
 
-// *** ИСПРАВЛЕННЫЙ URL SUPABASE ***
-var SUPABASE_URL = 'https://kmkgqegtulbmdjlmllka.supabase.co';
-var SUPABASE_KEY = 'sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
-var supabase = null;
+var SUPABASE_URL='https://kmkgqegtulbmdjlmllka.supabase.co';
+var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
+var supabase=null;
+try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
-try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
+// Хеширование пароля (SHA-256)
+async function hashPassword(password) {
+    var msgUint8 = new TextEncoder().encode(password);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
-function generateReferralCode() {
+// Фоновая музыка
+function startMusic() {
+    if (!soundOn || musicPlaying) return;
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    musicPlaying = true;
+    
+    var sampleRate = audioCtx.sampleRate;
+    var duration = 8;
+    var numSamples = sampleRate * duration;
+    var buffer = audioCtx.createBuffer(1, numSamples, sampleRate);
+    var data = buffer.getChannelData(0);
+    
+    var notes = [130.81, 164.81, 196.00, 220.00, 261.63, 220.00, 196.00, 164.81, 146.83, 174.61, 220.00, 261.63, 293.66, 261.63, 220.00, 174.61];
+    var noteLength = numSamples / notes.length;
+    
+    for (var i = 0; i < numSamples; i++) {
+        var noteIndex = Math.floor(i / noteLength);
+        var freq = notes[noteIndex % notes.length];
+        var t = i / sampleRate;
+        var envelope = Math.min(1, (i % noteLength) / (sampleRate * 0.05)) * Math.max(0, 1 - ((i % noteLength) / noteLength));
+        data[i] = (Math.sin(2 * Math.PI * freq * t) * 0.15 + Math.sin(2 * Math.PI * freq * 1.5 * t) * 0.05) * envelope;
+    }
+    
+    musicSource = audioCtx.createBufferSource();
+    musicSource.buffer = buffer;
+    musicSource.loop = true;
+    musicGain = audioCtx.createGain();
+    musicGain.gain.value = 0.05;
+    musicSource.connect(musicGain);
+    musicGain.connect(audioCtx.destination);
+    musicSource.start();
+}
+
+function stopMusic() {
+    if (musicSource) { try { musicSource.stop(); } catch(e) {} musicSource = null; }
+    musicPlaying = false;
+}
+
+function toggleMusic() {
+    if (!soundOn) { stopMusic(); return; }
+    if (musicPlaying) { stopMusic(); } else { startMusic(); }
+}
+  function generateReferralCode() {
     var saved = localStorage.getItem('vx_referral_code');
     if (saved) return saved;
     var code = 'VX' + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -486,11 +331,7 @@ function getLocalReferralCount() {
 async function loadReferralCountFromSupabase() {
     if (!supabase) return;
     try {
-        var { data } = await supabase
-            .from('referrals')
-            .select('count')
-            .eq('code', referralCode)
-            .single();
+        var { data } = await supabase.from('referrals').select('count').eq('code', referralCode).single();
         if (data && data.count > 0) {
             referralCount = data.count;
             var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
@@ -507,7 +348,7 @@ async function updateReferralCount(delta) {
     allRefs[referralCode] = newCount;
     localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
     if (supabase && playerNickname) {
-        try { await supabase.from('referrals').upsert({ code: referralCode, nickname: playerNickname, count: newCount, updated_at: new Date().toISOString() }); } catch(e) {}
+        try { await supabase.from('referrals').upsert({ code: referralCode, referrer_nickname: playerNickname, count: newCount, last_activity: new Date().toISOString(), updated_at: new Date().toISOString() }); } catch(e) {}
     }
     if (g.active) updateMiniHoles();
     updateReferralDisplay();
@@ -522,14 +363,34 @@ function updateMiniHoles() {
 }
 
 function updateReferralDisplay() {
-    var d = document.getElementById('referral-count-display');
-    if (d) d.textContent = referralCount;
+    var d = document.getElementById('referral-count-display'); if (d) d.textContent = referralCount;
     var l = document.getElementById('referral-link-display');
-    if (l) {
-        var baseUrl = window.location.origin + window.location.pathname;
-        l.textContent = baseUrl + '?ref=' + referralCode;
-    }
+    if (l) { var baseUrl = window.location.origin + window.location.pathname; l.textContent = baseUrl + '?ref=' + referralCode; }
 }
+
+// Обновление статуса онлайн и проверка неактивных рефералов
+async function updateOnlineStatus() {
+    if (!supabase || !playerNickname) return;
+    try {
+        await supabase.from('players').update({ is_online: true, last_login: new Date().toISOString() }).eq('nickname', playerNickname);
+        
+        // Проверка неактивных рефералов (если игрок не заходил 24 часа)
+        var { data: refs } = await supabase.from('referrals').select('id, last_activity').eq('referrer_nickname', playerNickname).eq('is_active', true);
+        if (refs) {
+            for (var i = 0; i < refs.length; i++) {
+                var lastActivity = new Date(refs[i].last_activity);
+                var hoursSince = (Date.now() - lastActivity.getTime()) / (1000 * 60 * 60);
+                if (hoursSince > 24) {
+                    await supabase.from('referrals').update({ is_active: false, updated_at: new Date().toISOString() }).eq('id', refs[i].id);
+                }
+            }
+        }
+    } catch(e) {}
+}
+
+// Автообновление статуса каждые 60 секунд
+setInterval(function() { if (playerNickname) updateOnlineStatus(); }, 60000);
+window.addEventListener('beforeunload', function() { if (supabase && playerNickname) { supabase.from('players').update({ is_online: false }).eq('nickname', playerNickname); } });
 
 function checkReferral() {
     var params = new URLSearchParams(window.location.search);
@@ -537,38 +398,22 @@ function checkReferral() {
     if (!ref) return;
     if (ref === referralCode) return;
     
-    // Проверяем, не использовался ли уже этот реферальный код
     var usedRefs = JSON.parse(localStorage.getItem('vx_used_refs') || '[]');
     if (usedRefs.indexOf(ref) !== -1) return;
     
-    // Отмечаем код как использованный
     usedRefs.push(ref);
     localStorage.setItem('vx_used_refs', JSON.stringify(usedRefs));
     
-    // Увеличиваем счётчик рефералов в localStorage
     var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
     var newCount = (allRefs[ref] || 0) + 1;
     allRefs[ref] = newCount;
     localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
     
-    // Отправляем в Supabase (исправленная версия)
     if (supabase) {
-        supabase.from('referrals')
-            .upsert({
-                code: ref,
-                count: newCount,
-                updated_at: new Date().toISOString()
-            })
-            .then(function(response) {
-                if (response.error) {
-                    console.log('Ошибка сохранения реферала:', response.error.message);
-                } else {
-                    console.log('✅ Реферал сохранён! ref=' + ref + ' count=' + newCount);
-                }
-            });
+        supabase.from('referrals').upsert({ code: ref, count: newCount, referrer_nickname: ref, referred_nickname: playerNickname, last_activity: new Date().toISOString(), is_active: true, updated_at: new Date().toISOString() }).then(function(response) {
+            if (!response.error) console.log('Реферал сохранён! ref=' + ref + ' count=' + newCount);
+        });
     }
-    
-    console.log('Реферал начислен локально! ref=' + ref + ' count=' + newCount);
 }
 
 function loadLeaderboardData() {
@@ -581,8 +426,8 @@ async function saveScoreToLeaderboard(type, score) {
     var lb = loadLeaderboardData();
     var existingIdx = -1;
     for (var i = 0; i < lb[type].length; i++) { if (lb[type][i].nickname === playerNickname) { existingIdx = i; break; } }
-    if (existingIdx >= 0) { if (score > lb[type][existingIdx].score) { lb[type][existingIdx].score = score; lb[type][existingIdx].date = new Date().toISOString(); } }
-    else { lb[type].push({ nickname: playerNickname, score: score, date: new Date().toISOString() }); }
+    if (existingIdx >= 0) { if (score > lb[type][existingIdx].score) { lb[type][existingIdx].score = score; } }
+    else { lb[type].push({ nickname: playerNickname, score: score }); }
     lb[type].sort(function(a, b) { return b.score - a.score; });
     lb[type] = lb[type].slice(0, 10);
     localStorage.setItem('vx_leaderboard_v2', JSON.stringify(lb));
@@ -601,40 +446,26 @@ async function showLeaderboard(tab, listElementId) {
     tab = tab || 'stars';
     var listEl = document.getElementById(listElementId || 'leaderboard-list');
     if (!listEl) return;
-    
-    document.querySelectorAll('.leaderboard-tab').forEach(function(t) {
-        t.classList.toggle('active', t.dataset.tab === tab);
-    });
-    
-    listEl.innerHTML = '<div style="color: #666; padding: 20px;">Загрузка...</div>';
-    
-    if (listElementId !== 'leaderboard-list-main') {
-        document.getElementById('vx-leaderboard-modal').classList.add('open');
-    }
+    document.querySelectorAll('.leaderboard-tab').forEach(function(t) { t.classList.toggle('active', t.dataset.tab === tab); });
+    listEl.innerHTML = '<div style="color:#666;padding:20px;">Загрузка...</div>';
+    if (listElementId !== 'leaderboard-list-main') document.getElementById('vx-leaderboard-modal').classList.add('open');
     
     if (supabase) {
         try {
             var column = tab === 'stars' ? 'highscore_stars' : 'highscore_level';
-            var { data, error } = await supabase
-                .from('players')
-                .select('nickname, ' + column)
-                .order(column, { ascending: false })
-                .limit(10);
-            
+            var { data, error } = await supabase.from('players').select('nickname, ' + column).order(column, { ascending: false }).limit(10);
             if (data && data.length > 0 && data[0][column] > 0) {
                 listEl.innerHTML = data.map(function(item, index) {
                     var rankClass = '', medal = '';
                     if (index === 0) { rankClass = 'gold'; medal = '🥇'; }
                     else if (index === 1) { rankClass = 'silver'; medal = '🥈'; }
                     else if (index === 2) { rankClass = 'bronze'; medal = '🥉'; }
-                    var score = item[column] || 0;
-                    return '<div class="leaderboard-item ' + rankClass + '"><span class="leaderboard-rank">' + (medal || ('#' + (index + 1))) + '</span><span class="leaderboard-nick">' + item.nickname + '</span><span class="leaderboard-score">' + (tab === 'stars' ? '⭐ ' : '📦 ') + formatNumber(score) + '</span></div>';
+                    return '<div class="leaderboard-item ' + rankClass + '"><span class="leaderboard-rank">' + (medal || ('#' + (index + 1))) + '</span><span class="leaderboard-nick">' + item.nickname + '</span><span class="leaderboard-score">' + (tab === 'stars' ? '⭐ ' : '📦 ') + formatNumber(item[column] || 0) + '</span></div>';
                 }).join('');
                 return;
             }
         } catch(e) {}
     }
-    
     var lb = loadLeaderboardData();
     var data = lb[tab] || [];
     listEl.innerHTML = data.map(function(item, index) {
@@ -643,31 +474,29 @@ async function showLeaderboard(tab, listElementId) {
         else if (index === 1) { rankClass = 'silver'; medal = '🥈'; }
         else if (index === 2) { rankClass = 'bronze'; medal = '🥉'; }
         return '<div class="leaderboard-item ' + rankClass + '"><span class="leaderboard-rank">' + (medal || ('#' + (index + 1))) + '</span><span class="leaderboard-nick">' + item.nickname + '</span><span class="leaderboard-score">' + (tab === 'stars' ? '⭐ ' : '📦 ') + formatNumber(item.score) + '</span></div>';
-    }).join('') || '<div style="color: #666; padding: 20px;">Нет данных</div>';
+    }).join('') || '<div style="color:#666;padding:20px;">Нет данных</div>';
 }
 
+// Обработчики событий
 document.getElementById('vx-leaderboard-close').addEventListener('click', function() {
     document.getElementById('vx-leaderboard-modal').classList.remove('open');
     if (inGame) { g.paused = false; yGameplayStart(); if(!drawRunning) draw(); }
 });
-
 document.querySelectorAll('#vx-leaderboard-modal .leaderboard-tab').forEach(function(tab) {
     tab.addEventListener('click', function() { showLeaderboard(this.dataset.tab, 'leaderboard-list'); });
 });
-
 document.getElementById('vx-btn-leaderboard').addEventListener('click', function() {
     document.getElementById('vx-pause-menu').classList.remove('open');
     showLeaderboard('stars', 'leaderboard-list');
 });
-
 document.getElementById('vx-btn-main-menu').addEventListener('click', function() {
     document.getElementById('vx-pause-menu').classList.remove('open');
-    g.paused = false; g.active = false; inGame = false; yGameplayStop();
+    g.paused = false; g.active = false; inGame = false; yGameplayStop(); stopMusic();
+    if (supabase && playerNickname) supabase.from('players').update({ is_online: false }).eq('nickname', playerNickname);
     document.getElementById('vx-game-ui').style.display = 'none';
     document.getElementById('vx-main-menu').style.display = 'flex';
     document.getElementById('main-menu-balance').textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
 });
-
 document.getElementById('vx-terms-btn').onclick = function() { document.getElementById('vx-terms-modal').classList.add('open'); };
 document.getElementById('vx-terms-close').onclick = function() { document.getElementById('vx-terms-modal').classList.remove('open'); };
 
@@ -680,18 +509,50 @@ function showReferralModal() {
     document.getElementById('vx-referral-modal').classList.add('open');
     document.getElementById('referral-admin-panel').style.display = (playerNickname === 'Casper0390') ? 'block' : 'none';
 }
-
 document.getElementById('vx-referral-close').addEventListener('click', function() { document.getElementById('vx-referral-modal').classList.remove('open'); });
-
 document.getElementById('vx-copy-referral').addEventListener('click', function() {
     var baseUrl = window.location.origin + window.location.pathname;
     var link = baseUrl + '?ref=' + referralCode;
     if (navigator.clipboard) navigator.clipboard.writeText(link).then(function() { alert('Ссылка скопирована!'); });
     else prompt('Скопируй ссылку:', link);
 });
-
 document.getElementById('vx-ref-plus').addEventListener('click', function() { updateReferralCount(1); });
 document.getElementById('vx-ref-minus').addEventListener('click', function() { updateReferralCount(-1); });
+
+// Экран регистрации
+document.getElementById('vx-register-btn').onclick = function() {
+    document.getElementById('vx-start-overlay').style.display = 'none';
+    document.getElementById('vx-register-overlay').style.display = 'flex';
+};
+document.getElementById('reg-back-btn').onclick = function() {
+    document.getElementById('vx-register-overlay').style.display = 'none';
+    document.getElementById('vx-start-overlay').style.display = 'flex';
+};
+document.getElementById('reg-confirm-btn').onclick = async function() {
+    var nick = document.getElementById('reg-nickname').value.trim();
+    var pass = document.getElementById('reg-password').value.trim();
+    if (!nick || nick.length < 4 || !pass || pass.length < 4) { alert('Никнейм и пароль — минимум 4 символа'); return; }
+    
+    if (supabase) {
+        var { data: existing } = await supabase.from('players').select('nickname').eq('nickname', nick).single();
+        if (existing) { alert('Этот никнейм уже занят!'); return; }
+        
+        var hashedPassword = await hashPassword(pass);
+        var { error } = await supabase.from('players').insert({
+            nickname: nick, password_hash: hashedPassword, referral_code: referralCode,
+            stars: 10, last_login: new Date().toISOString(), is_online: true
+        });
+        if (error) { alert('Ошибка регистрации'); return; }
+    }
+    
+    playerNickname = nick;
+    localStorage.setItem('vx_nickname', nick);
+    localStorage.setItem('vx_password_hash', await hashPassword(pass));
+    document.getElementById('vx-register-overlay').style.display = 'none';
+    document.getElementById('main-menu-nickname').textContent = nick;
+    document.getElementById('main-menu-balance').textContent = '⭐ 10';
+    document.getElementById('vx-main-menu').style.display = 'flex';
+};
 
 function startGameFromMenu() {
     document.getElementById('vx-main-menu').style.display = 'none';
@@ -700,9 +561,9 @@ function startGameFromMenu() {
     if('ontouchstart' in window) { document.getElementById('vx-mobile-hint').style.display = 'block'; setTimeout(function(){document.getElementById('vx-mobile-hint').style.display = 'none';}, 4000); }
     yGameplayStart(); updatePortalBtnPos();
     g.active = true; setup(); refreshUI(); updateMiniHoles();
+    updateOnlineStatus();
     if(!drawRunning) draw();
 }
-
 document.getElementById('vx-main-play-btn').addEventListener('click', startGameFromMenu);
 document.getElementById('vx-main-shop-btn').addEventListener('click', function() { openHoleShop(); });
 document.getElementById('vx-main-leaderboard-btn').addEventListener('click', function() { showLeaderboard('stars', 'leaderboard-list'); });
@@ -713,8 +574,66 @@ document.getElementById('vx-main-sound-btn').addEventListener('click', function(
     var btn = document.getElementById('vx-main-sound-btn');
     btn.textContent = soundOn ? '♪' : '♪';
     btn.style.color = soundOn ? '#0ff' : '#666';
-    if (soundOn && audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if (soundOn) startMusic(); else stopMusic();
 });
+  // Обработчик кнопки ВХОД
+document.getElementById('vx-start-btn').onclick = async function() {
+    var nick = document.getElementById('vx-nickname').value.trim();
+    var pass = document.getElementById('vx-password').value.trim();
+    var errorEl = document.getElementById('vx-nick-error');
+    
+    if (!nick || nick.length < 4) { errorEl.style.display = 'block'; errorEl.textContent = 'Никнейм должен содержать минимум 4 символа'; return; }
+    if (!pass || pass.length < 4) { errorEl.style.display = 'block'; errorEl.textContent = 'Пароль должен содержать минимум 4 символа'; return; }
+    errorEl.style.display = 'none';
+    
+    if (supabase) {
+        var hashedPassword = await hashPassword(pass);
+        var { data: player, error } = await supabase.from('players').select('*').eq('nickname', nick).single();
+        
+        if (!player) { errorEl.style.display = 'block'; errorEl.textContent = 'Игрок не найден. Зарегистрируйтесь!'; return; }
+        if (player.password_hash && player.password_hash !== hashedPassword) {
+            // Если пароль не совпадает — проверяем старый формат (без пароля)
+            if (player.password_hash !== 'test' && player.password_hash !== hashedPassword) {
+                errorEl.style.display = 'block'; errorEl.textContent = 'Неверный пароль!'; return;
+            }
+        }
+        
+        // Загружаем данные игрока
+        playerNickname = nick;
+        g.cash = player.stars || 10;
+        g.lvls.cap = player.cargo_level || 0;
+        g.lvls.spd = player.speed_level || 0;
+        g.lvls.rad = player.size_level || 0;
+        g_holeIdx = player.hole_type || 0;
+        if (player.referral_code) referralCode = player.referral_code;
+        if (player.referrer_code) {
+            var allRefs = JSON.parse(localStorage.getItem('vx_all_refs') || '{}');
+            if (!allRefs[player.referrer_code]) {
+                allRefs[player.referrer_code] = 1;
+                localStorage.setItem('vx_all_refs', JSON.stringify(allRefs));
+            }
+        }
+        
+        // Применяем загруженные улучшения
+        g.max = 100 + (g.lvls.cap * 163);
+        g.rad = 18 + (g.lvls.rad * 5);
+        g.pull = 90 + (g.lvls.rad * 12);
+        g.spd = 0.07 + (g.lvls.spd * 0.015);
+        g.landMax = 2000 + (g.lvls.cap * 1000);
+        
+        await updateOnlineStatus();
+    } else {
+        playerNickname = nick;
+    }
+    
+    localStorage.setItem('vx_nickname', nick);
+    document.getElementById('main-menu-nickname').textContent = nick;
+    document.getElementById('main-menu-balance').textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
+    if (nick === 'Casper0390') { g.cash += 500; }
+    
+    document.getElementById('vx-start-overlay').style.display = 'none';
+    document.getElementById('vx-main-menu').style.display = 'flex';
+};
 
 function initCrazySDK(retries) {
     retries = retries || 0;
@@ -741,7 +660,7 @@ loadNickname();
 function saveNickname(nick) { if (nick && nick.length >= 4) { localStorage.setItem('vx_nickname', nick); playerNickname = nick; } }
 
 var soundBtn = document.getElementById('vx-sound-btn');
-soundBtn.onclick = function(e) { e.stopPropagation(); soundOn = !soundOn; soundBtn.textContent = soundOn ? '♪' : '♪'; soundBtn.style.color = soundOn ? '#fff' : '#666'; if (soundOn && audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); };
+soundBtn.onclick = function(e) { e.stopPropagation(); soundOn = !soundOn; soundBtn.textContent = soundOn ? '♪' : '♪'; soundBtn.style.color = soundOn ? '#fff' : '#666'; if (soundOn) startMusic(); else stopMusic(); };
 
 (function(){
   var title='VDC DELIVERY';
@@ -861,8 +780,7 @@ window.addEventListener('keyup',function(e){if(e.key==='Control')g.isCtrl=false;
 canvas.addEventListener('touchstart',handleTouch,{passive:false});
 canvas.addEventListener('touchmove',handleTouch,{passive:false});
 canvas.addEventListener('touchend',function(e){e.preventDefault();},{passive:false});
-
-var portalUI=document.getElementById('vx-portal-ui');
+  var portalUI=document.getElementById('vx-portal-ui');
 var clearBtn=document.getElementById('vx-clear-btn');
 function clearPlanetLogic(){if(g.land>=g.landMax){g.land=0;playSound('upgrade');refreshUI();saveScoreToLeaderboard('stars',Math.floor(g.cash));saveScoreToLeaderboard('level',g.lvls.cap);}}
 function handleClear(e){e.preventDefault();e.stopPropagation();if(g.land>=g.landMax){showMidgame(function(){clearPlanetLogic();},function(){clearPlanetLogic();});}}
@@ -914,33 +832,6 @@ function drawHolePreview(pv,h){
     bx.beginPath();bx.arc(cx,cy,r,0,Math.PI*2);bx.strokeStyle=gr2;bx.lineWidth=4;bx.stroke();bx.fillStyle='#050508';bx.beginPath();bx.arc(cx,cy,r-3,0,Math.PI*2);bx.fill();
   }
 }
-
-document.getElementById('vx-start-btn').onclick=function(){
-  var nick=document.getElementById('vx-nickname').value.trim();
-  var errorEl=document.getElementById('vx-nick-error');
-  if (!nick || nick.length < 4) { errorEl.style.display = 'block'; return; }
-  errorEl.style.display = 'none';
-  saveNickname(nick);
-  document.getElementById('main-menu-nickname').textContent = nick;
-  document.getElementById('main-menu-balance').textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
-  if(nick==='Casper0390'){g.cash+=500;}
-  
-  if (supabase && playerNickname) {
-    try {
-      supabase.from('players').upsert({
-        nickname: playerNickname,
-        highscore_stars: Math.floor(g.cash),
-        highscore_level: g.lvls.cap,
-        referral_code: referralCode
-      }).then(function() {
-        console.log('Игрок сохранён в Supabase: ' + playerNickname);
-      });
-    } catch(e) {}
-  }
-  
-  document.getElementById('vx-start-overlay').style.display = 'none';
-  document.getElementById('vx-main-menu').style.display = 'flex';
-};
 
 function setup(){
   var w=canvas.width,h=canvas.height;
@@ -1164,7 +1055,12 @@ function draw(){
     if(greenHuman){var ghElapsed=now-greenHuman.born;if(ghElapsed>=greenHuman.dur){greenHuman=null;}else{greenHuman.x+=Math.cos(greenHuman.walk)*greenHuman.spd;greenHuman.y+=Math.sin(greenHuman.walk)*greenHuman.spd*.5;if(greenHuman.x<22||greenHuman.x>canvas.width-22)greenHuman.walk=Math.PI-greenHuman.walk;if(greenHuman.y<22||greenHuman.y>canvas.height-45)greenHuman.walk=-greenHuman.walk;drawSpecialHuman(greenHuman,'#00d451');if(Math.hypot(player.x-greenHuman.x,player.y-greenHuman.y)<g.rad+6){greenHuman=null;g.cash+=100;spawnLabel('+100 ★',player.x,player.y,'#00ff88');refreshUI();playSound('gift');saveScoreToLeaderboard('stars',Math.floor(g.cash));}}
   }}
 
-  humans.forEach(function(h,hi){if(!g.exploded){var dx=player.x-h.x,dy=player.y-h.y,d=Math.sqrt(dx*dx+dy*dy);if(d<g.pull){h.x+=dx*.06;h.y+=dy*.06;if(d<g.rad){g.cargo+=35;humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}else{h.x+=Math.cos(h.walk)*h.spd;if(h.x<0||h.x>canvas.width)h.walk=Math.PI-h.walk;}}var sk='#ffdbac';ctx.save();ctx.translate(h.x,h.y);var limb=Math.sin(now*.01+h.walk)*3;ctx.fillStyle=sk;ctx.fillRect(-2,-6,4,7);ctx.fillStyle=sk;ctx.beginPath();ctx.arc(0,-9,3,0,Math.PI*2);ctx.fill();ctx.strokeStyle=sk;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-1,1);ctx.lineTo(-1+limb,6);ctx.stroke();ctx.beginPath();ctx.moveTo(1,1);ctx.lineTo(1-limb,6);ctx.stroke();ctx.restore();});
+  humans.forEach(function(h,hi){
+    if(!g.exploded){var dx=player.x-h.x,dy=player.y-h.y,d=Math.sqrt(dx*dx+dy*dy);if(d<g.pull){h.x+=dx*.06;h.y+=dy*.06;if(d<g.rad){g.cargo+=35;humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}else{h.x+=Math.cos(h.walk)*h.spd;if(h.x<0||h.x>canvas.width)h.walk=Math.PI-h.walk;}}
+    var sk='#ffdbac';ctx.save();ctx.translate(h.x,h.y);var limb=Math.sin(now*.01+h.walk)*3;
+    ctx.fillStyle=sk;ctx.fillRect(-2,-6,4,7);ctx.fillStyle=sk;ctx.beginPath();ctx.arc(0,-9,3,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=sk;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-1,1);ctx.lineTo(-1+limb,6);ctx.stroke();ctx.beginPath();ctx.moveTo(1,1);ctx.lineTo(1-limb,6);ctx.stroke();ctx.restore();
+  });
 
   g.angle+=.08;drawHole(player.x,player.y,g.rad,g.angle);drawWarnFlash(now);
   for(var li=earnLabels.length-1;li>=0;li--){var lb=earnLabels[li];lb.x+=(50-lb.x)*.025;lb.y+=(25-lb.y)*.025;lb.life-=.013;if(lb.life<=0){earnLabels.splice(li,1);continue;}ctx.globalAlpha=Math.min(lb.life*2,1);ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillText(lb.text,lb.x+1,lb.y+1);ctx.fillStyle=lb.color;ctx.fillText(lb.text,lb.x,lb.y);ctx.globalAlpha=1;}
