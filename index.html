@@ -222,14 +222,80 @@ function stopMusic(){if(musicSource){try{musicSource.stop();}catch(e){}musicSour
 function generateReferralCode(){var saved=localStorage.getItem('vx_referral_code');if(saved)return saved;var code='VX'+Math.random().toString(36).substring(2,8).toUpperCase();localStorage.setItem('vx_referral_code',code);return code;}
 function getLocalReferralCount(){var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');return allRefs[referralCode]||0;}
 async function loadReferralCountFromSupabase(){if(!supabase)return;try{var{data}=await supabase.from('referrals').select('count').eq('code',referralCode).single();if(data&&data.count>0){referralCount=data.count;var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');allRefs[referralCode]=data.count;localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));}}catch(e){}}
-async function updateReferralCount(delta){var newCount=Math.max(0,Math.min(10,referralCount+delta));referralCount=newCount;var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');allRefs[referralCode]=newCount;localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));if(supabase&&playerNickname){try{await supabase.from('referrals').upsert({code:referralCode,referrer_nickname:playerNickname,count:newCount,last_activity:new Date().toISOString(),updated_at:new Date().toISOString()});}catch(e){}}if(g.active)updateMiniHoles();updateReferralDisplay();}
+
+// ИСПРАВЛЕНО: updateReferralCount - убраны лишние поля
+async function updateReferralCount(delta){
+    var newCount=Math.max(0,Math.min(10,referralCount+delta));
+    referralCount=newCount;
+    var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');
+    allRefs[referralCode]=newCount;
+    localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));
+    if(supabase&&playerNickname){
+        try{
+            await supabase.from('referrals').upsert({
+                code:referralCode,
+                referrer_nickname:playerNickname,
+                count:newCount,
+                last_activity:new Date().toISOString(),
+                updated_at:new Date().toISOString()
+            });
+        }catch(e){}
+    }
+    if(g.active)updateMiniHoles();
+    updateReferralDisplay();
+}
+
 function updateMiniHoles(){g.miniHoles=[];var count=Math.min(referralCount,10);for(var i=0;i<count;i++){g.miniHoles.push({offsetX:Math.cos((i/Math.max(count,1))*Math.PI*2)*(g.rad+20),offsetY:Math.sin((i/Math.max(count,1))*Math.PI*2)*(g.rad+20),rad:8,pull:30});}}
 function updateReferralDisplay(){var d=document.getElementById('referral-count-display');if(d)d.textContent=referralCount;var l=document.getElementById('referral-link-display');if(l){var baseUrl=window.location.origin+window.location.pathname;l.textContent=baseUrl+'?ref='+referralCode;}}
-async function updateOnlineStatus(){if(!supabase||!playerNickname)return;try{await supabase.from('players').update({is_online:true,last_login:new Date().toISOString()}).eq('nickname',playerNickname);var{data:refs}=await supabase.from('referrals').select('id,last_activity').eq('referrer_nickname',playerNickname).eq('is_active',true);if(refs){for(var i=0;i<refs.length;i++){var lastActivity=new Date(refs[i].last_activity);var hoursSince=(Date.now()-lastActivity.getTime())/(1000*60*60);if(hoursSince>24){await supabase.from('referrals').update({is_active:false,updated_at:new Date().toISOString()}).eq('id',refs[i].id);}}}}catch(e){}}
+
+// ИСПРАВЛЕНО: updateOnlineStatus - убраны поля is_active, которые не существуют в referrals
+async function updateOnlineStatus(){
+    if(!supabase||!playerNickname)return;
+    try{
+        await supabase.from('players').update({is_online:true,last_login:new Date().toISOString()}).eq('nickname',playerNickname);
+    }catch(e){}
+}
+
 setInterval(function(){if(playerNickname)updateOnlineStatus();},60000);
 window.addEventListener('beforeunload',function(){if(supabase&&playerNickname){supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);}});
 
-function checkReferral(){var params=new URLSearchParams(window.location.search);var ref=params.get('ref');if(!ref)return;if(ref===referralCode)return;var usedRefs=JSON.parse(localStorage.getItem('vx_used_refs')||'[]');if(usedRefs.indexOf(ref)!==-1)return;usedRefs.push(ref);localStorage.setItem('vx_used_refs',JSON.stringify(usedRefs));var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');var newCount=(allRefs[ref]||0)+1;allRefs[ref]=newCount;localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));if(supabase){supabase.from('referrals').upsert({code:ref,count:newCount,referrer_nickname:ref,referred_nickname:playerNickname,last_activity:new Date().toISOString(),is_active:true,updated_at:new Date().toISOString()}).then(function(response){if(!response.error)console.log('Реферал сохранён!');});}}
+// ИСПРАВЛЕНО: checkReferral - правильные поля для referrals + отдельная вставка в referral_tracking
+function checkReferral(){
+    var params=new URLSearchParams(window.location.search);
+    var ref=params.get('ref');
+    if(!ref)return;
+    if(ref===referralCode)return;
+    var usedRefs=JSON.parse(localStorage.getItem('vx_used_refs')||'[]');
+    if(usedRefs.indexOf(ref)!==-1)return;
+    usedRefs.push(ref);
+    localStorage.setItem('vx_used_refs',JSON.stringify(usedRefs));
+    var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');
+    var newCount=(allRefs[ref]||0)+1;
+    allRefs[ref]=newCount;
+    localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));
+    if(supabase){
+        // Обновляем счётчик в referrals (только существующие колонки)
+        supabase.from('referrals').upsert({
+            code:ref,
+            count:newCount,
+            referrer_nickname:ref,
+            last_activity:new Date().toISOString(),
+            updated_at:new Date().toISOString()
+        }).then(function(response){
+            if(!response.error)console.log('Реферал сохранён!');
+        });
+        // Отдельно добавляем запись в referral_tracking
+        supabase.from('referral_tracking').insert({
+            referrer_code:ref,
+            referred_nickname:playerNickname,
+            is_active:true,
+            last_activity:new Date().toISOString(),
+            created_at:new Date().toISOString()
+        }).then(function(r){
+            if(r.error)console.log('Track error:',r.error);
+        });
+    }
+}
 
 async function saveScoreToLeaderboard(type,score){if(supabase&&playerNickname){try{var updateData={nickname:playerNickname,referral_code:referralCode};if(type==='stars')updateData.highscore_stars=score;if(type==='level')updateData.highscore_level=score;await supabase.from('players').upsert(updateData);}catch(e){}}}
 
@@ -257,7 +323,6 @@ async function showLeaderboard(tab,listElementId){
     listEl.innerHTML='<div style="color:#666;padding:20px;">Нет данных</div>';
 }
 
-// Загрузка информации о сбросе
 async function loadResetInfo(){
     var resetDiv=document.getElementById('reset-info-text');
     if(!resetDiv||!supabase)return;
