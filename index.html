@@ -21,6 +21,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; posi
 @keyframes vx-letter-wave{0%,100%{transform:translateY(0) scale(1);filter:brightness(1)}50%{transform:translateY(-6px) scale(1.08);filter:brightness(1.4)}}
 @keyframes neonPulse{0%,100%{box-shadow:0 0 5px #0ff,0 0 10px #0ff,0 0 20px #0ff,0 0 30px #0ff}50%{box-shadow:0 0 10px #f0f,0 0 20px #f0f,0 0 30px #f0f,0 0 40px #f0f}}
 @keyframes gradientBorder{0%{border-color:#0ff}33%{border-color:#0f0}66%{border-color:#00f}100%{border-color:#0ff}}
+@keyframes tgPulse{0%,100%{box-shadow:0 0 8px #0088cc,0 0 16px #0088cc;transform:scale(1)}50%{box-shadow:0 0 16px #00aaff,0 0 32px #0088cc;transform:scale(1.04)}}
 .vx-title-wrap{display:flex;gap:2px;justify-content:center;align-items:center;margin-bottom:4px;}
 .vx-title-letter{display:inline-block;font-size:44px;font-weight:900;font-family:'Arial Black',Arial,sans-serif;letter-spacing:1px;animation:vx-letter-wave 1.8s ease-in-out infinite;}
 #vx-start-overlay{position:absolute;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;background:#000;}
@@ -36,7 +37,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; posi
 .main-btn-play:hover,.main-btn-shop:hover{transform:scale(1.05);}
 .main-btn-leaderboard{padding:12px 30px;font-size:14px;font-weight:bold;border-radius:12px;cursor:pointer;background:rgba(0,0,0,.6);color:#ffd700;border:2px solid #ffd700;transition:all .3s;}
 .main-btn-leaderboard:hover{transform:scale(1.05);background:rgba(255,215,0,.1);}
-.reset-info{color:#ff9800;font-size:12px;text-align:center;padding:8px 15px;background:rgba(255,152,0,.1);border:1px solid rgba(255,152,0,.3);border-radius:8px;margin-top:5px;}
 #vx-rules-modal{position:absolute;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85);}
 #vx-rules-modal.open{display:flex;}
 #vx-rules-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e);border:1px solid rgba(0,255,255,.35);border-radius:16px;padding:30px 28px;max-width:360px;width:90%;color:#fff;text-align:left;box-shadow:0 0 40px rgba(0,255,255,.15);}
@@ -62,6 +62,17 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; posi
 .leaderboard-rank{font-weight:bold;min-width:30px;}
 .leaderboard-nick{flex:1;text-align:left;margin:0 10px;}
 .leaderboard-score{color:#ffd700;font-weight:bold;}
+.leaderboard-reset-info{color:#ff9800;font-size:11px;text-align:center;padding:8px 10px;margin:10px 0 0;background:rgba(255,152,0,.1);border:1px solid rgba(255,152,0,.3);border-radius:8px;line-height:1.4;}
+.leaderboard-detail-btn{display:inline-block;padding:8px 18px;margin-top:10px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:20px;color:#fff;font-weight:bold;font-size:13px;cursor:pointer;touch-action:manipulation;}
+#vx-reward-detail-modal{position:absolute;inset:0;z-index:240;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);}
+#vx-reward-detail-modal.open{display:flex;}
+#vx-reward-detail-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e);border:1px solid rgba(0,255,255,.35);border-radius:16px;padding:30px 28px;max-width:400px;width:90%;color:#fff;text-align:center;box-shadow:0 0 40px rgba(0,255,255,.15);}
+#vx-reward-detail-box h3{color:#ffd700;margin:0 0 16px;font-size:17px;}
+#vx-reward-detail-box p{font-size:13px;line-height:1.7;color:#ccc;margin:0 0 20px;}
+.tg-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:linear-gradient(135deg,#0088cc,#00aaff);color:#fff;border:none;border-radius:28px;font-size:15px;font-weight:bold;cursor:pointer;text-decoration:none;animation:tgPulse 2s infinite;transition:all .3s;touch-action:manipulation;}
+.tg-btn:hover{animation:none;transform:scale(1.06);box-shadow:0 0 20px #00aaff,0 0 40px #0088cc;}
+.tg-icon{font-size:20px;}
+#vx-reward-detail-close{margin-top:18px;padding:10px 30px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;}
 #vx-hole-shop{position:absolute;inset:0;background:rgba(0,0,0,.94);z-index:140;display:none;flex-direction:column;align-items:center;overflow-y:auto;padding:16px 0 20px;}
 #vx-hole-shop.open{display:flex;}
 #vx-hole-shop h2{color:#ffd700;font-size:20px;margin:0 0 14px;font-family:Arial,sans-serif;}
@@ -111,7 +122,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; posi
   </div>
 </div>
 <div id="vx-rules-modal"><div id="vx-rules-box"><h3>ПРАВИЛА ИГРЫ</h3><p>1. Собирайте людей чёрной дырой.<br/>2. Высаживайте людей на планету.<br/>3. Очищайте планету.<br/>4. При взрыве спасти 90% звёзд.<br/>5. Ракеты/метеориты несут бомбы/подарки.<br/>6. Бонус-планета — x5.<br/>7. Улучшайте размер/запас/скорость.<br/>8. Покупайте дыры в магазине.<br/>9. Осторожно: красные человечки!</p><button id="vx-rules-close">ПОНЯТНО!</button></div></div>
-<div id="vx-leaderboard-modal"><div id="vx-leaderboard-box"><h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3><div class="leaderboard-tabs"><button class="leaderboard-tab active" data-tab="stars">⭐ По звёздам</button><button class="leaderboard-tab" data-tab="level">📦 По уровню запаса</button></div><div class="leaderboard-list" id="leaderboard-list"><div style="color:#666;padding:20px;">Загрузка...</div></div><button id="vx-leaderboard-close" style="margin-top:15px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
+<div id="vx-leaderboard-modal"><div id="vx-leaderboard-box"><h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3><div class="leaderboard-tabs"><button class="leaderboard-tab active" data-tab="stars">⭐ По звёздам</button><button class="leaderboard-tab" data-tab="level">📦 По уровню запаса</button></div><div class="leaderboard-list" id="leaderboard-list"><div style="color:#666;padding:20px;">Загрузка...</div></div><div class="leaderboard-reset-info" id="leaderboard-reset-info">Загрузка...</div><button id="vx-leaderboard-detail-btn" class="leaderboard-detail-btn">Подробнее</button><button id="vx-leaderboard-close" style="margin-top:10px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
+<div id="vx-reward-detail-modal"><div id="vx-reward-detail-box"><h3>🏅 МАТЕРИАЛЬНОЕ ВОЗНАГРАЖДЕНИЕ</h3><p>1 раз в месяц топ 3 игрока по уровню звёзд и топ 3 игрока по уровню запаса, получают материальное вознаграждение за успехи! Пообщаться, посмотреть всю детальную информацию можно в нашем чате в Телеграм.</p><a href="https://t.me/VDC_game" target="_blank" class="tg-btn" id="tg-link-btn"><span class="tg-icon">📱</span> ПЕРЕЙТИ В TELEGRAM</a><button id="vx-reward-detail-close">ЗАКРЫТЬ</button></div></div>
 <div id="vx-terms-modal"><div id="vx-terms-box"><h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3><h4>1. Общие положения</h4><p>Игра "VDC - Vortex Delivery Co" является развлекательным продуктом.</p><h4>2. Правила</h4><ul><li>Управляйте чёрной дырой</li><li>Не превышайте лимит груза</li></ul><h4>3. Конфиденциальность</h4><p>Данные хранятся в зашифрованном виде.</p><button id="vx-terms-close">ПРИНИМАЮ</button></div></div>
 <div id="vx-referral-modal"><div id="vx-referral-box"><h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3><p>Приглашай друзей и получай мини-чёрные дыры!</p><div class="referral-reward"><div class="referral-minihole"></div><span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span></div><p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр.</p><div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div><div class="referral-count" id="referral-count-display">0</div><div id="referral-admin-panel" style="display:none;"><div class="referral-admin-controls"><button class="referral-admin-btn" id="vx-ref-minus">−</button><span style="font-size:14px;color:#0ff;">Админ</span><button class="referral-admin-btn" id="vx-ref-plus">+</button></div></div><div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div><div class="referral-link" id="referral-link-display">Загрузка...</div><button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button><button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
 <div id="vx-pause-menu"><h2>ПАУЗА</h2><button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button><button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button><button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button><button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button></div>
@@ -156,7 +168,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; posi
     <button class="main-btn-shop" id="vx-main-shop-btn">🛒 МАГАЗИН</button>
     <button class="main-btn-leaderboard" id="vx-main-leaderboard-btn">🏆 ТАБЛИЦА ЛИДЕРОВ</button>
     <button class="main-btn-play" id="vx-main-referral-btn" style="border-color:#9c27b0;animation:neonPulse 2s infinite;">👥 РЕФЕРАЛЫ</button>
-    <div class="reset-info" id="reset-info-text">Загрузка информации о сбросе...</div>
   </div>
 </div>
 <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
@@ -335,15 +346,15 @@ async function showLeaderboard(tab,listElementId){
 }
 
 async function loadResetInfo(){
-    var resetDiv=document.getElementById('reset-info-text');
+    var resetDiv=document.getElementById('leaderboard-reset-info');
     if(!resetDiv||!supabase)return;
     try{
         var{data:dayData}=await supabase.from('game_settings').select('setting_value').eq('setting_key','reset_day').single();
         var{data:timeData}=await supabase.from('game_settings').select('setting_value').eq('setting_key','reset_time').single();
         var day=dayData?dayData.setting_value:'1';
         var time=timeData?timeData.setting_value:'00:00';
-        resetDiv.textContent='🔄 Сброс достижений: '+day+'-го числа каждого месяца в '+time+' UTC. Топ-3 сохраняются!';
-    }catch(e){resetDiv.textContent='🔄 Сброс достижений: 1-го числа каждого месяца. Топ-3 сохраняются!';}
+        resetDiv.textContent='🔄 Вся статистика обновляется 1 раз в месяц ('+day+'-го числа в '+time+' UTC) — для заработка реальных денег смотри «Подробнее»';
+    }catch(e){resetDiv.textContent='🔄 Вся статистика обновляется 1 раз в месяц — для заработка реальных денег смотри «Подробнее»';}
 }
 
 document.getElementById('vx-leaderboard-close').addEventListener('click',function(){document.getElementById('vx-leaderboard-modal').classList.remove('open');if(inGame){g.paused=false;yGameplayStart();if(!drawRunning)draw();}});
@@ -352,6 +363,11 @@ document.getElementById('vx-btn-leaderboard').addEventListener('click',function(
 document.getElementById('vx-btn-main-menu').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');g.paused=false;g.active=false;inGame=false;yGameplayStop();stopMusic();if(supabase&&playerNickname)supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);document.getElementById('vx-game-ui').style.display='none';document.getElementById('vx-main-menu').style.display='flex';document.getElementById('main-menu-balance').textContent='⭐ '+formatNumber(Math.floor(g.cash));});
 document.getElementById('vx-terms-btn').onclick=function(){document.getElementById('vx-terms-modal').classList.add('open');};
 document.getElementById('vx-terms-close').onclick=function(){document.getElementById('vx-terms-modal').classList.remove('open');};
+
+// Кнопка "Подробнее" в таблице лидеров
+document.getElementById('vx-leaderboard-detail-btn').addEventListener('click',function(){document.getElementById('vx-reward-detail-modal').classList.add('open');});
+document.getElementById('vx-reward-detail-close').addEventListener('click',function(){document.getElementById('vx-reward-detail-modal').classList.remove('open');});
+
 function showReferralModal(){loadReferralCountFromSupabase().then(function(){updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();});document.getElementById('vx-referral-modal').classList.add('open');document.getElementById('referral-admin-panel').style.display=(playerNickname==='Casper0390')?'block':'none';}
 document.getElementById('vx-referral-close').addEventListener('click',function(){document.getElementById('vx-referral-modal').classList.remove('open');});
 document.getElementById('vx-copy-referral').addEventListener('click',function(){var baseUrl=window.location.origin+window.location.pathname;var link=baseUrl+'?ref='+referralCode;if(navigator.clipboard)navigator.clipboard.writeText(link).then(function(){alert('Ссылка скопирована!');});else prompt('Скопируй ссылку:',link);});
@@ -388,7 +404,7 @@ document.getElementById('reg-confirm-btn').onclick=async function(){
 function startGameFromMenu(){document.getElementById('vx-main-menu').style.display='none';document.getElementById('vx-game-ui').style.display='block';inGame=true;if('ontouchstart' in window){document.getElementById('vx-mobile-hint').style.display='block';setTimeout(function(){document.getElementById('vx-mobile-hint').style.display='none';},4000);}yGameplayStart();updatePortalBtnPos();g.active=true;setup();refreshUI();updateMiniHoles();updateOnlineStatus();if(!drawRunning)draw();}
 document.getElementById('vx-main-play-btn').addEventListener('click',startGameFromMenu);
 document.getElementById('vx-main-shop-btn').addEventListener('click',function(){openHoleShop();});
-document.getElementById('vx-main-leaderboard-btn').addEventListener('click',function(){showLeaderboard('stars','leaderboard-list');});
+document.getElementById('vx-main-leaderboard-btn').addEventListener('click',function(){showLeaderboard('stars','leaderboard-list');loadResetInfo();});
 document.getElementById('vx-main-referral-btn').addEventListener('click',function(){showReferralModal();});
 document.getElementById('vx-main-sound-btn').addEventListener('click',function(){soundOn=!soundOn;var btn=document.getElementById('vx-main-sound-btn');btn.textContent=soundOn?'♪':'♪';btn.style.color=soundOn?'#0ff':'#666';if(soundOn)startMusic();else stopMusic();});
 
