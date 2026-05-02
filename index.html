@@ -212,6 +212,9 @@ var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
 var supabase=null;
 try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
+// ========== НАСТРОЙКИ РЕКЛАМЫ ==========
+var ADSTERRA_URL = 'https://www.profitablecpmratenetwork.com/nbfekbkpu?key=580ceb517da344f1edd0a7baf91926dc';
+
 async function hashPassword(password){var msgUint8=new TextEncoder().encode(password);var hashBuffer=await crypto.subtle.digest('SHA-256',msgUint8);var hashArray=Array.from(new Uint8Array(hashBuffer));return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');}
 
 function startMusic(){
@@ -431,8 +434,34 @@ function initCrazySDK(retries){retries=retries||0;if(typeof window.CrazyGames===
 function finishLoading(){document.getElementById('vx-loading-screen').style.display='none';}
 function yGameplayStart(){if(gameplayStarted||!sdkReady)return;gameplayStarted=true;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStart();}
 function yGameplayStop(){if(!gameplayStarted)return;gameplayStarted=false;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStop();}
-function showRewarded(onReward,onClose){if(!crazySDK||!crazySDK.ad){if(onReward)onReward();return;}yGameplayStop();crazySDK.ad.requestAd('rewarded',{adFinished:function(){yGameplayStart();if(onReward)onReward();},adError:function(){yGameplayStart();if(onClose)onClose();}});}
-function showMidgame(onComplete,onError){if(!crazySDK||!crazySDK.ad){if(onComplete)onComplete();return;}yGameplayStop();crazySDK.ad.requestAd('midgame',{adFinished:function(){yGameplayStart();if(onComplete)onComplete();},adError:function(){yGameplayStart();if(onError)onError();}});}
+
+// ========== РЕКЛАМНЫЕ ФУНКЦИИ (ИСПРАВЛЕНЫ) ==========
+function showMidgame(onComplete, onError) {
+    if (crazySDK && crazySDK.ad) {
+        yGameplayStop();
+        crazySDK.ad.requestAd('midgame', {
+            adFinished: function() { yGameplayStart(); if(onComplete)onComplete(); },
+            adError: function() { yGameplayStart(); if(onError)onError(); }
+        });
+        return;
+    }
+    window.open(ADSTERRA_URL, '_blank');
+    if (onComplete) setTimeout(onComplete, 15000);
+}
+
+function showRewarded(onReward, onClose) {
+    if (crazySDK && crazySDK.ad) {
+        yGameplayStop();
+        crazySDK.ad.requestAd('rewarded', {
+            adFinished: function() { yGameplayStart(); if(onReward)onReward(); },
+            adError: function() { yGameplayStart(); if(onClose)onClose(); }
+        });
+        return;
+    }
+    window.open(ADSTERRA_URL, '_blank');
+    if (onReward) setTimeout(onReward, 20000);
+}
+
 initCrazySDK();
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}window.addEventListener('resize',resize);resize();
 referralCode=generateReferralCode();referralCount=getLocalReferralCount();loadReferralCountFromSupabase();checkReferral();
