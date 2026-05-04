@@ -54,7 +54,7 @@
 
         #vx-start-overlay{position:absolute; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
         #vx-register-overlay{position:absolute; inset:0; z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
-        #vx-main-menu{display:none; position:absolute; inset:0; z-index:95; background:#000; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:80px;}
+        #vx-main-menu{display:none; position:absolute; inset:0; z-index:95; background-image:url('https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png'); background-size:cover; background-position:center; background-repeat:no-repeat; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:80px;}
         .main-menu-nickname{position:absolute; top:20px; left:50%; transform:translateX(-50%); z-index:96; text-align:center; padding:10px 25px; border-radius:12px;}
         .main-menu-nickname .vx-title-letter{font-size:32px;}
         .main-buttons-container{
@@ -156,7 +156,6 @@
 <body>
 <div id="vortex-app">
     <div id="game-scaler">
-        <!-- Загрузочный экран убран -->
         <div id="vx-save-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.95);z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;">
             <h2 style="color:#f00;margin:0 0 10px;">СИСТЕМА ПЕРЕГРУЖЕНА!</h2>
             <p id="vx-save-text" style="font-size:18px;margin:0 0 30px;line-height:1.5;"></p>
@@ -175,13 +174,7 @@
         <div id="vx-withdraw-modal"><div id="vx-withdraw-box">
             <h3>💎 ВЫВОД СРЕДСТВ</h3>
             <div class="withdraw-info">Вывод от 1$<br/><span style="font-size:18px;font-weight:bold;">10.000.000 ⭐ = 1$</span></div>
-            <select class="withdraw-select" id="vx-withdraw-amount">
-                <option value="1">1$ - 10.000.000 ⭐</option>
-                <option value="5">5$ - 50.000.000 ⭐</option>
-                <option value="10">10$ - 100.000.000 ⭐</option>
-                <option value="25">25$ - 250.000.000 ⭐</option>
-                <option value="50">50$ - 500.000.000 ⭐</option>
-            </select>
+            <input type="number" class="withdraw-field" id="vx-withdraw-amount" value="1" min="1" max="50" step="1" placeholder="Сумма в USD (1-50)"/>
             <select class="withdraw-select" id="vx-withdraw-crypto"><option value="">Выберите криптовалюту</option><option value="TON">TON</option><option value="USDT">USDT (TRC20)</option><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option></select>
             <input type="text" class="withdraw-field" id="vx-withdraw-address" placeholder="Адрес / реквизиты кошелька"/>
             <input type="text" class="withdraw-field" id="vx-withdraw-comment" placeholder="Комментарий (по желанию)"/>
@@ -239,6 +232,7 @@
             </div>
         </div>
         <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
+            <!-- игровой интерфейс без изменений -->
             <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
                 <div style="color:#fff;font-size:15px;font-weight:bold;">★ <span id="vx-cash">10</span></div>
                 <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;"><div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div><div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div></div>
@@ -277,7 +271,6 @@ var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
 var supabase=null;
 try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
-// Сразу показываем интерфейс без загрузочного экрана
 (function initUI(){
     if(playerNickname && playerNickname.length>=4){
         document.getElementById('vx-start-overlay').style.display='none';
@@ -317,14 +310,21 @@ document.getElementById('vx-leaderboard-close').addEventListener('click',functio
 document.getElementById('vx-btn-leaderboard').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');showLeaderboard('leaderboard-list');});
 document.getElementById('vx-btn-main-menu').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');g.paused=false;g.active=false;inGame=false;yGameplayStop();saveFullProgress();if(supabase&&playerNickname)supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);document.getElementById('vx-game-ui').style.display='none';document.getElementById('vx-main-menu').style.display='flex';animateNickname(playerNickname);});
 
-function showWithdrawModal(){document.getElementById('vx-withdraw-modal').classList.add('open');}
+function showWithdrawModal(){
+    document.getElementById('vx-withdraw-amount').value = 1;
+    document.getElementById('vx-withdraw-modal').classList.add('open');
+}
 document.getElementById('vx-main-withdraw-btn').addEventListener('click',showWithdrawModal);
 document.getElementById('vx-withdraw-close').addEventListener('click',function(){document.getElementById('vx-withdraw-modal').classList.remove('open');});
 document.getElementById('vx-withdraw-submit').addEventListener('click',async function(){
-    var amountSelect=document.getElementById('vx-withdraw-amount');
-    var amountUSD=parseInt(amountSelect.value);
-    var requiredStars=amountUSD*10000000;
-    if(Math.floor(g.cash)<requiredStars){
+    var amountInput = document.getElementById('vx-withdraw-amount');
+    var amountUSD = parseInt(amountInput.value);
+    if (isNaN(amountUSD) || amountUSD < 1 || amountUSD > 50) {
+        alert('Введите сумму от 1 до 50 USD');
+        return;
+    }
+    var requiredStars = amountUSD * 10000000;
+    if(Math.floor(g.cash) < requiredStars){
         alert('Недостаточно звёзд! Нужно '+formatNumber(requiredStars)+' ⭐ для вывода $'+amountUSD);
         return;
     }
@@ -439,6 +439,11 @@ document.getElementById('vx-start-btn').onclick=async function(){
 
 function initCrazySDK(retries){retries=retries||0;if(typeof window.CrazyGames==='undefined'||!window.CrazyGames.SDK){if(retries<5)setTimeout(function(){initCrazySDK(retries+1);},1000);return;}window.CrazyGames.SDK.init().then(function(sdk){crazySDK=sdk;sdkReady=true;}).catch(function(e){if(retries<3)setTimeout(function(){initCrazySDK(retries+1);},1000);});}
 initCrazySDK();
+function yGameplayStart(){if(gameplayStarted)return;gameplayStarted=true;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStart();}
+function yGameplayStop(){if(!gameplayStarted)return;gameplayStarted=false;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStop();}
+function showRewarded(onReward,onClose){if(!crazySDK||!crazySDK.ad){if(onReward)onReward();return;}yGameplayStop();crazySDK.ad.requestAd('rewarded',{adFinished:function(){yGameplayStart();if(onReward)onReward();},adError:function(){yGameplayStart();if(onClose)onClose();}});}
+function showMidgame(onComplete,onError){if(!crazySDK||!crazySDK.ad){if(onComplete)onComplete();return;}yGameplayStop();crazySDK.ad.requestAd('midgame',{adFinished:function(){yGameplayStart();if(onComplete)onComplete();},adError:function(){yGameplayStart();if(onError)onError();}});}
+
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}window.addEventListener('resize',resize);resize();
 referralCode=generateReferralCode();referralCount=getLocalReferralCount();loadReferralCountFromSupabase();checkReferral();
 function loadNickname(){var saved=localStorage.getItem('vx_nickname');if(saved&&saved.length>=4){playerNickname=saved;document.getElementById('vx-nickname').value=saved;}}loadNickname();
