@@ -54,9 +54,9 @@
             75% { transform: translateY(-8px) rotate(-5deg); }
             50% { transform: translateY(-20px) rotate(3deg); }
         }
-        @keyframes telegramGlow {
-            0%, 100% { box-shadow: 0 0 15px #0088cc, 0 0 30px #0088cc, 0 0 45px #0088cc; }
-            50% { box-shadow: 0 0 25px #00aaff, 0 0 50px #00aaff, 0 0 75px #00aaff; }
+        @keyframes brightTelegramGlow {
+            0%, 100% { box-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080, 0 0 80px #ff0080; }
+            50% { box-shadow: 0 0 30px #ff4500, 0 0 60px #ff4500, 0 0 90px #ff4500, 0 0 120px #ff4500; }
         }
 
         .vx-title-wrap{display:flex; gap:2px; justify-content:center; align-items:center; margin-bottom:4px;}
@@ -84,36 +84,37 @@
         .main-menu-btn:active{transform:scale(0.95);}
         .main-sound-btn{position:absolute; top:20px; right:20px; z-index:97; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.3); color:#666; font-size:18px; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold;}
 
-        /* Кнопка Telegram */
+        /* Яркая кнопка Telegram */
         .telegram-float-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 999;
-            width: 65px;
-            height: 65px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0088cc, #00aaff);
-            border: 3px solid rgba(255,255,255,0.3);
+            background: linear-gradient(135deg, #ff0080, #ff4500, #ff8c00);
+            border: 3px solid rgba(255, 255, 255, 0.6);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: floatButton 3s ease-in-out infinite, telegramGlow 2s ease-in-out infinite;
+            animation: floatButton 3s ease-in-out infinite, brightTelegramGlow 2s ease-in-out infinite;
             transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(0,136,204,0.5);
+            text-decoration: none;
         }
         .telegram-float-btn:hover {
-            transform: scale(1.15);
-            animation: floatButton 1.5s ease-in-out infinite, telegramGlow 1s ease-in-out infinite;
+            transform: scale(1.2);
+            animation: floatButton 1.5s ease-in-out infinite, brightTelegramGlow 1s ease-in-out infinite;
         }
         .telegram-float-btn:active {
             transform: scale(0.9);
         }
         .telegram-icon {
-            font-size: 32px;
+            font-size: 36px;
             color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 30px rgba(255,255,255,0.8);
+            animation: floatButton 2s ease-in-out infinite;
         }
 
         #vx-admin-message-overlay{position:absolute; inset:0; z-index:500; background:rgba(0,0,0,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; padding:30px;}
@@ -274,7 +275,7 @@
                 <button class="main-menu-btn" id="vx-main-referral-btn">👥 РЕФЕРАЛЫ</button>
                 <button class="main-menu-btn" id="vx-main-withdraw-btn">💸 ВЫВОД</button>
             </div>
-            <!-- Кнопка Telegram -->
+            <!-- Яркая кнопка Telegram -->
             <a href="https://t.me/VDC_game" target="_blank" class="telegram-float-btn" title="Присоединяйся к нам в Telegram!">
                 <span class="telegram-icon">📱</span>
             </a>
@@ -331,11 +332,10 @@ function calculatePrice(basePrice, level, multiplier) {
     return price;
 }
 
-// Исправленная функция начисления звёзд через админ-панель в реальном времени
+// Начисление звёзд ТОЛЬКО через сообщение админа с указанием суммы
 async function checkAndApplyAdminStars() {
     if (!supabase || !playerNickname) return;
     try {
-        // Проверяем таблицу admin_messages
         var { data: messages, error: msgError } = await supabase
             .from('admin_messages')
             .select('id, message')
@@ -346,12 +346,16 @@ async function checkAndApplyAdminStars() {
         if (!msgError && messages && messages.length > 0) {
             for (var i = 0; i < messages.length; i++) {
                 var msg = messages[i];
-                var starMatch = msg.message.match(/начислено\s+(\d+)\s+зв[ёе]зд/i);
+                // Ищем в тексте сообщения число (сумму для начисления)
+                var numberMatch = msg.message.match(/(\d[\d\s]*\d|\d+)/);
+                var starsToAdd = 0;
                 
-                if (starMatch && parseInt(starMatch[1]) > 0) {
-                    var starsToAdd = parseInt(starMatch[1]);
-                    
-                    // Начисляем звёзды мгновенно
+                if (numberMatch) {
+                    starsToAdd = parseInt(numberMatch[1].replace(/\s/g, ''));
+                }
+                
+                if (starsToAdd > 0) {
+                    // Начисляем звёзды
                     if (typeof g !== 'undefined') {
                         g.cash += starsToAdd;
                         if (g.active) {
@@ -375,18 +379,18 @@ async function checkAndApplyAdminStars() {
                             .eq('nickname', playerNickname);
                     }
                     
-                    // Показываем уведомление
+                    // Показываем уведомление с начисленной суммой
                     showStarNotification(starsToAdd);
-                    
-                    // Отмечаем как прочитанное
-                    await supabase
-                        .from('admin_messages')
-                        .update({ read: true })
-                        .eq('id', msg.id);
                 } else {
-                    // Обычное сообщение
+                    // Если нет числа — показываем как обычное сообщение
                     showAdminMessage(msg.message, msg.id);
                 }
+                
+                // Отмечаем как прочитанное
+                await supabase
+                    .from('admin_messages')
+                    .update({ read: true })
+                    .eq('id', msg.id);
             }
             
             updateBalanceDisplay();
@@ -395,11 +399,10 @@ async function checkAndApplyAdminStars() {
             }
         }
     } catch (e) {
-        console.log('Error in checkAndApplyAdminStars:', e);
+        console.log('Error:', e);
     }
 }
 
-// Функция для отображения уведомления о начислении звёзд
 function showStarNotification(amount) {
     var notification = document.createElement('div');
     notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;padding:15px 25px;border-radius:10px;font-weight:bold;font-size:18px;z-index:1000;box-shadow:0 0 20px rgba(255,215,0,.8);animation:modalSlideIn 0.3s ease-out;';
@@ -409,14 +412,11 @@ function showStarNotification(amount) {
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.5s';
         setTimeout(function() {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
-            }
+            if (notification.parentNode) document.body.removeChild(notification);
         }, 500);
     }, 3000);
 }
 
-// Функция для отображения обычного сообщения от админа
 function showAdminMessage(message, msgId) {
     document.getElementById('vx-admin-message-text').textContent = message;
     var overlay = document.getElementById('vx-admin-message-overlay');
@@ -431,17 +431,11 @@ function showAdminMessage(message, msgId) {
     };
 }
 
-// Периодическая проверка начислений каждые 3 секунды для мгновенного получения
 setInterval(function() {
-    if (playerNickname) {
-        checkAndApplyAdminStars();
-    }
+    if (playerNickname) checkAndApplyAdminStars();
 }, 3000);
 
-// Немедленная проверка при загрузке
-if (playerNickname) {
-    checkAndApplyAdminStars();
-}
+if (playerNickname) checkAndApplyAdminStars();
 
 (function initUI(){
     if(playerNickname && playerNickname.length>=4){
@@ -473,14 +467,7 @@ async function checkAdminMessages() {
         .order('created_at', { ascending: true })
         .limit(1);
     if (error || !data || data.length === 0) return;
-    const msg = data[0];
-    
-    if (msg.message.toLowerCase().includes('начислено') || msg.message.toLowerCase().includes('звёзд')) {
-        await checkAndApplyAdminStars();
-        return;
-    }
-    
-    showAdminMessage(msg.message, msg.id);
+    await checkAndApplyAdminStars();
 }
 
 async function hashPassword(password){var msgUint8=new TextEncoder().encode(password);var hashBuffer=await crypto.subtle.digest('SHA-256',msgUint8);var hashArray=Array.from(new Uint8Array(hashBuffer));return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');}
@@ -504,7 +491,7 @@ function checkReferral(){var params=new URLSearchParams(window.location.search);
 
 async function processPendingReferral(){var pendingRef=localStorage.getItem('vx_pending_referral');if(!pendingRef||!supabase||!playerNickname)return;if(pendingRef===referralCode)return;try{var{data:existing}=await supabase.from('referral_tracking').select('id').eq('referrer_code',pendingRef).eq('referred_nickname',playerNickname).single();if(existing)return;await supabase.rpc('process_referral',{p_referrer_code:pendingRef,p_referred_nick:playerNickname});localStorage.removeItem('vx_pending_referral');await loadReferralCountFromSupabase();updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();}catch(e){}}
 
-// Сохранение ВСЕХ данных прогресса
+// СОХРАНЕНИЕ ВСЕХ ДАННЫХ ПРОГРЕССА
 async function saveFullProgress(){
     if(!supabase||!playerNickname)return;
     try{
@@ -647,13 +634,15 @@ document.getElementById('vx-start-btn').onclick=async function(){
         g.prices.spd = calculatePrice(100, g.lvls.spd, 2.2);
     }
     
+    // Применяем уровни прокачки к параметрам дыры
+    g.max = 100 + (g.lvls.cap * 163);
+    g.rad = 18 + (g.lvls.rad * 5);
+    g.pull = 90 + (g.lvls.rad * 12);
+    g.spd = 0.07 + (g.lvls.spd * 0.015);
+    g.landMax = 2000 + (g.lvls.cap * 1000);
+    
     if(player.referral_code)referralCode=player.referral_code;
     if(player.total_referrals!=null)referralCount=player.total_referrals;
-    g.max=100+(g.lvls.cap*163);
-    g.rad=18+(g.lvls.rad*5);
-    g.pull=90+(g.lvls.rad*12);
-    g.spd=0.07+(g.lvls.spd*0.015);
-    g.landMax=2000+(g.lvls.cap*1000);
     await updateOnlineStatus();
     await processPendingReferral();
     }else{playerNickname=nick;}
@@ -680,7 +669,6 @@ var soundBtn=document.getElementById('vx-sound-btn');soundBtn.onclick=function(e
 (function(){var bc=document.getElementById('vx-bg-canvas');if(!bc)return;function resizeBg(){bc.width=window.innerWidth;bc.height=window.innerHeight;}resizeBg();window.addEventListener('resize',resizeBg);var bx=bc.getContext('2d');var bgStars=[];for(var i=0;i<120;i++)bgStars.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,r:Math.random()*1.4+.3,b:Math.random()*Math.PI*2,spd:.008+Math.random()*.015});var neb=[{x:window.innerWidth*.3,y:window.innerHeight*.3,r:200,c1:'rgba(98,0,234,.18)',c2:'rgba(0,0,0,0)'},{x:window.innerWidth*.7,y:window.innerHeight*.5,r:180,c1:'rgba(0,198,255,.12)',c2:'rgba(0,0,0,0)'},{x:window.innerWidth*.5,y:window.innerHeight*.7,r:150,c1:'rgba(168,85,247,.14)',c2:'rgba(0,0,0,0)'}];var ang=0;function bgDraw(){var ov=document.getElementById('vx-start-overlay');if(!ov||ov.style.display==='none')return;bx.clearRect(0,0,bc.width,bc.height);var gr=bx.createLinearGradient(0,0,bc.width,bc.height);gr.addColorStop(0,'#05051a');gr.addColorStop(.5,'#0a0520');gr.addColorStop(1,'#020210');bx.fillStyle=gr;bx.fillRect(0,0,bc.width,bc.height);ang+=.003;neb.forEach(function(n,i){bx.save();bx.translate(n.x,n.y);bx.rotate(ang*(i%2===0?1:-1));var g2=bx.createRadialGradient(0,0,0,0,0,n.r);g2.addColorStop(0,n.c1);g2.addColorStop(1,n.c2);bx.fillStyle=g2;bx.beginPath();bx.arc(0,0,n.r,0,Math.PI*2);bx.fill();bx.restore();});bgStars.forEach(function(s){s.b+=s.spd;var a=.3+Math.sin(s.b)*.5;bx.fillStyle='rgba(255,255,255,'+a+')';bx.beginPath();bx.arc(s.x,s.y,s.r,0,Math.PI*2);bx.fill();});requestAnimationFrame(bgDraw);}bgDraw();var sb=document.getElementById('vx-stars-bg');for(var i=0;i<25;i++){var s=document.createElement('div');s.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:2px;height:2px;background:#fff;border-radius:50%;animation:vx-blink '+(2+Math.random()*3)+'s infinite';sb.appendChild(s);}})();
 document.getElementById('vx-rules-btn').onclick=function(){document.getElementById('vx-rules-modal').classList.add('open');};
 document.getElementById('vx-rules-close').onclick=function(){document.getElementById('vx-rules-modal').classList.remove('open');};
-// Обновленные цены на дыры: от 10,000 до 4,000,000
 var HOLES=[
     {id:0,name:'СЕРАЯ',desc:'Стандартная.\nДоход x1.0',multi:1.0,price:0,color:null,owned:true},
     {id:1,name:'СИНЯЯ ЗВЕЗДА',desc:'Небесная сила.\nДоход x1.3',multi:1.3,price:10000,color:['#1e90ff','#00bfff','#87ceeb'],owned:false},
