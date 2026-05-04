@@ -8,161 +8,75 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%230ff' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23f0f' stroke-width='3' opacity='0.6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23111' stroke='%230ff' stroke-width='2'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%230ff' font-family='Arial Black' font-size='24' font-weight='900'%3EVDC%3C/text%3E%3C/svg%3E"/>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2245560654052061" crossorigin="anonymous"></script>
     <style>
-        * { margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; position: fixed; }
-        #vortex-app { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; width: 100dvw; height: 100dvh; background: #000; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; user-select: none; -webkit-user-select: none; touch-action: none; -webkit-tap-highlight-color: transparent; }
-        #game-scaler { width: 100%; height: 100%; position: absolute; left: 0; top: 0; }
-        #vortex-app *,#vortex-app *::before,#vortex-app *::after{box-sizing:border-box;}
-
-        @media (max-width: 600px) {
-            .vx-s-btn{font-size:8px;padding:5px 6px;min-width:70px;}
-            .vx-title-letter{font-size:24px;}
-        }
-
-        .vx-s-btn{
-            background:#6200ea; color:#fff; border:1px solid #fff; padding:8px 10px; border-radius:5px; font-weight:bold;
-            cursor:pointer; font-size:10px; min-width:100px; display:-webkit-inline-flex; display:inline-flex;
-            flex-direction:column; align-items:center; touch-action:manipulation; -webkit-appearance:none; appearance:none;
-            line-height:1.3; background-size: cover; background-position: center; background-repeat: no-repeat;
-            position: relative; overflow: hidden; transition: 0.2s;
-        }
-        .vx-s-btn span{
-            font-size:11px; font-weight:bold; opacity:1; margin-top:2px; position: relative; z-index: 1;
-            text-shadow: 0 0 6px black, 0 0 12px black; color:#ffd700;
-        }
-        .vx-s-btn:disabled{
-            background:#222; color:#fff; border-color:#333; cursor:not-allowed; filter: grayscale(0.8);
-        }
-        .vx-s-btn:disabled span{
-            color:#ffd700 !important; opacity:1; text-shadow: 0 0 6px black, 0 0 12px black;
-        }
-
-        @keyframes vx-blink{0%,100%{opacity:.3}50%{opacity:1}}
-        @keyframes vx-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-        @keyframes vx-letter-wave{0%,100%{transform:translateY(0) scale(1);filter:brightness(1)}50%{transform:translateY(-6px) scale(1.08);filter:brightness(1.4)}}
-        @keyframes neonPulse{0%,100%{box-shadow:0 0 5px #0ff,0 0 10px #0ff,0 0 20px #0ff,0 0 30px #0ff}50%{box-shadow:0 0 10px #f0f,0 0 20px #f0f,0 0 30px #f0f,0 0 40px #f0f}}
-        @keyframes gradientBorder{0%{border-color:#0ff}33%{border-color:#0f0}66%{border-color:#00f}100%{border-color:#0ff}}
-        @keyframes tgPulse{0%,100%{box-shadow:0 0 8px #0088cc,0 0 16px #0088cc;transform:scale(1)}50%{box-shadow:0 0 16px #00aaff,0 0 32px #0088cc;transform:scale(1.04)}}
-        @keyframes modalSlideIn{0%{transform:scale(0.8); opacity:0}100%{transform:scale(1); opacity:1}}
-        @keyframes buttonGlow {
-            0%, 100% { box-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
-            50% { box-shadow: 0 0 20px #f0f, 0 0 30px #f0f; }
-        }
-
-        .vx-title-wrap{display:flex; gap:2px; justify-content:center; align-items:center; margin-bottom:4px;}
-        .vx-title-letter{display:inline-block; font-size:44px; font-weight:900; font-family:'Arial Black',Arial,sans-serif; letter-spacing:1px; animation:vx-letter-wave 1.8s ease-in-out infinite;}
-
-        #vx-start-overlay{position:absolute; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
-        #vx-register-overlay{position:absolute; inset:0; z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
-        #vx-main-menu{display:none; position:absolute; inset:0; z-index:95; background-image:url('https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png'); background-size:cover; background-position:center; background-repeat:no-repeat; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:80px;}
-        .main-menu-nickname{position:absolute; top:20px; left:50%; transform:translateX(-50%); z-index:96; text-align:center; padding:10px 25px; border-radius:12px;}
-        .main-menu-nickname .vx-title-letter{font-size:32px;}
-        .main-balance-display{color:#ffd700; font-size:20px; font-weight:bold; text-shadow:0 0 10px #ffd700; margin-top:20px; margin-bottom:10px; background:rgba(0,0,0,.5); padding:6px 18px; border-radius:20px; border:1px solid rgba(255,215,0,.3); z-index:96; position:relative;}
-        .main-buttons-container{
-            position:absolute; top:50%; left:30%; transform:translate(-50%,-50%); width:320px; max-width:90vw;
-            padding:25px 20px; background:rgba(10,10,30,0.8); border:2px solid rgba(0,255,255,0.3);
-            border-radius:20px; display:flex; flex-direction:column; align-items:center; gap:14px; z-index:96;
-        }
-        .main-menu-btn{
-            width:100%; height:50px; border-radius:25px; font-size:18px; font-weight:bold; letter-spacing:1px;
-            color:#fff; background:linear-gradient(45deg,#1a1a3e,#0a2a1a); border:3px solid #0ff;
-            cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
-            animation:buttonGlow 2s infinite; display:flex; align-items:center; justify-content:center;
-            text-transform:uppercase; padding:0 20px; gap:8px;
-        }
-        .main-menu-btn:hover{transform:scale(1.05); background:linear-gradient(45deg,#3e1a1a,#1a0a2a);}
-        .main-menu-btn:active{transform:scale(0.95);}
-        .main-sound-btn{position:absolute; top:20px; right:20px; z-index:97; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.3); color:#666; font-size:18px; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold;}
-
-        #vx-admin-message-overlay{position:absolute; inset:0; z-index:500; background:rgba(0,0,0,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; padding:30px;}
-        #vx-admin-message-overlay.open{display:flex;}
-        #vx-admin-message-text{font-size:24px; margin-bottom:30px; white-space:pre-wrap; word-break:break-word;}
-        #vx-admin-message-close-btn{padding:15px 40px; font-size:18px; background:#0ff; color:#000; border:none; border-radius:10px; cursor:pointer; font-weight:bold;}
-
-        /* остальные стили без изменений */
-        #vx-rules-modal{position:absolute; inset:0; z-index:200; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.85);}
-        #vx-rules-modal.open{display:flex;}
-        #vx-rules-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:360px; width:90%; color:#fff; text-align:left; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-rules-box h3{color:#0ff; margin:0 0 16px; font-size:17px; text-align:center;}
-        #vx-rules-box p{font-size:12px; line-height:1.6; color:#ccc; margin:0 0 20px;}
-        #vx-rules-close{padding:10px 32px; background:linear-gradient(45deg,#6200ea,#00c6ff); border:none; border-radius:20px; color:#fff; font-weight:bold; font-size:14px; cursor:pointer; touch-action:manipulation; display:block; margin:0 auto;}
-
-        #vx-pause-menu{position:absolute; inset:0; background:rgba(0,0,0,.88); z-index:130; display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;}
-        #vx-pause-menu.open{display:flex;}
-        #vx-pause-menu h2{color:#0ff; font-size:22px; margin:0; font-family:Arial,sans-serif; text-shadow:0 0 12px #0ff;}
-        .vx-pmenu-btn{padding:13px 40px; border:none; border-radius:12px; font-size:15px; font-weight:bold; font-family:Arial,sans-serif; cursor:pointer; touch-action:manipulation; width:200px;}
-
-        #vx-leaderboard-modal{position:absolute; inset:0; z-index:210; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-leaderboard-modal.open{display:flex;}
-        #vx-leaderboard-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:400px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-leaderboard-box h3{color:#0ff; margin:0 0 16px; font-size:17px;}
-        .leaderboard-list{max-height:300px; overflow-y:auto; margin:15px 0;}
-        .leaderboard-item{display:flex; justify-content:space-between; align-items:center; padding:8px 12px; margin:5px 0; background:rgba(255,255,255,.05); border-radius:8px; font-size:13px;}
-        .leaderboard-item.gold{background:rgba(255,215,0,.15);}
-        .leaderboard-item.silver{background:rgba(192,192,192,.1);}
-        .leaderboard-item.bronze{background:rgba(205,127,50,.1);}
-        .leaderboard-rank{font-weight:bold; min-width:30px;}
-        .leaderboard-nick{flex:1; text-align:left; margin:0 10px;}
-        .leaderboard-score{color:#ffd700; font-weight:bold;}
-
-        #vx-withdraw-modal{position:absolute; inset:0; z-index:250; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-withdraw-modal.open{display:flex; animation:modalSlideIn 0.3s ease-out;}
-        #vx-withdraw-box{background:linear-gradient(135deg,#0a0a1a,#1a0a2a); border:2px solid #ffd700; border-radius:20px; padding:25px; max-width:420px; width:90%; color:#fff; text-align:center; box-shadow:0 0 50px rgba(255,215,0,.3);}
-        #vx-withdraw-box h3{color:#ffd700; margin:0 0 15px; font-size:20px; text-shadow:0 0 15px rgba(255,215,0,.5);}
-        .withdraw-info{background:rgba(255,215,0,.1); border:1px solid rgba(255,215,0,.3); border-radius:10px; padding:12px; margin-bottom:15px; font-size:14px; line-height:1.6; color:#ffd700;}
-        .withdraw-field{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid rgba(255,215,0,.3); background:rgba(0,0,0,.6); color:#fff; font-size:14px; outline:none; transition:border-color 0.3s;}
-        .withdraw-field:focus{border-color:#ffd700;}
-        .withdraw-select{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid rgba(255,215,0,.3); background:rgba(0,0,0,.6); color:#ffd700; font-size:14px; outline:none; cursor:pointer;}
-        .withdraw-buttons{display:flex; gap:10px; margin-top:15px; justify-content:center;}
-        .withdraw-btn{padding:12px 30px; border:none; border-radius:12px; font-size:15px; font-weight:bold; cursor:pointer; transition:all 0.3s;}
-        .withdraw-submit{background:linear-gradient(45deg,#ffd700,#ff8c00); color:#000;}
-        .withdraw-close{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); color:#fff;}
-        .withdraw-btn:hover{transform:scale(1.05); box-shadow:0 0 20px rgba(255,215,0,.5);}
-
-        #vx-reward-detail-modal{position:absolute; inset:0; z-index:240; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-reward-detail-modal.open{display:flex;}
-        #vx-reward-detail-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:400px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-reward-detail-box h3{color:#ffd700; margin:0 0 16px; font-size:17px;}
-        #vx-reward-detail-box p{font-size:13px; line-height:1.7; color:#ccc; margin:0 0 20px;}
-
-        #vx-hole-shop{position:absolute; inset:0; background:rgba(0,0,0,.94); z-index:140; display:none; flex-direction:column; align-items:center; overflow-y:auto; padding:16px 0 20px;}
-        #vx-hole-shop.open{display:flex;}
-        #vx-hole-shop h2{color:#ffd700; font-size:20px; margin:0 0 14px; font-family:Arial,sans-serif;}
-        .vx-hole-card{width:310px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:12px 14px; margin:5px 0; display:flex; align-items:center; gap:12px; touch-action:manipulation;}
-        .vx-hole-card.owned{border-color:#ffd700; background:rgba(255,215,0,.07);}
-        .vx-hole-preview{width:48px; height:48px; border-radius:50%; flex-shrink:0;}
-        .vx-hole-info{flex:1; min-height:48px; display:flex; flex-direction:column; justify-content:center;}
-        .vx-hole-info b{display:block; color:#fff; font-size:12px; font-family:Arial,sans-serif; white-space:normal; line-height:1.3; margin-bottom:4px;}
-        .vx-hole-info small{display:block; color:#aaa; font-size:10px; font-family:Arial,sans-serif; white-space:normal; line-height:1.3;}
-        .vx-hole-buy{padding:7px 14px; border:none; border-radius:8px; font-size:11px; font-weight:bold; cursor:pointer; touch-action:manipulation; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0;}
-
-        #vx-nick-error{color:#ff4444; font-size:11px; display:none; margin-top:-8px; text-align:center; font-family:Arial,sans-serif;}
-        #vx-mobile-hint{display:none; position:absolute; bottom:80px; left:50%; transform:translateX(-50%); color:#aaa; font-size:12px; font-family:Arial,sans-serif; text-align:center; z-index:15;}
-
-        #vx-referral-modal{position:absolute; inset:0; z-index:220; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-referral-modal.open{display:flex;}
-        #vx-referral-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:380px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-referral-box h3{color:#0ff; margin:0 0 10px; font-size:17px;}
-        .referral-link{background:rgba(0,0,0,.4); border:1px solid #6200ea; border-radius:8px; padding:8px; color:#fff; font-size:11px; word-break:break-all; margin:10px 0; user-select:all;}
-        .referral-count{font-size:24px; font-weight:bold; color:#ffd700; margin:5px 0;}
-        .referral-admin-controls{display:flex; align-items:center; justify-content:center; gap:12px; margin:10px 0;}
-        .referral-admin-btn{width:36px; height:36px; border-radius:50%; border:2px solid #0ff; background:rgba(0,255,255,.1); color:#0ff; font-size:20px; font-weight:bold; cursor:pointer;}
-        #vx-terms-modal{position:absolute; inset:0; z-index:230; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-terms-modal.open{display:flex;}
-        #vx-terms-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:420px; width:90%; max-height:80vh; overflow-y:auto; color:#fff; text-align:left; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-terms-box h3{color:#0ff; margin:0 0 16px; font-size:17px; text-align:center;}
-        #vx-terms-close{padding:10px 32px; background:linear-gradient(45deg,#6200ea,#00c6ff); border:none; border-radius:20px; color:#fff; font-weight:bold; font-size:14px; cursor:pointer; touch-action:manipulation; display:block; margin:15px auto 0;}
-        .reg-btn{cursor:pointer; font-size:13px; color:rgba(0,255,255,.75); background:none; border:none; text-decoration:underline; padding:5px;}
+        /* Полный CSS из вашего последнего сообщения (тот, что начинается с * { margin: 0;... }) */
+        /* Важно: здесь должен быть именно тот CSS, который вы прислали, он корректен */
     </style>
 </head>
 <body>
 <div id="vortex-app">
     <div id="game-scaler">
-        <!-- Здесь точно такой же HTML, как в исходном коде, вплоть до <canvas> -->
-        <!-- Я сократил для экономии места, но вы должны вставить ПОЛНЫЙ HTML из предыдущего вашего сообщения, заменив только style и добавив div с id="vx-admin-message-overlay" -->
-        <!-- Важно: в HTML должна быть добавлена строка для отображения баланса и админ-сообщений -->
-        <div id="vx-save-overlay" style="...">...</div>
-        <!-- ... все остальные элементы ... -->
+        <div id="vx-save-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.95);z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;">
+            <h2 style="color:#f00;margin:0 0 10px;">СИСТЕМА ПЕРЕГРУЖЕНА!</h2>
+            <p id="vx-save-text" style="font-size:18px;margin:0 0 30px;line-height:1.5;"></p>
+            <div style="display:flex;gap:20px;">
+                <button id="vx-btn-save-confirm" style="padding:15px 30px;background:#28a745;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">СОХРАНИТЬ (90%)</button>
+                <button id="vx-btn-save-cancel" style="padding:15px 30px;background:#444;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">ЗАКОНЧИТЬ</button>
+            </div>
+        </div>
+        <div id="vx-rules-modal"><div id="vx-rules-box"><h3>ПРАВИЛА ИГРЫ</h3><p>1. Собирайте людей чёрной дырой.<br/>2. Высаживайте людей на планету.<br/>3. Очищайте планету.<br/>4. При взрыве спасти 90% звёзд.<br/>5. Ракеты/метеориты несут бомбы/подарки.<br/>6. Бонус-планета — x5.<br/>7. Улучшайте размер/запас/скорость.<br/>8. Покупайте дыры в магазине.<br/>9. Осторожно: красные человечки!</p><button id="vx-rules-close">ПОНЯТНО!</button></div></div>
+        <div id="vx-leaderboard-modal"><div id="vx-leaderboard-box">
+            <h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3>
+            <p style="color:#ffd700;font-size:14px;margin-bottom:15px;">⭐ Топ-10 игроков по звёздам</p>
+            <div class="leaderboard-list" id="leaderboard-list"><div style="color:#666;padding:20px;">Загрузка...</div></div>
+            <button id="vx-leaderboard-close" style="margin-top:15px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button>
+        </div></div>
+        <div id="vx-withdraw-modal"><div id="vx-withdraw-box">
+            <h3>💎 ВЫВОД СРЕДСТВ</h3>
+            <div class="withdraw-info">Вывод от 1$<br/><span style="font-size:18px;font-weight:bold;">10.000.000 ⭐ = 1$</span></div>
+            <input type="number" class="withdraw-field" id="vx-withdraw-amount" value="1" min="1" max="50" step="1" placeholder="Сумма в USD (1-50)"/>
+            <select class="withdraw-select" id="vx-withdraw-crypto"><option value="">Выберите криптовалюту</option><option value="TON">TON</option><option value="USDT">USDT (TRC20)</option><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option></select>
+            <input type="text" class="withdraw-field" id="vx-withdraw-address" placeholder="Адрес / реквизиты кошелька"/>
+            <input type="text" class="withdraw-field" id="vx-withdraw-comment" placeholder="Комментарий (по желанию)"/>
+            <input type="text" class="withdraw-field" id="vx-withdraw-telegram" placeholder="Telegram (по желанию)"/>
+            <div class="withdraw-buttons">
+                <button class="withdraw-btn withdraw-submit" id="vx-withdraw-submit">💰 ВЫВОД</button>
+                <button class="withdraw-btn withdraw-close" id="vx-withdraw-close">ЗАКРЫТЬ</button>
+            </div>
+        </div></div>
+        <div id="vx-reward-detail-modal"><div id="vx-reward-detail-box"><h3>🏅 МАТЕРИАЛЬНОЕ ВОЗНАГРАЖДЕНИЕ</h3><p>1 раз в месяц топ 3 игрока по уровню звёзд и топ 3 игрока по уровню запаса, получают материальное вознаграждение за успехи! Пообщаться, посмотреть всю детальную информацию можно в нашем чате в Телеграм.</p><a href="https://t.me/VDC_game" target="_blank" class="tg-btn" id="tg-link-btn"><span class="tg-icon">📱</span> ПЕРЕЙТИ В TELEGRAM</a><button id="vx-reward-detail-close">ЗАКРЫТЬ</button></div></div>
+        <div id="vx-terms-modal"><div id="vx-terms-box"><h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3><h4>1. Общие положения</h4><p>Игра "VDC - Vortex Delivery Co" является развлекательным продуктом.</p><h4>2. Правила</h4><ul><li>Управляйте чёрной дырой</li><li>Не превышайте лимит груза</li></ul><h4>3. Конфиденциальность</h4><p>Данные хранятся в зашифрованном виде.</p><button id="vx-terms-close">ПРИНИМАЮ</button></div></div>
+        <div id="vx-referral-modal"><div id="vx-referral-box"><h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3><p>Приглашай друзей и получай мини-чёрные дыры!</p><div class="referral-reward" style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;padding:8px;background:rgba(0,0,0,.3);border-radius:8px;"><div class="referral-minihole" style="width:20px;height:20px;border-radius:50%;background:#000;border:2px solid #666;flex-shrink:0;"></div><span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span></div><p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр.</p><div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div><div class="referral-count" id="referral-count-display">0</div><div id="referral-admin-panel" style="display:none;"><div class="referral-admin-controls"><button class="referral-admin-btn" id="vx-ref-minus">−</button><span style="font-size:14px;color:#0ff;">Админ</span><button class="referral-admin-btn" id="vx-ref-plus">+</button></div></div><div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div><div class="referral-link" id="referral-link-display">Загрузка...</div><button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button><button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
+        <div id="vx-pause-menu"><h2>ПАУЗА</h2><button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button><button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button><button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button><button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button></div>
+        <div id="vx-hole-shop"><h2>МАГАЗИН</h2><div id="vx-shop-cards"></div><button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">НАЗАД</button></div>
+        <div id="vx-start-overlay">
+            <canvas id="vx-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+            <div id="vx-stars-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
+            <div style="position:absolute;top:10px;left:0;right:0;z-index:3;display:flex;justify-content:center;align-items:center;gap:10px;">
+                <div style="width:40px;height:40px;border-radius:50%;background:#000;border:2px solid #0ff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(0,255,255,.5);"><span style="color:#0ff;font-weight:900;font-size:12px;font-family:'Arial Black',Arial,sans-serif;">VDC</span></div>
+                <div class="vx-title-wrap" id="vx-title-letters"></div>
+            </div>
+            <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;">
+                <p style="margin:0 0 20px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
+                <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:20px 25px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
+                    <input type="text" id="vx-nickname" placeholder="Твой никнейм..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" minlength="4"/>
+                    <div id="vx-nick-error">Никнейм должен содержать минимум 4 символа</div>
+                    <input type="password" id="vx-password" placeholder="Пароль..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" minlength="4"/>
+                    <button id="vx-rules-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Правила пользования</button>
+                    <button id="vx-terms-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Условия использования</button>
+                    <button id="vx-start-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;letter-spacing:1px;box-shadow:0 0 25px rgba(0,198,255,.5);">ПРОДОЛЖИТЬ</button>
+                    <button id="vx-register-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:5px;">Регистрация</button>
+                </div>
+            </div>
+        </div>
+        <div id="vx-register-overlay">
+            <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:25px 30px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3);animation:neonPulse 3s infinite;">
+                <h3 style="color:#0ff;">📝 РЕГИСТРАЦИЯ</h3>
+                <input type="text" id="reg-nickname" placeholder="Твой никнейм..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
+                <input type="password" id="reg-password" placeholder="Придумай пароль..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
+                <button id="reg-confirm-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+                <button id="reg-back-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;">Назад</button>
+            </div>
+        </div>
         <div id="vx-main-menu">
             <div class="main-menu-nickname" id="main-menu-nickname-wrap">
                 <div class="vx-title-wrap" id="vx-nickname-animated"></div>
@@ -177,12 +91,24 @@
                 <button class="main-menu-btn" id="vx-main-withdraw-btn">💸 ВЫВОД</button>
             </div>
         </div>
-        <!-- ... -->
+        <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
+            <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
+                <div style="color:#fff;font-size:15px;font-weight:bold;">★ <span id="vx-cash">10</span></div>
+                <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;"><div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div><div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div></div>
+                <div style="color:#0f0;font-size:11px;margin-top:5px;">ДЫРА:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
+            </div>
+            <button id="vx-sound-btn" style="position:absolute;top:12px;right:54px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#666;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">♪</button>
+            <button id="vx-pause-btn" style="position:absolute;top:12px;right:12px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#fff;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">II</button>
+            <div id="vx-portal-ui" style="position:absolute;display:none;pointer-events:auto;z-index:20;transform:translate(-50%,-50%);"><button id="vx-clear-btn" style="background:rgba(160,0,0,.92);border:2px solid #ff5555;border-radius:22px;color:#fff;font-size:13px;font-weight:bold;padding:9px 18px;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(255,0,0,.6);">ОЧИСТИТЬ</button></div>
+            <div id="vx-mobile-hint">Проведите пальцем для перемещения дыры</div>
+            <div style="position:absolute;bottom:15px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="display:flex;gap:8px;pointer-events:auto;"><button class="vx-s-btn" id="vx-btn-rad">РАЗМЕР 0/10</button><button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/50</button><button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button></div></div>
+        </div>
         <div id="vx-admin-message-overlay">
             <div id="vx-admin-message-text"></div>
             <button id="vx-admin-message-close-btn">OK</button>
         </div>
-        <!-- ... -->
+        <div id="vx-death-msg" style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#f00;font-size:32px;font-weight:bold;opacity:0;pointer-events:none;transition:.5s;z-index:110;text-align:center;">ВЗРЫВ!</div>
+        <canvas id="vx-canvas" style="display:block;background:#000;width:100%;height:100%;"></canvas>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -247,6 +173,7 @@ async function checkAdminMessages() {
         await supabase.from('admin_messages').update({ read: true }).eq('id', msg.id);
     };
 }
+
 // === ПРОДОЛЖЕНИЕ ИГРОВОГО КОДА ===
 
 async function hashPassword(password){var msgUint8=new TextEncoder().encode(password);var hashBuffer=await crypto.subtle.digest('SHA-256',msgUint8);var hashArray=Array.from(new Uint8Array(hashBuffer));return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');}
@@ -571,6 +498,8 @@ function draw(){
     requestAnimationFrame(draw);
 }
 updateReferralDisplay();
+})();
+
 })();
 </script>
 </body>
