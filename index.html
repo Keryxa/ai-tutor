@@ -503,9 +503,19 @@ async function saveFullProgress(){
             hole_type: g_holeIdx,
             highscore_stars: Math.max(g.cash, 0),
             highscore_level: g.lvls.cap,
-            upgrade_prices: JSON.stringify(g.prices)
+            upgrade_prices: JSON.stringify(g.prices),
+
+            // ✅ сохранение купленных дыр
+            owned_holes: JSON.stringify(HOLES.map(function(h){
+                return h.owned ? 1 : 0;
+            }))
         };
-        await supabase.from('players').update(saveData).eq('nickname', playerNickname);
+
+        await supabase
+            .from('players')
+            .update(saveData)
+            .eq('nickname', playerNickname);
+
     }catch(e){
         console.log('Save error:', e);
     }
