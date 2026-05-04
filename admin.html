@@ -33,6 +33,7 @@
         .btn-success{background:#28a745;color:#fff}
         .btn-danger{background:#dc3545;color:#fff}
         .btn-warning{background:#ffc107;color:#000}
+        .btn-info{background:#17a2b8;color:#fff}
         .btn:hover{opacity:.9;transform:translateY(-1px)}
         #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh}
         .login-box{background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:16px;padding:40px;width:350px;text-align:center;box-shadow:0 0 30px rgba(0,255,255,.3)}
@@ -40,6 +41,10 @@
         .login-error{color:#ff4444;font-size:13px;margin-top:10px;display:none}
         #main-panel{display:none}
         .info-text{font-size:12px;color:#aaa;margin:5px 0}
+        .preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:2000;align-items:center;justify-content:center}
+        .preview-modal.open{display:flex}
+        .preview-content{padding:40px;text-align:center;color:#fff;font-size:24px;max-width:90vw}
+        .preview-close-btn{margin-top:30px;padding:12px 30px;background:#0ff;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:bold}
     </style>
 </head>
 <body>
@@ -61,11 +66,23 @@
             <div class="stat-card"><h3>🔗 РЕФЕРАЛОВ</h3><div class="stat-value" id="stat-referrals">0</div></div>
         </div>
         <div class="panel"><h2>🏆 ТОП ИГРОКОВ</h2><div class="top-players-grid"><div class="top-list"><h3>⭐ По звёздам</h3><div id="top-stars-list">Загрузка...</div></div></div></div>
+        <div class="panel"><h2>💎 НАЧИСЛИТЬ ЗВЁЗДЫ</h2>
+            <div class="form-group"><label>Никнейм игрока</label><input type="text" id="stars-nickname" placeholder="Введите никнейм"/></div>
+            <div class="form-group"><label>Количество ⭐</label><input type="number" id="stars-amount" value="1000" min="1" step="1"/></div>
+            <button class="btn btn-warning" onclick="addStars()">✨ НАЧИСЛИТЬ</button>
+        </div>
         <div class="panel"><h2>✉️ ОТПРАВИТЬ СООБЩЕНИЕ</h2>
             <div class="form-group"><label>Никнейм игрока</label><input type="text" id="message-nickname" placeholder="Введите никнейм"/></div>
             <div class="form-group"><label>Сообщение</label><textarea id="message-text" placeholder="Текст сообщения..."></textarea></div>
+            <button class="btn btn-info" onclick="showPreview()">👁️ ПРЕДПРОСМОТР</button>
             <button class="btn btn-success" onclick="sendPlayerMessage()">📨 ОТПРАВИТЬ</button>
         </div>
+    </div>
+</div>
+<div class="preview-modal" id="preview-modal">
+    <div class="preview-content">
+        <div id="preview-message-text" style="white-space:pre-wrap;word-break:break-word"></div>
+        <button class="preview-close-btn" onclick="closePreview()">ЗАКРЫТЬ</button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -82,18 +99,36 @@ function doLogout(){sessionStorage.removeItem('admin_logged_in');isLoggedIn=fals
 async function showMainPanel(){document.getElementById('login-screen').style.display='none';document.getElementById('main-panel').style.display='block';await loadStats();await loadTopPlayers();}
 async function loadStats(){var{data:p}=await supabase.from('players').select('id,is_online');document.getElementById('stat-total').textContent=p?p.length:0;document.getElementById('stat-online').textContent=p?p.filter(function(x){return x.is_online}).length:0;var{data:r}=await supabase.from('referral_tracking').select('id');document.getElementById('stat-referrals').textContent=r?r.length:0}
 async function loadTopPlayers(){var{data:s}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(3);var m=['🥇','🥈','🥉'],c=['gold','silver','bronze'];document.getElementById('top-stars-list').innerHTML=(s||[]).map(function(x,i){return'<div class="top-player-item '+(c[i]||'')+'"><span>'+(m[i]||'')+' '+x.nickname+'</span><span>⭐ '+(x.highscore_stars||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'</span></div>'}).join('')||'Нет данных'}
+
+async function addStars(){
+    var nick=document.getElementById('stars-nickname').value.trim();
+    var amount=parseInt(document.getElementById('stars-amount').value);
+    if(!nick||isNaN(amount)||amount<=0){alert('Введите корректный никнейм и сумму');return}
+    var{data:player}=await supabase.from('players').select('stars').eq('nickname',nick).single();
+    if(!player){alert('Игрок с таким никнеймом не найден');return}
+    var newStars=(player.stars||0)+amount;
+    var{error}=await supabase.from('players').update({stars:newStars}).eq('nickname',nick);
+    if(error){alert('Ошибка при начислении: '+error.message)}else{
+        alert('Игроку '+nick+' начислено '+amount+' звезд. Теперь у него '+newStars+'⭐');
+        document.getElementById('stars-nickname').value='';
+        document.getElementById('stars-amount').value=1000;
+        loadStats();
+        loadTopPlayers();
+    }
+}
+
 async function sendPlayerMessage(){
     var nick=document.getElementById('message-nickname').value.trim();
     var msg=document.getElementById('message-text').value.trim();
     if(!nick||!msg){alert('Заполни никнейм и сообщение');return}
+    // Сохраняем в таблицу admin_messages или в game_settings как fallback
     const{error}=await supabase.from('admin_messages').insert({
         nickname:nick,
         message:msg,
         created_at:new Date().toISOString()
     });
     if(error){
-        // Fallback: сохраняем в game_settings как массив сообщений
-        const {data: existing}=await supabase.from('game_settings').select('setting_value').eq('setting_key','admin_messages').single();
+        const{data:existing}=await supabase.from('game_settings').select('setting_value').eq('setting_key','admin_messages').single();
         let messages=[];
         if(existing&&existing.setting_value){
             try{messages=JSON.parse(existing.setting_value)}catch(e){}
@@ -107,6 +142,17 @@ async function sendPlayerMessage(){
     document.getElementById('message-nickname').value='';
     document.getElementById('message-text').value='';
 }
+
+function showPreview(){
+    var msg=document.getElementById('message-text').value.trim();
+    if(!msg){alert('Сначала введите текст сообщения');return}
+    document.getElementById('preview-message-text').textContent=msg;
+    document.getElementById('preview-modal').classList.add('open');
+}
+function closePreview(){
+    document.getElementById('preview-modal').classList.remove('open');
+}
+
 setInterval(function(){if(isLoggedIn){loadStats();loadTopPlayers()}},5000);
 document.getElementById('login-password').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 </script>
