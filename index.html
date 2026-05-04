@@ -48,10 +48,6 @@
             0%, 100% { box-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
             50% { box-shadow: 0 0 20px #f0f, 0 0 30px #f0f; }
         }
-        @keyframes rocketFlame {
-            0%, 100% { opacity: 0.8; transform: scaleY(1); }
-            50% { opacity: 1; transform: scaleY(1.5); }
-        }
 
         .vx-title-wrap{display:flex; gap:2px; justify-content:center; align-items:center; margin-bottom:4px;}
         .vx-title-letter{display:inline-block; font-size:44px; font-weight:900; font-family:'Arial Black',Arial,sans-serif; letter-spacing:1px; animation:vx-letter-wave 1.8s ease-in-out infinite;}
@@ -280,11 +276,19 @@ var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
 var supabase=null;
 try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
-// Исправленная функция начисления звёзд через админ-панель
+// Функция для расчета цен на основе уровня
+function calculatePrice(basePrice, level, multiplier) {
+    var price = basePrice;
+    for (var i = 0; i < level; i++) {
+        price = Math.ceil(price * multiplier);
+    }
+    return price;
+}
+
+// Исправленная функция начисления звёзд через админ-панель в реальном времени
 async function checkAndApplyAdminStars() {
     if (!supabase || !playerNickname) return;
     try {
-        // Проверяем таблицу admin_messages на наличие сообщений о начислении звёзд
         var { data: messages, error: msgError } = await supabase
             .from('admin_messages')
             .select('id, message')
@@ -295,38 +299,41 @@ async function checkAndApplyAdminStars() {
         if (!msgError && messages && messages.length > 0) {
             for (var i = 0; i < messages.length; i++) {
                 var msg = messages[i];
-                // Парсим сообщение на предмет начисления звёзд (формат: "Начислено X звёзд")
                 var starMatch = msg.message.match(/начислено\s+(\d+)\s+зв[ёе]зд/i);
-                if (starMatch) {
+                var hasStars = starMatch && parseInt(starMatch[1]) > 0;
+                
+                if (hasStars) {
                     var starsToAdd = parseInt(starMatch[1]);
-                    if (starsToAdd > 0) {
-                        // Начисляем звёзды игроку
-                        if (typeof g !== 'undefined') {
-                            g.cash += starsToAdd;
-                            if (g.active) {
-                                refreshUI();
-                                saveFullProgress();
-                            }
-                        }
-                        
-                        // Обновляем баланс в базе данных
-                        var { data: playerData } = await supabase
-                            .from('players')
-                            .select('stars')
-                            .eq('nickname', playerNickname)
-                            .single();
-                            
-                        if (playerData) {
-                            var currentStars = playerData.stars || 0;
-                            await supabase
-                                .from('players')
-                                .update({ stars: currentStars + starsToAdd })
-                                .eq('nickname', playerNickname);
+                    if (typeof g !== 'undefined') {
+                        g.cash += starsToAdd;
+                        if (g.active) {
+                            refreshUI();
+                            saveFullProgress();
                         }
                     }
+                    
+                    var { data: playerData } = await supabase
+                        .from('players')
+                        .select('stars')
+                        .eq('nickname', playerNickname)
+                        .single();
+                        
+                    if (playerData) {
+                        var currentStars = playerData.stars || 0;
+                        await supabase
+                            .from('players')
+                            .update({ stars: currentStars + starsToAdd })
+                            .eq('nickname', playerNickname);
+                    }
+                    
+                    // Показываем уведомление о начислении
+                    showStarNotification(starsToAdd);
+                } else {
+                    // Если это не начисление звёзд, показываем как обычное сообщение
+                    showAdminMessage(msg.message, msg.id);
+                    continue;
                 }
                 
-                // Отмечаем сообщение как прочитанное
                 await supabase
                     .from('admin_messages')
                     .update({ read: true })
@@ -343,12 +350,47 @@ async function checkAndApplyAdminStars() {
     }
 }
 
+// Функция для отображения уведомления о начислении звёзд
+function showStarNotification(amount) {
+    var notification = document.createElement('div');
+    notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;padding:15px 25px;border-radius:10px;font-weight:bold;font-size:18px;z-index:1000;box-shadow:0 0 20px rgba(255,215,0,.8);animation:modalSlideIn 0.3s ease-out;';
+    notification.textContent = '⭐ Начислено ' + formatNumber(amount) + ' звёзд!';
+    document.body.appendChild(notification);
+    setTimeout(function() {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.5s';
+        setTimeout(function() {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 3000);
+}
+
+// Функция для отображения обычного сообщения от админа
+function showAdminMessage(message, msgId) {
+    document.getElementById('vx-admin-message-text').textContent = message;
+    var overlay = document.getElementById('vx-admin-message-overlay');
+    overlay.classList.add('open');
+    var closeBtn = document.getElementById('vx-admin-message-close-btn');
+    closeBtn.onclick = async function() {
+        overlay.classList.remove('open');
+        if (msgId) {
+            await supabase.from('admin_messages').update({ read: true }).eq('id', msgId);
+        }
+        await checkAndApplyAdminStars();
+    };
+}
+
 // Периодическая проверка начислений каждые 5 секунд
 setInterval(function() {
     if (playerNickname) {
         checkAndApplyAdminStars();
     }
 }, 5000);
+
+// Немедленная проверка при загрузке
+if (playerNickname) {
+    checkAndApplyAdminStars();
+}
 
 (function initUI(){
     if(playerNickname && playerNickname.length>=4){
@@ -382,22 +424,12 @@ async function checkAdminMessages() {
     if (error || !data || data.length === 0) return;
     const msg = data[0];
     
-    // Проверяем, не содержит ли сообщение информацию о начислении звёзд
     if (msg.message.toLowerCase().includes('начислено') || msg.message.toLowerCase().includes('звёзд')) {
         await checkAndApplyAdminStars();
         return;
     }
     
-    document.getElementById('vx-admin-message-text').textContent = msg.message;
-    var overlay = document.getElementById('vx-admin-message-overlay');
-    overlay.classList.add('open');
-    var closeBtn = document.getElementById('vx-admin-message-close-btn');
-    closeBtn.onclick = async function() {
-        overlay.classList.remove('open');
-        await supabase.from('admin_messages').update({ read: true }).eq('id', msg.id);
-        // После закрытия сообщения проверяем начисления
-        await checkAndApplyAdminStars();
-    };
+    showAdminMessage(msg.message, msg.id);
 }
 
 async function hashPassword(password){var msgUint8=new TextEncoder().encode(password);var hashBuffer=await crypto.subtle.digest('SHA-256',msgUint8);var hashArray=Array.from(new Uint8Array(hashBuffer));return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');}
@@ -421,7 +453,7 @@ function checkReferral(){var params=new URLSearchParams(window.location.search);
 
 async function processPendingReferral(){var pendingRef=localStorage.getItem('vx_pending_referral');if(!pendingRef||!supabase||!playerNickname)return;if(pendingRef===referralCode)return;try{var{data:existing}=await supabase.from('referral_tracking').select('id').eq('referrer_code',pendingRef).eq('referred_nickname',playerNickname).single();if(existing)return;await supabase.rpc('process_referral',{p_referrer_code:pendingRef,p_referred_nick:playerNickname});localStorage.removeItem('vx_pending_referral');await loadReferralCountFromSupabase();updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();}catch(e){}}
 
-async function saveFullProgress(){if(!supabase||!playerNickname)return;try{await supabase.from('players').update({stars:Math.floor(g.cash),cargo_level:g.lvls.cap,speed_level:g.lvls.spd,size_level:g.lvls.rad,hole_type:g_holeIdx,highscore_stars:Math.max(g.cash,0),highscore_level:g.lvls.cap}).eq('nickname',playerNickname);}catch(e){}}
+async function saveFullProgress(){if(!supabase||!playerNickname)return;try{await supabase.from('players').update({stars:Math.floor(g.cash),cargo_level:g.lvls.cap,speed_level:g.lvls.spd,size_level:g.lvls.rad,hole_type:g_holeIdx,highscore_stars:Math.max(g.cash,0),highscore_level:g.lvls.cap,upgrade_prices:JSON.stringify(g.prices)}).eq('nickname',playerNickname);}catch(e){}}
 
 async function showLeaderboard(listElementId){var listEl=document.getElementById(listElementId||'leaderboard-list');if(!listEl)return;listEl.innerHTML='<div style="color:#666;padding:20px;">Загрузка...</div>';document.getElementById('vx-leaderboard-modal').classList.add('open');if(supabase){try{var{data}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(10);if(data&&data.length>0){listEl.innerHTML=data.map(function(item,index){var rankClass='',medal='';if(index===0){rankClass='gold';medal='🥇';}else if(index===1){rankClass='silver';medal='🥈';}else if(index===2){rankClass='bronze';medal='🥉';}return '<div class="leaderboard-item '+rankClass+'"><span class="leaderboard-rank">'+(medal||('#'+(index+1)))+'</span><span class="leaderboard-nick">'+item.nickname+'</span><span class="leaderboard-score">⭐ '+formatNumber(item.highscore_stars||0)+'</span></div>';}).join('');return;}}catch(e){}}listEl.innerHTML='<div style="color:#666;padding:20px;">Нет данных</div>';}
 
@@ -529,6 +561,25 @@ document.getElementById('vx-start-btn').onclick=async function(){
     g.lvls.spd=Math.min(player.speed_level||0,20);
     g.lvls.rad=Math.min(player.size_level||0,10);
     g_holeIdx=player.hole_type||0;
+    
+    // Загружаем сохранённые цены или рассчитываем их
+    if (player.upgrade_prices) {
+        try {
+            var savedPrices = JSON.parse(player.upgrade_prices);
+            g.prices = savedPrices;
+        } catch(e) {
+            // Если не удалось распарсить, рассчитываем цены
+            g.prices.rad = calculatePrice(1000, g.lvls.rad, 8.5);
+            g.prices.cap = calculatePrice(50, g.lvls.cap, 2.5);
+            g.prices.spd = calculatePrice(100, g.lvls.spd, 2.2);
+        }
+    } else {
+        // Рассчитываем цены на основе уровней
+        g.prices.rad = calculatePrice(1000, g.lvls.rad, 8.5);
+        g.prices.cap = calculatePrice(50, g.lvls.cap, 2.5);
+        g.prices.spd = calculatePrice(100, g.lvls.spd, 2.2);
+    }
+    
     if(player.referral_code)referralCode=player.referral_code;
     if(player.total_referrals!=null)referralCount=player.total_referrals;
     g.max=100+(g.lvls.cap*163);
@@ -575,8 +626,6 @@ var redHuman=null,greenHuman=null;
 var nextRedHumanTime=0,nextGreenHumanTime=0;
 var warnToken=0;
 var tabHiddenAt=0,tabPaused=false;
-
-// ... (остальной код функций остается без изменений до функции draw)
 
 function ensureAC(){if(!soundOn)return null;if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
 function playSound(type){if(!soundOn)return;try{var ac=ensureAC();if(!ac)return;var t=ac.currentTime;if(type==='drop'){var coinFreqs=[1200,1400,1000,1600,900,1300];coinFreqs.forEach(function(freq,i){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.value=freq;var st=t+i*.055;gn.gain.setValueAtTime(0,st);gn.gain.linearRampToValueAtTime(.18,st+.02);gn.gain.exponentialRampToValueAtTime(.001,st+.18);o.start(st);o.stop(st+.2);});return;}if(type==='gift'){[523,659,784,1047].forEach(function(freq,i){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.value=freq;var st=t+i*.08;gn.gain.setValueAtTime(0,st);gn.gain.linearRampToValueAtTime(.15,st+.04);gn.gain.exponentialRampToValueAtTime(.001,st+.25);o.start(st);o.stop(st+.3);});return;}if(type==='meteor'){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sawtooth';o.frequency.setValueAtTime(400,t);o.frequency.exponentialRampToValueAtTime(80,t+.4);gn.gain.setValueAtTime(.08,t);gn.gain.exponentialRampToValueAtTime(.001,t+.4);o.start(t);o.stop(t+.45);return;}if(type==='warn'){[[0,.18,.25],[.35,.18,.25],[.7,.35,.7]].forEach(function(p){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(160,t+p[0]);o.frequency.linearRampToValueAtTime(120,t+p[0]+p[2]);gn.gain.setValueAtTime(0,t+p[0]);gn.gain.linearRampToValueAtTime(.3,t+p[0]+.03);gn.gain.setValueAtTime(.3,t+p[0]+p[2]-.04);gn.gain.linearRampToValueAtTime(0,t+p[0]+p[2]);o.start(t+p[0]);o.stop(t+p[0]+p[2]+.02);});return;}var osc=ac.createOscillator(),gain=ac.createGain();osc.connect(gain);gain.connect(ac.destination);if(type==='collect'){osc.frequency.setValueAtTime(600,t);osc.frequency.exponentialRampToValueAtTime(100,t+.1);gain.gain.setValueAtTime(.1,t);osc.start(t);osc.stop(t+.1);}else if(type==='upgrade'){osc.type='sine';osc.frequency.setValueAtTime(180,t);osc.frequency.linearRampToValueAtTime(240,t+.1);osc.frequency.linearRampToValueAtTime(160,t+.3);gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(.35,t+.05);gain.gain.exponentialRampToValueAtTime(.001,t+.45);osc.start(t);osc.stop(t+.5);}else if(type==='boom'){osc.type='sawtooth';osc.frequency.setValueAtTime(100,t);osc.frequency.exponentialRampToValueAtTime(10,t+.5);gain.gain.setValueAtTime(.3,t);osc.start(t);osc.stop(t+.5);}else if(type==='error'){osc.type='sine';osc.frequency.setValueAtTime(880,t);gain.gain.setValueAtTime(.1,t);osc.start(t);osc.stop(t+.1);}else if(type==='rocket'){osc.type='sawtooth';osc.frequency.setValueAtTime(280,t);osc.frequency.linearRampToValueAtTime(180,t+.25);gain.gain.setValueAtTime(.06,t);osc.start(t);osc.stop(t+.3);}else if(type==='bonus'){osc.type='sine';osc.frequency.setValueAtTime(440,t);osc.frequency.linearRampToValueAtTime(880,t+.2);gain.gain.setValueAtTime(.2,t);osc.start(t);osc.stop(t+.25);}}catch(e){}}
@@ -641,8 +690,6 @@ function drawMiniHole(mx,my,mrad){ctx.beginPath();ctx.arc(mx,my,mrad+3,0,Math.PI
 function drawHole(px,py,rad,angle){var h=HOLES[g_holeIdx];var glow=ctx.createRadialGradient(px,py,rad,px,py,rad+12);if(!h.color){glow.addColorStop(0,'rgba(180,180,180,.7)');glow.addColorStop(1,'rgba(180,180,180,0)');}else{glow.addColorStop(0,h.color[0]+'bb');glow.addColorStop(1,'rgba(0,0,0,0)');}ctx.fillStyle=glow;ctx.beginPath();ctx.arc(px,py,rad+16,0,Math.PI*2);ctx.fill();var gr;if(!h.color){gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');}}else{gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);var cs=h.color;cs.forEach(function(c,i){gr.addColorStop(i/(cs.length-1),c);});if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);cs.forEach(function(c,i){gr.addColorStop(i/(cs.length),c);});gr.addColorStop(1,cs[0]);}}ctx.beginPath();ctx.arc(px,py,rad,0,Math.PI*2);ctx.strokeStyle=gr;ctx.lineWidth=6;ctx.stroke();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(px,py,rad-2,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,.6)';g.vortexParticles.forEach(function(p){p.angle+=p.speed;p.dist-=.5;if(p.dist<=0){p.dist=rad*Math.random();p.angle=Math.random()*Math.PI*2;}ctx.fillRect(px+Math.cos(p.angle)*p.dist,py+Math.sin(p.angle)*p.dist,p.size*(p.dist/rad),p.size*(p.dist/rad));});}
 function drawWarnFlash(now){if(!rocketWarn&&!meteorWarn)return;var flash=Math.abs(Math.sin(now*.01))*.25;ctx.fillStyle='rgba(255,80,0,'+flash+')';ctx.fillRect(0,0,canvas.width,canvas.height);}
 var drawRunning=false;
-
-// Обновленная функция draw с улучшенной отрисовкой
 function draw(){
     if(!g.active||g.paused){drawRunning=false;return;}
     drawRunning=true;var now=Date.now();var shX=0,shY=0;
@@ -662,294 +709,25 @@ function draw(){
         var eg=ctx.createRadialGradient(portal.x-10,portal.y-10,5,portal.x,portal.y,portal.r);eg.addColorStop(0,'rgba(255,255,255,.2)');eg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=eg;ctx.fillRect(portal.x-portal.r,portal.y-portal.r,portal.r*2,portal.r*2);
         ctx.restore();
         ctx.beginPath();ctx.arc(portal.x,portal.y,portal.r,0,Math.PI*2);ctx.strokeStyle=g.land>=g.landMax?'#f00':'#0ea5e9';ctx.lineWidth=3;ctx.stroke();
-        
-        // Улучшенное отображение чисел на планете
         ctx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        
-        // Тень для лучшей читаемости
         ctx.fillStyle = 'rgba(0,0,0,0.7)';
         ctx.fillText(Math.floor(g.land) + ' / ' + g.landMax, portal.x + 1, portal.y + 1);
-        
-        // Основной текст
         ctx.fillStyle = g.land >= g.landMax ? '#ff4444' : '#ffd700';
         ctx.fillText(Math.floor(g.land) + ' / ' + g.landMax, portal.x, portal.y);
-        
-        if(playerNickname){
-            ctx.fillStyle='rgba(0,255,255,.8)';
-            ctx.font='bold 9px Arial';
-            ctx.fillText(playerNickname,portal.x,portal.y+portal.r+18);
-        }
-
+        if(playerNickname){ctx.fillStyle='rgba(0,255,255,.8)';ctx.font='bold 9px Arial';ctx.fillText(playerNickname,portal.x,portal.y+portal.r+18);}
         if(!bonusPlanet&&now>=nextBonusTime)spawnBonusPlanet();
-        if(bonusPlanet){
-            var bp=bonusPlanet,elapsed=now-bp.born,frac=elapsed/bp.dur;
-            if(frac>=1){bonusPlanet=null;}
-            else{
-                // Таймер исчезновения для бонус-планеты
-                var timeLeft = Math.ceil((bp.dur - elapsed) / 1000);
-                bp.ang+=.04;
-                var pulse=.6+Math.sin(now*.006)*.4;
-                var bg1=ctx.createRadialGradient(bp.x,bp.y,bp.r*.3,bp.x,bp.y,bp.r*2);
-                bg1.addColorStop(0,'rgba(0,230,118,'+(.25*pulse)+')');bg1.addColorStop(1,'rgba(0,200,83,0)');
-                ctx.fillStyle=bg1;ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r*2,0,Math.PI*2);ctx.fill();
-                ctx.save();ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.clip();
-                ctx.fillStyle='#004d1a';ctx.fillRect(bp.x-bp.r,bp.y-bp.r,bp.r*2,bp.r*2);
-                for(var li=0;li<6;li++){var lc=ctx.createRadialGradient(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,3,bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14);lc.addColorStop(0,'rgba(0,255,100,.9)');lc.addColorStop(1,'rgba(0,150,50,0)');ctx.fillStyle=lc;ctx.beginPath();ctx.arc(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14,0,Math.PI*2);ctx.fill();}
-                ctx.restore();
-                var bgr;if(ctx.createConicGradient){bgr=ctx.createConicGradient(bp.ang,bp.x,bp.y);}else{bgr=ctx.createLinearGradient(bp.x-bp.r,bp.y-bp.r,bp.x+bp.r,bp.y+bp.r);}
-                bgr.addColorStop(0,'#00e676');bgr.addColorStop(.25,'#69f0ae');bgr.addColorStop(.5,'#00c853');bgr.addColorStop(.75,'#00e676');bgr.addColorStop(1,'#69f0ae');
-                ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.strokeStyle=bgr;ctx.lineWidth=4;ctx.stroke();
-                
-                // Отображение таймера на бонус-планете
-                ctx.font='bold 16px Arial';
-                ctx.textAlign='center';
-                ctx.textBaseline='middle';
-                ctx.fillStyle='rgba(0,0,0,.7)';
-                ctx.fillText('x5 ' + timeLeft + 's', bp.x + 1, bp.y - 15);
-                ctx.fillStyle='#00ff88';
-                ctx.fillText('x5 ' + timeLeft + 's', bp.x, bp.y - 16);
-            }
-        }
-    }
-
+        if(bonusPlanet){var bp=bonusPlanet,elapsed=now-bp.born,frac=elapsed/bp.dur;if(frac>=1){bonusPlanet=null;}else{var timeLeft=Math.ceil((bp.dur-elapsed)/1000);bp.ang+=.04;var pulse=.6+Math.sin(now*.006)*.4;var bg1=ctx.createRadialGradient(bp.x,bp.y,bp.r*.3,bp.x,bp.y,bp.r*2);bg1.addColorStop(0,'rgba(0,230,118,'+(.25*pulse)+')');bg1.addColorStop(1,'rgba(0,200,83,0)');ctx.fillStyle=bg1;ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r*2,0,Math.PI*2);ctx.fill();ctx.save();ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.clip();ctx.fillStyle='#004d1a';ctx.fillRect(bp.x-bp.r,bp.y-bp.r,bp.r*2,bp.r*2);for(var li=0;li<6;li++){var lc=ctx.createRadialGradient(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,3,bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14);lc.addColorStop(0,'rgba(0,255,100,.9)');lc.addColorStop(1,'rgba(0,150,50,0)');ctx.fillStyle=lc;ctx.beginPath();ctx.arc(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14,0,Math.PI*2);ctx.fill();}ctx.restore();var bgr;if(ctx.createConicGradient){bgr=ctx.createConicGradient(bp.ang,bp.x,bp.y);}else{bgr=ctx.createLinearGradient(bp.x-bp.r,bp.y-bp.r,bp.x+bp.r,bp.y+bp.r);}bgr.addColorStop(0,'#00e676');bgr.addColorStop(.25,'#69f0ae');bgr.addColorStop(.5,'#00c853');bgr.addColorStop(.75,'#00e676');bgr.addColorStop(1,'#69f0ae');ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.strokeStyle=bgr;ctx.lineWidth=4;ctx.stroke();ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillText('x5 ' + timeLeft + 's', bp.x + 1, bp.y - 15);ctx.fillStyle='#00ff88';ctx.fillText('x5 ' + timeLeft + 's', bp.x, bp.y - 16);}}}
     var slow=1+(g.cargo/g.max);
     player.x+=(input.x-player.x)*(g.spd/slow);player.y+=(input.y-player.y)*(g.spd/slow);
     player.x=Math.min(Math.max(player.x,g.rad),canvas.width-g.rad);player.y=Math.min(Math.max(player.y,g.rad),canvas.height-g.rad);
-
-    if(Math.sqrt(Math.pow(player.x-portal.x,2)+Math.pow(player.y-portal.y,2))<portal.r&&g.cargo>0&&g.land<g.landMax){
-        var holeMulti=HOLES[g_holeIdx].multi;var earned=g.cargo*holeMulti;g.cash+=earned;g.land+=g.cargo;
-        spawnLabel('+'+formatNumber(Math.floor(earned))+' ★',player.x,player.y,'#ffff00');g.cargo=0;refreshUI();playSound('drop');saveFullProgress();
-    }
-    if(bonusPlanet&&g.cargo>0){
-        var bdx=player.x-bonusPlanet.x,bdy=player.y-bonusPlanet.y;
-        if(Math.sqrt(bdx*bdx+bdy*bdy)<bonusPlanet.r){
-            var holeMulti2=HOLES[g_holeIdx].multi;var bearn=g.cargo*5*holeMulti2;g.cash+=bearn;
-            spawnLabel('x5 +'+formatNumber(Math.floor(bearn))+' ★',player.x,player.y,'#00ff88');g.cargo=0;bonusPlanet=null;
-            nextBonusTime=Date.now()+(90000+Math.random()*60000)+(g.lvls.rad*2000);refreshUI();playSound('gift');saveFullProgress();
-        }
-    }
+    if(Math.sqrt(Math.pow(player.x-portal.x,2)+Math.pow(player.y-portal.y,2))<portal.r&&g.cargo>0&&g.land<g.landMax){var holeMulti=HOLES[g_holeIdx].multi;var earned=g.cargo*holeMulti;g.cash+=earned;g.land+=g.cargo;spawnLabel('+'+formatNumber(Math.floor(earned))+' ★',player.x,player.y,'#ffff00');g.cargo=0;refreshUI();playSound('drop');saveFullProgress();}
+    if(bonusPlanet&&g.cargo>0){var bdx=player.x-bonusPlanet.x,bdy=player.y-bonusPlanet.y;if(Math.sqrt(bdx*bdx+bdy*bdy)<bonusPlanet.r){var holeMulti2=HOLES[g_holeIdx].multi;var bearn=g.cargo*5*holeMulti2;g.cash+=bearn;spawnLabel('x5 +'+formatNumber(Math.floor(bearn))+' ★',player.x,player.y,'#00ff88');g.cargo=0;bonusPlanet=null;nextBonusTime=Date.now()+(90000+Math.random()*60000)+(g.lvls.rad*2000);refreshUI();playSound('gift');saveFullProgress();}}
     if(g.cargo>g.max)triggerExplosion();
-
-    for(var mi2=0;mi2<g.miniHoles.length;mi2++){
-        var mh=g.miniHoles[mi2];var mx=player.x+mh.offsetX,my=player.y+mh.offsetY;
-        var currentAngle=Math.atan2(mh.offsetY,mh.offsetX);mh.offsetX+=(Math.cos(currentAngle)*(g.rad+20)-mh.offsetX)*0.1;mh.offsetY+=(Math.sin(currentAngle)*(g.rad+20)-mh.offsetY)*0.1;
-        for(var hi=humans.length-1;hi>=0;hi--){
-            var hhx=humans[hi].x,hhy=humans[hi].y;var mdx=hhx-mx,mdy=hhy-my;var md=Math.sqrt(mdx*mdx+mdy*mdy);
-            if(md<mh.pull){humans[hi].x+=mdx*0.08;humans[hi].y+=mdy*0.08;
-                if(md<mh.rad+3){var miniEarn=35;g.cash+=miniEarn;spawnLabel('+'+miniEarn+' ★',mx,my,'#aaa');
-                    humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}}
-        drawMiniHole(mx,my,mh.rad);
-    }
-    
-    // Отрисовка ракет с красивой анимацией
-    for(var ri=rockets.length-1;ri>=0;ri--){
-        var rk=rockets[ri];
-        rk.x+=rk.vx;
-        rk.animTime += 0.1;
-        
-        if(!rk.hit){
-            var rdx=rk.x-player.x,rdy=rk.y-player.y;
-            if(Math.sqrt(rdx*rdx+rdy*rdy)<g.rad+22){
-                rk.hit=true;
-                if(rk.type==='bomb'){
-                    g.shakeUntil=now+4000;
-                    setTimeout(triggerExplosion,4000);
-                }else{
-                    var gift=10+Math.floor(Math.random()*70);
-                    g.cash+=gift;
-                    spawnLabel('+'+gift+' ★',player.x,player.y,'#ffd700');
-                    refreshUI();
-                    playSound('gift');
-                }
-            }
-        }
-        
-        if(!rk.hit){
-            ctx.save();
-            ctx.translate(rk.x, rk.y);
-            var dir = rk.vx > 0 ? 1 : -1;
-            ctx.scale(dir, 1);
-            
-            // Корпус ракеты с градиентом
-            var rocketGrad = ctx.createLinearGradient(0, -12, 0, 12);
-            if(rk.type === 'bomb') {
-                rocketGrad.addColorStop(0, '#ff4444');
-                rocketGrad.addColorStop(0.5, '#ff8800');
-                rocketGrad.addColorStop(1, '#cc0000');
-            } else {
-                rocketGrad.addColorStop(0, '#2ecc71');
-                rocketGrad.addColorStop(0.5, '#27ae60');
-                rocketGrad.addColorStop(1, '#1e8449');
-            }
-            
-            // Основной корпус
-            ctx.fillStyle = rocketGrad;
-            ctx.beginPath();
-            ctx.moveTo(20, 0);
-            ctx.lineTo(-10, 8);
-            ctx.lineTo(-10, -8);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Нос ракеты
-            ctx.fillStyle = rk.type === 'bomb' ? '#ffd700' : '#ffffff';
-            ctx.beginPath();
-            ctx.moveTo(20, 0);
-            ctx.lineTo(30, 0);
-            ctx.lineTo(20, 6);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Огонь из сопла с анимацией
-            var flameFlicker = Math.sin(rk.animTime * 10) * 0.3 + 0.7;
-            var flameGrad = ctx.createLinearGradient(-10, 0, -20, 0);
-            flameGrad.addColorStop(0, 'rgba(255, 200, 50, ' + flameFlicker + ')');
-            flameGrad.addColorStop(0.5, 'rgba(255, 100, 0, ' + (flameFlicker * 0.8) + ')');
-            flameGrad.addColorStop(1, 'rgba(255, 50, 0, 0)');
-            
-            ctx.fillStyle = flameGrad;
-            ctx.beginPath();
-            ctx.moveTo(-10, -5);
-            ctx.lineTo(-18, 0);
-            ctx.lineTo(-10, 5);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Декоративные элементы
-            ctx.fillStyle = rk.type === 'bomb' ? '#ffaa00' : '#88ff88';
-            ctx.beginPath();
-            ctx.arc(-5, 0, 4, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-            ctx.beginPath();
-            ctx.arc(-9, 0, 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.restore();
-        }
-        
-        if(rk.x < -70 || rk.x > canvas.width + 70 || rk.hit) {
-            rockets.splice(ri, 1);
-        }
-    }
-    
-    // Отрисовка метеоритов с красивой анимацией
-    for(var mi=meteors.length-1;mi>=0;mi--){
-        var mt=meteors[mi];
-        mt.x += mt.vx;
-        mt.y += mt.vy;
-        mt.rot += mt.rotSpd;
-        mt.animTime += 0.05;
-        
-        // Шлейф метеорита
-        mt.trail.push({x: mt.x, y: mt.y});
-        if(mt.trail.length > 20) mt.trail.shift();
-        
-        // Отрисовка шлейфа
-        for(var ti = 0; ti < mt.trail.length; ti++) {
-            var tp = mt.trail[ti];
-            var alpha = (ti / mt.trail.length) * 0.6;
-            var size = 3 + (ti / mt.trail.length) * 10;
-            
-            var trailGrad = ctx.createRadialGradient(tp.x, tp.y, 0, tp.x, tp.y, size);
-            if(mt.type === 'bomb') {
-                trailGrad.addColorStop(0, 'rgba(255, 100, 0, ' + alpha + ')');
-                trailGrad.addColorStop(0.5, 'rgba(255, 50, 0, ' + (alpha * 0.5) + ')');
-            } else {
-                trailGrad.addColorStop(0, 'rgba(100, 255, 100, ' + alpha + ')');
-                trailGrad.addColorStop(0.5, 'rgba(0, 200, 0, ' + (alpha * 0.5) + ')');
-            }
-            trailGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            
-            ctx.fillStyle = trailGrad;
-            ctx.beginPath();
-            ctx.arc(tp.x, tp.y, size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        ctx.globalAlpha = 1;
-        
-        if(!mt.hit) {
-            ctx.save();
-            ctx.translate(mt.x, mt.y);
-            ctx.rotate(mt.rot);
-            
-            // Основной корпус метеорита с градиентом
-            var meteorGrad = ctx.createLinearGradient(0, -15, 0, 15);
-            if(mt.type === 'bomb') {
-                meteorGrad.addColorStop(0, '#c0392b');
-                meteorGrad.addColorStop(0.5, '#e74c3c');
-                meteorGrad.addColorStop(1, '#7b241c');
-            } else {
-                meteorGrad.addColorStop(0, '#27ae60');
-                meteorGrad.addColorStop(0.5, '#2ecc71');
-                meteorGrad.addColorStop(1, '#1e8449');
-            }
-            
-            ctx.fillStyle = meteorGrad;
-            ctx.beginPath();
-            ctx.moveTo(0, -15);
-            ctx.lineTo(12, -6);
-            ctx.lineTo(8, 12);
-            ctx.lineTo(-8, 12);
-            ctx.lineTo(-12, -6);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Блик на метеорите
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.beginPath();
-            ctx.moveTo(0, -10);
-            ctx.lineTo(6, -3);
-            ctx.lineTo(4, 8);
-            ctx.lineTo(-4, 8);
-            ctx.lineTo(-6, -3);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Свечение
-            var glowPulse = Math.sin(mt.animTime * 5) * 0.3 + 0.7;
-            ctx.fillStyle = mt.type === 'bomb' ? 
-                'rgba(255, 200, 50, ' + (glowPulse * 0.8) + ')' : 
-                'rgba(200, 255, 200, ' + (glowPulse * 0.8) + ')';
-            ctx.beginPath();
-            ctx.arc(2, -12, 3, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Яркая точка в центре
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.beginPath();
-            ctx.arc(0, -8, 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.restore();
-        }
-        
-        if(!mt.hit) {
-            var mdx = mt.x - player.x, mdy = mt.y - player.y;
-            if(Math.sqrt(mdx * mdx + mdy * mdy) < g.rad + 18) {
-                mt.hit = true;
-                if(mt.type === 'bomb') {
-                    g.shakeUntil = now + 4000;
-                    setTimeout(triggerExplosion, 4000);
-                } else {
-                    var mgift = 100 + Math.floor(Math.random() * 600);
-                    g.cash += mgift;
-                    spawnLabel('+' + formatNumber(mgift) + ' ★', player.x, player.y, '#00eaff');
-                    refreshUI();
-                    playSound('gift');
-                }
-            }
-        }
-        
-        if(mt.y > canvas.height + 70 || mt.hit) {
-            meteors.splice(mi, 1);
-        }
-    }
-    
+    for(var mi2=0;mi2<g.miniHoles.length;mi2++){var mh=g.miniHoles[mi2];var mx=player.x+mh.offsetX,my=player.y+mh.offsetY;var currentAngle=Math.atan2(mh.offsetY,mh.offsetX);mh.offsetX+=(Math.cos(currentAngle)*(g.rad+20)-mh.offsetX)*0.1;mh.offsetY+=(Math.sin(currentAngle)*(g.rad+20)-mh.offsetY)*0.1;for(var hi=humans.length-1;hi>=0;hi--){var hhx=humans[hi].x,hhy=humans[hi].y;var mdx=hhx-mx,mdy=hhy-my;var md=Math.sqrt(mdx*mdx+mdy*mdy);if(md<mh.pull){humans[hi].x+=mdx*0.08;humans[hi].y+=mdy*0.08;if(md<mh.rad+3){var miniEarn=35;g.cash+=miniEarn;spawnLabel('+'+miniEarn+' ★',mx,my,'#aaa');humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}}drawMiniHole(mx,my,mh.rad);}
+    for(var ri=rockets.length-1;ri>=0;ri--){var rk=rockets[ri];rk.x+=rk.vx;rk.animTime+=0.1;if(!rk.hit){var rdx=rk.x-player.x,rdy=rk.y-player.y;if(Math.sqrt(rdx*rdx+rdy*rdy)<g.rad+22){rk.hit=true;if(rk.type==='bomb'){g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}else{var gift=10+Math.floor(Math.random()*70);g.cash+=gift;spawnLabel('+'+gift+' ★',player.x,player.y,'#ffd700');refreshUI();playSound('gift');}}}if(!rk.hit){ctx.save();ctx.translate(rk.x,rk.y);var dir=rk.vx>0?1:-1;ctx.scale(dir,1);var rocketGrad=ctx.createLinearGradient(0,-12,0,12);if(rk.type==='bomb'){rocketGrad.addColorStop(0,'#ff4444');rocketGrad.addColorStop(0.5,'#ff8800');rocketGrad.addColorStop(1,'#cc0000');}else{rocketGrad.addColorStop(0,'#2ecc71');rocketGrad.addColorStop(0.5,'#27ae60');rocketGrad.addColorStop(1,'#1e8449');}ctx.fillStyle=rocketGrad;ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(-10,8);ctx.lineTo(-10,-8);ctx.closePath();ctx.fill();ctx.fillStyle=rk.type==='bomb'?'#ffd700':'#ffffff';ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(30,0);ctx.lineTo(20,6);ctx.closePath();ctx.fill();var flameFlicker=Math.sin(rk.animTime*10)*0.3+0.7;var flameGrad=ctx.createLinearGradient(-10,0,-20,0);flameGrad.addColorStop(0,'rgba(255,200,50,'+flameFlicker+')');flameGrad.addColorStop(0.5,'rgba(255,100,0,'+(flameFlicker*0.8)+')');flameGrad.addColorStop(1,'rgba(255,50,0,0)');ctx.fillStyle=flameGrad;ctx.beginPath();ctx.moveTo(-10,-5);ctx.lineTo(-18,0);ctx.lineTo(-10,5);ctx.closePath();ctx.fill();ctx.fillStyle=rk.type==='bomb'?'#ffaa00':'#88ff88';ctx.beginPath();ctx.arc(-5,0,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.8)';ctx.beginPath();ctx.arc(-9,0,2,0,Math.PI*2);ctx.fill();ctx.restore();}if(rk.x<-70||rk.x>canvas.width+70||rk.hit)rockets.splice(ri,1);}
+    for(var mi=meteors.length-1;mi>=0;mi--){var mt=meteors[mi];mt.x+=mt.vx;mt.y+=mt.vy;mt.rot+=mt.rotSpd;mt.animTime+=0.05;mt.trail.push({x:mt.x,y:mt.y});if(mt.trail.length>20)mt.trail.shift();for(var ti=0;ti<mt.trail.length;ti++){var tp=mt.trail[ti];var alpha=(ti/mt.trail.length)*0.6;var size=3+(ti/mt.trail.length)*10;var trailGrad=ctx.createRadialGradient(tp.x,tp.y,0,tp.x,tp.y,size);if(mt.type==='bomb'){trailGrad.addColorStop(0,'rgba(255,100,0,'+alpha+')');trailGrad.addColorStop(0.5,'rgba(255,50,0,'+(alpha*0.5)+')');}else{trailGrad.addColorStop(0,'rgba(100,255,100,'+alpha+')');trailGrad.addColorStop(0.5,'rgba(0,200,0,'+(alpha*0.5)+')');}trailGrad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=trailGrad;ctx.beginPath();ctx.arc(tp.x,tp.y,size,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;if(!mt.hit){ctx.save();ctx.translate(mt.x,mt.y);ctx.rotate(mt.rot);var meteorGrad=ctx.createLinearGradient(0,-15,0,15);if(mt.type==='bomb'){meteorGrad.addColorStop(0,'#c0392b');meteorGrad.addColorStop(0.5,'#e74c3c');meteorGrad.addColorStop(1,'#7b241c');}else{meteorGrad.addColorStop(0,'#27ae60');meteorGrad.addColorStop(0.5,'#2ecc71');meteorGrad.addColorStop(1,'#1e8449');}ctx.fillStyle=meteorGrad;ctx.beginPath();ctx.moveTo(0,-15);ctx.lineTo(12,-6);ctx.lineTo(8,12);ctx.lineTo(-8,12);ctx.lineTo(-12,-6);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(255,255,255,0.3)';ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(6,-3);ctx.lineTo(4,8);ctx.lineTo(-4,8);ctx.lineTo(-6,-3);ctx.closePath();ctx.fill();var glowPulse=Math.sin(mt.animTime*5)*0.3+0.7;ctx.fillStyle=mt.type==='bomb'?'rgba(255,200,50,'+(glowPulse*0.8)+')':'rgba(200,255,200,'+(glowPulse*0.8)+')';ctx.beginPath();ctx.arc(2,-12,3,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.9)';ctx.beginPath();ctx.arc(0,-8,2,0,Math.PI*2);ctx.fill();ctx.restore();}if(!mt.hit){var mdx=mt.x-player.x,mdy=mt.y-player.y;if(Math.sqrt(mdx*mdx+mdy*mdy)<g.rad+18){mt.hit=true;if(mt.type==='bomb'){g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}else{var mgift=100+Math.floor(Math.random()*600);g.cash+=mgift;spawnLabel('+'+formatNumber(mgift)+' ★',player.x,player.y,'#00eaff');refreshUI();playSound('gift');}}}if(mt.y>canvas.height+70||mt.hit)meteors.splice(mi,1);}
     ctx.globalAlpha=1;
     if(redHuman){var rhElapsed=now-redHuman.born;if(rhElapsed>=redHuman.dur){redHuman=null;}else{redHuman.x+=Math.cos(redHuman.walk)*redHuman.spd;redHuman.y+=Math.sin(redHuman.walk)*redHuman.spd*.5;if(redHuman.x<22||redHuman.x>canvas.width-22)redHuman.walk=Math.PI-redHuman.walk;if(redHuman.y<22||redHuman.y>canvas.height-45)redHuman.walk=-redHuman.walk;drawSpecialHuman(redHuman,'#ff2a2a');if(Math.hypot(player.x-redHuman.x,player.y-redHuman.y)<g.rad+6){redHuman=null;g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}}}
     if(greenHuman){var ghElapsed=now-greenHuman.born;if(ghElapsed>=greenHuman.dur){greenHuman=null;}else{greenHuman.x+=Math.cos(greenHuman.walk)*greenHuman.spd;greenHuman.y+=Math.sin(greenHuman.walk)*greenHuman.spd*.5;if(greenHuman.x<22||greenHuman.x>canvas.width-22)greenHuman.walk=Math.PI-greenHuman.walk;if(greenHuman.y<22||greenHuman.y>canvas.height-45)greenHuman.walk=-greenHuman.walk;drawSpecialHuman(greenHuman,'#00d451');if(Math.hypot(player.x-greenHuman.x,player.y-greenHuman.y)<g.rad+6){greenHuman=null;g.cash+=100;spawnLabel('+100 ★',player.x,player.y,'#00ff88');refreshUI();playSound('gift');saveFullProgress();}}}
