@@ -91,7 +91,7 @@
             <div style="margin-bottom: 15px;">
                 <button class="btn btn-info" onclick="filterWithdrawals('all')" style="padding:8px 15px; font-size:12px;">ВСЕ</button>
                 <button class="btn btn-warning" onclick="filterWithdrawals('pending')" style="padding:8px 15px; font-size:12px;">ОЖИДАЮТ</button>
-                <button class="btn btn-success" onclick="filterWithdrawals('completed')" style="padding:8px 15px; font-size:12px;">ВЫПОЛНЕНЫ</button>
+                <button class="btn btn-success" onclick="filterWithdrawals('paid')" style="padding:8px 15px; font-size:12px;">ВЫПОЛНЕНЫ</button>
                 <button class="btn btn-danger" onclick="filterWithdrawals('rejected')" style="padding:8px 15px; font-size:12px;">ОТКЛОНЕНЫ</button>
             </div>
             <div style="overflow-x: auto;">
@@ -214,10 +214,10 @@ async function loadWithdrawals(filter){
         var actions = '';
         if(req.status === 'pending'){
             statusBadge = '<span class="badge badge-pending">ОЖИДАЕТ</span>';
-            actions = '<button class="action-btn btn-success" onclick="updateWithdrawalStatus(\''+req.id+'\',\'completed\')">✅</button>' +
+            actions = '<button class="action-btn btn-success" onclick="updateWithdrawalStatus(\''+req.id+'\',\'paid\')">✅</button>' +
                       '<button class="action-btn btn-danger" onclick="updateWithdrawalStatus(\''+req.id+'\',\'rejected\')">❌</button>';
         } else if(req.status === 'completed'){
-            statusBadge = '<span class="badge badge-completed">ВЫПОЛНЕНО</span>';
+            statusBadge = '<span class="badge badge-paid">ВЫПОЛНЕНО</span>';
         } else {
             statusBadge = '<span class="badge badge-rejected">ОТКЛОНЕНО</span>';
         }
