@@ -284,7 +284,7 @@
             <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
                 <div style="color:#fff;font-size:15px;font-weight:bold;">★ <span id="vx-cash">10</span></div>
                 <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;"><div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div><div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div></div>
-                <div style="color:#0f0;font-size:11px;margin-top:5px;">ДЫРА:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
+                <div style="color:#0f0;font-size:11px;margin-top:5px;">Вместительность:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
             </div>
             <button id="vx-sound-btn" style="position:absolute;top:12px;right:54px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#666;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">♪</button>
             <button id="vx-pause-btn" style="position:absolute;top:12px;right:12px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#fff;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">II</button>
@@ -634,14 +634,14 @@ document.getElementById('vx-start-btn').onclick=async function(){
             var savedPrices = JSON.parse(player.upgrade_prices);
             g.prices = savedPrices;
         } catch(e) {
-            g.prices.rad = calculatePrice(1000, g.lvls.rad, 8.5);
-            g.prices.cap = calculatePrice(50, g.lvls.cap, 2.5);
-            g.prices.spd = calculatePrice(100, g.lvls.spd, 2.2);
+            g.prices.rad = calculatePrice(200, g.lvls.rad, 3);
+            g.prices.cap = calculatePrice(50, g.lvls.cap, 2);
+            g.prices.spd = calculatePrice(50, g.lvls.spd, 2);
         }
     } else {
-        g.prices.rad = calculatePrice(1000, g.lvls.rad, 8.5);
-        g.prices.cap = calculatePrice(50, g.lvls.cap, 2.5);
-        g.prices.spd = calculatePrice(100, g.lvls.spd, 2.2);
+        g.prices.rad = calculatePrice(200, g.lvls.rad, 3);
+        g.prices.cap = calculatePrice(50, g.lvls.cap, 2);
+        g.prices.spd = calculatePrice(50, g.lvls.spd, 2);
     }
     
     // ✅ Загружаем купленные дыры из БД
@@ -704,7 +704,7 @@ var HOLES=[
     {id:9,name:'СИНГУЛЯРНОСТЬ',desc:'Абсолют вселенной.\nДоход x6.5',multi:6.5,price:4000000,color:['#ffd700','#ff6d00','#ff1744','#a855f7'],owned:false}
 ];
 var g_holeIdx=0;
-var g={cash:10,cargo:0,max:100,rad:18,pull:90,spd:0.07,land:0,landMax:2000,lvls:{rad:0,cap:0,spd:0},prices:{rad:1000,cap:50,spd:100},active:false,paused:false,exploded:false,angle:0,blockUpdate:false,vortexParticles:[],outerSparks:[],landAngle:0,shakeUntil:0,isCtrl:false,isLkm:false,miniHoles:[]};
+var g={cash:10,cargo:0,max:100,rad:18,pull:90,spd:0.07,land:0,landMax:2000,lvls:{rad:0,cap:0,spd:0},prices:{rad:200,cap:50,spd:50},active:false,paused:false,exploded:false,angle:0,blockUpdate:false,vortexParticles:[],outerSparks:[],landAngle:0,shakeUntil:0,isCtrl:false,isLkm:false,miniHoles:[]};
 var input={x:window.innerWidth/2,y:window.innerHeight/2},player={x:window.innerWidth/2,y:window.innerHeight/2},portal={x:window.innerWidth-70,y:70,r:50};
 var stars=[],humans=[],errorInterval=null;
 var earnLabels=[];
@@ -741,7 +741,7 @@ function drawHolePreview(pv,h){var bx=pv.getContext('2d'),cx=24,cy=24,r=18,ang=D
 function setup(){var w=canvas.width,h=canvas.height;for(var i=0;i<150;i++)stars.push({x:Math.random()*w,y:Math.random()*h,s:Math.random()*1.5,b:Math.random()*Math.PI*2});for(var i=0;i<30;i++)g.vortexParticles.push({angle:Math.random()*Math.PI*2,dist:Math.random()*g.rad,speed:.03+Math.random()*.12,size:1+Math.random()*3});nextRocketTime=Date.now()+(45000+Math.random()*30000);nextMeteorTime=Date.now()+(75000+Math.random()*30000);nextBonusTime=Date.now()+(90000+Math.random()*60000);nextRedHumanTime=Date.now()+(20000+Math.random()*25000);nextGreenHumanTime=Date.now()+(35000+Math.random()*30000);portal.x=w-70;portal.y=70;updatePop();}
 function updatePop(){var target=isMobile?12+(g.lvls.rad*1):25+(g.lvls.rad*2);if(target<(isMobile?8:15))target=(isMobile?8:15);if(target>(isMobile?20:40))target=(isMobile?20:40);var w=canvas.width,h=canvas.height;while(humans.length<target)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});while(humans.length>target)humans.pop();}
 function ensureMinHumans(){var minH=isMobile?8:15;var maxH=isMobile?20:40;var w=canvas.width,h=canvas.height;while(humans.length<minH)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});while(humans.length>maxH)humans.pop();}
-function buy(type){g.blockUpdate=true;if(type==='rad'){var maxLvl=10;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.rad+=5;g.pull+=12;g.prices.rad=Math.ceil(g.prices.rad*8.5);updatePop();}}else if(type==='cap'){var maxCapLvl=50;if(g.cash>=g.prices[type]&&g.lvls[type]<maxCapLvl){g.cash-=g.prices[type];g.lvls[type]++;g.max+=163;g.prices.cap=Math.ceil(g.prices.cap*2.5);g.landMax=2000+(g.lvls.cap*1000);}}else if(type==='spd'){var maxLvl=20;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.spd+=.015;g.prices.spd=Math.ceil(g.prices.spd*2.2);g.landMax=2000+(g.lvls.cap*1000);}}refreshUI();playSound('upgrade');saveFullProgress();setTimeout(function(){g.blockUpdate=false;},100);}
+function buy(type){g.blockUpdate=true;if(type==='rad'){var maxLvl=10;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.rad+=5;g.pull+=12;g.prices.rad=Math.ceil(g.prices.rad*3);updatePop();}}else if(type==='cap'){var maxCapLvl=50;if(g.cash>=g.prices[type]&&g.lvls[type]<maxCapLvl){g.cash-=g.prices[type];g.lvls[type]++;g.max+=163;g.prices.cap=Math.ceil(g.prices.cap*2);g.landMax=2000+(g.lvls.cap*1000);}}else if(type==='spd'){var maxLvl=20;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.spd+=.015;g.prices.spd=Math.ceil(g.prices.spd*2);g.landMax=2000+(g.lvls.cap*1000);}}refreshUI();playSound('upgrade');saveFullProgress();setTimeout(function(){g.blockUpdate=false;},100);}
 document.getElementById('vx-btn-rad').onclick=function(e){e.stopPropagation();buy('rad');};document.getElementById('vx-btn-cap').onclick=function(e){e.stopPropagation();buy('cap');};document.getElementById('vx-btn-spd').onclick=function(e){e.stopPropagation();buy('spd');};
 function refreshUI(){
     document.getElementById('vx-cash').innerText=formatNumber(Math.floor(g.cash));
