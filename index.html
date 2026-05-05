@@ -4,7 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>VDC - Vortex Delivery Co</title>
+    <title>VDC - Vortex Delivery Co | Браузерная космическая стратегия</title>
+    <meta name="description" content="VDC - бесплатная браузерная космическая стратегия в реальном времени. Управляй черной дырой, собирай людей, улучшай характеристики и соревнуйся с другими игроками.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%230ff' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23f0f' stroke-width='3' opacity='0.6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23111' stroke='%230ff' stroke-width='2'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%230ff' font-family='Arial Black' font-size='24' font-weight='900'%3EVDC%3C/text%3E%3C/svg%3E"/>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2245560654052061" crossorigin="anonymous"></script>
     <style>
@@ -13,6 +14,25 @@
         #vortex-app { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; width: 100dvw; height: 100dvh; background: #000; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; user-select: none; -webkit-user-select: none; touch-action: none; -webkit-tap-highlight-color: transparent; }
         #game-scaler { width: 100%; height: 100%; position: absolute; left: 0; top: 0; }
         #vortex-app *,#vortex-app *::before,#vortex-app *::after{box-sizing:border-box;}
+
+        #privacy-policy-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000;
+            display: none; align-items: center; justify-content: center;
+        }
+        #privacy-policy-overlay.open { display: flex; }
+        #privacy-policy-box {
+            background: linear-gradient(135deg, #0a0a1a, #0d1a2e); border: 1px solid rgba(0,255,255,0.35);
+            border-radius: 16px; padding: 25px; max-width: 420px; width: 90%; max-height: 75vh; overflow-y: auto;
+            color: #aaa; font-size: 12px; text-align: left; line-height: 1.6; box-shadow: 0 0 40px rgba(0,255,255,0.15);
+        }
+        #privacy-policy-box h3 { color: #0ff; margin-bottom: 12px; font-size: 17px; text-align: center; }
+        #privacy-policy-box p { margin-bottom: 8px; }
+        #privacy-policy-box a { color: #0ff; }
+        #privacy-policy-close {
+            padding: 10px 32px; background: linear-gradient(45deg,#6200ea,#00c6ff); border: none;
+            border-radius: 20px; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer;
+            display: block; margin: 15px auto 0; touch-action: manipulation;
+        }
 
         @media (max-width: 600px) {
             .vx-s-btn{font-size:8px;padding:5px 6px;min-width:70px;}
@@ -84,7 +104,6 @@
         .main-menu-btn:active{transform:scale(0.95);}
         .main-sound-btn{position:absolute; top:20px; right:20px; z-index:97; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.3); color:#666; font-size:18px; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold;}
 
-        /* Яркая кнопка Telegram */
         .telegram-float-btn {
             position: fixed;
             bottom: 30px;
@@ -195,6 +214,9 @@
         #vx-terms-box h3{color:#0ff; margin:0 0 16px; font-size:17px; text-align:center;}
         #vx-terms-close{padding:10px 32px; background:linear-gradient(45deg,#6200ea,#00c6ff); border:none; border-radius:20px; color:#fff; font-weight:bold; font-size:14px; cursor:pointer; touch-action:manipulation; display:block; margin:15px auto 0;}
         .reg-btn{cursor:pointer; font-size:13px; color:rgba(0,255,255,.75); background:none; border:none; text-decoration:underline; padding:5px;}
+        .seo-text { color: #aaa; font-size: 11px; margin-top: 10px; text-align: center; z-index: 96; position: relative; }
+        .ad-placeholder { width: 320px; height: 50px; margin: 10px auto; background: rgba(255,255,255,0.05); border: 1px dashed #444; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 96; position: relative; }
+        .privacy-btn { background: none; border: none; color: rgba(0, 255, 255, 0.7); font-size: 12px; cursor: pointer; text-decoration: underline; padding: 5px; margin-top: 5px; z-index: 96; position: relative; }
     </style>
 </head>
 <body>
@@ -231,6 +253,20 @@
         <div id="vx-reward-detail-modal"><div id="vx-reward-detail-box"><h3>🏅 МАТЕРИАЛЬНОЕ ВОЗНАГРАЖДЕНИЕ</h3><p>1 раз в месяц топ 3 игрока по уровню звёзд и топ 3 игрока по уровню запаса, получают материальное вознаграждение за успехи! Пообщаться, посмотреть всю детальную информацию можно в нашем чате в Телеграм.</p><a href="https://t.me/VDC_game" target="_blank" class="tg-btn" id="tg-link-btn"><span class="tg-icon">📱</span> ПЕРЕЙТИ В TELEGRAM</a><button id="vx-reward-detail-close">ЗАКРЫТЬ</button></div></div>
         <div id="vx-terms-modal"><div id="vx-terms-box"><h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3><h4>1. Общие положения</h4><p>Игра "VDC - Vortex Delivery Co" является развлекательным продуктом.</p><h4>2. Правила</h4><ul><li>Управляйте чёрной дырой</li><li>Не превышайте лимит груза</li></ul><h4>3. Конфиденциальность</h4><p>Данные хранятся в зашифрованном виде.</p><button id="vx-terms-close">ПРИНИМАЮ</button></div></div>
         <div id="vx-referral-modal"><div id="vx-referral-box"><h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3><p>Приглашай друзей и получай мини-чёрные дыры!</p><div class="referral-reward" style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;padding:8px;background:rgba(0,0,0,.3);border-radius:8px;"><div class="referral-minihole" style="width:20px;height:20px;border-radius:50%;background:#000;border:2px solid #666;flex-shrink:0;"></div><span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span></div><p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр.</p><div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div><div class="referral-count" id="referral-count-display">0</div><div id="referral-admin-panel" style="display:none;"><div class="referral-admin-controls"><button class="referral-admin-btn" id="vx-ref-minus">−</button><span style="font-size:14px;color:#0ff;">Админ</span><button class="referral-admin-btn" id="vx-ref-plus">+</button></div></div><div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div><div class="referral-link" id="referral-link-display">Загрузка...</div><button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button><button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
+        
+        <div id="privacy-policy-overlay">
+            <div id="privacy-policy-box">
+                <h3>Политика конфиденциальности</h3>
+                <p><strong>1. Сбор данных:</strong> Мы собираем никнейм и пароль (в зашифрованном виде) для создания учетной записи. Игровой прогресс сохраняется на наших серверах.</p>
+                <p><strong>2. Использование данных:</strong> Данные используются исключительно для обеспечения игрового процесса, таблицы лидеров и реферальной системы.</p>
+                <p><strong>3. Безопасность:</strong> Пароли хешируются. Мы используем Supabase для хранения данных.</p>
+                <p><strong>4. Файлы cookie:</strong> Сайт использует localStorage для сохранения сессии и реферального кода.</p>
+                <p><strong>5. Реклама:</strong> Google AdSense может использовать файлы cookie для показа рекламы на основе интересов. <a href="https://policies.google.com/technologies/ads" target="_blank">Настройки рекламы Google</a>.</p>
+                <p><strong>6. Контакты:</strong> <a href="https://t.me/VDC_game" target="_blank">VDC_game в Telegram</a></p>
+                <button id="privacy-policy-close">ЗАКРЫТЬ</button>
+            </div>
+        </div>
+
         <div id="vx-pause-menu"><h2>ПАУЗА</h2><button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button><button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button><button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button><button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button></div>
         <div id="vx-hole-shop"><h2>МАГАЗИН</h2><div id="vx-shop-cards"></div><button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">НАЗАД</button></div>
         <div id="vx-start-overlay">
@@ -251,6 +287,8 @@
                     <button id="vx-start-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;letter-spacing:1px;box-shadow:0 0 25px rgba(0,198,255,.5);">ПРОДОЛЖИТЬ</button>
                     <button id="vx-register-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:5px;">Регистрация</button>
                 </div>
+                <button class="privacy-btn" id="privacy-policy-btn">Политика конфиденциальности</button>
+                <p class="seo-text" style="position: absolute; bottom: 15px; left: 0; right: 0;">VDC — браузерная космическая стратегия в реальном времени. Управляй черной дырой и соревнуйся с другими игроками.</p>
             </div>
         </div>
         <div id="vx-register-overlay">
@@ -268,6 +306,13 @@
                 <div class="vx-title-wrap" id="vx-nickname-animated"></div>
             </div>
             <button class="main-sound-btn" id="vx-main-sound-btn">♪</button>
+            <div class="ad-placeholder" style="margin-top: 70px;">
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:320px;height:50px"
+                     data-ad-client="ca-pub-2245560654052061"
+                     data-ad-slot="XXXXXXXXXX"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
             <div class="main-buttons-container">
                 <button class="main-menu-btn" id="vx-main-play-btn">🎮 ИГРАТЬ</button>
                 <button class="main-menu-btn" id="vx-main-shop-btn">🛒 МАГАЗИН</button>
@@ -275,7 +320,8 @@
                 <button class="main-menu-btn" id="vx-main-referral-btn">👥 РЕФЕРАЛЫ</button>
                 <button class="main-menu-btn" id="vx-main-withdraw-btn">💸 ВЫВОД</button>
             </div>
-            <!-- Яркая кнопка Telegram -->
+            <p class="seo-text" style="position: absolute; bottom: 15px; left: 0; right: 0;">VDC — браузерная космическая стратегия в реальном времени. Управляй черной дырой и соревнуйся с другими игроками.</p>
+            <button class="privacy-btn" style="position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);" id="privacy-policy-btn-menu">Политика конфиденциальности</button>
             <a href="https://t.me/VDC_game" target="_blank" class="telegram-float-btn" title="Присоединяйся к нам в Telegram!">
                 <span class="telegram-icon">📱</span>
             </a>
@@ -291,6 +337,13 @@
             <div id="vx-portal-ui" style="position:absolute;display:none;pointer-events:auto;z-index:20;transform:translate(-50%,-50%);"><button id="vx-clear-btn" style="background:rgba(160,0,0,.92);border:2px solid #ff5555;border-radius:22px;color:#fff;font-size:13px;font-weight:bold;padding:9px 18px;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(255,0,0,.6);">ОЧИСТИТЬ</button></div>
             <div id="vx-mobile-hint">Проведите пальцем для перемещения дыры</div>
             <div style="position:absolute;bottom:15px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="display:flex;gap:8px;pointer-events:auto;"><button class="vx-s-btn" id="vx-btn-rad">РАЗМЕР 0/10</button><button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/50</button><button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button></div></div>
+            <div class="ad-placeholder" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);">
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:320px;height:50px"
+                     data-ad-client="ca-pub-2245560654052061"
+                     data-ad-slot="XXXXXXXXXX"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
         </div>
         <div id="vx-admin-message-overlay">
             <div id="vx-admin-message-text"></div>
@@ -309,9 +362,6 @@ var scaler=document.getElementById('game-scaler');
 var canvas=document.getElementById('vx-canvas');
 var ctx=canvas.getContext('2d');
 var audioCtx;
-var crazySDK=null;
-var gameplayStarted=false;
-var sdkReady=false;
 var soundOn=false;
 var playerNickname='';
 var referralCode='';
@@ -323,7 +373,6 @@ var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
 var supabase=null;
 try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
 
-// Функция для расчета цен на основе уровня
 function calculatePrice(basePrice, level, multiplier) {
     var price = basePrice;
     for (var i = 0; i < level; i++) {
@@ -332,7 +381,6 @@ function calculatePrice(basePrice, level, multiplier) {
     return price;
 }
 
-// Начисление звёзд ТОЛЬКО через сообщение админа с указанием суммы
 async function checkAndApplyAdminStars() {
     if (!supabase || !playerNickname) return;
     try {
@@ -346,7 +394,6 @@ async function checkAndApplyAdminStars() {
         if (!msgError && messages && messages.length > 0) {
             for (var i = 0; i < messages.length; i++) {
                 var msg = messages[i];
-                // Ищем в тексте сообщения число (сумму для начисления)
                 var numberMatch = msg.message.match(/(\d[\d\s]*\d|\d+)/);
                 var starsToAdd = 0;
                 
@@ -355,7 +402,6 @@ async function checkAndApplyAdminStars() {
                 }
                 
                 if (starsToAdd > 0) {
-                    // Начисляем звёзды
                     if (typeof g !== 'undefined') {
                         g.cash += starsToAdd;
                         if (g.active) {
@@ -364,7 +410,6 @@ async function checkAndApplyAdminStars() {
                         }
                     }
                     
-                    // Обновляем в БД
                     var { data: playerData } = await supabase
                         .from('players')
                         .select('stars')
@@ -379,14 +424,11 @@ async function checkAndApplyAdminStars() {
                             .eq('nickname', playerNickname);
                     }
                     
-                    // Показываем уведомление с начисленной суммой
                     showStarNotification(starsToAdd);
                 } else {
-                    // Если нет числа — показываем как обычное сообщение
                     showAdminMessage(msg.message, msg.id);
                 }
                 
-                // Отмечаем как прочитанное
                 await supabase
                     .from('admin_messages')
                     .update({ read: true })
@@ -450,6 +492,16 @@ if (playerNickname) checkAndApplyAdminStars();
     }
 })();
 
+document.getElementById('privacy-policy-btn').onclick = function() {
+    document.getElementById('privacy-policy-overlay').classList.add('open');
+};
+document.getElementById('privacy-policy-btn-menu').onclick = function() {
+    document.getElementById('privacy-policy-overlay').classList.add('open');
+};
+document.getElementById('privacy-policy-close').onclick = function() {
+    document.getElementById('privacy-policy-overlay').classList.remove('open');
+};
+
 function updateBalanceDisplay() {
     var el = document.getElementById('main-balance-display');
     if (el && typeof g !== 'undefined') {
@@ -491,7 +543,6 @@ function checkReferral(){var params=new URLSearchParams(window.location.search);
 
 async function processPendingReferral(){var pendingRef=localStorage.getItem('vx_pending_referral');if(!pendingRef||!supabase||!playerNickname)return;if(pendingRef===referralCode)return;try{var{data:existing}=await supabase.from('referral_tracking').select('id').eq('referrer_code',pendingRef).eq('referred_nickname',playerNickname).single();if(existing)return;await supabase.rpc('process_referral',{p_referrer_code:pendingRef,p_referred_nick:playerNickname});localStorage.removeItem('vx_pending_referral');await loadReferralCountFromSupabase();updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();}catch(e){}}
 
-// СОХРАНЕНИЕ ВСЕХ ДАННЫХ ПРОГРЕССА
 async function saveFullProgress(){
     if(!supabase||!playerNickname)return;
     try{
@@ -504,8 +555,6 @@ async function saveFullProgress(){
             highscore_stars: Math.max(g.cash, 0),
             highscore_level: g.lvls.cap,
             upgrade_prices: JSON.stringify(g.prices),
-
-            // ✅ сохранение купленных дыр
             owned_holes: JSON.stringify(HOLES.map(function(h){
                 return h.owned ? 1 : 0;
             }))
@@ -523,9 +572,9 @@ async function saveFullProgress(){
 
 async function showLeaderboard(listElementId){var listEl=document.getElementById(listElementId||'leaderboard-list');if(!listEl)return;listEl.innerHTML='<div style="color:#666;padding:20px;">Загрузка...</div>';document.getElementById('vx-leaderboard-modal').classList.add('open');if(supabase){try{var{data}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(10);if(data&&data.length>0){listEl.innerHTML=data.map(function(item,index){var rankClass='',medal='';if(index===0){rankClass='gold';medal='🥇';}else if(index===1){rankClass='silver';medal='🥈';}else if(index===2){rankClass='bronze';medal='🥉';}return '<div class="leaderboard-item '+rankClass+'"><span class="leaderboard-rank">'+(medal||('#'+(index+1)))+'</span><span class="leaderboard-nick">'+item.nickname+'</span><span class="leaderboard-score">⭐ '+formatNumber(item.highscore_stars||0)+'</span></div>';}).join('');return;}}catch(e){}}listEl.innerHTML='<div style="color:#666;padding:20px;">Нет данных</div>';}
 
-document.getElementById('vx-leaderboard-close').addEventListener('click',function(){document.getElementById('vx-leaderboard-modal').classList.remove('open');if(inGame){g.paused=false;yGameplayStart();if(!drawRunning)draw();}});
+document.getElementById('vx-leaderboard-close').addEventListener('click',function(){document.getElementById('vx-leaderboard-modal').classList.remove('open');if(inGame){g.paused=false;if(!drawRunning)draw();}});
 document.getElementById('vx-btn-leaderboard').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');showLeaderboard('leaderboard-list');});
-document.getElementById('vx-btn-main-menu').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');g.paused=false;g.active=false;inGame=false;yGameplayStop();saveFullProgress();if(supabase&&playerNickname)supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);document.getElementById('vx-game-ui').style.display='none';document.getElementById('vx-main-menu').style.display='flex';animateNickname(playerNickname);updateBalanceDisplay();checkAdminMessages();checkAndApplyAdminStars();});
+document.getElementById('vx-btn-main-menu').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');g.paused=false;g.active=false;inGame=false;saveFullProgress();if(supabase&&playerNickname)supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);document.getElementById('vx-game-ui').style.display='none';document.getElementById('vx-main-menu').style.display='flex';animateNickname(playerNickname);updateBalanceDisplay();checkAdminMessages();checkAndApplyAdminStars();});
 
 function showWithdrawModal(){ document.getElementById('vx-withdraw-amount').value = 1; document.getElementById('vx-withdraw-modal').classList.add('open'); }
 document.getElementById('vx-main-withdraw-btn').addEventListener('click',showWithdrawModal);
@@ -604,7 +653,7 @@ document.getElementById('reg-confirm-btn').onclick=async function(){
     checkAndApplyAdminStars();
 };
 
-function startGameFromMenu(){document.getElementById('vx-main-menu').style.display='none';document.getElementById('vx-game-ui').style.display='block';inGame=true;if('ontouchstart' in window){document.getElementById('vx-mobile-hint').style.display='block';setTimeout(function(){document.getElementById('vx-mobile-hint').style.display='none';},4000);}yGameplayStart();updatePortalBtnPos();g.active=true;setup();refreshUI();updateMiniHoles();updateOnlineStatus();if(!drawRunning)draw();checkAndApplyAdminStars();}
+function startGameFromMenu(){document.getElementById('vx-main-menu').style.display='none';document.getElementById('vx-game-ui').style.display='block';inGame=true;if('ontouchstart' in window){document.getElementById('vx-mobile-hint').style.display='block';setTimeout(function(){document.getElementById('vx-mobile-hint').style.display='none';},4000);}updatePortalBtnPos();g.active=true;setup();refreshUI();updateMiniHoles();updateOnlineStatus();if(!drawRunning)draw();checkAndApplyAdminStars();}
 document.getElementById('vx-main-play-btn').addEventListener('click',startGameFromMenu);
 document.getElementById('vx-main-shop-btn').addEventListener('click',function(){openHoleShop();});
 document.getElementById('vx-main-leaderboard-btn').addEventListener('click',function(){showLeaderboard('leaderboard-list');});
@@ -628,7 +677,6 @@ document.getElementById('vx-start-btn').onclick=async function(){
     g.lvls.rad=Math.min(player.size_level||0,10);
     g_holeIdx=player.hole_type||0;
     
-    // Загружаем сохранённые цены или рассчитываем их
     if (player.upgrade_prices) {
         try {
             var savedPrices = JSON.parse(player.upgrade_prices);
@@ -644,19 +692,15 @@ document.getElementById('vx-start-btn').onclick=async function(){
         g.prices.spd = calculatePrice(50, g.lvls.spd, 2);
     }
     
-    // ✅ Загружаем купленные дыры из БД
     if (player.owned_holes) {
         try {
             var savedHoles = JSON.parse(player.owned_holes);
             for (var i = 0; i < HOLES.length && i < savedHoles.length; i++) {
                 HOLES[i].owned = savedHoles[i] === 1;
             }
-        } catch(e) {
-            // Если ошибка — оставляем стандартные значения
-        }
+        } catch(e) {}
     }
     
-    // Применяем уровни прокачки к параметрам дыры
     g.max = 100 + (g.lvls.cap * 163);
     g.rad = 18 + (g.lvls.rad * 5);
     g.pull = 90 + (g.lvls.rad * 12);
@@ -675,13 +719,6 @@ document.getElementById('vx-start-btn').onclick=async function(){
     checkAdminMessages();
     checkAndApplyAdminStars();
 };
-
-function initCrazySDK(retries){retries=retries||0;if(typeof window.CrazyGames==='undefined'||!window.CrazyGames.SDK){if(retries<5)setTimeout(function(){initCrazySDK(retries+1);},1000);return;}window.CrazyGames.SDK.init().then(function(sdk){crazySDK=sdk;sdkReady=true;}).catch(function(e){if(retries<3)setTimeout(function(){initCrazySDK(retries+1);},1000);});}
-initCrazySDK();
-function yGameplayStart(){if(gameplayStarted)return;gameplayStarted=true;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStart();}
-function yGameplayStop(){if(!gameplayStarted)return;gameplayStarted=false;if(crazySDK&&crazySDK.game)crazySDK.game.gameplayStop();}
-function showRewarded(onReward,onClose){if(!crazySDK||!crazySDK.ad){if(onReward)onReward();return;}yGameplayStop();crazySDK.ad.requestAd('rewarded',{adFinished:function(){yGameplayStart();if(onReward)onReward();},adError:function(){yGameplayStart();if(onClose)onClose();}});}
-function showMidgame(onComplete,onError){if(!crazySDK||!crazySDK.ad){if(onComplete)onComplete();return;}yGameplayStop();crazySDK.ad.requestAd('midgame',{adFinished:function(){yGameplayStart();if(onComplete)onComplete();},adError:function(){yGameplayStart();if(onError)onError();}});}
 
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}window.addEventListener('resize',resize);resize();
 referralCode=generateReferralCode();referralCount=getLocalReferralCount();loadReferralCountFromSupabase();checkReferral();
@@ -724,19 +761,19 @@ function handleTouch(e){var node=e.target;while(node&&node!==scaler){var tag=nod
 window.addEventListener('mousemove',function(e){applyInput(e.clientX,e.clientY);});window.addEventListener('mousedown',function(e){if(e.button===0)g.isLkm=true;});window.addEventListener('mouseup',function(){g.isLkm=false;});window.addEventListener('keydown',function(e){if(e.key==='Control')g.isCtrl=true;});window.addEventListener('keyup',function(e){if(e.key==='Control')g.isCtrl=false;});canvas.addEventListener('touchstart',handleTouch,{passive:false});canvas.addEventListener('touchmove',handleTouch,{passive:false});canvas.addEventListener('touchend',function(e){e.preventDefault();},{passive:false});
 var portalUI=document.getElementById('vx-portal-ui');var clearBtn=document.getElementById('vx-clear-btn');
 function clearPlanetLogic(){if(g.land>=g.landMax){g.land=0;playSound('upgrade');refreshUI();saveFullProgress();}}
-function handleClear(e){e.preventDefault();e.stopPropagation();if(g.land>=g.landMax){showMidgame(function(){clearPlanetLogic();},function(){clearPlanetLogic();});}}
+function handleClear(e){e.preventDefault();e.stopPropagation();if(g.land>=g.landMax){clearPlanetLogic();}}
 clearBtn.addEventListener('click',handleClear);clearBtn.addEventListener('touchend',handleClear,{passive:false});
 function updatePortalBtnPos(){portalUI.style.left=portal.x+'px';portalUI.style.top=portal.y+'px';}
 function clearAttackWarning(){rocketWarn=false;meteorWarn=false;warnedRocket=false;warnedMeteor=false;warnToken++;}
 var pauseMenu=document.getElementById('vx-pause-menu');
-document.getElementById('vx-pause-btn').onclick=function(e){e.stopPropagation();g.paused=true;yGameplayStop();clearAttackWarning();pauseMenu.classList.add('open');};
-document.getElementById('vx-btn-resume').onclick=function(){pauseMenu.classList.remove('open');g.paused=false;yGameplayStart();if(!drawRunning)draw();};
+document.getElementById('vx-pause-btn').onclick=function(e){e.stopPropagation();g.paused=true;clearAttackWarning();pauseMenu.classList.add('open');};
+document.getElementById('vx-btn-resume').onclick=function(){pauseMenu.classList.remove('open');g.paused=false;if(!drawRunning)draw();};
 document.getElementById('vx-btn-open-shop').onclick=function(){clearAttackWarning();pauseMenu.classList.remove('open');openHoleShop();};
-document.getElementById('vx-shop-close').onclick=function(){document.getElementById('vx-hole-shop').classList.remove('open');g.paused=false;yGameplayStart();if(!drawRunning)draw();};
-document.addEventListener('visibilitychange',function(){if(document.hidden){if(g.active&&!g.paused){tabPaused=true;tabHiddenAt=Date.now();g.paused=true;yGameplayStop();clearAttackWarning();}return;}if(tabPaused){var elapsed=Date.now()-tabHiddenAt;nextRocketTime+=elapsed;nextMeteorTime+=elapsed;nextBonusTime+=elapsed;nextRedHumanTime+=elapsed;nextGreenHumanTime+=elapsed;tabPaused=false;g.paused=false;yGameplayStart();if(!drawRunning)draw();}});
+document.getElementById('vx-shop-close').onclick=function(){document.getElementById('vx-hole-shop').classList.remove('open');g.paused=false;if(!drawRunning)draw();};
+document.addEventListener('visibilitychange',function(){if(document.hidden){if(g.active&&!g.paused){tabPaused=true;tabHiddenAt=Date.now();g.paused=true;clearAttackWarning();}return;}if(tabPaused){var elapsed=Date.now()-tabHiddenAt;nextRocketTime+=elapsed;nextMeteorTime+=elapsed;nextBonusTime+=elapsed;nextRedHumanTime+=elapsed;nextGreenHumanTime+=elapsed;tabPaused=false;g.paused=false;if(!drawRunning)draw();}});
 function formatNumber(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
 function buildHoleShopCards(){var cont=document.getElementById('vx-shop-cards');cont.innerHTML='';HOLES.forEach(function(h){var card=document.createElement('div');card.className='vx-hole-card'+(h.owned?' owned':'');var pv=document.createElement('canvas');pv.className='vx-hole-preview';pv.width=48;pv.height=48;drawHolePreview(pv,h);var info=document.createElement('div');info.className='vx-hole-info';info.innerHTML='<b>'+h.name+'</b><small>'+h.desc.replace(/\n/g,'<br>')+'</small>';var btn=document.createElement('button');btn.className='vx-hole-buy';if(h.owned&&g_holeIdx===h.id){btn.textContent='АКТИВНА';btn.style.background='#ffd700';btn.style.color='#000';btn.disabled=true;}else if(h.owned){btn.textContent='ВЫБРАТЬ';btn.style.background='#4caf50';btn.style.color='#fff';btn.onclick=function(){g_holeIdx=h.id;buildHoleShopCards();saveFullProgress();};}else{btn.textContent='★'+formatNumber(h.price);btn.style.background=g.cash>=h.price?'linear-gradient(45deg,#6200ea,#00c6ff)':'#333';btn.style.color='#fff';btn.disabled=g.cash<h.price;btn.onclick=function(){if(g.cash>=h.price){g.cash-=h.price;h.owned=true;g_holeIdx=h.id;refreshUI();buildHoleShopCards();saveFullProgress();}};}card.appendChild(pv);card.appendChild(info);card.appendChild(btn);cont.appendChild(card);});}
-function openHoleShop(){buildHoleShopCards();document.getElementById('vx-hole-shop').classList.add('open');if(g.active&&!g.paused){g.paused=true;yGameplayStop();}}
+function openHoleShop(){buildHoleShopCards();document.getElementById('vx-hole-shop').classList.add('open');if(g.active&&!g.paused){g.paused=true;}}
 function drawHolePreview(pv,h){var bx=pv.getContext('2d'),cx=24,cy=24,r=18,ang=Date.now()*.002;bx.clearRect(0,0,48,48);if(!h.color){var glow=bx.createRadialGradient(cx,cy,r,cx,cy,r+6);glow.addColorStop(0,'rgba(180,180,180,.6)');glow.addColorStop(1,'rgba(180,180,180,0)');bx.fillStyle=glow;bx.beginPath();bx.arc(cx,cy,r+6,0,Math.PI*2);bx.fill();var gr=bx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);gr.addColorStop(0,'#888');gr.addColorStop(.5,'#ccc');gr.addColorStop(1,'#888');if(bx.createConicGradient){gr=bx.createConicGradient(ang,cx,cy);gr.addColorStop(0,'#888');gr.addColorStop(.5,'#ccc');gr.addColorStop(1,'#888');}bx.beginPath();bx.arc(cx,cy,r,0,Math.PI*2);bx.strokeStyle=gr;bx.lineWidth=4;bx.stroke();bx.fillStyle='#111';bx.beginPath();bx.arc(cx,cy,r-3,0,Math.PI*2);bx.fill();}else{var cs=h.color;var glow2=bx.createRadialGradient(cx,cy,r,cx,cy,r+6);glow2.addColorStop(0,cs[0]+'99');glow2.addColorStop(1,'rgba(0,0,0,0)');bx.fillStyle=glow2;bx.beginPath();bx.arc(cx,cy,r+6,0,Math.PI*2);bx.fill();var gr2=bx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);cs.forEach(function(c,i){gr2.addColorStop(i/(cs.length-1),c);});if(bx.createConicGradient){gr2=bx.createConicGradient(ang,cx,cy);cs.forEach(function(c,i){gr2.addColorStop(i/(cs.length),c);});gr2.addColorStop(1,cs[0]);}bx.beginPath();bx.arc(cx,cy,r,0,Math.PI*2);bx.strokeStyle=gr2;bx.lineWidth=4;bx.stroke();bx.fillStyle='#050508';bx.beginPath();bx.arc(cx,cy,r-3,0,Math.PI*2);bx.fill();}}
 function setup(){var w=canvas.width,h=canvas.height;for(var i=0;i<150;i++)stars.push({x:Math.random()*w,y:Math.random()*h,s:Math.random()*1.5,b:Math.random()*Math.PI*2});for(var i=0;i<30;i++)g.vortexParticles.push({angle:Math.random()*Math.PI*2,dist:Math.random()*g.rad,speed:.03+Math.random()*.12,size:1+Math.random()*3});nextRocketTime=Date.now()+(45000+Math.random()*30000);nextMeteorTime=Date.now()+(75000+Math.random()*30000);nextBonusTime=Date.now()+(90000+Math.random()*60000);nextRedHumanTime=Date.now()+(20000+Math.random()*25000);nextGreenHumanTime=Date.now()+(35000+Math.random()*30000);portal.x=w-70;portal.y=70;updatePop();}
 function updatePop(){var target=isMobile?12+(g.lvls.rad*1):25+(g.lvls.rad*2);if(target<(isMobile?8:15))target=(isMobile?8:15);if(target>(isMobile?20:40))target=(isMobile?20:40);var w=canvas.width,h=canvas.height;while(humans.length<target)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});while(humans.length>target)humans.pop();}
@@ -773,7 +810,7 @@ function spawnGreenHumanIfNeeded(now){if(!greenHuman&&now>=nextGreenHumanTime){v
 function drawSpecialHuman(h,color){ctx.save();ctx.translate(h.x,h.y);var limb=Math.sin(Date.now()*.01+h.walk)*5;ctx.fillStyle=color;ctx.fillRect(-3,-12,6,14);ctx.fillStyle=color;ctx.beginPath();ctx.arc(0,-17,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-1,2);ctx.lineTo(-2+limb,12);ctx.stroke();ctx.beginPath();ctx.moveTo(1,2);ctx.lineTo(2-limb,12);ctx.stroke();ctx.restore();}
 function spawnBonusPlanet(){var bx,by;do{bx=80+Math.random()*(canvas.width-160);by=80+Math.random()*(canvas.height-160);}while(Math.sqrt(Math.pow(bx-portal.x,2)+Math.pow(by-portal.y,2))<130);bonusPlanet={x:bx,y:by,r:40,born:Date.now(),dur:15000,ang:0};playSound('bonus');nextBonusTime=Date.now()+(90000+Math.random()*60000)+(g.lvls.rad*2000);}
 function triggerExplosion(){if(g.exploded)return;g.exploded=true;playSound('boom');document.getElementById('vx-death-msg').style.opacity='1';saveFullProgress();setTimeout(showSaveOverlay,1000);}
-function showSaveOverlay(){var overlay=document.getElementById('vx-save-overlay'),cc=g.cash;document.getElementById('vx-save-text').innerHTML='Вы можете сейчас потерять ★'+formatNumber(Math.floor(cc))+'!<br>Чтобы сохранить 90%, жмите "Сохранить"';overlay.style.display='flex';document.getElementById('vx-btn-save-confirm').onclick=function(){showRewarded(function(){g.cash=Math.floor(cc*.9);finalizeDeath();},function(){g.cash=10;finalizeDeath();});};document.getElementById('vx-btn-save-cancel').onclick=function(){g.cash=10;finalizeDeath();};}
+function showSaveOverlay(){var overlay=document.getElementById('vx-save-overlay'),cc=g.cash;document.getElementById('vx-save-text').innerHTML='Вы можете сейчас потерять ★'+formatNumber(Math.floor(cc))+'!<br>Чтобы сохранить 90%, жмите "Сохранить"';overlay.style.display='flex';document.getElementById('vx-btn-save-confirm').onclick=function(){g.cash=Math.floor(cc*.9);finalizeDeath();};document.getElementById('vx-btn-save-cancel').onclick=function(){g.cash=10;finalizeDeath();};}
 function finalizeDeath(){document.getElementById('vx-save-overlay').style.display='none';document.getElementById('vx-death-msg').style.opacity='0';clearAttackWarning();g.cargo=0;g.land=0;g.exploded=false;g.shakeUntil=0;bonusPlanet=null;redHuman=null;greenHuman=null;refreshUI();}
 function drawMiniHole(mx,my,mrad){ctx.beginPath();ctx.arc(mx,my,mrad+3,0,Math.PI*2);var glow=ctx.createRadialGradient(mx,my,mrad*.3,mx,my,mrad+3);glow.addColorStop(0,'rgba(0,0,0,.9)');glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fill();ctx.beginPath();ctx.arc(mx,my,mrad,0,Math.PI*2);ctx.strokeStyle='#555';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(mx,my,mrad-1,0,Math.PI*2);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(mx,my,mrad-2,0,Math.PI*2);ctx.fill();}
 function drawHole(px,py,rad,angle){var h=HOLES[g_holeIdx];var glow=ctx.createRadialGradient(px,py,rad,px,py,rad+12);if(!h.color){glow.addColorStop(0,'rgba(180,180,180,.7)');glow.addColorStop(1,'rgba(180,180,180,0)');}else{glow.addColorStop(0,h.color[0]+'bb');glow.addColorStop(1,'rgba(0,0,0,0)');}ctx.fillStyle=glow;ctx.beginPath();ctx.arc(px,py,rad+16,0,Math.PI*2);ctx.fill();var gr;if(!h.color){gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');}}else{gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);var cs=h.color;cs.forEach(function(c,i){gr.addColorStop(i/(cs.length-1),c);});if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);cs.forEach(function(c,i){gr.addColorStop(i/(cs.length),c);});gr.addColorStop(1,cs[0]);}}ctx.beginPath();ctx.arc(px,py,rad,0,Math.PI*2);ctx.strokeStyle=gr;ctx.lineWidth=6;ctx.stroke();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(px,py,rad-2,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,.6)';g.vortexParticles.forEach(function(p){p.angle+=p.speed;p.dist-=.5;if(p.dist<=0){p.dist=rad*Math.random();p.angle=Math.random()*Math.PI*2;}ctx.fillRect(px+Math.cos(p.angle)*p.dist,py+Math.sin(p.angle)*p.dist,p.size*(p.dist/rad),p.size*(p.dist/rad));});}
