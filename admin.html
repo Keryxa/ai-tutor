@@ -45,6 +45,20 @@
         .preview-modal.open{display:flex}
         .preview-content{padding:40px;text-align:center;color:#fff;font-size:24px;max-width:90vw}
         .preview-close-btn{margin-top:30px;padding:12px 30px;background:#0ff;color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:bold}
+
+        /* Стили для таблицы заявок */
+        .withdraw-table {width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px;}
+        .withdraw-table th {background: rgba(0,255,255,0.15); color: #0ff; padding: 12px 8px; text-align: left; border-bottom: 2px solid rgba(0,255,255,0.3);}
+        .withdraw-table td {padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); vertical-align: middle;}
+        .withdraw-table tr:hover {background: rgba(255,255,255,0.03);}
+        .badge {padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; text-transform: uppercase;}
+        .badge-pending {background: rgba(255,193,7,0.2); color: #ffc107; border: 1px solid #ffc107;}
+        .badge-completed {background: rgba(40,167,69,0.2); color: #28a745; border: 1px solid #28a745;}
+        .badge-rejected {background: rgba(220,53,69,0.2); color: #dc3545; border: 1px solid #dc3545;}
+        .action-btn {padding: 5px 12px; margin: 2px; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; transition: all 0.2s;}
+        .action-btn:hover {transform: scale(1.05);}
+        .notification {position: fixed; top: 20px; right: 20px; background: #ffd700; color: #000; padding: 15px 25px; border-radius: 10px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 0 20px rgba(255,215,0,0.5); animation: modalSlideIn 0.3s ease-out;}
+        @keyframes modalSlideIn {0%{transform:translateX(100%); opacity:0}100%{transform:translateX(0); opacity:1}}
     </style>
 </head>
 <body>
@@ -60,17 +74,47 @@
 <div id="main-panel">
     <div class="admin-container">
         <div class="admin-header"><h1>⚡ VDC - ПАНЕЛЬ УПРАВЛЕНИЯ</h1><button class="logout-btn" onclick="doLogout()">ВЫЙТИ</button></div>
+        
+        <div class="notification" id="notification"></div>
+
         <div class="stats-grid">
             <div class="stat-card"><h3>👥 ВСЕГО ИГРОКОВ</h3><div class="stat-value" id="stat-total">0</div></div>
             <div class="stat-card"><h3>🟢 ОНЛАЙН</h3><div class="stat-value" id="stat-online">0</div></div>
-            <div class="stat-card"><h3>🔗 РЕФЕРАЛОВ</h3><div class="stat-value" id="stat-referrals">0</div></div>
+            <div class="stat-card"><h3>💸 ЗАЯВОК НА ВЫВОД</h3><div class="stat-value" id="stat-withdrawals">0</div></div>
         </div>
+
         <div class="panel"><h2>🏆 ТОП ИГРОКОВ</h2><div class="top-players-grid"><div class="top-list"><h3>⭐ По звёздам</h3><div id="top-stars-list">Загрузка...</div></div></div></div>
-        <div class="panel"><h2>💎 НАЧИСЛИТЬ ЗВЁЗДЫ</h2>
-            <div class="form-group"><label>Никнейм игрока</label><input type="text" id="stars-nickname" placeholder="Введите никнейм"/></div>
-            <div class="form-group"><label>Количество ⭐</label><input type="number" id="stars-amount" value="1000" min="1" step="1"/></div>
-            <button class="btn btn-warning" onclick="addStars()">✨ НАЧИСЛИТЬ</button>
+
+        <!-- Новая панель: Заявки на вывод -->
+        <div class="panel">
+            <h2>💎 ЗАЯВКИ НА ВЫВОД СРЕДСТВ</h2>
+            <div style="margin-bottom: 15px;">
+                <button class="btn btn-info" onclick="filterWithdrawals('all')" style="padding:8px 15px; font-size:12px;">ВСЕ</button>
+                <button class="btn btn-warning" onclick="filterWithdrawals('pending')" style="padding:8px 15px; font-size:12px;">ОЖИДАЮТ</button>
+                <button class="btn btn-success" onclick="filterWithdrawals('completed')" style="padding:8px 15px; font-size:12px;">ВЫПОЛНЕНЫ</button>
+                <button class="btn btn-danger" onclick="filterWithdrawals('rejected')" style="padding:8px 15px; font-size:12px;">ОТКЛОНЕНЫ</button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="withdraw-table" id="withdraw-table">
+                    <thead>
+                        <tr>
+                            <th>ИГРОК</th>
+                            <th>СУММА ($)</th>
+                            <th>ЗВЁЗД</th>
+                            <th>КРИПТО</th>
+                            <th>АДРЕС</th>
+                            <th>TELEGRAM</th>
+                            <th>СТАТУС</th>
+                            <th>ДЕЙСТВИЯ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdraw-tbody">
+                        <tr><td colspan="8" style="text-align: center; padding: 20px;">Загрузка...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
         <div class="panel"><h2>✉️ ОТПРАВИТЬ СООБЩЕНИЕ</h2>
             <div class="form-group"><label>Никнейм игрока</label><input type="text" id="message-nickname" placeholder="Введите никнейм"/></div>
             <div class="form-group"><label>Сообщение</label><textarea id="message-text" placeholder="Текст сообщения..."></textarea></div>
@@ -91,56 +135,168 @@ var SUPABASE_URL='https://kmkgqegtulbmdjlmllka.supabase.co';
 var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
 var supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 var isLoggedIn=false;
+var currentFilter='pending';
+var lastKnownIds=new Set();
+
 checkSession();
 async function checkSession(){var s=sessionStorage.getItem('admin_logged_in');if(s==='true'){isLoggedIn=true;showMainPanel();}}
-async function doLogin(){var u=document.getElementById('login-username').value.trim();var p=document.getElementById('login-password').value.trim();if(!u||!p){showLoginError('Заполни все поля');return}var{data}=await supabase.from('admin_users').select('password_hash').eq('username',u).single();if(data&&data.password_hash==='f7c3bc1d808e04732adf679965ccc34ca7ae3441'&&p==='135710Aa!'){isLoggedIn=true;sessionStorage.setItem('admin_logged_in','true');showMainPanel();}else{showLoginError('Неверный логин или пароль');}}
-function showLoginError(m){var e=document.getElementById('login-error');e.textContent=m;e.style.display='block';setTimeout(function(){e.style.display='none'},3000)}
-function doLogout(){sessionStorage.removeItem('admin_logged_in');isLoggedIn=false;document.getElementById('main-panel').style.display='none';document.getElementById('login-screen').style.display='flex'}
-async function showMainPanel(){document.getElementById('login-screen').style.display='none';document.getElementById('main-panel').style.display='block';await loadStats();await loadTopPlayers();}
-async function loadStats(){var{data:p}=await supabase.from('players').select('id,is_online');document.getElementById('stat-total').textContent=p?p.length:0;document.getElementById('stat-online').textContent=p?p.filter(function(x){return x.is_online}).length:0;var{data:r}=await supabase.from('referral_tracking').select('id');document.getElementById('stat-referrals').textContent=r?r.length:0}
-async function loadTopPlayers(){var{data:s}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(3);var m=['🥇','🥈','🥉'],c=['gold','silver','bronze'];document.getElementById('top-stars-list').innerHTML=(s||[]).map(function(x,i){return'<div class="top-player-item '+(c[i]||'')+'"><span>'+(m[i]||'')+' '+x.nickname+'</span><span>⭐ '+(x.highscore_stars||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'</span></div>'}).join('')||'Нет данных'}
 
-async function addStars(){
-    var nick=document.getElementById('stars-nickname').value.trim();
-    var amount=parseInt(document.getElementById('stars-amount').value);
-    if(!nick||isNaN(amount)||amount<=0){alert('Введите корректный никнейм и сумму');return}
-    var{data:player}=await supabase.from('players').select('stars').eq('nickname',nick).single();
-    if(!player){alert('Игрок с таким никнеймом не найден');return}
-    var newStars=(player.stars||0)+amount;
-    var{error}=await supabase.from('players').update({stars:newStars}).eq('nickname',nick);
-    if(error){alert('Ошибка при начислении: '+error.message)}else{
-        alert('Игроку '+nick+' начислено '+amount+' звезд. Теперь у него '+newStars+'⭐');
-        document.getElementById('stars-nickname').value='';
-        document.getElementById('stars-amount').value=1000;
-        loadStats();
-        loadTopPlayers();
+async function doLogin(){
+    var u=document.getElementById('login-username').value.trim();
+    var p=document.getElementById('login-password').value.trim();
+    if(!u||!p){showLoginError('Заполни все поля');return}
+    if(u==='Casper0390'&&p==='135710Aa!'){
+        isLoggedIn=true;
+        sessionStorage.setItem('admin_logged_in','true');
+        showMainPanel();
+    }else{
+        showLoginError('Неверный логин или пароль');
     }
+}
+
+function showLoginError(m){
+    var e=document.getElementById('login-error');
+    e.textContent=m; e.style.display='block';
+    setTimeout(function(){e.style.display='none'},3000);
+}
+
+function doLogout(){
+    sessionStorage.removeItem('admin_logged_in');
+    isLoggedIn=false;
+    document.getElementById('main-panel').style.display='none';
+    document.getElementById('login-screen').style.display='flex';
+}
+
+async function showMainPanel(){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('main-panel').style.display='block';
+    await loadStats();
+    await loadTopPlayers();
+    await loadWithdrawals();
+}
+
+async function loadStats(){
+    var{data:p}=await supabase.from('players').select('id,is_online');
+    document.getElementById('stat-total').textContent=p?p.length:0;
+    document.getElementById('stat-online').textContent=p?p.filter(function(x){return x.is_online}).length:0;
+    
+    var{data:w}=await supabase.from('withdraw_requests').select('id', {count: 'exact'}).eq('status','pending');
+    document.getElementById('stat-withdrawals').textContent=w?w.length:0;
+}
+
+async function loadTopPlayers(){
+    var{data:s}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(3);
+    var m=['🥇','🥈','🥉'],c=['gold','silver','bronze'];
+    document.getElementById('top-stars-list').innerHTML=(s||[]).map(function(x,i){
+        return'<div class="top-player-item '+(c[i]||'')+'"><span>'+(m[i]||'')+' '+x.nickname+'</span><span>⭐ '+(x.highscore_stars||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'</span></div>';
+    }).join('')||'Нет данных';
+}
+
+async function loadWithdrawals(filter){
+    filter = filter || currentFilter;
+    currentFilter = filter;
+    
+    var query = supabase.from('withdraw_requests').select('*').order('created_at', {ascending: false});
+    if(filter !== 'all') {
+        query = query.eq('status', filter);
+    }
+    
+    var{data: requests}=await query;
+    var tbody=document.getElementById('withdraw-tbody');
+    
+    if(!requests || requests.length === 0){
+        tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;">Нет заявок</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = requests.map(function(req, index){
+        var statusBadge = '';
+        var actions = '';
+        if(req.status === 'pending'){
+            statusBadge = '<span class="badge badge-pending">ОЖИДАЕТ</span>';
+            actions = '<button class="action-btn btn-success" onclick="updateWithdrawalStatus(\''+req.id+'\',\'completed\')">✅</button>' +
+                      '<button class="action-btn btn-danger" onclick="updateWithdrawalStatus(\''+req.id+'\',\'rejected\')">❌</button>';
+        } else if(req.status === 'completed'){
+            statusBadge = '<span class="badge badge-completed">ВЫПОЛНЕНО</span>';
+        } else {
+            statusBadge = '<span class="badge badge-rejected">ОТКЛОНЕНО</span>';
+        }
+        
+        var date = new Date(req.created_at).toLocaleString('ru-RU');
+        return '<tr>' +
+            '<td><b>'+req.nickname+'</b><br><small style="color:#666;">'+date+'</small></td>' +
+            '<td style="color:#ffd700; font-weight:bold;">$'+req.amount_usd+'</td>' +
+            '<td>⭐ '+req.stars.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'</td>' +
+            '<td>'+req.crypto+'</td>' +
+            '<td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="'+req.address+'">'+req.address+'</td>' +
+            '<td>'+(req.telegram||'-')+'</td>' +
+            '<td>'+statusBadge+'</td>' +
+            '<td>'+actions+'</td>' +
+            '</tr>';
+    }).join('');
+    
+    // Проверка на новые заявки
+    requests.forEach(function(req){
+        if(!lastKnownIds.has(req.id) && req.status === 'pending'){
+            showNotification('🔔 Новая заявка на вывод $'+req.amount_usd+' от '+req.nickname+'!');
+        }
+        lastKnownIds.add(req.id);
+    });
+}
+
+function filterWithdrawals(filter){
+    loadWithdrawals(filter);
+}
+
+async function updateWithdrawalStatus(id, status){
+    if(!confirm('Изменить статус заявки на "'+status.toUpperCase()+'"? Это действие нельзя отменить.')) return;
+    
+    var{error}=await supabase.from('withdraw_requests').update({
+        status: status,
+        updated_at: new Date().toISOString()
+    }).eq('id', id);
+    
+    if(error){
+        alert('Ошибка: '+error.message);
+    }else{
+        showNotification('✅ Статус обновлён успешно!');
+        await loadWithdrawals();
+        await loadStats();
+    }
+}
+
+function showNotification(message){
+    var notif = document.getElementById('notification');
+    notif.textContent = message;
+    notif.style.display = 'block';
+    
+    var audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACAf39/f4B/f3+Af3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f39/gH9/f4B/f3+Af3+Af39/gH9/f39/f3+Af39/f39/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f39/f3+Af39/f39/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f39/f3+Af39/f39/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f39/f3+Af39/f39/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/f4B/f3+Af39/gH9/fwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    try{audio.play().catch(function(e){})}catch(e){}
+    
+    setTimeout(function(){
+        notif.style.display = 'none';
+    }, 5000);
 }
 
 async function sendPlayerMessage(){
     var nick=document.getElementById('message-nickname').value.trim();
     var msg=document.getElementById('message-text').value.trim();
     if(!nick||!msg){alert('Заполни никнейм и сообщение');return}
-    // Сохраняем в таблицу admin_messages или в game_settings как fallback
+    
     const{error}=await supabase.from('admin_messages').insert({
         nickname:nick,
         message:msg,
-        created_at:new Date().toISOString()
+        created_at:new Date().toISOString(),
+        read: false
     });
+    
     if(error){
-        const{data:existing}=await supabase.from('game_settings').select('setting_value').eq('setting_key','admin_messages').single();
-        let messages=[];
-        if(existing&&existing.setting_value){
-            try{messages=JSON.parse(existing.setting_value)}catch(e){}
-        }
-        messages.push({nickname:nick,message:msg,date:new Date().toISOString()});
-        await supabase.from('game_settings').upsert({setting_key:'admin_messages',setting_value:JSON.stringify(messages),updated_at:new Date().toISOString()});
-        alert('Сообщение сохранено (режим без таблицы admin_messages)');
+        alert('Ошибка: '+error.message);
     }else{
         alert('Сообщение отправлено игроку '+nick);
+        document.getElementById('message-nickname').value='';
+        document.getElementById('message-text').value='';
     }
-    document.getElementById('message-nickname').value='';
-    document.getElementById('message-text').value='';
 }
 
 function showPreview(){
@@ -153,8 +309,18 @@ function closePreview(){
     document.getElementById('preview-modal').classList.remove('open');
 }
 
-setInterval(function(){if(isLoggedIn){loadStats();loadTopPlayers()}},5000);
-document.getElementById('login-password').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+// Автообновление каждые 5 секунд
+setInterval(function(){
+    if(isLoggedIn){
+        loadStats();
+        loadTopPlayers();
+        loadWithdrawals();
+    }
+}, 5000);
+
+document.getElementById('login-password').addEventListener('keydown',function(e){
+    if(e.key==='Enter')doLogin();
+});
 </script>
 </body>
 </html>
