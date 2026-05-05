@@ -546,7 +546,7 @@ document.getElementById('vx-withdraw-submit').addEventListener('click',async fun
         try{
             await supabase.from('withdraw_requests').insert({
                 nickname:playerNickname, crypto:crypto, address:address,
-                comment:comment, telegram:telegram, amount_usd:amountUSD,
+                comment:comment, telegram:telegram,
                 stars:requiredStars, status:'pending', created_at:new Date().toISOString()
             });
             g.cash -= requiredStars;
