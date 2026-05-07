@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
+  <meta http-equiv="Content-Security-Policy" content="img-src * data:;">
   <title>Кирилл и Лена 💖 Ростик и Дейзи</title>
   <style>
     * {
@@ -267,6 +268,7 @@
       animation: photoAppear 0.5s ease-out;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      background: #ffccd5;
     }
 
     .floating-photo:active {
@@ -541,7 +543,7 @@
 
   <div class="photo-modal" id="photoModal">
     <span class="close-photo-btn" id="closePhotoModalBtn">×</span>
-    <img class="modal-img" id="modalImage" src="" alt="Фото">
+    <img class="modal-img" id="modalImage" src="" alt="Фото" crossorigin="anonymous">
   </div>
 
   <div class="top-panel">
@@ -866,8 +868,18 @@
         
         const url = photoUrls[Math.floor(Math.random() * photoUrls.length)];
         const img = document.createElement('img');
+        img.crossOrigin = 'anonymous';
         img.src = url;
         img.className = 'floating-photo';
+        
+        img.onerror = function() {
+          this.style.display = 'none';
+          this.remove();
+        };
+        
+        img.onload = function() {
+          console.log('Фото загружено: ' + url);
+        };
         
         const size = 60;
         const padding = 15;
