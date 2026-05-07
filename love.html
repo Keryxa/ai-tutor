@@ -267,7 +267,6 @@
       animation: photoAppear 0.5s ease-out;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
-      background: #ffccd5;
     }
 
     .floating-photo:active {
@@ -557,42 +556,41 @@
     (function() {
       const startDate = new Date('2021-10-11T00:00:00');
       
-      // Используем ссылки с правильным форматом для прямого доступа
       const photoUrls = [
-        'https://i.ibb.co/kVxF7LWr/image.jpg',
-        'https://i.ibb.co/KpDff2r3/image.jpg',
-        'https://i.ibb.co/c9pXdgP/image.jpg',
-        'https://i.ibb.co/tMHD2wSC/image.jpg',
-        'https://i.ibb.co/BVsyZyFZ/image.jpg',
-        'https://i.ibb.co/7tsm2ypV/image.jpg',
-        'https://i.ibb.co/fGFBgrFD/image.jpg',
-        'https://i.ibb.co/k6wvWJCZ/image.jpg',
-        'https://i.ibb.co/bjtdM6bX/image.jpg',
-        'https://i.ibb.co/QF3CyRLY/image.jpg',
-        'https://i.ibb.co/BVqyT5XR/image.jpg',
-        'https://i.ibb.co/7d6hGWDx/image.jpg',
-        'https://i.ibb.co/b85Lp29/image.jpg',
-        'https://i.ibb.co/pjrSrthz/image.jpg',
-        'https://i.ibb.co/MxhWdz3X/image.jpg',
-        'https://i.ibb.co/XkFt6db0/image.jpg',
-        'https://i.ibb.co/7J3t8c8c/image.jpg',
-        'https://i.ibb.co/GbJRysH/image.jpg',
-        'https://i.ibb.co/cS6wrcm0/image.jpg',
-        'https://i.ibb.co/wNZPWxSr/image.jpg',
-        'https://i.ibb.co/XfKchVBG/image.jpg',
-        'https://i.ibb.co/bRNGrNFC/image.jpg',
-        'https://i.ibb.co/gFggmbGz/image.jpg',
-        'https://i.ibb.co/NnryhJ0X/image.jpg',
-        'https://i.ibb.co/23BnpbdK/image.jpg',
-        'https://i.ibb.co/Rpthz5VF/image.jpg',
-        'https://i.ibb.co/GQvjryZH/image.jpg',
-        'https://i.ibb.co/ZRs4Wn2k/image.jpg',
-        'https://i.ibb.co/S48MZMbJ/image.jpg',
-        'https://i.ibb.co/ksTT1W4G/image.jpg',
-        'https://i.ibb.co/8gx80PbY/image.jpg',
-        'https://i.ibb.co/Vc59DV2M/image.jpg',
-        'https://i.ibb.co/HptK4bw3/image.jpg',
-        'https://i.ibb.co/jkg6PQCt/image.jpg'
+        'https://i.postimg.cc/Yq3dBfWd/1.jpg',
+        'https://i.postimg.cc/RZZXS67Q/2.jpg',
+        'https://i.postimg.cc/7ZZmHG31/3.jpg',
+        'https://i.postimg.cc/fRRBztcf/4.jpg',
+        'https://i.postimg.cc/sggwjQYJ/5.jpg',
+        'https://i.postimg.cc/kggfJ6QT/6.jpg',
+        'https://i.postimg.cc/Mppd6M7P/7.jpg',
+        'https://i.postimg.cc/RZZXS67P/8.jpg',
+        'https://i.postimg.cc/qvvjJhsD/9.jpg',
+        'https://i.postimg.cc/2SS2kbQK/10.jpg',
+        'https://i.postimg.cc/g22NzXVQ/11.jpg',
+        'https://i.postimg.cc/cLLXxg7q/12.jpg',
+        'https://i.postimg.cc/9QQJmRds/13.jpg',
+        'https://i.postimg.cc/rwwQV0G2/14.jpg',
+        'https://i.postimg.cc/g22NzXyp/15.jpg',
+        'https://i.postimg.cc/4xxBf7vs/16.jpg',
+        'https://i.postimg.cc/9Qg1rmbk/17.jpg',
+        'https://i.postimg.cc/3xf9d816/18.jpg',
+        'https://i.postimg.cc/FHCG7rp8/19.jpg',
+        'https://i.postimg.cc/9Qg1rmb6/20.jpg',
+        'https://i.postimg.cc/L8Qvn9Dr/21.jpg',
+        'https://i.postimg.cc/GmgzHLz0/22.jpg',
+        'https://i.postimg.cc/cLkTrxTy/23.jpg',
+        'https://i.postimg.cc/RZpGNSG9/24.jpg',
+        'https://i.postimg.cc/Dwp58v5h/25.jpg',
+        'https://i.postimg.cc/wj4F7qFg/26.jpg',
+        'https://i.postimg.cc/dVNnLsnJ/27.jpg',
+        'https://i.postimg.cc/7ZtXfHXx/28.jpg',
+        'https://i.postimg.cc/zG2pVzpz/29.jpg',
+        'https://i.postimg.cc/qvDQzJQM/30.jpg',
+        'https://i.postimg.cc/L8Qvn9v8/31.jpg',
+        'https://i.postimg.cc/g2t4nz4w/32.jpg',
+        'https://i.postimg.cc/rwZgKVgD/33.jpg',
+        'https://i.postimg.cc/wj4F7qFy/34.jpg'
       ];
 
       const phrases = [
@@ -862,62 +860,38 @@
         if (e.target === photoModal) closePhotoAndRemove();
       });
 
-      // Функция для загрузки изображения через прокси
-      function loadImage(url) {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => resolve(url);
-          img.onerror = () => {
-            // Пробуем альтернативный URL
-            const altUrl = url.replace('https://i.ibb.co/', 'https://i.ibb.co.com/');
-            const altImg = new Image();
-            altImg.onload = () => resolve(altUrl);
-            altImg.onerror = () => reject(new Error('Не удалось загрузить изображение'));
-            altImg.src = altUrl;
-          };
-          img.src = url;
-        });
-      }
-
-      async function spawnTemporaryPhoto() {
+      function spawnTemporaryPhoto() {
         const existingPhotos = document.querySelectorAll('.floating-photo');
         if (existingPhotos.length >= 2) return;
         
-        const originalUrl = photoUrls[Math.floor(Math.random() * photoUrls.length)];
+        const url = photoUrls[Math.floor(Math.random() * photoUrls.length)];
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'floating-photo';
         
-        try {
-          const workingUrl = await loadImage(originalUrl);
-          
-          const img = document.createElement('img');
-          img.src = workingUrl;
-          img.className = 'floating-photo';
-          
-          const size = 60;
-          const padding = 15;
-          img.style.left = (padding + Math.random() * (width - size - padding * 2)) + 'px';
-          img.style.top = (120 + Math.random() * (height - size - 180)) + 'px';
-          
-          img.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openPhoto(workingUrl, img);
-          });
-          
-          document.body.appendChild(img);
-          
-          const lifetime = 20000 + Math.random() * 10000;
-          setTimeout(() => {
-            if (img.parentNode && img !== currentPhotoElement) {
-              img.style.transition = 'opacity 0.5s, transform 0.5s';
-              img.style.opacity = '0';
-              img.style.transform = 'scale(0.5)';
-              setTimeout(() => {
-                if (img.parentNode) img.remove();
-              }, 500);
-            }
-          }, lifetime);
-        } catch(e) {
-          console.log('Не удалось загрузить фото: ' + originalUrl);
-        }
+        const size = 60;
+        const padding = 15;
+        img.style.left = (padding + Math.random() * (width - size - padding * 2)) + 'px';
+        img.style.top = (120 + Math.random() * (height - size - 180)) + 'px';
+        
+        img.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openPhoto(url, img);
+        });
+        
+        document.body.appendChild(img);
+        
+        const lifetime = 20000 + Math.random() * 10000;
+        setTimeout(() => {
+          if (img.parentNode && img !== currentPhotoElement) {
+            img.style.transition = 'opacity 0.5s, transform 0.5s';
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.5)';
+            setTimeout(() => {
+              if (img.parentNode) img.remove();
+            }, 500);
+          }
+        }, lifetime);
       }
       
       spawnTemporaryPhoto();
