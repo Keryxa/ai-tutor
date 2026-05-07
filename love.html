@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
-  <meta http-equiv="Content-Security-Policy" content="img-src * data:;">
   <title>Кирилл и Лена 💖 Ростик и Дейзи</title>
   <style>
     * {
@@ -543,7 +542,7 @@
 
   <div class="photo-modal" id="photoModal">
     <span class="close-photo-btn" id="closePhotoModalBtn">×</span>
-    <img class="modal-img" id="modalImage" src="" alt="Фото" crossorigin="anonymous">
+    <img class="modal-img" id="modalImage" src="" alt="Фото">
   </div>
 
   <div class="top-panel">
@@ -558,6 +557,7 @@
     (function() {
       const startDate = new Date('2021-10-11T00:00:00');
       
+      // Используем ссылки с правильным форматом для прямого доступа
       const photoUrls = [
         'https://i.ibb.co/kVxF7LWr/image.jpg',
         'https://i.ibb.co/KpDff2r3/image.jpg',
@@ -862,48 +862,62 @@
         if (e.target === photoModal) closePhotoAndRemove();
       });
 
-      function spawnTemporaryPhoto() {
+      // Функция для загрузки изображения через прокси
+      function loadImage(url) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(url);
+          img.onerror = () => {
+            // Пробуем альтернативный URL
+            const altUrl = url.replace('https://i.ibb.co/', 'https://i.ibb.co.com/');
+            const altImg = new Image();
+            altImg.onload = () => resolve(altUrl);
+            altImg.onerror = () => reject(new Error('Не удалось загрузить изображение'));
+            altImg.src = altUrl;
+          };
+          img.src = url;
+        });
+      }
+
+      async function spawnTemporaryPhoto() {
         const existingPhotos = document.querySelectorAll('.floating-photo');
         if (existingPhotos.length >= 2) return;
         
-        const url = photoUrls[Math.floor(Math.random() * photoUrls.length)];
-        const img = document.createElement('img');
-        img.crossOrigin = 'anonymous';
-        img.src = url;
-        img.className = 'floating-photo';
+        const originalUrl = photoUrls[Math.floor(Math.random() * photoUrls.length)];
         
-        img.onerror = function() {
-          this.style.display = 'none';
-          this.remove();
-        };
-        
-        img.onload = function() {
-          console.log('Фото загружено: ' + url);
-        };
-        
-        const size = 60;
-        const padding = 15;
-        img.style.left = (padding + Math.random() * (width - size - padding * 2)) + 'px';
-        img.style.top = (120 + Math.random() * (height - size - 180)) + 'px';
-        
-        img.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openPhoto(url, img);
-        });
-        
-        document.body.appendChild(img);
-        
-        const lifetime = 20000 + Math.random() * 10000;
-        setTimeout(() => {
-          if (img.parentNode && img !== currentPhotoElement) {
-            img.style.transition = 'opacity 0.5s, transform 0.5s';
-            img.style.opacity = '0';
-            img.style.transform = 'scale(0.5)';
-            setTimeout(() => {
-              if (img.parentNode) img.remove();
-            }, 500);
-          }
-        }, lifetime);
+        try {
+          const workingUrl = await loadImage(originalUrl);
+          
+          const img = document.createElement('img');
+          img.src = workingUrl;
+          img.className = 'floating-photo';
+          
+          const size = 60;
+          const padding = 15;
+          img.style.left = (padding + Math.random() * (width - size - padding * 2)) + 'px';
+          img.style.top = (120 + Math.random() * (height - size - 180)) + 'px';
+          
+          img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openPhoto(workingUrl, img);
+          });
+          
+          document.body.appendChild(img);
+          
+          const lifetime = 20000 + Math.random() * 10000;
+          setTimeout(() => {
+            if (img.parentNode && img !== currentPhotoElement) {
+              img.style.transition = 'opacity 0.5s, transform 0.5s';
+              img.style.opacity = '0';
+              img.style.transform = 'scale(0.5)';
+              setTimeout(() => {
+                if (img.parentNode) img.remove();
+              }, 500);
+            }
+          }, lifetime);
+        } catch(e) {
+          console.log('Не удалось загрузить фото: ' + originalUrl);
+        }
       }
       
       spawnTemporaryPhoto();
