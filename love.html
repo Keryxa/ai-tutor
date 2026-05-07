@@ -71,477 +71,154 @@
       padding: 0 1rem;
     }
 
-    @keyframes scaryPulse {
-      0% { text-shadow: 0 0 20px #ff4da6, 0 0 50px #ff0066; transform: scale(1); }
-      100% { text-shadow: 0 0 50px #ff1a75, 0 0 100px #e6005c; transform: scale(1.04); }
-    }
+    @keyframes scaryPulse { 0% { text-shadow: 0 0 20px #ff4da6, 0 0 50px #ff0066; transform: scale(1); } 100% { text-shadow: 0 0 50px #ff1a75, 0 0 100px #e6005c; transform: scale(1.04); } }
 
     .close-darkness-btn {
-      background: rgba(0,0,0,0.4);
-      border: 2px solid #ff4da6;
-      color: #ffb3d9;
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      padding: 0.7rem 2.5rem;
-      border-radius: 50px;
-      cursor: pointer;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      transition: all 0.3s;
-    }
-
-    .close-darkness-btn:active {
-      background: #ff4da6;
-      color: black;
-      border-color: white;
-      box-shadow: 0 0 25px #ff4da6;
+      background: rgba(0,0,0,0.4); border: 2px solid #ff4da6; color: #ffb3d9;
+      font-size: clamp(1.2rem, 3vw, 1.8rem); padding: 0.7rem 2.5rem; border-radius: 50px;
+      cursor: pointer; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      font-weight: bold; letter-spacing: 0.08em; transition: all 0.3s;
     }
 
     .top-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(255, 245, 250, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 0.8rem 1.5rem;
-      border-radius: 60px;
-      box-shadow: 0 10px 30px rgba(255, 105, 150, 0.35);
-      border: 2px solid rgba(255, 182, 193, 0.9);
-      z-index: 100;
-      position: fixed;
-      top: env(safe-area-inset-top, 10px);
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      margin: 0 auto;
-      max-width: 450px;
-      width: calc(100% - 20px);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      background: rgba(255, 245, 250, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      padding: 0.8rem 1.5rem; border-radius: 60px; box-shadow: 0 10px 30px rgba(255, 105, 150, 0.35);
+      border: 2px solid rgba(255, 182, 193, 0.9); z-index: 100; position: fixed;
+      top: env(safe-area-inset-top, 10px); top: 10px; left: 10px; right: 10px;
+      margin: 0 auto; max-width: 450px; width: calc(100% - 20px);
     }
 
     .together-label {
-      font-size: clamp(1.3rem, 4.5vw, 2rem);
-      font-weight: 800;
+      font-size: clamp(1.3rem, 4.5vw, 2rem); font-weight: 800;
       background: linear-gradient(135deg, #ff7eb3, #d43f6b, #ff4d6d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 3px 5px rgba(255, 80, 120, 0.4));
-      letter-spacing: 0.06em;
-      text-align: center;
-      white-space: nowrap;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 3px 5px rgba(255, 80, 120, 0.4)); letter-spacing: 0.06em; text-align: center; white-space: nowrap;
     }
 
     .counter {
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      font-weight: bold;
-      background: rgba(255, 255, 255, 0.75);
-      padding: 0.2rem 1.2rem;
-      border-radius: 50px;
-      color: #b0306a;
-      letter-spacing: 0.03em;
-      box-shadow: inset 0 2px 12px rgba(255, 140, 180, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      font-feature-settings: "tnum";
-      white-space: nowrap;
-      text-align: center;
+      font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: bold; background: rgba(255, 255, 255, 0.75);
+      padding: 0.2rem 1.2rem; border-radius: 50px; color: #b0306a; letter-spacing: 0.03em;
+      box-shadow: inset 0 2px 12px rgba(255, 140, 180, 0.6); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); font-feature-settings: "tnum"; white-space: nowrap; text-align: center;
     }
 
     .breakup-btn {
-      background: rgba(255, 220, 230, 0.9);
-      border: 2px solid #ff6b8a;
-      color: #b33b5c;
-      font-size: clamp(0.9rem, 2.8vw, 1.1rem);
-      font-weight: bold;
-      padding: 0.4rem 1.5rem;
-      border-radius: 40px;
-      cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: all 0.2s;
-      letter-spacing: 0.04em;
-      box-shadow: 0 4px 12px rgba(255, 80, 110, 0.35);
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+      background: rgba(255, 220, 230, 0.9); border: 2px solid #ff6b8a; color: #b33b5c;
+      font-size: clamp(0.9rem, 2.8vw, 1.1rem); font-weight: bold; padding: 0.4rem 1.5rem;
+      border-radius: 40px; cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: all 0.2s; letter-spacing: 0.04em; box-shadow: 0 4px 12px rgba(255, 80, 110, 0.35);
+      -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     }
-
-    .breakup-btn:active {
-      background: #ffb3c6;
-      color: white;
-      border-color: #ff2d55;
-      box-shadow: 0 8px 18px #ff6b8a;
-      transform: scale(0.96);
-    }
-
-    .breakup-btn.hidden {
-      display: none;
-    }
+    .breakup-btn.hidden { display: none; }
 
     #heartsCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: auto;
-      z-index: 40;
-      touch-action: manipulation;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: auto; z-index: 40; touch-action: manipulation;
     }
 
     .burst-text {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      font-weight: 900;
-      color: #d43f6b;
+      position: fixed; pointer-events: none; z-index: 9999; font-weight: 900; color: #d43f6b;
       text-shadow: 0 0 20px white, 0 0 40px #ff99cc, 0 0 60px #ff6b8a;
-      animation: burstTextAnim 2.5s ease-out forwards;
-      font-size: clamp(1rem, 3.5vw, 1.8rem);
-      text-align: center;
-      white-space: nowrap;
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%);
-      width: 90vw;
-      max-width: 400px;
-      background: rgba(255, 240, 245, 0.9);
-      padding: 1rem 0.6rem;
-      border-radius: 30px;
-      border: 2px solid rgba(255, 150, 180, 0.7);
-      box-shadow: 0 10px 30px rgba(255, 80, 130, 0.5);
-      line-height: 1.3;
+      animation: burstTextAnim 2.5s ease-out forwards; font-size: clamp(1rem, 3.5vw, 1.8rem);
+      text-align: center; white-space: nowrap; left: 50% !important; top: 50% !important;
+      transform: translate(-50%, -50%); width: 90vw; max-width: 400px;
+      background: rgba(255, 240, 245, 0.9); padding: 1rem 0.6rem; border-radius: 30px;
+      border: 2px solid rgba(255, 150, 180, 0.7); box-shadow: 0 10px 30px rgba(255, 80, 130, 0.5); line-height: 1.3;
     }
 
     @keyframes burstTextAnim {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.2);
-      }
-      20% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
-      }
-      40% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.9);
-      }
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+      15% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+      30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
     }
 
     .particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: 145;
-      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 145; border-radius: 50%;
       animation: particleBurst 1s ease-out forwards;
     }
-
     @keyframes particleBurst {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--dx), var(--dy)) scale(0);
-        opacity: 0;
-      }
-    }
-
-    .floating-photo {
-      position: fixed;
-      width: clamp(50px, 11vw, 65px);
-      height: clamp(50px, 11vw, 65px);
-      border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(255, 20, 120, 0.55);
-      object-fit: cover;
-      border: 3px solid white;
-      cursor: pointer;
-      pointer-events: auto;
-      z-index: 300;
-      animation: photoAppear 0.5s ease-out;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    .floating-photo:active {
-      transform: scale(1.15);
-      box-shadow: 0 14px 28px #ff1493;
-    }
-
-    @keyframes photoAppear {
-      0% { transform: scale(0); opacity: 0; }
-      70% { transform: scale(1.15); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .photo-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(10, 0, 5, 0.9);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 400;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.4s ease;
-    }
-    .photo-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal-img {
-      max-width: 94%;
-      max-height: 85%;
-      border-radius: 30px;
-      box-shadow: 0 30px 60px rgba(255, 192, 203, 0.85);
-      border: 4px solid white;
-      animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      object-fit: contain;
-    }
-    @keyframes zoomIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .close-photo-btn {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 2.2rem;
-      color: white;
-      cursor: pointer;
-      background: rgba(255, 130, 160, 0.5);
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid white;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      transition: 0.3s;
-      z-index: 410;
-      line-height: 1;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .close-photo-btn:active {
-      background: #ff3b6e;
-      transform: rotate(90deg);
-    }
-
-    .compliment-curtain {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(180deg, #fff0f5 0%, #ffe4f0 100%);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      z-index: 350;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transform: translateY(-100%);
-      transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.15, 1.1);
-      opacity: 0;
-      pointer-events: none;
-      gap: 2rem;
-    }
-    .compliment-curtain.active {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .compliment-text {
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      font-weight: 900;
-      color: #d43f6b;
-      text-shadow: 3px 3px 15px rgba(255,255,255,0.9);
-      animation: gentleFloat 2.5s infinite alternate;
-      background: rgba(255,240,245,0.7);
-      padding: 1rem 2rem;
-      border-radius: 60px;
-      text-align: center;
-      max-width: 90vw;
-    }
-    @keyframes gentleFloat {
-      0% { transform: translateY(0px); }
-      100% { transform: translateY(-12px); }
-    }
-    .close-curtain-btn {
-      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-      background: #ffccd5;
-      border: none;
-      padding: 0.7rem 2.5rem;
-      border-radius: 50px;
-      color: #a63252;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-      transition: 0.2s;
-      border: 2px solid white;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .close-curtain-btn:active {
-      background: #ff8da1;
-      color: white;
-      transform: scale(0.96);
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
     }
 
     .click-hint {
-      position: fixed;
-      pointer-events: none;
-      z-index: 200;
-      color: #ff2d6d;
-      font-weight: bold;
-      font-size: clamp(0.7rem, 1.8vw, 0.9rem);
-      text-shadow: 0 0 10px white, 0 0 18px #ff99cc;
-      animation: hintFloat 2.5s forwards;
-      white-space: nowrap;
+      position: fixed; pointer-events: none; z-index: 200; color: #ff2d6d; font-weight: bold;
+      font-size: clamp(0.7rem, 1.8vw, 0.9rem); text-shadow: 0 0 10px white, 0 0 18px #ff99cc;
+      animation: hintFloat 2.5s forwards; white-space: nowrap;
     }
-
     @keyframes hintFloat {
-      0% { opacity: 0; transform: translateY(8px); }
-      25% { opacity: 1; transform: translateY(0px); }
-      80% { opacity: 0.6; transform: translateY(-15px); }
-      100% { opacity: 0; transform: translateY(-30px); }
+      0% { opacity: 0; transform: translateY(8px); } 25% { opacity: 1; transform: translateY(0px); }
+      80% { opacity: 0.6; transform: translateY(-15px); } 100% { opacity: 0; transform: translateY(-30px); }
     }
 
     .mood-btn {
-      position: fixed;
-      z-index: 180;
-      background: linear-gradient(135deg, #ff9ec4, #ff6b95);
-      color: white;
-      border: 3px solid white;
-      border-radius: 50px;
-      padding: 0.6rem 1.5rem;
-      font-size: clamp(0.9rem, 2.8vw, 1.2rem);
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 25px rgba(255, 80, 130, 0.5);
-      animation: moodFloat 3s ease-in-out infinite;
-      pointer-events: auto;
-      letter-spacing: 0.04em;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+      position: fixed; z-index: 180; background: linear-gradient(135deg, #ff9ec4, #ff6b95);
+      color: white; border: 3px solid white; border-radius: 50px; padding: 0.6rem 1.5rem;
+      font-size: clamp(0.9rem, 2.8vw, 1.2rem); font-weight: bold; cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 80, 130, 0.5); animation: moodFloat 3s ease-in-out infinite;
+      pointer-events: auto; letter-spacing: 0.04em; text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      white-space: nowrap; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
     }
-
-    .mood-btn:active {
-      transform: scale(0.9);
-      box-shadow: 0 4px 15px rgba(255, 80, 130, 0.7);
-      background: linear-gradient(135deg, #ff7aaf, #ff4d7a);
-    }
-
     @keyframes moodFloat {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      25% { transform: translateY(-12px) rotate(1deg); }
-      75% { transform: translateY(-6px) rotate(-1deg); }
+      0%, 100% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-12px) rotate(1deg); } 75% { transform: translateY(-6px) rotate(-1deg); }
     }
 
-    .love-message-overlay {
+    .casino-btn {
+      position: fixed; top: 15px; left: 15px; z-index: 500;
+      background: linear-gradient(135deg, #ffd700, #ffaa00); color: #5c0030;
+      border: 3px solid white;
+      border-radius: 50px; padding: 0.6rem 1.5rem; font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
+      animation: gameBtnPulse 2s ease-in-out infinite;
+    }
+    @keyframes gameBtnPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+    .fullscreen-iframe {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 450;
+      z-index: 700;
+      border: none;
+      display: none;
+    }
+    .fullscreen-iframe.active {
+      display: block;
+    }
+    .close-iframe-btn {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 710;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+    .close-iframe-btn.active {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.5s ease, visibility 0s 0.5s;
-      pointer-events: none;
-      gap: 2rem;
-    }
-
-    .love-message-overlay.active {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transition: opacity 0.5s ease, visibility 0s 0s;
-    }
-
-    .love-message-text {
-      font-size: clamp(1.5rem, 4.5vw, 2.5rem);
-      font-weight: 900;
-      color: #ffb3d9;
-      text-shadow: 0 0 30px #ff4da6, 0 0 60px #ff0066;
-      text-align: center;
-      padding: 1.5rem;
-      animation: lovePulse 2s ease-in-out infinite;
-      max-width: 90vw;
-      line-height: 1.4;
-    }
-
-    @keyframes lovePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .close-love-btn {
-      background: rgba(255, 150, 180, 0.4);
-      border: 2px solid #ff99cc;
-      color: white;
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
-      padding: 0.6rem 2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      font-weight: bold;
-      letter-spacing: 0.06em;
-      transition: all 0.3s;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    .close-love-btn:active {
-      background: #ff4da6;
-      border-color: white;
-      box-shadow: 0 0 25px #ff4da6;
     }
   </style>
 </head>
 <body>
+  <button class="casino-btn" id="casinoBtn">🎰 Казино</button>
+
+  <button class="close-iframe-btn" id="closeIframeBtn">×</button>
+  <iframe class="fullscreen-iframe" id="fullscreenIframe"></iframe>
+
   <div class="darkness-overlay" id="darknessOverlay">
     <div class="darkness-text">Не дождёшься</div>
     <button class="close-darkness-btn" id="closeDarknessBtn">Закрыть</button>
-  </div>
-
-  <div class="compliment-curtain" id="complimentCurtain">
-    <div class="compliment-text" id="complimentMessageDisplay">Ты самая красивая</div>
-    <button class="close-curtain-btn" id="closeCurtainBtn">Закрыть</button>
-  </div>
-
-  <div class="love-message-overlay" id="loveMessageOverlay">
-    <div class="love-message-text" id="loveMessageText">Ты моя самая любимая</div>
-    <button class="close-love-btn" id="closeLoveBtn">Закрыть</button>
-  </div>
-
-  <div class="photo-modal" id="photoModal">
-    <span class="close-photo-btn" id="closePhotoModalBtn">×</span>
-    <img class="modal-img" id="modalImage" src="" alt="Фото">
   </div>
 
   <div class="top-panel">
@@ -555,509 +232,180 @@
   <script>
     (function() {
       const startDate = new Date('2021-10-11T00:00:00');
-      
-      const photoUrls = [
-        'https://i.postimg.cc/Yq3dBfWd/1.jpg',
-        'https://i.postimg.cc/RZZXS67Q/2.jpg',
-        'https://i.postimg.cc/7ZZmHG31/3.jpg',
-        'https://i.postimg.cc/fRRBztcf/4.jpg',
-        'https://i.postimg.cc/sggwjQYJ/5.jpg',
-        'https://i.postimg.cc/kggfJ6QT/6.jpg',
-        'https://i.postimg.cc/Mppd6M7P/7.jpg',
-        'https://i.postimg.cc/RZZXS67P/8.jpg',
-        'https://i.postimg.cc/qvvjJhsD/9.jpg',
-        'https://i.postimg.cc/2SS2kbQK/10.jpg',
-        'https://i.postimg.cc/g22NzXVQ/11.jpg',
-        'https://i.postimg.cc/cLLXxg7q/12.jpg',
-        'https://i.postimg.cc/9QQJmRds/13.jpg',
-        'https://i.postimg.cc/rwwQV0G2/14.jpg',
-        'https://i.postimg.cc/g22NzXyp/15.jpg',
-        'https://i.postimg.cc/4xxBf7vs/16.jpg',
-        'https://i.postimg.cc/9Qg1rmbk/17.jpg',
-        'https://i.postimg.cc/3xf9d816/18.jpg',
-        'https://i.postimg.cc/FHCG7rp8/19.jpg',
-        'https://i.postimg.cc/9Qg1rmb6/20.jpg',
-        'https://i.postimg.cc/L8Qvn9Dr/21.jpg',
-        'https://i.postimg.cc/GmgzHLz0/22.jpg',
-        'https://i.postimg.cc/cLkTrxTy/23.jpg',
-        'https://i.postimg.cc/RZpGNSG9/24.jpg',
-        'https://i.postimg.cc/Dwp58v5h/25.jpg',
-        'https://i.postimg.cc/wj4F7qFg/26.jpg',
-        'https://i.postimg.cc/dVNnLsnJ/27.jpg',
-        'https://i.postimg.cc/7ZtXfHXx/28.jpg',
-        'https://i.postimg.cc/zG2pVzpz/29.jpg',
-        'https://i.postimg.cc/qvDQzJQM/30.jpg',
-        'https://i.postimg.cc/L8Qvn9v8/31.jpg',
-        'https://i.postimg.cc/g2t4nz4w/32.jpg',
-        'https://i.postimg.cc/rwZgKVgD/33.jpg',
-        'https://i.postimg.cc/wj4F7qFy/34.jpg'
-      ];
 
-      const phrases = [
-        "Ты самая красивая на свете", "Твоя улыбка освещает мой день", "Ты нежная как утренний рассвет",
-        "Твои глаза как бездонные океаны", "Ты прекрасна внутри и снаружи", "Твоя красота затмевает звёзды",
-        "Ты самая любимая моя девочка", "С тобой мир становится ярче", "Твоя нежность согревает мою душу",
-        "Ты моя самая сладкая мечта", "Твои губы нежнее лепестков роз", "Ты идеальна во всём",
-        "Твоя красота не знает границ", "Ты моя единственная и неповторимая", "Твой смех как музыка для меня",
-        "Ты самая добрая душа", "Твои руки такие тёплые и родные", "Ты моя самая красивая звёздочка",
-        "С тобой я чувствую себя счастливым", "Ты делаешь мою жизнь прекрасной", "Твоя любовь окрыляет",
-        "Ты самая милая на планете", "Твой взгляд проникает прямо в сердце", "Ты моя самая лучшая",
-        "Леночка моя, ты самая красивая", "Кися моя нежная", "Роднуля моя любимая",
-        "Мышка моя сладкая", "Звёздочка моя сияющая", "Ты моя самая лучшая жена",
-        "Жена хрюня, ты самая милая", "Лучшая мама для нашего Ростика", "Ты самая заботливая мамочка",
-        "Твоя любовь к Ростику безгранична", "Ты самая ласковая и добрая", "Ты моя самая тёплая няня",
-        "Ты умеешь утешить как никто", "Ты самая нежная подруга", "Ты моя самая близкая душа",
-        "Твои кулинарные шедевры восхитительны", "Ты самая хозяйственная и уютная", "Ты моя самая лучшая хозяйка",
-        "Твои объятия самые крепкие", "Ты самая надёжная опора в жизни", "Ты моя самая верная спутница",
-        "Твой юмор заразителен", "Ты самая весёлая и жизнерадостная", "Ты моя самая позитивная энергия",
-        "Твой голос завораживает", "Ты самая мелодичная и нежная", "Ты моя самая сладкозвучная птичка",
-        "Твои ласки незабываемы", "Ты самая нежная и страстная", "Ты моя самая желанная женщина",
-        "Ты моя королева", "Ты самая царственная особа", "Ты моя самая величественная императрица",
-        "Ты моя богиня", "Ты самая божественная и нежная", "Ты моя самая небожительница",
-        "Ты сошла с небес", "Ты самая ангельская душа", "Ты моя самая райская птица",
-        "Ты моя муза", "Ты самая вдохновляющая богиня", "Ты моя самая творческая энергия",
-        "Ты мой идеал", "Ты самая эталонная женщина", "Ты моя самая образцовая леди",
-        "Ты моя судьба", "Ты самая предназначенная встреча", "Ты моя самая кармическая связь",
-        "Наши души были знакомы", "Ты самая родная из прошлых жизней", "Ты моя самая вечная любовь",
-        "Мы созданы друг для друга", "Ты самая совместимая душа", "Ты моя самая гармоничная пара",
-        "Ты мой дом", "Ты самая уютная крепость", "Ты моя самая родная обитель",
-        "Ты моя семья", "Ты самая близкая и родная", "Ты моя самая любимая душа",
-        "Ты моя жизнь", "Ты самая важная причина жить", "Ты моя самая основная и любимая",
-        "Ты моё всё", "Ты самая всеобъемлющая любовь", "Ты моя самая полная и совершенная",
-        "Ты моя радость", "Ты самая позитивная эмоция", "Ты моя самая настоящая улыбка",
-        "Ты моё счастье", "Ты самая полная радость", "Ты моя самая абсолютная нирвана",
-        "Ты моё вдохновение", "Ты самая творческая искра", "Ты моя самая гениальная мысль",
-        "Ты моя песня", "Ты самая мелодичная строчка", "Ты моя самая хитрая нота",
-        "Ты мой свет", "Ты самая яркая звезда", "Ты моя самая путеводная нить",
-        "Ты моё пламя", "Ты самая согревающая тепло", "Ты моя самая уютная и нежная",
-        "Кися, я люблю тебя больше жизни, и эта любовь будет длиться вечно, моя родная"
-      ];
+      // Открытие казино в iframe
+      document.getElementById('casinoBtn').addEventListener('click', function() {
+        const iframe = document.getElementById('fullscreenIframe');
+        const closeBtn = document.getElementById('closeIframeBtn');
+        
+        iframe.classList.add('active');
+        closeBtn.classList.add('active');
+        
+        iframe.srcdoc = `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>❤️ Леночкино счастье ❤️</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:radial-gradient(circle at top,#ff4d94 0%,#2c0017 55%,#10000a 100%);color:white;}
+body{display:flex;justify-content:center;align-items:center;padding:12px;}
+.bgPulse{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,0.05),transparent 70%);animation:bgPulse 5s infinite;}
+@keyframes bgPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+.casino{width:min(96vw,460px);background:rgba(0,0,0,0.35);border:3px solid #ff8dbc;border-radius:30px;padding:18px;position:relative;overflow:hidden;backdrop-filter:blur(8px);box-shadow:0 0 40px #ff3d8b,inset 0 0 25px rgba(255,255,255,0.08);}
+.title{text-align:center;font-size:clamp(28px,6vw,42px);font-weight:bold;color:#ffd6e8;margin-bottom:14px;text-shadow:0 0 10px #ff4f99,0 0 25px #ff4f99;animation:titleFloat 3s infinite ease-in-out;}
+@keyframes titleFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+.balance{text-align:center;font-size:25px;margin-bottom:18px;transition:0.3s;}
+.balance.flash{transform:scale(1.15);color:#9dffb5;}
+.machine{display:flex;justify-content:center;gap:10px;}
+.reel{width:32%;height:230px;background:#220010;border-radius:24px;overflow:hidden;border:3px solid #ff84ba;position:relative;box-shadow:inset 0 0 20px rgba(255,255,255,0.08),0 0 15px rgba(255,85,140,0.5);}
+.center{position:absolute;top:77px;width:100%;height:76px;border-top:3px solid rgba(255,255,255,0.4);border-bottom:3px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.06);z-index:5;}
+.strip{position:absolute;width:100%;top:-77px;}
+.symbol{height:77px;display:flex;justify-content:center;align-items:center;font-size:46px;}
+.spinBtn{width:100%;margin-top:18px;border:none;border-radius:22px;padding:18px;cursor:pointer;font-size:24px;font-weight:bold;color:white;background:linear-gradient(45deg,#ff005d,#ff8fc2);box-shadow:0 0 25px #ff4b93;transition:0.2s;}
+.spinBtn:active{transform:scale(0.97);}
+.message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90%;text-align:center;font-size:30px;font-weight:bold;opacity:0;pointer-events:none;text-shadow:0 0 15px white;}
+.message.show{animation:msg 3s ease;}
+@keyframes msg{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3);}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}70%{opacity:1;}100%{opacity:0;transform:translate(-50%,-180%) scale(1);}}
+.popup{position:fixed;inset:0;background:rgba(0,0,0,0.82);display:none;justify-content:center;align-items:center;padding:18px;z-index:999;}
+.popupContent{width:min(95vw,400px);background:#2b0018;border:3px solid #ff8abc;border-radius:28px;padding:24px;text-align:center;animation:popup 0.35s ease;box-shadow:0 0 30px #ff4f95;}
+@keyframes popup{from{transform:scale(0.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+.popup h2{color:#ffbdd8;margin-bottom:12px;}
+.popup input{width:100%;margin-top:15px;padding:15px;border:none;border-radius:16px;font-size:18px;}
+.popup button{width:100%;margin-top:15px;border:none;border-radius:18px;padding:16px;font-size:20px;font-weight:bold;color:white;background:linear-gradient(45deg,#ff005d,#ff8fc2);}
+.gift{margin:18px 0;font-size:30px;}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;}
+.heart{position:absolute;bottom:-30px;animation:float 4s linear forwards;}
+@keyframes float{from{transform:translateY(0) scale(0.4);opacity:1;}to{transform:translateY(-110vh) scale(1.5);opacity:0;}}
+.jackpotFlash{animation:jackpotFlash 0.7s infinite;}
+@keyframes jackpotFlash{0%{box-shadow:0 0 20px #fff,0 0 40px #ff0,0 0 80px #ff0;}50%{box-shadow:0 0 30px #fff,0 0 80px #ff00f2,0 0 130px #00ffe5;}100%{box-shadow:0 0 20px #fff,0 0 40px #ff0,0 0 80px #ff0;}}
+</style>
+</head>
+<body>
+<div class="bgPulse"></div>
+<div class="hearts" id="hearts"></div>
+<div class="casino" id="casino">
+<div class="title">❤️ Леночкино счастье ❤️</div>
+<div class="balance" id="balance">Баланс: $3.00</div>
+<div class="machine">
+<div class="reel"><div class="center"></div><div class="strip" id="strip1"></div></div>
+<div class="reel"><div class="center"></div><div class="strip" id="strip2"></div></div>
+<div class="reel"><div class="center"></div><div class="strip" id="strip3"></div></div>
+</div>
+<button class="spinBtn" id="spinBtn">🎰 КРУТИТЬ</button>
+<div class="message" id="message"></div>
+</div>
+<div class="popup" id="moneyPopup">
+<div class="popupContent">
+<h2>Недостаточно средств 💔</h2>
+<p>1 комплимент любимому = 1$</p>
+<input id="complimentInput" placeholder="Напиши комплимент ❤️">
+<button onclick="addMoney()">Получить $1 ❤️</button>
+</div>
+</div>
+<div class="popup" id="giftPopup">
+<div class="popupContent">
+<h2>🎉 ДЖЕКПОТ ЛЮБВИ 🎉</h2>
+<div class="gift" id="giftText"></div>
+<button onclick="closeGift()">Забрать ❤️</button>
+</div>
+</div>
+<script>
+const symbols=['😍','😘','❤️','🥰','💋','💕','💖','🌹','💞','😻'];
+const gifts=['🎁 Массаж спины!','🎁 Массаж ножек!','🎁 Вкусный кофе!','🎁 Крутой фильм!','🎁 Фильм в обнимку!','🎁 Обнять и поцеловать!','🎁 Завтрак в постель!','🎁 Романтический ужин!','🎁 Прогулка под звёздами!','🎁 Ванна со свечами!'];
+const winTexts=['СЕРДЦА СОШЛИСЬ ❤️','ДЖЕКПОТ НЕЖНОСТИ 💖','ЛЮБОВЬ ПОБЕДИЛА 💞','ЭТО СУДЬБА 🥰','МАКСИМАЛЬНАЯ РОМАНТИКА 🌹','СЧАСТЬЕ ПОЙМАНО 💕','ВАМ ОЧЕНЬ ВЕЗЁТ 😍','ЛЮБОВЬ В ВОЗДУХЕ 💋','СЕРДЕЧКИ ЛЕТАЮТ ❤️','НЕЖНОСТЬ ЗАШКАЛИВАЕТ 💖'];
+const almostTexts=['Почти получилось 😘','Два сердечка уже есть ❤️','Улыбнись любимому 💞','Романтика рядом 🥰','Любовь любит терпение 💕','Следующий спин будет удачным 🌹','Судьба подмигивает 😍','Ещё чуть-чуть 💋','Сердечки старались ❤️','Вам уже везёт 💖'];
+const loseTexts=['Попробуй ещё ❤️','Любовь рядом 💕','Романтика не спешит 🌹','Сегодня автоматы флиртуют 😘','Смайлики перемешались 🥰','Почти джекпот 😍','Автомат улыбается 💋','Сердечки танцуют 💞'];
+let balance=3,spinning=false;
+const strips=[document.getElementById('strip1'),document.getElementById('strip2'),document.getElementById('strip3')];
+function buildStrip(strip){strip.innerHTML='';for(let i=0;i<50;i++){const div=document.createElement('div');div.className='symbol';div.textContent=symbols[Math.floor(Math.random()*symbols.length)];strip.appendChild(div);}}
+strips.forEach(buildStrip);
+function updateBalance(){const el=document.getElementById('balance');el.innerHTML='Баланс: $'+balance.toFixed(2);el.classList.add('flash');setTimeout(()=>{el.classList.remove('flash');},350);}
+function showMessage(text){const msg=document.getElementById('message');msg.textContent=text;msg.classList.remove('show');void msg.offsetWidth;msg.classList.add('show');}
+function spawnHeart(){const heart=document.createElement('div');heart.className='heart';heart.textContent=['💖','💕','💞','❤️'][Math.floor(Math.random()*4)];heart.style.left=Math.random()*100+'%';heart.style.fontSize=(18+Math.random()*24)+'px';document.getElementById('hearts').appendChild(heart);setTimeout(()=>{heart.remove();},4000);}
+setInterval(spawnHeart,500);
+function tone(freq,time,type='sine',vol=0.03){const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.type=type;osc.frequency.value=freq;gain.gain.value=vol;osc.connect(gain);gain.connect(ctx.destination);osc.start();setTimeout(()=>{osc.stop();ctx.close();},time);}
+function spin(){if(spinning)return;if(balance<0.25){document.getElementById('moneyPopup').style.display='flex';return;}spinning=true;balance-=0.25;updateBalance();tone(180,200,'square',0.04);const rollSound=setInterval(()=>{tone(100+Math.random()*50,70,'sawtooth',0.012);},80);document.getElementById('spinBtn').disabled=true;const results=[];strips.forEach((strip,index)=>{buildStrip(strip);let pos=-77;const speed=40+Math.random()*10;const loop=setInterval(()=>{pos-=speed;if(pos<-3300){pos=-77;}strip.style.top=pos+'px';},30);setTimeout(()=>{clearInterval(loop);let final;if(index>0&&Math.random()<0.45){const prev=results[0];final=[...strip.children].findIndex(el=>el.textContent===prev);if(final<5){final=8;}}else{final=Math.floor(Math.random()*20)+5;}pos=-(final*77);strip.style.top=pos+'px';results[index]=strip.children[final+1].textContent;tone(500-(index*90),170,'triangle',0.04);if(index===2){clearInterval(rollSound);setTimeout(()=>{finish(results);},450);}},2300+(index*800));});}
+function finish(results){spinning=false;document.getElementById('spinBtn').disabled=false;const casino=document.getElementById('casino');const same3=results[0]===results[1]&&results[1]===results[2];const same2=results[0]===results[1]||results[1]===results[2]||results[0]===results[2];if(same3){balance+=2;updateBalance();showMessage(winTexts[Math.floor(Math.random()*winTexts.length)]);casino.classList.add('jackpotFlash');for(let i=0;i<35;i++){setTimeout(()=>{spawnHeart();},i*70);}tone(700,300,'sine',0.06);tone(900,300,'triangle',0.05);tone(1200,350,'sine',0.05);document.getElementById('giftText').textContent=gifts[Math.floor(Math.random()*gifts.length)];setTimeout(()=>{document.getElementById('giftPopup').style.display='flex';},900);setTimeout(()=>{casino.classList.remove('jackpotFlash');},5000);}else if(same2){balance+=0.25;updateBalance();showMessage(almostTexts[Math.floor(Math.random()*almostTexts.length)]);tone(550,220,'triangle',0.04);for(let i=0;i<10;i++){setTimeout(()=>{spawnHeart();},i*120);}}else{showMessage(loseTexts[Math.floor(Math.random()*loseTexts.length)]);tone(180,300,'sawtooth',0.025);}}
+function addMoney(){const input=document.getElementById('complimentInput');if(input.value.trim().length<3){alert('Напиши комплимент ❤️');return;}balance+=1;updateBalance();input.value='';document.getElementById('moneyPopup').style.display='none';showMessage('Любимый растаял ❤️ +1$');tone(650,250,'triangle',0.04);}
+function closeGift(){document.getElementById('giftPopup').style.display='none';}
+document.getElementById('spinBtn').onclick=spin;
+<\/script>
+</body>
+</html>`;
+      });
 
-      const lovePhrases = [
-        "Леночка моя, ты самая красивая женщина на свете, и я благодарен судьбе за каждую минуту с тобой",
-        "Моя нежная кися, твоя любовь делает меня сильнее и счастливее каждый день",
-        "Роднуля моя, когда ты рядом, мир становится ярче, а проблемы исчезают сами собой",
-        "Мышка моя сладкая, твоя улыбка — это самое прекрасное, что я видел в своей жизни",
-        "Звёздочка моя сияющая, ты освещаешь мой путь даже в самые тёмные времена",
-        "Любимая моя жена, с тобой я понял, что такое настоящее счастье и безусловная любовь",
-        "Жена хрюня, ты самая милая и родная, твоя забота согревает меня изнутри",
-        "Лучшая мама для нашего Ростика, как ты заботишься о нём, я влюбляюсь в тебя снова и снова",
-        "Моя нежная Леночка, твои объятия — это самое безопасное место во всей вселенной",
-        "Кися моя родная, каждый день с тобой — это подарок, который я ценю больше всего",
-        "Моя сладкая мышка, твоя любовь — это самое ценное сокровище в моей жизни",
-        "Роднуля, ты делаешь меня лучшей версией себя просто тем, что ты есть рядом",
-        "Звёздочка моя, твой смех звучит как самая прекрасная мелодия, которую я когда-либо слышал",
-        "Леночка, ты самая удивительная женщина, и я горжусь тем, что ты моя жена",
-        "Моя любимая кися, спасибо тебе за то, что ты всегда веришь в меня и поддерживаешь",
-        "Мышка моя, твоя нежность и доброта делают этот мир лучше, а меня — счастливее",
-        "Роднуля моя, когда ты улыбаешься, я забываю обо всех трудностях и просто наслаждаюсь моментом",
-        "Звёздочка, твои глаза сияют ярче всех звёзд на небе, и я могу смотреть в них вечно",
-        "Любимая жена, ты — моя самая большая удача и самый ценный подарок судьбы",
-        "Кися моя нежная, с тобой я научился любить по-настоящему, глубоко и безусловно",
-        "Мышка, твоя забота о нашей семье вдохновляет меня становиться лучше каждый день",
-        "Роднуля, ты самая терпеливая и понимающая, спасибо тебе за то, что ты у меня есть",
-        "Звёздочка моя, ты приносишь свет и тепло в мою жизнь, и я бесконечно благодарен за это",
-        "Леночка, ты самая красивая мама, и Ростик очень счастлив, что ты у него есть",
-        "Моя кися, твои поцелуи — это то, что я хочу чувствовать каждый день до конца жизни",
-        "Любимая жена, ты делаешь наш дом уютным и тёплым, и я спешу туда каждый вечер",
-        "Кися, твоя интуиция и мудрость поражают меня, ты самая умная женщина из всех, кого я знаю",
-        "Мышка, твои кулинарные шедевры — это ещё одна причина, почему я тебя обожаю",
-        "Роднуля моя, ты самая стильная и элегантная, и я горжусь тем, что ты моя половинка",
-        "Звёздочка, твоя доброта и отзывчивость делают тебя особенной, и я ценю это больше всего",
-        "Леночка, ты самая лучшая слушательница, и я могу говорить с тобой часами напролёт",
-        "Моя кися, твоя поддержка в трудные моменты бесценна, спасибо, что ты всегда рядом",
-        "Мышка, ты самая весёлая и жизнерадостная, и с тобой никогда не бывает скучно",
-        "Роднуля, ты умеешь удивлять и радовать меня, и я каждый день влюбляюсь в тебя заново",
-        "Звёздочка моя, ты самая творческая и креативная, и я восхищаюсь твоими талантами",
-        "Любимая жена, ты — моя самая большая мотивация и вдохновение во всех начинаниях",
-        "Кися, твоя красота не только внешняя, но и внутренняя, и это делает тебя совершенной",
-        "Мышка моя, ты самая заботливая мама, и Ростик растёт счастливым благодаря тебе",
-        "Роднуля, ты самая нежная и ласковая, и твои прикосновения — это магия для меня",
-        "Звёздочка, ты самая верная и преданная, и я знаю, что могу положиться на тебя во всём",
-        "Леночка, ты самая мудрая и рассудительная, и твои советы всегда помогают мне",
-        "Моя кися, ты самая чувственная и страстная, и я хочу тебя каждую секунду",
-        "Роднуля, ты самая утончённая и изысканная, и я восхищаюсь твоим вкусом во всём",
-        "Звёздочка моя, ты самая понимающая и принимающая, и с тобой я могу быть собой",
-        "Любимая жена, ты самая сильная духом, и я горжусь тем, как ты преодолеваешь трудности",
-        "Кися, ты самая жизнерадостная и оптимистичная, и ты заряжаешь меня позитивом",
-        "Мышка, ты самая щедрая и дарящая, и твоя доброта возвращается к тебе сторицей",
-        "Роднуля, ты самая памятливая и внимательная, и ты помнишь даже мельчайшие детали",
-        "Звёздочка, ты самая волшебная и магическая, и с тобой моя жизнь стала сказкой",
-        "Леночка, ты самая величественная и царственная, и я готов носить тебя на руках вечно",
-        "Моя кися, ты самая божественная и неземная, и я благодарю небеса за тебя каждый день",
-        "Мышка, ты самая совершенная и идеальная, и я не представляю своей жизни без тебя",
-        "Роднуля, ты самая неповторимая и уникальная, и я люблю каждую твою особенность",
-        "Звёздочка моя, ты самая любимая и желанная, и моё сердце принадлежит только тебе",
-        "Любимая жена, ты самая лучшая во всём, и я самый счастливый мужчина на свете",
-        "Кися, я люблю тебя больше жизни, и эта любовь будет длиться вечно, моя родная"
-      ];
+      // Закрытие iframe
+      document.getElementById('closeIframeBtn').addEventListener('click', function() {
+        const iframe = document.getElementById('fullscreenIframe');
+        const closeBtn = document.getElementById('closeIframeBtn');
+        iframe.classList.remove('active');
+        closeBtn.classList.remove('active');
+        iframe.srcdoc = '';
+      });
 
+      // Счётчик
       const counterEl = document.getElementById('counterDisplay');
+      function updateCounter() {
+        const now = new Date(), diff = Math.max(0, now - startDate);
+        const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
+        counterEl.textContent = `${d} д. ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      }
+      setInterval(updateCounter, 1000); updateCounter();
+
+      // Кнопка "Расстались"
       const darknessOverlay = document.getElementById('darknessOverlay');
-      const closeDarknessBtn = document.getElementById('closeDarknessBtn');
       const breakupBtn = document.getElementById('breakupButton');
-      const complimentCurtain = document.getElementById('complimentCurtain');
-      const complimentMessageDisplay = document.getElementById('complimentMessageDisplay');
-      const closeCurtainBtn = document.getElementById('closeCurtainBtn');
-      const loveMessageOverlay = document.getElementById('loveMessageOverlay');
-      const loveMessageText = document.getElementById('loveMessageText');
-      const closeLoveBtn = document.getElementById('closeLoveBtn');
-      const photoModal = document.getElementById('photoModal');
-      const modalImage = document.getElementById('modalImage');
-      const closePhotoModalBtn = document.getElementById('closePhotoModalBtn');
+      let breakupUsed = false;
+      breakupBtn.addEventListener('click', () => { if (!breakupUsed) { darknessOverlay.classList.add('active'); breakupUsed = true; } });
+      document.getElementById('closeDarknessBtn').addEventListener('click', () => { darknessOverlay.classList.remove('active'); breakupBtn.classList.add('hidden'); breakupBtn.style.display = 'none'; });
+
+      // Сердечки на canvas
       const canvas = document.getElementById('heartsCanvas');
       const ctx = canvas.getContext('2d');
-
-      let width, height;
-      let hearts = [];
-      const MAX_HEARTS = 15;
-      let breakupUsed = false;
-      let currentPhotoElement = null;
-      let moodBtnElement = null;
-
-      let audioCtx = null;
-      
-      function initAudio() {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+      let width, height, hearts = [];
+      function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+      window.addEventListener('resize', resizeCanvas); resizeCanvas();
+      function createHeart() {
+        const s = Math.min(width, height) * 0.035;
+        return { x: Math.random() * width, y: height + 30, size: s + Math.random() * s * 1.2, speedY: -0.3 - Math.random(), speedX: (Math.random() - 0.5) * 0.6, opacity: 0.75 + Math.random() * 0.25, color: `rgba(255, ${140+Math.random()*80}, ${180+Math.random()*40}, 0.9)`, id: Math.random() };
       }
-
-      function playHeartSound() {
-        if (!audioCtx) return;
-        try {
-          const oscillator = audioCtx.createOscillator();
-          const gainNode = audioCtx.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.3);
-          
-          gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-          
-          oscillator.start(audioCtx.currentTime);
-          oscillator.stop(audioCtx.currentTime + 0.3);
-        } catch(e) {}
-      }
-
-      function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-      }
-      window.addEventListener('resize', resizeCanvas);
-      window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 150));
-      resizeCanvas();
-
-      function updateCounter() {
-        const now = new Date();
-        let diff = now - startDate;
-        if (diff < 0) diff = 0;
-        const days = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        counterEl.textContent = `${days} д. ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-      }
-      setInterval(updateCounter, 1000);
-      updateCounter();
-
-      breakupBtn.addEventListener('click', () => {
-        if (!breakupUsed) {
-          darknessOverlay.classList.add('active');
-          breakupUsed = true;
-        }
-      });
-      closeDarknessBtn.addEventListener('click', () => {
-        darknessOverlay.classList.remove('active');
-        breakupBtn.classList.add('hidden');
-        breakupBtn.style.display = 'none';
-      });
-
-      function showCompliment(word) {
-        complimentMessageDisplay.textContent = word;
-        complimentCurtain.classList.add('active');
-      }
-      closeCurtainBtn.addEventListener('click', () => complimentCurtain.classList.remove('active'));
-
-      function showLoveMessage() {
-        const phrase = lovePhrases[Math.floor(Math.random() * lovePhrases.length)];
-        loveMessageText.textContent = phrase;
-        loveMessageOverlay.classList.add('active');
-        if (moodBtnElement) {
-          moodBtnElement.remove();
-          moodBtnElement = null;
-        }
-      }
-      
-      closeLoveBtn.addEventListener('click', () => {
-        loveMessageOverlay.classList.remove('active');
-      });
-
-      function spawnMoodButton() {
-        if (moodBtnElement) return;
-        
-        const btn = document.createElement('button');
-        btn.className = 'mood-btn';
-        btn.textContent = '💝 Поднять настроение';
-        
-        const btnWidth = 200;
-        const btnHeight = 50;
-        btn.style.left = (20 + Math.random() * (width - btnWidth - 40)) + 'px';
-        btn.style.top = (120 + Math.random() * (height - btnHeight - 180)) + 'px';
-        
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          initAudio();
-          showLoveMessage();
-        });
-        
-        document.body.appendChild(btn);
-        moodBtnElement = btn;
-        
-        setTimeout(() => {
-          if (moodBtnElement === btn && btn.parentNode) {
-            btn.style.transition = 'opacity 0.5s, transform 0.5s';
-            btn.style.opacity = '0';
-            btn.style.transform = 'scale(0.5)';
-            setTimeout(() => {
-              if (btn.parentNode) btn.remove();
-              if (moodBtnElement === btn) moodBtnElement = null;
-            }, 500);
-          }
-        }, 12000);
-      }
-
-      function openPhoto(url, photoElement) {
-        modalImage.src = url;
-        photoModal.classList.add('active');
-        currentPhotoElement = photoElement;
-      }
-      
-      function closePhotoAndRemove() {
-        photoModal.classList.remove('active');
-        if (currentPhotoElement && currentPhotoElement.parentNode) {
-          currentPhotoElement.style.transition = 'opacity 0.4s, transform 0.4s';
-          currentPhotoElement.style.opacity = '0';
-          currentPhotoElement.style.transform = 'scale(0.3)';
-          setTimeout(() => {
-            if (currentPhotoElement.parentNode) currentPhotoElement.remove();
-            currentPhotoElement = null;
-          }, 400);
-        }
-      }
-      
-      closePhotoModalBtn.addEventListener('click', closePhotoAndRemove);
-      photoModal.addEventListener('click', (e) => {
-        if (e.target === photoModal) closePhotoAndRemove();
-      });
-
-      function spawnTemporaryPhoto() {
-        const existingPhotos = document.querySelectorAll('.floating-photo');
-        if (existingPhotos.length >= 2) return;
-        
-        const url = photoUrls[Math.floor(Math.random() * photoUrls.length)];
-        const img = document.createElement('img');
-        img.src = url;
-        img.className = 'floating-photo';
-        
-        const size = 60;
-        const padding = 15;
-        img.style.left = (padding + Math.random() * (width - size - padding * 2)) + 'px';
-        img.style.top = (120 + Math.random() * (height - size - 180)) + 'px';
-        
-        img.addEventListener('click', (e) => {
-          e.stopPropagation();
-          openPhoto(url, img);
-        });
-        
-        document.body.appendChild(img);
-        
-        const lifetime = 20000 + Math.random() * 10000;
-        setTimeout(() => {
-          if (img.parentNode && img !== currentPhotoElement) {
-            img.style.transition = 'opacity 0.5s, transform 0.5s';
-            img.style.opacity = '0';
-            img.style.transform = 'scale(0.5)';
-            setTimeout(() => {
-              if (img.parentNode) img.remove();
-            }, 500);
-          }
-        }, lifetime);
-      }
-      
-      spawnTemporaryPhoto();
-      setInterval(() => {
-        spawnTemporaryPhoto();
-      }, 30000);
-
-      function createHeart(x, y) {
-        const baseSize = Math.min(width, height) * 0.035;
-        const size = baseSize + Math.random() * baseSize * 1.2;
-        return {
-          x: x !== undefined ? x : Math.random() * width,
-          y: y !== undefined ? y : height + size,
-          size: size,
-          speedY: -0.3 - Math.random() * 1.0,
-          speedX: (Math.random() - 0.5) * 0.6,
-          opacity: 0.75 + Math.random() * 0.25,
-          color: `rgba(255, ${140 + Math.random() * 80}, ${170 + Math.random() * 40}, 0.9)`,
-          id: Math.random()
-        };
-      }
-
-      for (let i = 0; i < MAX_HEARTS; i++) {
-        hearts.push(createHeart(Math.random() * width, Math.random() * height));
-      }
-
-      function burstHeart(heart, clientX, clientY) {
+      for (let i = 0; i < 15; i++) hearts.push(createHeart());
+      function burstHeart(heart, cx, cy) {
         hearts = hearts.filter(h => h.id !== heart.id);
-        
-        playHeartSound();
-        
-        const particleCount = 14;
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement('div');
-          particle.className = 'particle';
-          const angle = (Math.PI * 2 * i) / particleCount;
-          const distance = 35 + Math.random() * 55;
-          const dx = Math.cos(angle) * distance;
-          const dy = Math.sin(angle) * distance;
-          const size = 4 + Math.random() * 8;
-          
-          particle.style.cssText = `
-            left: ${clientX}px;
-            top: ${clientY}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: ${heart.color};
-            --dx: ${dx}px;
-            --dy: ${dy}px;
-            box-shadow: 0 0 8px #ff6b8a, 0 0 16px #ff99cc;
-            margin-left: -${size/2}px;
-            margin-top: -${size/2}px;
-          `;
-          document.body.appendChild(particle);
-          setTimeout(() => particle.remove(), 1100);
+        for (let i = 0; i < 14; i++) {
+          const p = document.createElement('div'); p.className = 'particle';
+          const a = (Math.PI * 2 * i) / 14, d = 35 + Math.random() * 55;
+          p.style.cssText = `left: ${cx}px; top: ${cy}px; width: ${4+Math.random()*8}px; height: ${4+Math.random()*8}px; background: ${heart.color}; --dx: ${Math.cos(a)*d}px; --dy: ${Math.sin(a)*d}px;`;
+          document.body.appendChild(p); setTimeout(() => p.remove(), 1100);
         }
-        
-        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
-        const textEl = document.createElement('div');
-        textEl.className = 'burst-text';
-        textEl.textContent = phrase;
-        textEl.style.left = '50%';
-        textEl.style.top = '50%';
-        document.body.appendChild(textEl);
-        setTimeout(() => textEl.remove(), 2600);
-        
-        setTimeout(() => {
-          if (hearts.length < MAX_HEARTS) {
-            hearts.push(createHeart(Math.random() * width, height + 30));
-          }
-        }, 600);
+        const t = document.createElement('div'); t.className = 'burst-text';
+        const phrases = ["Ты самая красивая!", "Твоя улыбка — чудо!", "Ты моя звёздочка!", "Леночка, ты супер!", "Кися моя нежная!", "Роднуля любимая!", "Мышка сладкая!", "Жена хрюня — лучшая!", "Ты лучшая мама!"];
+        t.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+        document.body.appendChild(t); setTimeout(() => t.remove(), 1800);
+        setTimeout(() => hearts.push(createHeart()), 600);
       }
-
-      function findHeartAt(x, y) {
-        const maxDistance = Math.min(width, height) * 0.1;
-        let closest = null;
-        let minDist = maxDistance;
-        
-        for (let heart of hearts) {
-          const dist = Math.hypot(heart.x - x, heart.y - y);
-          if (dist < minDist) {
-            minDist = dist;
-            closest = heart;
-          }
-        }
-        return closest;
-      }
-
-      function handleInteraction(clientX, clientY) {
-        initAudio();
-        
-        const heart = findHeartAt(clientX, clientY);
-        if (heart) {
-          burstHeart(heart, clientX, clientY);
-        }
-      }
-
       canvas.addEventListener('click', (e) => {
-        handleInteraction(e.clientX, e.clientY);
+        let closest = null, minDist = Math.min(width, height) * 0.1;
+        for (let h of hearts) { const d = Math.hypot(h.x - e.clientX, h.y - e.clientY); if (d < minDist) { minDist = d; closest = h; } }
+        if (closest) burstHeart(closest, e.clientX, e.clientY);
       });
-
       canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const touch = e.touches[0];
-        handleInteraction(touch.clientX, touch.clientY);
+        let closest = null, minDist = Math.min(width, height) * 0.12;
+        for (let h of hearts) { const d = Math.hypot(h.x - touch.clientX, h.y - touch.clientY); if (d < minDist) { minDist = d; closest = h; } }
+        if (closest) burstHeart(closest, touch.clientX, touch.clientY);
       }, { passive: false });
-
-      function showHint() {
-        const hint = document.createElement('div');
-        hint.className = 'click-hint';
-        hint.textContent = 'Нажми';
-        const x = 15 + Math.random() * (width - 100);
-        const y = 120 + Math.random() * (height - 200);
-        hint.style.left = x + 'px';
-        hint.style.top = y + 'px';
-        document.body.appendChild(hint);
-        setTimeout(() => hint.remove(), 2600);
-      }
-      
-      setTimeout(spawnMoodButton, 60000);
-      
-      setInterval(() => {
-        showHint();
-        spawnMoodButton();
-      }, 120000);
-      
-      setTimeout(showHint, 10000);
-
       function drawHeart(ctx, h) {
-        ctx.save();
-        ctx.globalAlpha = h.opacity;
-        ctx.translate(h.x, h.y);
-        ctx.fillStyle = h.color;
-        ctx.shadowColor = '#ff4d6d';
-        ctx.shadowBlur = 10;
-        
-        const s = h.size;
-        ctx.beginPath();
-        ctx.moveTo(0, s * 0.25);
-        ctx.bezierCurveTo(-s * 0.5, -s * 0.25, -s * 0.5, s * 0.45, 0, s * 0.85);
-        ctx.bezierCurveTo(s * 0.5, s * 0.45, s * 0.5, -s * 0.25, 0, s * 0.25);
-        ctx.fill();
-        ctx.restore();
+        ctx.save(); ctx.globalAlpha = h.opacity; ctx.translate(h.x, h.y); ctx.fillStyle = h.color; ctx.shadowColor = '#ff4d6d'; ctx.shadowBlur = 10;
+        const s = h.size; ctx.beginPath(); ctx.moveTo(0, s*0.25); ctx.bezierCurveTo(-s*0.5, -s*0.25, -s*0.5, s*0.45, 0, s*0.85); ctx.bezierCurveTo(s*0.5, s*0.45, s*0.5, -s*0.25, 0, s*0.25); ctx.fill(); ctx.restore();
       }
-
       function animate() {
         ctx.clearRect(0, 0, width, height);
-        
-        for (let h of hearts) {
-          h.y += h.speedY;
-          h.x += h.speedX;
-          
-          if (h.y < -40) {
-            h.y = height + 40;
-            h.x = Math.random() * width;
-          }
-          if (h.x < -20) h.x = width + 20;
-          if (h.x > width + 20) h.x = -20;
-          
-          drawHeart(ctx, h);
-        }
-        
-        while (hearts.length < MAX_HEARTS) {
-          hearts.push(createHeart(Math.random() * width, height + 30));
-        }
-        
+        for (let h of hearts) { h.y += h.speedY; h.x += h.speedX; if (h.y < -40) { h.y = height + 40; h.x = Math.random() * width; } if (h.x < -20) h.x = width + 20; if (h.x > width + 20) h.x = -20; drawHeart(ctx, h); }
+        while (hearts.length < 15) hearts.push(createHeart());
         requestAnimationFrame(animate);
       }
       animate();
