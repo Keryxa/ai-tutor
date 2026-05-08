@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0">
   <title>Креативный редактор · Портфолио карточек</title>
-  <!-- Font Awesome 6 для иконок -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -23,9 +22,9 @@
       flex-direction: column;
       align-items: center;
       overflow-x: hidden;
+      position: relative;
     }
 
-    /* Основной контейнер на всю ширину */
     .site-wrapper {
       width: 100%;
       max-width: 100%;
@@ -34,7 +33,7 @@
       align-items: center;
     }
 
-    /* ----- АНИМИРОВАННЫЕ КНОПКИ С ГРАДИЕНТОМ (ВЕРХ) ----- */
+    /* ----- ВЕРХНИЕ КНОПКИ (как прежде) ----- */
     .nav-bar {
       width: 100%;
       padding: 1.8rem 2rem 1rem;
@@ -93,546 +92,471 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* ----- ОБЩИЕ СЕКЦИИ ----- */
-    section {
+    /* ----- АНИМИРОВАННЫЕ БЛОКИ ИНФОРМАЦИИ НА ГЛАВНОЙ ----- */
+    .info-section {
       width: 100%;
-      padding: 3rem 2rem;
+      padding: 4rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1400px;
-    }
-
-    h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 2.5rem;
-      background: linear-gradient(to right, #ffb3d9, #c79bff, #9bb3ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-      letter-spacing: -0.02em;
-    }
-
-    /* ----- ИНФО ОБО МНЕ (КРАТКО) ----- */
-    .about-me {
-      background: rgba(255, 255, 255, 0.03);
-      margin: 1rem 0 2rem;
-      border-radius: 80px;
-      padding: 2.5rem 3rem;
-      backdrop-filter: blur(5px);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
       justify-content: center;
-      gap: 3rem;
-      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 70vh;
     }
 
-    .stat-highlight {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-      justify-content: center;
-    }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-weight: 600;
-    }
-
-    .stat-number {
-      font-size: 3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #f9a8d4, #b084f5);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .stat-label {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #ccccdd;
-    }
-
-    /* ----- ПОРТФОЛИО: КАРТОЧКИ ДО И ПОСЛЕ ----- */
-    .portfolio-grid {
+    .animated-blocks {
       display: flex;
       flex-wrap: wrap;
       gap: 2.5rem;
       justify-content: center;
+      align-items: center;
+      max-width: 1300px;
+      width: 100%;
     }
 
-    .card-pair {
-      background: rgba(20, 20, 35, 0.7);
+    .info-block {
+      background: rgba(30, 30, 45, 0.7);
       backdrop-filter: blur(12px);
+      border-radius: 3rem;
+      padding: 2.2rem 2.5rem;
+      text-align: center;
+      min-width: 220px;
+      flex: 1 1 220px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.6);
+      animation: floatBlock 4s ease-in-out infinite;
+      transition: transform 0.3s;
+    }
+
+    .info-block:nth-child(2) { animation-delay: 0.4s; }
+    .info-block:nth-child(3) { animation-delay: 0.8s; }
+    .info-block:nth-child(4) { animation-delay: 1.2s; }
+
+    @keyframes floatBlock {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .info-block:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: #c44dff;
+    }
+
+    .info-number {
+      font-size: 3.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f9a8d4, #b084f5, #6b9bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .info-label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #d1d1f0;
+      margin-top: 0.6rem;
+    }
+
+    .info-desc {
+      font-size: 0.9rem;
+      color: #b0b0cc;
+      margin-top: 0.4rem;
+    }
+
+    /* ----- МОДАЛЬНЫЕ ОКНА (общие стили) ----- */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: rgba(20, 20, 35, 0.95);
       border-radius: 2.5rem;
-      padding: 1.8rem;
+      padding: 2.2rem;
+      max-width: 800px;
+      width: 95%;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 30px 45px #00000080;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.8rem;
+      background: none;
+      border: none;
+      color: #ffffffcc;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #ff8ab3;
+      transform: scale(1.1);
+    }
+
+    /* ПОРТФОЛИО в модалке: только картинки и текст ДО/ПОСЛЕ */
+    .portfolio-modal-grid {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      gap: 2rem;
       justify-content: center;
-      gap: 1.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6);
-      transition: transform 0.25s ease;
+      margin-top: 1rem;
     }
 
-    .card-pair:hover {
-      transform: scale(1.02);
+    .compare-item {
+      text-align: center;
     }
 
-    .marketplace-card {
-      width: 260px;
-      background: #ffffff;
-      border-radius: 1.8rem;
-      padding: 1.2rem;
-      color: #1e1e2f;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-family: 'Inter', sans-serif;
+    .image-only-card {
+      width: 240px;
+      background: #ffffff10;
+      border-radius: 2rem;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
     }
 
-    .card-img {
+    .mock-image {
       width: 100%;
-      height: 160px;
-      background: #e9e9f0;
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #4a4a6a;
+      height: 170px;
+      border-radius: 1.2rem;
       background-size: cover;
       background-position: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .badge {
-      background: #ff5e7e;
-      color: white;
-      font-size: 0.7rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 30px;
+    .label-before, .label-after {
       font-weight: 700;
-    }
-
-    .price {
-      font-weight: 800;
-      font-size: 1.4rem;
-      color: #13101c;
-    }
-
-    .old-price {
-      text-decoration: line-through;
-      color: #9e9eb0;
-      font-size: 0.9rem;
-    }
-
-    .title {
-      font-weight: 700;
+      margin-top: 0.5rem;
       font-size: 1rem;
-    }
-
-    .before-label, .after-label {
-      font-weight: 700;
-      margin-top: 0.3rem;
-      font-size: 0.8rem;
       letter-spacing: 0.05em;
-      color: #b5b5e0;
     }
 
-    .mock-bg-before {
-      background: linear-gradient(135deg, #d9d9e6, #b0b0c0);
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%239999bb"><rect width="100" height="100" fill="%23d4d4e2"/><circle cx="30" cy="40" r="15" fill="%23bcbcd6"/><circle cx="70" cy="60" r="18" fill="%23a0a0cc"/></svg>');
-    }
+    .label-before { color: #b9b9dd; }
+    .label-after { color: #f5b7ff; }
 
-    .mock-bg-after {
-      background: radial-gradient(circle at 20% 30%, #ffe6f0, #fadaff);
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" stop-color="%23ffb7c5"/><stop offset="100%25" stop-color="%23d9b3ff"/></linearGradient></defs><rect width="100" height="100" fill="url(%23g)"/><circle cx="50" cy="45" r="22" fill="%23ffffffaa"/><circle cx="25" cy="70" r="10" fill="%23ffe5b4"/></svg>');
-      background-size: cover;
-      filter: drop-shadow(0 4px 8px rgba(230,120,200,0.4));
-    }
-
-    /* ----- ОТЗЫВЫ ----- */
-    .reviews-container {
+    /* Отзывы в модальном окне */
+    .reviews-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: 1.3rem;
       justify-content: center;
-      margin-bottom: 2.5rem;
+      margin: 1.5rem 0;
     }
 
     .review-card {
-      background: rgba(30, 30, 45, 0.8);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      padding: 1.8rem;
-      max-width: 300px;
-      flex: 1 1 250px;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 20px 30px -10px black;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1.8rem;
+      padding: 1.4rem;
+      flex: 1 1 230px;
+      backdrop-filter: blur(8px);
     }
 
     .stars {
       color: #ffb84d;
-      margin-bottom: 0.8rem;
     }
 
-    .review-text {
-      font-style: italic;
-      margin: 0.8rem 0;
-    }
-
-    .review-author {
+    /* Кнопка "Оставить отзыв" справа внизу */
+    .floating-review-btn {
+      position: fixed;
+      bottom: 2.2rem;
+      right: 2.2rem;
+      background: linear-gradient(135deg, #ff7eb3, #b95cf0);
+      border: none;
+      border-radius: 4rem;
+      padding: 1rem 2rem;
+      color: white;
       font-weight: 700;
-      color: #c9b0ff;
+      font-size: 1.2rem;
+      box-shadow: 0 12px 28px rgba(180,70,255,0.7);
+      cursor: pointer;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: 0.25s;
+      animation: pulseBtn 2s infinite;
     }
 
-    /* Форма комментария с паролем */
-    .comment-box {
-      background: rgba(20, 20, 35, 0.8);
-      border-radius: 2.5rem;
-      padding: 2rem 2.5rem;
-      width: 100%;
-      max-width: 650px;
-      backdrop-filter: blur(15px);
+    .floating-review-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 18px 35px #b45fff;
+    }
+
+    @keyframes pulseBtn {
+      0% { box-shadow: 0 0 0 0 rgba(200, 100, 255, 0.7); }
+      70% { box-shadow: 0 0 0 18px rgba(200, 100, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(200, 100, 255, 0); }
+    }
+
+    /* Форма отзыва (внутри модалки) */
+    .comment-form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      border: 1px solid rgba(255,255,255,0.2);
       margin-top: 1rem;
     }
 
-    .comment-box input, .comment-box textarea {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.2);
+    .comment-form input, .comment-form textarea {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 2rem;
       padding: 0.9rem 1.4rem;
       color: white;
       font-size: 1rem;
       outline: none;
-      transition: 0.2s;
     }
 
-    .comment-box input:focus, .comment-box textarea:focus {
+    .comment-form input:focus, .comment-form textarea:focus {
       border-color: #c44dff;
-      background: rgba(255,255,255,0.12);
     }
 
-    .password-row {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .submit-btn {
-      background: linear-gradient(135deg, #c44dff, #6b7bff);
+    .submit-review-btn {
+      background: #c44dff;
       border: none;
       border-radius: 3rem;
-      padding: 0.9rem 2.2rem;
+      padding: 0.9rem;
       font-weight: 700;
       color: white;
       cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 8px 20px rgba(150,70,255,0.5);
     }
 
-    .submit-btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 12px 28px #b573ff;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .message-status {
-      font-size: 0.9rem;
-      color: #ffb3d9;
-    }
-
-    /* ----- МОДАЛЬНОЕ ОКНО КОНТАКТОВ ----- */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-content {
-      background: rgba(25, 25, 40, 0.95);
-      border-radius: 3rem;
-      padding: 2.8rem;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.25);
-      box-shadow: 0 30px 50px #00000070;
+    .contact-links {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.2rem;
+      margin-top: 1rem;
     }
 
     .contact-link {
-      background: rgba(255,255,255,0.08);
-      padding: 1rem 1.8rem;
-      border-radius: 4rem;
+      background: #ffffff10;
+      padding: 1rem;
+      border-radius: 3rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      font-size: 1.3rem;
-      font-weight: 600;
+      gap: 0.8rem;
       color: white;
       text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .contact-link i {
-      font-size: 2rem;
-      color: #c084fc;
-    }
-
-    .contact-link:hover {
-      background: rgba(255,255,255,0.18);
-    }
-
-    .close-modal {
-      margin-top: 0.5rem;
-      background: transparent;
-      border: 1px solid #ffffff55;
-      color: white;
-      padding: 0.5rem 2rem;
-      border-radius: 3rem;
-      cursor: pointer;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 <div class="site-wrapper">
-  <!-- Верхние кнопки -->
+  <!-- Верхние кнопки (теперь открывают модальные окна) -->
   <div class="nav-bar">
-    <button class="gradient-btn" onclick="scrollToSection('portfolio')"><i class="fas fa-images"></i> Портфолио</button>
-    <button class="gradient-btn" onclick="scrollToSection('reviews')"><i class="fas fa-star"></i> Отзывы</button>
-    <button class="gradient-btn" onclick="openContactModal()"><i class="fas fa-address-book"></i> Контакты</button>
+    <button class="gradient-btn" onclick="openPortfolioModal()"><i class="fas fa-images"></i> Портфолио</button>
+    <button class="gradient-btn" onclick="openReviewsModal()"><i class="fas fa-star"></i> Отзывы</button>
+    <button class="gradient-btn" onclick="openContactsModal()"><i class="fas fa-address-book"></i> Контакты</button>
   </div>
 
-  <!-- Краткая информация -->
-  <section style="padding-top: 2rem;">
-    <div class="about-me container">
-      <div class="stat-highlight">
-        <div class="stat-item"><span class="stat-number">5+</span><span class="stat-label">лет опыта</span></div>
-        <div class="stat-item"><span class="stat-number">1000+</span><span class="stat-label">успешных заказов</span></div>
-        <div class="stat-item"><span class="stat-number">98%</span><span class="stat-label">довольных клиентов</span></div>
-        <div class="stat-item"><span class="stat-number">ТОП</span><span class="stat-label">креативный редактор</span></div>
+  <!-- ГЛАВНАЯ: только анимированные информационные блоки -->
+  <section class="info-section">
+    <div class="animated-blocks">
+      <div class="info-block">
+        <span class="info-number">5+</span>
+        <span class="info-label">Лет опыта</span>
+        <div class="info-desc">в креативном дизайне</div>
+      </div>
+      <div class="info-block">
+        <span class="info-number">1000+</span>
+        <span class="info-label">Заказов</span>
+        <div class="info-desc">успешно выполнено</div>
+      </div>
+      <div class="info-block">
+        <span class="info-number">98%</span>
+        <span class="info-label">Довольных</span>
+        <div class="info-desc">клиентов возвращаются</div>
+      </div>
+      <div class="info-block">
+        <span class="info-number">ТОП</span>
+        <span class="info-label">Редактор</span>
+        <div class="info-desc">маркетплейсов</div>
       </div>
     </div>
   </section>
+</div>
 
-  <!-- ПОРТФОЛИО -->
-  <section id="portfolio">
-    <h2>✨ До / После обработки</h2>
-    <div class="container portfolio-grid">
-      <!-- Карточка 1 -->
-      <div class="card-pair">
-        <div>
-          <div class="before-label">📸 ДО</div>
-          <div class="marketplace-card">
-            <div class="card-img mock-bg-before"></div>
-            <span class="badge">-15%</span>
-            <div class="title">Крем для лица</div>
-            <div><span class="old-price">2 490 ₽</span> <span class="price">2 116 ₽</span></div>
-          </div>
-        </div>
-        <div>
-          <div class="after-label">✨ ПОСЛЕ</div>
-          <div class="marketplace-card">
-            <div class="card-img mock-bg-after"></div>
-            <span class="badge" style="background:#b347ea;">Хит продаж</span>
-            <div class="title">Сияние кожи</div>
-            <div><span class="old-price">2 490 ₽</span> <span class="price">1 999 ₽</span></div>
-          </div>
-        </div>
-      </div>
-      <!-- Карточка 2 -->
-      <div class="card-pair">
-        <div>
-          <div class="before-label">📸 ДО</div>
-          <div class="marketplace-card">
-            <div class="card-img mock-bg-before" style="background:#c8c8dd;"></div>
-            <span class="badge">Скидка</span>
-            <div class="title">Наушники</div>
-            <div><span class="old-price">5 990 ₽</span> <span class="price">4 790 ₽</span></div>
-          </div>
-        </div>
-        <div>
-          <div class="after-label">✨ ПОСЛЕ</div>
-          <div class="marketplace-card">
-            <div class="card-img mock-bg-after" style="background:radial-gradient(circle at 70% 20%, #ffe5f0, #cdaeff);"></div>
-            <span class="badge" style="background:#6b5ce7;">Тренд</span>
-            <div class="title">Premium Sound</div>
-            <div><span class="old-price">5 990 ₽</span> <span class="price">4 490 ₽</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- КНОПКА ОТЗЫВ СПРАВА ВНИЗУ (закреплена) -->
+<button class="floating-review-btn" id="floatingReviewBtn"><i class="fas fa-pen"></i> Отзыв</button>
 
-  <!-- ОТЗЫВЫ -->
-  <section id="reviews">
-    <h2>💬 Отзывы клиентов</h2>
-    <div class="container reviews-container" id="reviewsList">
-      <!-- Отзывы будут заполнены через JS, но несколько жестко заданы -->
-    </div>
-
-    <!-- Форма с паролем -->
-    <div class="comment-box">
-      <div style="font-weight:600; font-size:1.2rem;">Оставить отзыв</div>
-      <div class="password-row">
-        <input type="password" id="passInput" placeholder="Пароль (135710)" value="">
-        <input type="text" id="authorInput" placeholder="Ваше имя" style="flex:1;">
+<!-- МОДАЛЬНОЕ ОКНО: ПОРТФОЛИО (только изображения и ДО/ПОСЛЕ) -->
+<div id="portfolioModal" class="modal">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeModal('portfolioModal')">&times;</button>
+    <h2 style="text-align:center; margin-bottom:1.5rem;">✨ До / После обработки</h2>
+    <div class="portfolio-modal-grid">
+      <div class="compare-item">
+        <div class="image-only-card"><div class="mock-image" style="background: linear-gradient(135deg, #b0b0c0, #8787a2);"></div></div>
+        <div class="label-before">📸 ДО</div>
       </div>
-      <textarea id="reviewTextInput" rows="3" placeholder="Текст отзыва..."></textarea>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span class="message-status" id="statusMsg"></span>
-        <button class="submit-btn" onclick="submitReview()"><i class="fas fa-paper-plane"></i> Отправить</button>
+      <div class="compare-item">
+        <div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 20% 30%, #ffd0e0, #c9a5ff);"></div></div>
+        <div class="label-after">✨ ПОСЛЕ</div>
       </div>
-      <div style="font-size:0.8rem; color:#aaa;">Пароль для публикации: 135710</div>
-    </div>
-  </section>
-
-  <!-- Модальное окно контактов -->
-  <div id="contactModal" class="modal">
-    <div class="modal-content">
-      <h2 style="color:white; margin-bottom:0.2rem;">Связь со мной</h2>
-      <a href="https://t.me/casper_lider" target="_blank" class="contact-link">
-        <i class="fab fa-telegram-plane"></i> @casper_lider
-      </a>
-      <a href="mailto:arestov03900@gmail.com" class="contact-link">
-        <i class="fas fa-envelope"></i> arestov03900@gmail.com
-      </a>
-      <button class="close-modal" onclick="closeContactModal()">Закрыть</button>
+      <div class="compare-item">
+        <div class="image-only-card"><div class="mock-image" style="background: linear-gradient(145deg, #b8b8d0, #7c7c9c);"></div></div>
+        <div class="label-before">📸 ДО</div>
+      </div>
+      <div class="compare-item">
+        <div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 80% 30%, #ffe5f0, #b594f0);"></div></div>
+        <div class="label-after">✨ ПОСЛЕ</div>
+      </div>
     </div>
   </div>
 </div>
 
-<script>
-  // Массив фейковых отзывов (изначальные)
-  const initialReviews = [
-    { author: "Анна К.", text: "Лучший редактор! Карточки стали продаваться в 3 раза лучше. Очень креативно!", stars: 5 },
-    { author: "Максим Б.", text: "Заказал обработку 50 карточек – всё сдано раньше срока. Профи!", stars: 5 },
-    { author: "Елена В.", text: "До и после – небо и земля. Рекомендую всем селлерам.", stars: 5 },
-    { author: "Артём С.", text: "Крутой подход, грамотный дизайн, улучшил конверсию.", stars: 5 },
-    { author: "Ольга М.", text: "Сотрудничаем больше года. Всегда на связи, правки моментальные.", stars: 5 },
-    { author: "Дмитрий П.", text: "Очень доволен! Карточки выглядят дорого и стильно.", stars: 5 }
-  ];
+<!-- МОДАЛЬНОЕ ОКНО: ОТЗЫВЫ (просмотр) -->
+<div id="reviewsModal" class="modal">
+  <div class="modal-dialog">
+    <button class="modal-close" onclick="closeModal('reviewsModal')">&times;</button>
+    <h2 style="text-align:center;">💬 Отзывы клиентов</h2>
+    <div class="reviews-grid" id="reviewsList"></div>
+  </div>
+</div>
 
-  const reviewsContainer = document.getElementById('reviewsList');
-  const password = "135710";
+<!-- МОДАЛЬНОЕ ОКНО: КОНТАКТЫ -->
+<div id="contactsModal" class="modal">
+  <div class="modal-dialog" style="max-width:450px;">
+    <button class="modal-close" onclick="closeModal('contactsModal')">&times;</button>
+    <h2 style="text-align:center;">Связь со мной</h2>
+    <div class="contact-links">
+      <a href="https://t.me/casper_lider" target="_blank" class="contact-link"><i class="fab fa-telegram-plane"></i> @casper_lider</a>
+      <a href="mailto:arestov03900@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> arestov03900@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО: ОСТАВИТЬ ОТЗЫВ (после пароля) -->
+<div id="leaveReviewModal" class="modal">
+  <div class="modal-dialog" style="max-width:500px;">
+    <button class="modal-close" onclick="closeModal('leaveReviewModal')">&times;</button>
+    <h2 style="text-align:center;">✍️ Новый отзыв</h2>
+    <div class="comment-form">
+      <input type="text" id="authorInput" placeholder="Ваше имя">
+      <textarea id="reviewTextInput" rows="3" placeholder="Поделитесь впечатлением..."></textarea>
+      <button class="submit-review-btn" onclick="submitReviewFromModal()">Отправить</button>
+      <span id="reviewStatus" style="font-size:0.9rem; color:#f5b7ff;"></span>
+    </div>
+  </div>
+</div>
+
+<!-- СКРЫТОЕ МОДАЛЬНОЕ ОКНО ДЛЯ ВВОДА ПАРОЛЯ -->
+<div id="passwordModal" class="modal">
+  <div class="modal-dialog" style="max-width:380px; text-align:center;">
+    <button class="modal-close" onclick="closeModal('passwordModal')">&times;</button>
+    <h3>🔐 Введите пароль</h3>
+    <input type="password" id="passwordInput" placeholder="Пароль" style="width:100%; margin:1.5rem 0; padding:0.9rem; border-radius:2rem; background:#ffffff10; border:1px solid #ffffff33; color:white;">
+    <button class="submit-review-btn" onclick="checkPassword()">Подтвердить</button>
+    <p id="passError" style="color:#ff9b9b; margin-top:0.8rem;"></p>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = "135710";
+
+  // Массив отзывов
+  const reviewsData = [
+    { author: "Анна К.", text: "Лучший редактор! Карточки стали продаваться в 3 раза лучше.", stars: 5 },
+    { author: "Максим Б.", text: "Заказал 50 карточек – сдано раньше срока. Профи!", stars: 5 },
+    { author: "Елена В.", text: "До и после – небо и земля. Рекомендую.", stars: 5 },
+    { author: "Артём С.", text: "Грамотный дизайн, улучшил конверсию.", stars: 5 },
+    { author: "Ольга М.", text: "Сотрудничаем больше года. Правки моментальные.", stars: 5 },
+    { author: "Дмитрий П.", text: "Карточки выглядят дорого. Очень доволен!", stars: 5 }
+  ];
 
   function renderStars(count) {
     return '★'.repeat(count) + '☆'.repeat(5-count);
   }
 
-  function displayReviews(reviewsArray) {
-    if (!reviewsContainer) return;
-    reviewsContainer.innerHTML = '';
-    reviewsArray.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'review-card';
-      card.innerHTML = `
+  function displayReviews() {
+    const container = document.getElementById('reviewsList');
+    if (!container) return;
+    container.innerHTML = reviewsData.map(r => `
+      <div class="review-card">
         <div class="stars">${renderStars(r.stars)}</div>
-        <div class="review-text">“${r.text}”</div>
-        <div class="review-author">— ${r.author}</div>
-      `;
-      reviewsContainer.appendChild(card);
-    });
+        <div style="font-style:italic; margin:0.5rem 0;">“${r.text}”</div>
+        <div style="font-weight:700; color:#c9b0ff;">— ${r.author}</div>
+      </div>
+    `).join('');
+  }
+  displayReviews();
+
+  // Универсальные функции модалок
+  function openModal(id) {
+    document.getElementById(id).classList.add('active');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
   }
 
-  // Инициализация отзывов
-  displayReviews(initialReviews);
+  function openPortfolioModal() { openModal('portfolioModal'); }
+  function openReviewsModal() { openModal('reviewsModal'); }
+  function openContactsModal() { openModal('contactsModal'); }
 
-  // Функция отправки комментария
-  function submitReview() {
-    const pass = document.getElementById('passInput').value.trim();
+  // Логика кнопки "Отзыв" (плавающая)
+  document.getElementById('floatingReviewBtn').addEventListener('click', function() {
+    openModal('passwordModal');
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passError').textContent = '';
+  });
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value.trim();
+    if (input === PASSWORD) {
+      closeModal('passwordModal');
+      openModal('leaveReviewModal');
+      document.getElementById('authorInput').value = '';
+      document.getElementById('reviewTextInput').value = '';
+      document.getElementById('reviewStatus').textContent = '';
+    } else {
+      document.getElementById('passError').textContent = '❌ Неверный пароль';
+    }
+  }
+
+  function submitReviewFromModal() {
     const author = document.getElementById('authorInput').value.trim();
     const text = document.getElementById('reviewTextInput').value.trim();
-    const status = document.getElementById('statusMsg');
-
-    if (pass !== password) {
-      status.textContent = '❌ Неверный пароль';
-      return;
-    }
+    const status = document.getElementById('reviewStatus');
     if (!author || !text) {
-      status.textContent = '⚠️ Заполните имя и текст';
+      status.textContent = 'Заполните имя и текст';
       return;
     }
-
-    // Добавляем новый отзыв в начало массива и перерисовываем
-    const newReview = { author: author, text: text, stars: 5 };
-    // Обновляем отображение: собираем текущие отзывы из DOM? проще хранить массив.
-    // Пересоздадим массив из initialReviews + пользовательские (сохраним в session?)
-    // Для удобства просто добавим в начало текущего контейнера.
-    const currentReviews = [];
-    // Соберём существующие отзывы из DOM
-    document.querySelectorAll('.review-card').forEach(card => {
-      const authEl = card.querySelector('.review-author')?.textContent?.replace('— ','');
-      const textEl = card.querySelector('.review-text')?.textContent?.replace(/[“”]/g,'');
-      if(authEl && textEl) currentReviews.push({author: authEl, text: textEl, stars:5});
-    });
-    currentReviews.unshift(newReview);
-    displayReviews(currentReviews);
-
-    // Очистка полей
-    document.getElementById('authorInput').value = '';
-    document.getElementById('reviewTextInput').value = '';
-    document.getElementById('passInput').value = '';
-    status.textContent = '✅ Отзыв опубликован!';
-    setTimeout(() => { status.textContent = ''; }, 3000);
+    reviewsData.unshift({ author, text, stars: 5 });
+    displayReviews();
+    status.textContent = '✅ Отзыв добавлен!';
+    setTimeout(() => {
+      closeModal('leaveReviewModal');
+    }, 1000);
   }
 
-  // Скролл к секциям
-  function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Модальное окно контактов
-  function openContactModal() {
-    document.getElementById('contactModal').style.display = 'flex';
-  }
-  function closeContactModal() {
-    document.getElementById('contactModal').style.display = 'none';
-  }
-  // Закрытие по клику вне модального окна
-  window.onclick = function(event) {
-    const modal = document.getElementById('contactModal');
-    if (event.target === modal) {
-      modal.style.display = 'none';
+  // Закрытие по клику вне диалога
+  window.addEventListener('click', function(e) {
+    if (e.target.classList.contains('modal')) {
+      e.target.classList.remove('active');
     }
-  }
-
-  // Дополнительно: если нажата кнопка портфолио/отзывы сверху
-  document.querySelectorAll('.gradient-btn').forEach(btn => {
-    // Уже обработано через onclick в html, но можно оставить
   });
 </script>
 </body>
