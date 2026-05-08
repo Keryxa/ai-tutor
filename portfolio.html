@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0">
-  <title>Креативный редактор · Портфолио карточек</title>
+  
+  <!-- SEO оптимизация -->
+  <title>Креативный редактор карточек маркетплейсов | Дизайн и обработка изображений</title>
+  <meta name="description" content="Профессиональный креативный редактор для карточек маркетплейсов. Более 5 лет опыта, 1000+ успешных заказов. Создаю продающие изображения для Wildberries, Ozon, Яндекс.Маркет.">
+  <meta name="keywords" content="креативный редактор, карточки маркетплейсов, дизайн карточек, обработка изображений, инфографика, продающие карточки, Wildberries, Ozon, Яндекс.Маркет">
+  <meta name="author" content="Креативный редактор">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph для соцсетей -->
+  <meta property="og:title" content="Креативный редактор карточек маркетплейсов">
+  <meta property="og:description" content="Профессиональная обработка изображений для карточек товаров. Более 1000 успешных проектов.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vds-game.ink/portfolio">
+  
+  <!-- Фавиконка (иконка сайта и для Google) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff6b9d'/><stop offset='100%25' stop-color='%236b7bff'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-family='Arial' font-weight='bold' font-size='50' fill='white' text-anchor='middle'>К</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ff6b9d'/><stop offset='100%25' stop-color='%236b7bff'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-family='Arial' font-weight='bold' font-size='50' fill='white' text-anchor='middle'>К</text></svg>">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -95,12 +112,11 @@
     /* ----- АНИМИРОВАННЫЕ БЛОКИ ИНФОРМАЦИИ НА ГЛАВНОЙ ----- */
     .info-section {
       width: 100%;
-      padding: 4rem 2rem;
+      padding: 4rem 2rem 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 70vh;
     }
 
     .animated-blocks {
@@ -111,6 +127,7 @@
       align-items: center;
       max-width: 1300px;
       width: 100%;
+      margin-bottom: 3rem;
     }
 
     .info-block {
@@ -168,6 +185,71 @@
       margin-top: 0.4rem;
     }
 
+    /* ----- ТЕКСТОВЫЕ БЛОКИ НИЖЕ НА ГЛАВНОЙ ----- */
+    .text-blocks-section {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 2rem 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .text-block {
+      background: rgba(25, 25, 40, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      padding: 2rem;
+      flex: 1 1 300px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .text-block:nth-child(2) { animation-delay: 0.2s; }
+    .text-block:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .text-block:hover {
+      border-color: #c44dff;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(150, 50, 255, 0.3);
+    }
+
+    .text-block h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffb3d9, #c79bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-block p {
+      color: #cdcde6;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .text-block .icon-circle {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #ff6b9d, #c44dff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      color: white;
+    }
+
     /* ----- МОДАЛЬНЫЕ ОКНА (общие стили) ----- */
     .modal {
       display: none;
@@ -190,8 +272,8 @@
     .modal-dialog {
       background: rgba(20, 20, 35, 0.95);
       border-radius: 2.5rem;
-      padding: 2.2rem;
-      max-width: 800px;
+      padding: 2.5rem;
+      max-width: 1000px;  /* Увеличена ширина */
       width: 95%;
       max-height: 85vh;
       overflow-y: auto;
@@ -221,9 +303,9 @@
     .portfolio-modal-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 2.5rem;
       justify-content: center;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
     }
 
     .compare-item {
@@ -231,16 +313,16 @@
     }
 
     .image-only-card {
-      width: 240px;
+      width: 280px;
       background: #ffffff10;
       border-radius: 2rem;
-      padding: 1rem;
+      padding: 1.2rem;
       backdrop-filter: blur(4px);
     }
 
     .mock-image {
       width: 100%;
-      height: 170px;
+      height: 200px;
       border-radius: 1.2rem;
       background-size: cover;
       background-position: center;
@@ -249,7 +331,7 @@
     .label-before, .label-after {
       font-weight: 700;
       margin-top: 0.5rem;
-      font-size: 1rem;
+      font-size: 1.1rem;
       letter-spacing: 0.05em;
     }
 
@@ -260,7 +342,7 @@
     .reviews-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.3rem;
+      gap: 1.5rem;
       justify-content: center;
       margin: 1.5rem 0;
     }
@@ -268,8 +350,8 @@
     .review-card {
       background: rgba(255,255,255,0.06);
       border-radius: 1.8rem;
-      padding: 1.4rem;
-      flex: 1 1 230px;
+      padding: 1.6rem;
+      flex: 1 1 260px;
       backdrop-filter: blur(8px);
     }
 
@@ -372,7 +454,7 @@
     <button class="gradient-btn" onclick="openContactsModal()"><i class="fas fa-address-book"></i> Контакты</button>
   </div>
 
-  <!-- ГЛАВНАЯ: только анимированные информационные блоки -->
+  <!-- ГЛАВНАЯ: анимированные информационные блоки + текстовые блоки -->
   <section class="info-section">
     <div class="animated-blocks">
       <div class="info-block">
@@ -391,9 +473,28 @@
         <div class="info-desc">клиентов возвращаются</div>
       </div>
       <div class="info-block">
-        <span class="info-number">ТОП</span>
-        <span class="info-label">Редактор</span>
-        <div class="info-desc">маркетплейсов</div>
+        <span class="info-number">🎨</span>
+        <span class="info-label">Дизайнер</span>
+        <div class="info-desc">креативных карточек</div>
+      </div>
+    </div>
+
+    <!-- НОВЫЕ ТЕКСТОВЫЕ БЛОКИ НИЖЕ -->
+    <div class="text-blocks-section">
+      <div class="text-block">
+        <div class="icon-circle"><i class="fas fa-bolt"></i></div>
+        <h3>Быстрый результат</h3>
+        <p>Обрабатываю карточки за 24 часа. Готовые макеты сразу готовы к загрузке на маркетплейсы. Вы получаете качественный дизайн без задержек.</p>
+      </div>
+      <div class="text-block">
+        <div class="icon-circle"><i class="fas fa-chart-line"></i></div>
+        <h3>Рост конверсии</h3>
+        <p>Мои клиенты отмечают увеличение кликабельности карточек в 2-3 раза. Продающий дизайн работает на ваш бизнес круглосуточно.</p>
+      </div>
+      <div class="text-block">
+        <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+        <h3>Гарантия качества</h3>
+        <p>Бесплатные правки в течение 48 часов после сдачи. Если результат не устроит — верну деньги. Работаю официально.</p>
       </div>
     </div>
   </section>
@@ -404,7 +505,7 @@
 
 <!-- МОДАЛЬНОЕ ОКНО: ПОРТФОЛИО (только изображения и ДО/ПОСЛЕ) -->
 <div id="portfolioModal" class="modal">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="max-width: 1100px;"> <!-- Шире -->
     <button class="modal-close" onclick="closeModal('portfolioModal')">&times;</button>
     <h2 style="text-align:center; margin-bottom:1.5rem;">✨ До / После обработки</h2>
     <div class="portfolio-modal-grid">
@@ -430,7 +531,7 @@
 
 <!-- МОДАЛЬНОЕ ОКНО: ОТЗЫВЫ (просмотр) -->
 <div id="reviewsModal" class="modal">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="max-width: 1000px;"> <!-- Шире -->
     <button class="modal-close" onclick="closeModal('reviewsModal')">&times;</button>
     <h2 style="text-align:center;">💬 Отзывы клиентов</h2>
     <div class="reviews-grid" id="reviewsList"></div>
@@ -439,7 +540,7 @@
 
 <!-- МОДАЛЬНОЕ ОКНО: КОНТАКТЫ -->
 <div id="contactsModal" class="modal">
-  <div class="modal-dialog" style="max-width:450px;">
+  <div class="modal-dialog" style="max-width: 550px;"> <!-- Шире -->
     <button class="modal-close" onclick="closeModal('contactsModal')">&times;</button>
     <h2 style="text-align:center;">Связь со мной</h2>
     <div class="contact-links">
@@ -451,7 +552,7 @@
 
 <!-- МОДАЛЬНОЕ ОКНО: ОСТАВИТЬ ОТЗЫВ (после пароля) -->
 <div id="leaveReviewModal" class="modal">
-  <div class="modal-dialog" style="max-width:500px;">
+  <div class="modal-dialog" style="max-width: 600px;"> <!-- Шире -->
     <button class="modal-close" onclick="closeModal('leaveReviewModal')">&times;</button>
     <h2 style="text-align:center;">✍️ Новый отзыв</h2>
     <div class="comment-form">
@@ -465,7 +566,7 @@
 
 <!-- СКРЫТОЕ МОДАЛЬНОЕ ОКНО ДЛЯ ВВОДА ПАРОЛЯ -->
 <div id="passwordModal" class="modal">
-  <div class="modal-dialog" style="max-width:380px; text-align:center;">
+  <div class="modal-dialog" style="max-width: 420px; text-align:center;"> <!-- Шире -->
     <button class="modal-close" onclick="closeModal('passwordModal')">&times;</button>
     <h3>🔐 Введите пароль</h3>
     <input type="password" id="passwordInput" placeholder="Пароль" style="width:100%; margin:1.5rem 0; padding:0.9rem; border-radius:2rem; background:#ffffff10; border:1px solid #ffffff33; color:white;">
