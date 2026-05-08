@@ -137,6 +137,7 @@
     .particle {
       position: fixed; pointer-events: none; z-index: 145; border-radius: 50%;
       animation: particleBurst 1s ease-out forwards;
+      will-change: transform, opacity;
     }
     @keyframes particleBurst {
       0% { transform: translate(0, 0) scale(1); opacity: 1; }
@@ -251,17 +252,14 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:radial-gradient(circle at top,#ff4d94 0%,#2c0017 55%,#10000a 100%);color:white;}
 body{display:flex;justify-content:center;align-items:center;padding:12px;}
-.bgPulse{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,0.05),transparent 70%);animation:bgPulse 5s infinite;}
-@keyframes bgPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
 .casino{width:min(96vw,460px);background:rgba(0,0,0,0.35);border:3px solid #ff8dbc;border-radius:30px;padding:18px;position:relative;overflow:hidden;backdrop-filter:blur(8px);box-shadow:0 0 40px #ff3d8b,inset 0 0 25px rgba(255,255,255,0.08);}
 .title{text-align:center;font-size:clamp(28px,6vw,42px);font-weight:bold;color:#ffd6e8;margin-bottom:14px;text-shadow:0 0 10px #ff4f99,0 0 25px #ff4f99;animation:titleFloat 3s infinite ease-in-out;}
 @keyframes titleFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-.balance{text-align:center;font-size:25px;margin-bottom:18px;transition:0.3s;}
-.balance.flash{transform:scale(1.15);color:#9dffb5;}
+.balance{text-align:center;font-size:25px;margin-bottom:18px;}
 .machine{display:flex;justify-content:center;gap:10px;}
 .reel{width:32%;height:230px;background:#220010;border-radius:24px;overflow:hidden;border:3px solid #ff84ba;position:relative;box-shadow:inset 0 0 20px rgba(255,255,255,0.08),0 0 15px rgba(255,85,140,0.5);}
 .center{position:absolute;top:77px;width:100%;height:76px;border-top:3px solid rgba(255,255,255,0.4);border-bottom:3px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.06);z-index:5;}
-.strip{position:absolute;width:100%;top:-77px;}
+.strip{position:absolute;width:100%;top:-77px;will-change:top;}
 .symbol{height:77px;display:flex;justify-content:center;align-items:center;font-size:46px;}
 .spinBtn{width:100%;margin-top:18px;border:none;border-radius:22px;padding:18px;cursor:pointer;font-size:24px;font-weight:bold;color:white;background:linear-gradient(45deg,#ff005d,#ff8fc2);box-shadow:0 0 25px #ff4b93;transition:0.2s;}
 .spinBtn:active{transform:scale(0.97);}
@@ -269,21 +267,19 @@ body{display:flex;justify-content:center;align-items:center;padding:12px;}
 .message.show{animation:msg 3s ease;}
 @keyframes msg{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3);}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}70%{opacity:1;}100%{opacity:0;transform:translate(-50%,-180%) scale(1);}}
 .popup{position:fixed;inset:0;background:rgba(0,0,0,0.82);display:none;justify-content:center;align-items:center;padding:18px;z-index:999;}
-.popupContent{width:min(95vw,400px);background:#2b0018;border:3px solid #ff8abc;border-radius:28px;padding:24px;text-align:center;animation:popup 0.35s ease;box-shadow:0 0 30px #ff4f95;}
-@keyframes popup{from{transform:scale(0.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+.popupContent{width:min(95vw,400px);background:#2b0018;border:3px solid #ff8abc;border-radius:28px;padding:24px;text-align:center;box-shadow:0 0 30px #ff4f95;}
 .popup h2{color:#ffbdd8;margin-bottom:12px;}
 .popup input{width:100%;margin-top:15px;padding:15px;border:none;border-radius:16px;font-size:18px;}
 .popup button{width:100%;margin-top:15px;border:none;border-radius:18px;padding:16px;font-size:20px;font-weight:bold;color:white;background:linear-gradient(45deg,#ff005d,#ff8fc2);}
 .gift{margin:18px 0;font-size:30px;}
 .hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;}
-.heart{position:absolute;bottom:-30px;animation:float 4s linear forwards;}
+.heart{position:absolute;bottom:-30px;animation:float 4s linear forwards;will-change:transform;}
 @keyframes float{from{transform:translateY(0) scale(0.4);opacity:1;}to{transform:translateY(-110vh) scale(1.5);opacity:0;}}
 .jackpotFlash{animation:jackpotFlash 0.7s infinite;}
 @keyframes jackpotFlash{0%{box-shadow:0 0 20px #fff,0 0 40px #ff0,0 0 80px #ff0;}50%{box-shadow:0 0 30px #fff,0 0 80px #ff00f2,0 0 130px #00ffe5;}100%{box-shadow:0 0 20px #fff,0 0 40px #ff0,0 0 80px #ff0;}}
 </style>
 </head>
 <body>
-<div class="bgPulse"></div>
 <div class="hearts" id="hearts"></div>
 <div class="casino" id="casino">
 <div class="title">❤️ Леночкино счастье ❤️</div>
@@ -313,22 +309,26 @@ body{display:flex;justify-content:center;align-items:center;padding:12px;}
 </div>
 <script>
 const symbols=['😍','😘','❤️','🥰','💋','💕','💖','🌹','💞','😻'];
-const gifts=['🎁 Массаж спины 5 мин!','🎁 Массаж спины 10 мин!','🎁 Массаж ножек 5 мин!','🎁 Массаж ножек 10 мин!','🎁 Вкусный кофе!','🎁 Просмотр крутого фильма!','🎁 Фильм в обнимку!','🎁 Обнять и поцеловать!','🎁 Завтрак в постель!','🎁 Романтический ужин!','🎁 Прогулка под звёздами!','🎁 Ванна со свечами!'];
+const gifts=['🎁 Массаж спины!','🎁 Массаж ножек!','🎁 Вкусный кофе!','🎁 Крутой фильм!','🎁 Фильм в обнимку!','🎁 Обнять и поцеловать!','🎁 Завтрак в постель!','🎁 Романтический ужин!','🎁 Прогулка под звёздами!','🎁 Ванна со свечами!'];
 const winTexts=['СЕРДЦА СОШЛИСЬ ❤️','ДЖЕКПОТ НЕЖНОСТИ 💖','ЛЮБОВЬ ПОБЕДИЛА 💞','ЭТО СУДЬБА 🥰','МАКСИМАЛЬНАЯ РОМАНТИКА 🌹','СЧАСТЬЕ ПОЙМАНО 💕','ВАМ ОЧЕНЬ ВЕЗЁТ 😍','ЛЮБОВЬ В ВОЗДУХЕ 💋','СЕРДЕЧКИ ЛЕТАЮТ ❤️','НЕЖНОСТЬ ЗАШКАЛИВАЕТ 💖'];
 const almostTexts=['Почти получилось 😘','Два сердечка уже есть ❤️','Улыбнись любимому 💞','Романтика рядом 🥰','Любовь любит терпение 💕','Следующий спин будет удачным 🌹','Судьба подмигивает 😍','Ещё чуть-чуть 💋','Сердечки старались ❤️','Вам уже везёт 💖'];
 const loseTexts=['Попробуй ещё ❤️','Любовь рядом 💕','Романтика не спешит 🌹','Сегодня автоматы флиртуют 😘','Смайлики перемешались 🥰','Почти джекпот 😍','Автомат улыбается 💋','Сердечки танцуют 💞'];
-let balance=3,spinning=false;
+let balance=3,spinning=false,audioCtx=null;
+function getAudioCtx(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)();}if(audioCtx.state==='suspended'){audioCtx.resume();}return audioCtx;}
 const strips=[document.getElementById('strip1'),document.getElementById('strip2'),document.getElementById('strip3')];
-function buildStrip(strip){strip.innerHTML='';for(let i=0;i<50;i++){const div=document.createElement('div');div.className='symbol';div.textContent=symbols[Math.floor(Math.random()*symbols.length)];strip.appendChild(div);}}
-strips.forEach(buildStrip);
-function updateBalance(){const el=document.getElementById('balance');el.innerHTML='Баланс: $'+balance.toFixed(2);el.classList.add('flash');setTimeout(()=>{el.classList.remove('flash');},350);}
+const stripTemplates=[];
+function createStripTemplate(){const frag=document.createDocumentFragment();for(let i=0;i<60;i++){const div=document.createElement('div');div.className='symbol';div.textContent=symbols[Math.floor(Math.random()*symbols.length)];frag.appendChild(div);}return frag;}
+stripTemplates.push(createStripTemplate());stripTemplates.push(createStripTemplate());stripTemplates.push(createStripTemplate());
+function buildStrip(index){const strip=strips[index];strip.innerHTML='';strip.appendChild(stripTemplates[index].cloneNode(true));}
+strips.forEach((s,i)=>buildStrip(i));
+function updateBalance(){document.getElementById('balance').textContent='Баланс: $'+balance.toFixed(2);}
 function showMessage(text){const msg=document.getElementById('message');msg.textContent=text;msg.classList.remove('show');void msg.offsetWidth;msg.classList.add('show');}
-function spawnHeart(){const heart=document.createElement('div');heart.className='heart';heart.textContent=['💖','💕','💞','❤️'][Math.floor(Math.random()*4)];heart.style.left=Math.random()*100+'%';heart.style.fontSize=(18+Math.random()*24)+'px';document.getElementById('hearts').appendChild(heart);setTimeout(()=>{heart.remove();},4000);}
-setInterval(spawnHeart,500);
-function tone(freq,time,type='sine',vol=0.03){const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.type=type;osc.frequency.value=freq;gain.gain.value=vol;osc.connect(gain);gain.connect(ctx.destination);osc.start();setTimeout(()=>{osc.stop();ctx.close();},time);}
-function spin(){if(spinning)return;if(balance<0.25){document.getElementById('moneyPopup').style.display='flex';return;}spinning=true;balance-=0.25;updateBalance();tone(180,200,'square',0.04);const rollSound=setInterval(()=>{tone(100+Math.random()*50,70,'sawtooth',0.012);},80);document.getElementById('spinBtn').disabled=true;const results=[];strips.forEach((strip,index)=>{buildStrip(strip);let pos=-77;const speed=40+Math.random()*10;const loop=setInterval(()=>{pos-=speed;if(pos<-3300){pos=-77;}strip.style.top=pos+'px';},30);setTimeout(()=>{clearInterval(loop);let final;if(index>0&&Math.random()<0.45){const prev=results[0];final=[...strip.children].findIndex(el=>el.textContent===prev);if(final<5){final=8;}}else{final=Math.floor(Math.random()*20)+5;}pos=-(final*77);strip.style.top=pos+'px';results[index]=strip.children[final+1].textContent;tone(500-(index*90),170,'triangle',0.04);if(index===2){clearInterval(rollSound);setTimeout(()=>{finish(results);},450);}},2300+(index*800));});}
-function finish(results){spinning=false;document.getElementById('spinBtn').disabled=false;const casino=document.getElementById('casino');const same3=results[0]===results[1]&&results[1]===results[2];const same2=results[0]===results[1]||results[1]===results[2]||results[0]===results[2];if(same3){balance+=2;updateBalance();showMessage(winTexts[Math.floor(Math.random()*winTexts.length)]);casino.classList.add('jackpotFlash');for(let i=0;i<35;i++){setTimeout(()=>{spawnHeart();},i*70);}tone(700,300,'sine',0.06);tone(900,300,'triangle',0.05);tone(1200,350,'sine',0.05);document.getElementById('giftText').textContent=gifts[Math.floor(Math.random()*gifts.length)];setTimeout(()=>{document.getElementById('giftPopup').style.display='flex';},900);setTimeout(()=>{casino.classList.remove('jackpotFlash');},5000);}else if(same2){balance+=0.25;updateBalance();showMessage(almostTexts[Math.floor(Math.random()*almostTexts.length)]);tone(550,220,'triangle',0.04);for(let i=0;i<10;i++){setTimeout(()=>{spawnHeart();},i*120);}}else{showMessage(loseTexts[Math.floor(Math.random()*loseTexts.length)]);tone(180,300,'sawtooth',0.025);}}
-function addMoney(){const input=document.getElementById('complimentInput');if(input.value.trim().length<3){alert('Напиши комплимент ❤️');return;}balance+=1;updateBalance();input.value='';document.getElementById('moneyPopup').style.display='none';showMessage('Любимый растаял ❤️ +1$');tone(650,250,'triangle',0.04);}
+function spawnHeart(){if(document.getElementById('hearts').children.length>35)return;const heart=document.createElement('div');heart.className='heart';heart.textContent=['💖','💕','💞','❤️'][Math.floor(Math.random()*4)];heart.style.left=Math.random()*100+'%';heart.style.fontSize=(18+Math.random()*24)+'px';document.getElementById('hearts').appendChild(heart);setTimeout(()=>{if(heart.parentNode)heart.remove();},4000);}
+setInterval(spawnHeart,800);
+function tone(freq,time,type,vol){try{const ctx=getAudioCtx();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.type=type||'sine';osc.frequency.setValueAtTime(freq||440,ctx.currentTime);gain.gain.setValueAtTime(vol||0.03,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(time||0.1));osc.connect(gain);gain.connect(ctx.destination);osc.start(ctx.currentTime);osc.stop(ctx.currentTime+(time||0.1)+0.01);}catch(e){}}
+function spin(){if(spinning)return;if(balance<0.25){document.getElementById('moneyPopup').style.display='flex';return;}spinning=true;balance-=0.25;updateBalance();tone(180,0.2,'square',0.04);let rollTicks=0;const maxRollTicks=30;const rollSound=setInterval(()=>{if(rollTicks<maxRollTicks){tone(100+Math.random()*50,0.07,'sawtooth',0.008);rollTicks++;}else{clearInterval(rollSound);}},90);document.getElementById('spinBtn').disabled=true;const results=[];strips.forEach((strip,index)=>{buildStrip(index);let pos=-77;const speed=35+Math.random()*8;const loop=setInterval(()=>{pos-=speed;if(pos<-3300)pos=-77;strip.style.top=pos+'px';},35);setTimeout(()=>{clearInterval(loop);let final;if(index>0&&Math.random()<0.35){const prev=results[0];final=[...strip.children].findIndex(el=>el.textContent===prev);if(final<5)final=8;}else{final=Math.floor(Math.random()*18)+5;}pos=-(final*77);strip.style.top=pos+'px';results[index]=strip.children[final+1].textContent;tone(500-index*90,0.15,'triangle',0.03);if(index===2){clearInterval(rollSound);setTimeout(()=>finish(results),400);}},2100+index*700);});}
+function finish(results){spinning=false;document.getElementById('spinBtn').disabled=false;const casino=document.getElementById('casino');const same3=results[0]===results[1]&&results[1]===results[2];const same2=results[0]===results[1]||results[1]===results[2]||results[0]===results[2];if(same3){balance+=2;updateBalance();showMessage(winTexts[Math.floor(Math.random()*winTexts.length)]);casino.classList.add('jackpotFlash');for(let i=0;i<20;i++){setTimeout(()=>spawnHeart(),i*100);}tone(700,0.3,'sine',0.05);tone(900,0.3,'triangle',0.04);tone(1200,0.35,'sine',0.05);document.getElementById('giftText').textContent=gifts[Math.floor(Math.random()*gifts.length)];setTimeout(()=>{document.getElementById('giftPopup').style.display='flex';},800);setTimeout(()=>casino.classList.remove('jackpotFlash'),4000);}else if(same2){balance+=0.25;updateBalance();showMessage(almostTexts[Math.floor(Math.random()*almostTexts.length)]);tone(550,0.2,'triangle',0.03);for(let i=0;i<6;i++){setTimeout(()=>spawnHeart(),i*150);}}else{showMessage(loseTexts[Math.floor(Math.random()*loseTexts.length)]);tone(180,0.25,'sawtooth',0.02);}}
+function addMoney(){const input=document.getElementById('complimentInput');if(input.value.trim().length<3){alert('Напиши комплимент ❤️');return;}balance+=1;updateBalance();input.value='';document.getElementById('moneyPopup').style.display='none';showMessage('Любимый растаял ❤️ +1$');tone(650,0.25,'triangle',0.03);}
 function closeGift(){document.getElementById('giftPopup').style.display='none';}
 document.getElementById('spinBtn').onclick=spin;
 <\/script>
@@ -361,30 +361,31 @@ document.getElementById('spinBtn').onclick=spin;
       breakupBtn.addEventListener('click', () => { if (!breakupUsed) { darknessOverlay.classList.add('active'); breakupUsed = true; } });
       document.getElementById('closeDarknessBtn').addEventListener('click', () => { darknessOverlay.classList.remove('active'); breakupBtn.classList.add('hidden'); breakupBtn.style.display = 'none'; });
 
-      // Сердечки на canvas
+      // Сердечки на canvas — оптимизировано
       const canvas = document.getElementById('heartsCanvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { alpha: true });
       let width, height, hearts = [];
+      const MAX_HEARTS = 12;
       function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
       window.addEventListener('resize', resizeCanvas); resizeCanvas();
       function createHeart() {
         const s = Math.min(width, height) * 0.035;
-        return { x: Math.random() * width, y: height + 30, size: s + Math.random() * s * 1.2, speedY: -0.3 - Math.random(), speedX: (Math.random() - 0.5) * 0.6, opacity: 0.75 + Math.random() * 0.25, color: `rgba(255, ${140+Math.random()*80}, ${180+Math.random()*40}, 0.9)`, id: Math.random() };
+        return { x: Math.random() * width, y: height + 30, size: s + Math.random() * s, speedY: -0.3 - Math.random() * 0.8, speedX: (Math.random() - 0.5) * 0.5, opacity: 0.7 + Math.random() * 0.3, color: `rgba(255, ${140+Math.random()*80}, ${180+Math.random()*40}, 0.85)`, id: Math.random() };
       }
-      for (let i = 0; i < 15; i++) hearts.push(createHeart());
+      for (let i = 0; i < MAX_HEARTS; i++) hearts.push(createHeart());
       function burstHeart(heart, cx, cy) {
         hearts = hearts.filter(h => h.id !== heart.id);
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 10; i++) {
           const p = document.createElement('div'); p.className = 'particle';
-          const a = (Math.PI * 2 * i) / 14, d = 35 + Math.random() * 55;
-          p.style.cssText = `left: ${cx}px; top: ${cy}px; width: ${4+Math.random()*8}px; height: ${4+Math.random()*8}px; background: ${heart.color}; --dx: ${Math.cos(a)*d}px; --dy: ${Math.sin(a)*d}px;`;
-          document.body.appendChild(p); setTimeout(() => p.remove(), 1100);
+          const a = (Math.PI * 2 * i) / 10, d = 30 + Math.random() * 40;
+          p.style.cssText = `left: ${cx}px; top: ${cy}px; width: ${4+Math.random()*6}px; height: ${4+Math.random()*6}px; background: ${heart.color}; --dx: ${Math.cos(a)*d}px; --dy: ${Math.sin(a)*d}px;`;
+          document.body.appendChild(p); setTimeout(() => p.remove(), 1000);
         }
         const t = document.createElement('div'); t.className = 'burst-text';
-        const phrases = ["Ты самая красивая!", "Твоя улыбка — чудо!", "Ты моя звёздочка!", "Леночка, ты супер!", "Кися моя нежная!", "Роднуля любимая!", "Мышка сладкая!", "Жена хрюня — лучшая!", "Ты лучшая мама!"];
+        const phrases = ["Ты самая красивая!", "Твоя улыбка — чудо!", "Ты моя звёздочка!", "Леночка, ты супер!", "Кися моя нежная!", "Роднуля любимая!", "Мышка сладкая!", "Ты лучшая мама!"];
         t.textContent = phrases[Math.floor(Math.random() * phrases.length)];
         document.body.appendChild(t); setTimeout(() => t.remove(), 1800);
-        setTimeout(() => hearts.push(createHeart()), 600);
+        setTimeout(() => { if (hearts.length < MAX_HEARTS) hearts.push(createHeart()); }, 600);
       }
       canvas.addEventListener('click', (e) => {
         let closest = null, minDist = Math.min(width, height) * 0.1;
@@ -399,13 +400,13 @@ document.getElementById('spinBtn').onclick=spin;
         if (closest) burstHeart(closest, touch.clientX, touch.clientY);
       }, { passive: false });
       function drawHeart(ctx, h) {
-        ctx.save(); ctx.globalAlpha = h.opacity; ctx.translate(h.x, h.y); ctx.fillStyle = h.color; ctx.shadowColor = '#ff4d6d'; ctx.shadowBlur = 10;
+        ctx.save(); ctx.globalAlpha = h.opacity; ctx.translate(h.x, h.y); ctx.fillStyle = h.color; ctx.shadowColor = '#ff4d6d'; ctx.shadowBlur = 8;
         const s = h.size; ctx.beginPath(); ctx.moveTo(0, s*0.25); ctx.bezierCurveTo(-s*0.5, -s*0.25, -s*0.5, s*0.45, 0, s*0.85); ctx.bezierCurveTo(s*0.5, s*0.45, s*0.5, -s*0.25, 0, s*0.25); ctx.fill(); ctx.restore();
       }
       function animate() {
         ctx.clearRect(0, 0, width, height);
         for (let h of hearts) { h.y += h.speedY; h.x += h.speedX; if (h.y < -40) { h.y = height + 40; h.x = Math.random() * width; } if (h.x < -20) h.x = width + 20; if (h.x > width + 20) h.x = -20; drawHeart(ctx, h); }
-        while (hearts.length < 15) hearts.push(createHeart());
+        while (hearts.length < MAX_HEARTS) hearts.push(createHeart());
         requestAnimationFrame(animate);
       }
       animate();
