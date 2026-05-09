@@ -1,295 +1,641 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
-    <title>Кирилл и Лена 💖 Ростик и Дейзи</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
+  <title>Колесо Желаний | Wheel of Desires</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
+    body {
+      font-family: 'Cormorant Garamond', 'Segoe UI', 'Times New Roman', serif;
+      background: radial-gradient(circle at 20% 30%, #2d1045, #0a0218 90%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      margin: 0;
+      touch-action: manipulation;
+      position: relative;
+    }
 
-        body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: radial-gradient(circle at center, #ffeef8 0%, #ffd6e7 70%, #ffc0d5 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            touch-action: manipulation;
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(ellipse at 30% 40%, rgba(255, 215, 0, 0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(200, 130, 255, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .darkness-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(20,0,10,0.97) 0%, rgba(0,0,0,0.99) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 500;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.6s ease, visibility 0s 0.6s;
-            pointer-events: none;
-            gap: 2rem;
-        }
+    #app {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(8, 3, 18, 0.7);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 35px 55px rgba(0,0,0,0.9), 0 0 50px rgba(180, 130, 50, 0.5);
+      border-radius: 56px;
+      padding: 28px 18px 30px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .darkness-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transition: opacity 0.6s ease, visibility 0s 0s;
-        }
+    .title {
+      font-size: clamp(2rem, 7vw, 2.8rem);
+      font-weight: 700;
+      color: #fbe97a;
+      text-shadow: 0 0 20px #b8860b, 0 0 50px #7b2cbf;
+      text-align: center;
+      letter-spacing: 3px;
+      line-height: 1.1;
+    }
 
-        .darkness-text {
-            font-size: clamp(3rem, 12vw, 8rem);
-            font-weight: 900;
-            color: #ff99cc;
-            text-shadow: 0 0 30px #ff0066, 0 0 60px #ff4da6, 0 0 90px #cc0052;
-            animation: scaryPulse 2s infinite alternate;
-            letter-spacing: 0.1em;
-            text-align: center;
-            padding: 0 1rem;
-        }
+    .subtitle {
+      color: #d4af37;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      text-align: center;
+      margin-top: -8px;
+    }
 
-        @keyframes scaryPulse { 0% { text-shadow: 0 0 20px #ff4da6, 0 0 50px #ff0066; transform: scale(1); } 100% { text-shadow: 0 0 50px #ff1a75, 0 0 100px #e6005c; transform: scale(1.04); } }
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin: 10px 0;
+    }
 
-        .close-darkness-btn {
-            background: rgba(0,0,0,0.4); border: 2px solid #ff4da6; color: #ffb3d9;
-            font-size: clamp(1.2rem, 3vw, 1.8rem); padding: 0.7rem 2.5rem; border-radius: 50px;
-            cursor: pointer; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            font-weight: bold; letter-spacing: 0.08em; transition: all 0.3s;
-        }
+    /* Hanging thread buttons */
+    .thread-btn {
+      position: relative;
+      background: linear-gradient(180deg, #3a2350 0%, #1c0d2b 100%);
+      border: 2px solid #c9a13b;
+      border-radius: 60px;
+      padding: 18px 20px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f7e9c3;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 12px 18px rgba(0,0,0,0.7), 0 0 18px rgba(255, 200, 0, 0.6);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      backdrop-filter: blur(8px);
+      margin-top: 18px;
+    }
 
-        .top-panel {
-            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-            background: rgba(255, 245, 250, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            padding: 0.8rem 1.5rem; border-radius: 60px; box-shadow: 0 10px 30px rgba(255, 105, 150, 0.35);
-            border: 2px solid rgba(255, 182, 193, 0.9); z-index: 100; position: fixed;
-            top: env(safe-area-inset-top, 10px); top: 10px; left: 10px; right: 10px;
-            margin: 0 auto; max-width: 450px; width: calc(100% - 20px);
-        }
+    .thread-btn::before {
+      content: "";
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 16px;
+      background: linear-gradient(180deg, #f3cd60, #b38b40);
+      box-shadow: 0 0 8px gold;
+      border-radius: 2px;
+    }
 
-        .together-label {
-            font-size: clamp(1.3rem, 4.5vw, 2rem); font-weight: 800;
-            background: linear-gradient(135deg, #ff7eb3, #d43f6b, #ff4d6d);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            filter: drop-shadow(0 3px 5px rgba(255, 80, 120, 0.4)); letter-spacing: 0.06em; text-align: center; white-space: nowrap;
-        }
+    .thread-btn::after {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, #ffd966, #b8860b);
+      border-radius: 50%;
+      box-shadow: 0 0 18px #ffb703;
+    }
 
-        .counter {
-            font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: bold; background: rgba(255, 255, 255, 0.75);
-            padding: 0.2rem 1.2rem; border-radius: 50px; color: #b0306a; letter-spacing: 0.03em;
-            box-shadow: inset 0 2px 12px rgba(255, 140, 180, 0.6); backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px); font-feature-settings: "tnum"; white-space: nowrap; text-align: center;
-        }
+    .thread-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 5px 12px black, 0 0 28px gold;
+    }
 
-        .breakup-btn {
-            background: rgba(255, 220, 230, 0.9); border: 2px solid #ff6b8a; color: #b33b5c;
-            font-size: clamp(0.9rem, 2.8vw, 1.1rem); font-weight: bold; padding: 0.4rem 1.5rem;
-            border-radius: 40px; cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            transition: all 0.2s; letter-spacing: 0.04em; box-shadow: 0 4px 12px rgba(255, 80, 110, 0.35);
-            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-        }
-        .breakup-btn.hidden { display: none; }
+    .slot-machine {
+      background: rgba(0,0,0,0.4);
+      border: 2px solid #b49450;
+      border-radius: 44px;
+      padding: 18px 12px;
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 15px 25px black;
+    }
 
-        #heartsCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: auto; z-index: 40; touch-action: manipulation;
-        }
+    .treasure-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      background: rgba(20, 5, 35, 0.6);
+      border-radius: 40px;
+      padding: 10px 15px;
+      border: 1px solid #d4af37;
+    }
 
-        .burst-text {
-            position: fixed; pointer-events: none; z-index: 9999; font-weight: 900; color: #d43f6b;
-            text-shadow: 0 0 20px white, 0 0 40px #ff99cc, 0 0 60px #ff6b8a;
-            animation: burstTextAnim 2.5s ease-out forwards; font-size: clamp(1rem, 3.5vw, 1.8rem);
-            text-align: center; white-space: nowrap; left: 50% !important; top: 50% !important;
-            transform: translate(-50%, -50%); width: 90vw; max-width: 400px;
-            background: rgba(255, 240, 245, 0.9); padding: 1rem 0.6rem; border-radius: 30px;
-            border: 2px solid rgba(255, 150, 180, 0.7); box-shadow: 0 10px 30px rgba(255, 80, 130, 0.5); line-height: 1.3;
-        }
+    .treasure-box {
+      font-size: 2.6rem;
+      filter: drop-shadow(0 0 15px gold);
+    }
 
-        @keyframes burstTextAnim {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
-            15% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-            30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-        }
+    .progress-container {
+      flex: 1;
+      max-width: 180px;
+    }
 
-        .particle {
-            position: fixed; pointer-events: none; z-index: 145; border-radius: 50%;
-            animation: particleBurst 1s ease-out forwards;
-            will-change: transform, opacity;
-        }
-        @keyframes particleBurst {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
-        }
+    .progress-text {
+      color: #ffd966;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      text-align: center;
+    }
 
-        .casino-btn {
-            position: fixed; top: 15px; left: 15px; z-index: 500;
-            background: linear-gradient(135deg, #ffd700, #ffaa00); color: #5c0030;
-            border: 3px solid white;
-            border-radius: 50px; padding: 0.6rem 1.5rem; font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-            font-weight: bold; cursor: pointer; box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6);
-            animation: gameBtnPulse 2s ease-in-out infinite;
-        }
-        @keyframes gameBtnPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      background: #1f0b2e;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #c9a13b;
+    }
 
-        .fullscreen-iframe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 700;
-            border: none;
-            display: none;
-        }
-        .fullscreen-iframe.active {
-            display: block;
-        }
-        .close-iframe-btn {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 710;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: none;
-        }
-        .close-iframe-btn.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffd700, #ffaa00);
+      transition: width 0.4s ease;
+      width: 0%;
+      border-radius: 8px;
+    }
+
+    .balance-row {
+      display: flex;
+      justify-content: space-between;
+      color: #e5d9b0;
+      font-weight: bold;
+      margin: 10px 4px;
+      font-size: 1.1rem;
+    }
+
+    .machine {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .reel {
+      height: 240px;
+      background: #160c24;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid #e4b429;
+      position: relative;
+      box-shadow: inset 0 0 18px black, 0 0 12px rgba(255,215,0,0.5);
+    }
+
+    .strip {
+      position: absolute;
+      width: 100%;
+      top: -48px;
+    }
+
+    .symbol {
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      color: #ffd966;
+    }
+
+    .win-lines {
+      position: relative;
+      pointer-events: none;
+      z-index: 40;
+    }
+
+    .win-line {
+      position: absolute;
+      height: 4px;
+      background: linear-gradient(90deg, #fff, #ffd700, #fff);
+      border-radius: 10px;
+      transform-origin: left center;
+      box-shadow: 0 0 15px white, 0 0 25px gold;
+      animation: linePulse 1.2s infinite alternate;
+    }
+
+    @keyframes linePulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .spin-btn {
+      background: radial-gradient(circle at 30% 30%, #ffea80, #b5891a);
+      border: none;
+      color: #1f0a2e;
+      font-weight: 900;
+      font-size: 1.9rem;
+      letter-spacing: 5px;
+      box-shadow: 0 0 40px #ffaa33;
+      margin-top: 8px;
+    }
+
+    .overlay {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .win-card {
+      background: #1f1233;
+      border: 3px solid #e4b429;
+      border-radius: 52px;
+      padding: 28px 22px;
+      max-width: 340px;
+      text-align: center;
+      box-shadow: 0 0 70px gold;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .lang-switch {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #c9a13b;
+      color: #ddc07a;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: #d4af37;
+      color: #150a1f;
+    }
+
+    .social-btn {
+      background: #4b2c6e;
+      border: 1px solid #cfaa4a;
+      color: #ffd966;
+      padding: 14px 18px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 14px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <button class="casino-btn" id="casinoBtn">🎰 Казино</button>
-    <button class="close-iframe-btn" id="closeIframeBtn">×</button>
-    <iframe class="fullscreen-iframe" id="fullscreenIframe"></iframe>
+<div id="app">
+  <div class="lang-switch">
+    <button id="langRu" class="lang-btn active">🇷🇺 RU</button>
+    <button id="langUa" class="lang-btn">🇺🇦 UA</button>
+  </div>
 
-    <div class="darkness-overlay" id="darknessOverlay">
-        <div class="darkness-text">Не дождёшься</div>
-        <button class="close-darkness-btn" id="closeDarknessBtn">Закрыть</button>
+  <div>
+    <h1 class="title" id="mainTitle">Колесо Желаний</h1>
+    <div class="subtitle">WHEEL OF DESIRES</div>
+  </div>
+
+  <div id="mainMenu" class="menu-grid">
+    <button class="thread-btn" data-mode="18+">🔞 18+</button>
+    <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
+    <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
+    <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
+    <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
+  </div>
+
+  <div id="slotUI" class="slot-machine hidden">
+    <div class="treasure-section">
+      <div class="treasure-box">👑</div>
+      <div class="progress-container">
+        <div class="progress-text" id="progressText">Сундук: 0/100%</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
     </div>
-
-    <div class="top-panel">
-        <span class="together-label">🌸 Мы уже вместе 🌸</span>
-        <div class="counter" id="counterDisplay">0 д. 00:00:00</div>
-        <button class="breakup-btn" id="breakupButton">💔 Расстались</button>
+    <div class="balance-row">
+      <span id="diamondsLabel">💎 Бриллианты:</span>
+      <span id="diamondsCount">3.00</span>
     </div>
+    <div class="machine" id="machine"></div>
+    <div class="win-lines" id="winLines"></div>
+    <div style="color:#ffd966; text-align:center; min-height:24px; font-weight:bold;" id="messageDisplay"></div>
+    <button id="spinButton" class="thread-btn spin-btn">⚡ КРУТИТЬ</button>
+    <button id="donateButton" class="thread-btn" style="margin-top:10px; background:#4b2c6e;">💖 Любимый донатит +2💎</button>
+    <button id="backToMenu" class="thread-btn" style="margin-top:8px; background:#2a1738;">↩️ МЕНЮ</button>
+  </div>
+</div>
 
-    <canvas id="heartsCanvas"></canvas>
+<div id="winOverlay" class="overlay hidden">
+  <div class="win-card">
+    <h2 style="color:#ffd966;">🎉 ДЖЕКПОТ!</h2>
+    <p style="color:#f0dbb0; font-size:1.2rem; margin:10px 0;" id="winMessage"></p>
+    <div style="font-size:3rem;" id="winIcons"></div>
+    <button id="sendToPartnerBtn" class="social-btn">💌 Отправить Партнёру</button>
+    <button id="closeWinBtn" class="thread-btn" style="margin-top:14px;">ЗАКРЫТЬ</button>
+  </div>
+</div>
 
-    <script>
-        (function() {
-            const startDate = new Date('2021-10-11T00:00:00');
+<div id="paymentModal" class="overlay hidden">
+  <div class="win-card" style="max-width:300px;">
+    <h3 style="color:#f7e47b;">💎 ПОПОЛНЕНИЕ</h3>
+    <p style="color:#ddd;">5 бриллиантов за 299 ₽ / 99 ₴</p>
+    <button id="confirmPaymentBtn" class="thread-btn" style="background:#d4af37; color:black;">ОПЛАТИТЬ</button>
+    <button id="closePaymentBtn" class="thread-btn" style="margin-top:10px;">ОТМЕНА</button>
+  </div>
+</div>
 
-            document.getElementById('casinoBtn').addEventListener('click', function() {
-                const iframe = document.getElementById('fullscreenIframe');
-                const closeBtn = document.getElementById('closeIframeBtn');
-                iframe.classList.add('active');
-                closeBtn.classList.add('active');
-                iframe.srcdoc = '<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>❤️ Казино ❤️</title><style>*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:radial-gradient(circle at top,#ff4d94 0%,#2c0017 55%,#10000a 100%);color:white}body{display:flex;justify-content:center;align-items:center;padding:8px}.casino{width:min(98vw,620px);background:rgba(0,0,0,0.35);border:3px solid #ff8dbc;border-radius:30px;padding:14px;position:relative;overflow:hidden;backdrop-filter:blur(8px);box-shadow:0 0 40px #ff3d8b,inset 0 0 25px rgba(255,255,255,0.08)}.treasure-section{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;min-height:50px}.treasure-box{font-size:clamp(30px,7vw,44px);animation:treasurePulse 2s ease-in-out infinite}@keyframes treasurePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}.progress-container{flex:1;max-width:180px}.progress-text{text-align:center;font-size:12px;color:#ffd6e8;margin-bottom:3px;font-weight:bold}.progress-bar{width:100%;height:14px;background:rgba(0,0,0,0.5);border-radius:10px;overflow:hidden;border:2px solid #ff8dbc}.progress-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ffaa00);transition:width .5s ease;border-radius:8px;width:0%}.balance{text-align:center;font-size:22px;margin-bottom:10px;font-weight:bold}.machine{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.reel{height:320px;background:#220010;border-radius:20px;overflow:hidden;border:2px solid #ff84ba;position:relative;box-shadow:inset 0 0 15px rgba(255,255,255,0.06),0 0 10px rgba(255,85,140,0.4)}.strip{position:absolute;width:100%;top:-64px}.symbol{height:64px;display:flex;justify-content:center;align-items:center;font-size:34px}.win-lines{position:absolute;inset:0;pointer-events:none;z-index:100}.win-line{position:absolute;height:4px;background:linear-gradient(90deg,#fff,#ffd700,#fff);border-radius:999px;transform-origin:left center;box-shadow:0 0 12px #fff,0 0 24px #ffd700;animation:linePulse 1s infinite alternate}@keyframes linePulse{0%{opacity:.6}100%{opacity:1}}.spinBtn{width:100%;margin-top:16px;border:none;border-radius:20px;padding:16px;cursor:pointer;font-size:22px;font-weight:bold;color:white;background:linear-gradient(45deg,#ff005d,#ff8fc2);box-shadow:0 0 20px #ff4b93;transition:.2s}.spinBtn:active{transform:scale(0.97)}.donateBtn{background:linear-gradient(45deg,#ffb300,#ffd54f);color:#5c0030}.message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90%;text-align:center;font-size:28px;font-weight:bold;opacity:0;pointer-events:none;text-shadow:0 0 15px white;z-index:120}.message.show{animation:msg 3s ease}@keyframes msg{0%{opacity:0;transform:translate(-50%,-50%) scale(0.3)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-180%) scale(1)}}.jackpot-popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;visibility:hidden;transition:0.4s ease}.jackpot-popup.active{opacity:1;visibility:visible}.jackpot-content{background:linear-gradient(135deg,#2b0018,#4a0028);border:3px solid #ffd700;border-radius:30px;padding:30px;text-align:center;max-width:min(90vw,400px);box-shadow:0 0 60px rgba(255,215,0,0.5),0 0 100px rgba(255,0,80,0.3);animation:popIn 0.5s ease}.jackpot-content h2{color:#ffd700;font-size:clamp(1.5rem,5vw,2rem);margin-bottom:15px;text-shadow:0 0 20px #ffd700}.jackpot-content .gift-text{color:#fff;font-size:clamp(1.2rem,4vw,1.6rem);margin:20px 0;padding:15px;background:rgba(255,255,255,0.1);border-radius:15px}.jackpot-content button{background:linear-gradient(45deg,#ff005d,#ff8fc2);border:none;border-radius:20px;padding:15px 30px;font-size:clamp(1rem,3vw,1.3rem);font-weight:bold;color:white;cursor:pointer;box-shadow:0 0 20px #ff4b93;transition:0.2s}.jackpot-content button:active{transform:scale(0.95)}@keyframes popIn{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}@media(max-width:700px){.reel{height:270px}.symbol{height:54px;font-size:28px}}</style></head><body><div class="casino"><div class="treasure-section"><div class="treasure-box">👑</div><div class="progress-container"><div class="progress-text" id="progressText">Сундук: 0/100%</div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div></div><div class="balance" id="balance">Баланс: $3.00</div><div class="machine" id="machine"></div><div class="win-lines" id="winLines"></div><button class="spinBtn" id="spinBtn">🎰 КРУТИТЬ</button><button class="spinBtn donateBtn" id="donateBtn">💖 Любимый донатит +2$</button><div class="message" id="message"></div><div class="jackpot-popup" id="jackpotPopup"><div class="jackpot-content"><h2>🎉 ДЖЕКПОТ 🎉</h2><div class="gift-text" id="jackpotGift"></div><button onclick="document.getElementById(\'jackpotPopup\').classList.remove(\'active\')">💝 Закрыть</button></div></div></div><script>const symbols=["😍","😘","❤️","🥰","💋","💕","💖","🌹","💞","😻"];const jackpotActions=["Массаж спины 5 минут","Массаж ножек 10 минут","Массаж головы 5 минут", "Массаж головы 10 минут", "Прогулка под звёздами","Посмотреть фильм в обнимку","Вкусный кофе утром","Массаж спины 5 минут","Массаж спины 10 минут","Искренний рассказ о своих чувствах","Обнять и поцеловать"];const winTexts=["💖 Любовь сегодня на твоей стороне!","🔥 Сердечки принесли удачу!","✨ Выглядит как победа любви!","💘 Смайлики решили тебя порадовать!","🌹 Вот это красивый выигрыш!","💕 Удача улыбается тебе!","🎉 Сегодня твой счастливый день!","💎 Комбинация любви сработала!","💞 Почти джек пот!","🥰 Счастье уже здесь!"];const loseTexts=["💔 Почти получилось!","🌸 Следующее вращение будет лучше!","✨ Удача уже рядом!","💕 Не сдавайся!","💖 Смайлики копят удачу!","🌹 Любовь всё равно победит!","💞 Сердечки ещё раскрутятся!","🎰 Барабаны готовят победу!","🥺 Попробуй ещё раз!","💫 Сейчас точно повезёт!"];const GRID=5;let balance=3;let spinning=false;let treasureProgress=0;let audioCtx=null;let freeSpins=0;let jackpotBoost=false;const machine=document.getElementById("machine");const strips=[];const visibleGrid=[];function audio(){if(!audioCtx){audioCtx=new(window.AudioContext||window.webkitAudioContext)()}return audioCtx}function playTone(freq,duration,type,volume){const ctx=audio();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.type=type;osc.frequency.value=freq;gain.gain.value=volume;osc.connect(gain);gain.connect(ctx.destination);osc.start();gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+duration);osc.stop(ctx.currentTime+duration)}function spinStartSound(){playTone(180,0.15,"square",0.05);setTimeout(()=>playTone(220,0.15,"square",0.05),120)}function reelSpinSound(){playTone(120+Math.random()*40,0.08,"sawtooth",0.015)}function winSound(){playTone(500,0.2,"triangle",0.04);setTimeout(()=>playTone(700,0.2,"triangle",0.04),120);setTimeout(()=>playTone(900,0.3,"triangle",0.05),240)}function loseSound(){playTone(180,0.3,"sawtooth",0.03)}function jackpotMusic(){const notes=[523,659,784,1047,1319,1568];notes.forEach((freq,i)=>{setTimeout(()=>{playTone(freq,0.35,"sine",0.06);if(i===notes.length-1){playTone(1568,0.6,"triangle",0.07)}},i*150)})}function getSymbolHeight(){const sample=document.querySelector(\'.symbol\');if(sample) return parseFloat(getComputedStyle(sample).height)||64;return 64}function createReels(){for(let col=0;col<GRID;col++){const reel=document.createElement("div");reel.className="reel";const strip=document.createElement("div");strip.className="strip";for(let i=0;i<80;i++){const s=document.createElement("div");s.className="symbol";s.textContent=symbols[Math.floor(Math.random()*symbols.length)];strip.appendChild(s)}reel.appendChild(strip);machine.appendChild(reel);strips.push(strip)}}createReels();function updateBalance(){document.getElementById("balance").textContent="Баланс: $"+balance.toFixed(2)+(freeSpins>0?" • 😱 +50% Шанс джек пота 🎁 Бесплатные спины: "+freeSpins:"")}function showMessage(text){const msg=document.getElementById("message");msg.innerHTML=text;msg.classList.remove("show");void msg.offsetWidth;msg.classList.add("show")}function updateTreasure(add){treasureProgress=Math.min(100,treasureProgress+add);document.getElementById("progressFill").style.width=treasureProgress+"%";document.getElementById("progressText").textContent="Сундук: "+treasureProgress.toFixed(1)+"/100%";if(treasureProgress>=100){treasureProgress=0;document.getElementById("progressFill").style.width="0%";document.getElementById("progressText").textContent="Сундук: 0/100%";freeSpins+=10;jackpotBoost=true;updateBalance();showMessage("👑 Корона заполнена!<br>🎁 +10 бесплатных вращений<br>🔥 Шанс джекпота увеличен на 50%!");winSound()}}function buildGrid(){visibleGrid.length=0;for(let row=0;row<GRID;row++){visibleGrid[row]=[];for(let col=0;col<GRID;col++){visibleGrid[row][col]=symbols[Math.floor(Math.random()*symbols.length)]}}}function applyGrid(){for(let col=0;col<GRID;col++){const strip=strips[col];const children=strip.children;for(let row=0;row<GRID;row++){children[row+6].textContent=visibleGrid[row][col]}strip.style.top=-(6*getSymbolHeight())+"px"}}function findMatches(){const matches=[];const directions=[[0,1],[1,0],[1,1],[1,-1]];directions.forEach(dir=>{const dr=dir[0];const dc=dir[1];for(let row=0;row<GRID;row++){for(let col=0;col<GRID;col++){const symbol=visibleGrid[row][col];const match=[{row,col}];let r=row+dr;let c=col+dc;while(r>=0&&r<GRID&&c>=0&&c<GRID&&visibleGrid[r][c]===symbol){match.push({row:r,col:c});r+=dr;c+=dc}if(match.length>=3){const prevR=row-dr;const prevC=col-dc;if(prevR<0||prevR>=GRID||prevC<0||prevC>=GRID||visibleGrid[prevR][prevC]!==symbol){matches.push(match)}}}}});return matches}function clearLines(){document.getElementById("winLines").innerHTML=""}function drawLines(matches){clearLines();const wrap=document.getElementById("winLines");const reels=[...document.querySelectorAll(".reel")];matches.forEach(match=>{for(let i=0;i<match.length-1;i++){const a=match[i];const b=match[i+1];const reelA=reels[a.col];const reelB=reels[b.col];const rectA=reelA.getBoundingClientRect();const rectB=reelB.getBoundingClientRect();const wrapRect=wrap.getBoundingClientRect();const symbolHeight=rectA.height/5;const x1=rectA.left+rectA.width/2-wrapRect.left;const y1=rectA.top+(a.row*symbolHeight)+(symbolHeight/2)-wrapRect.top;const x2=rectB.left+rectB.width/2-wrapRect.left;const y2=rectB.top+(b.row*symbolHeight)+(symbolHeight/2)-wrapRect.top;const dx=x2-x1;const dy=y2-y1;const length=Math.sqrt(dx*dx+dy*dy);const angle=Math.atan2(dy,dx)*180/Math.PI;const line=document.createElement("div");line.className="win-line";line.style.left=x1+"px";line.style.top=y1+"px";line.style.width=length+"px";line.style.transform="rotate("+angle+"deg)";wrap.appendChild(line)}});setTimeout(clearLines,2500)}function spin(){if(spinning)return;clearLines();if(freeSpins>0){freeSpins--;updateBalance()}else{if(balance<0.25){showMessage("💔 Недостаточно денег");loseSound();return}balance-=0.25;updateBalance()}spinning=true;document.getElementById("spinBtn").disabled=true;spinStartSound();buildGrid();let jackpotChance=0.03;if(jackpotBoost){jackpotChance=0.08}if(Math.random()<jackpotChance){const symbol=symbols[Math.floor(Math.random()*symbols.length)];const row=Math.floor(Math.random()*GRID);for(let c=0;c<GRID;c++){visibleGrid[row][c]=symbol}}strips.forEach((strip,index)=>{let symH=getSymbolHeight();let pos=-symH;const speed=28+Math.random()*7;const soundLoop=setInterval(()=>{reelSpinSound()},120);const loop=setInterval(()=>{pos-=speed;if(pos<-3500){pos=-symH}strip.style.top=pos+"px"},40);setTimeout(()=>{clearInterval(loop);clearInterval(soundLoop);applyGrid();if(index===GRID-1){setTimeout(finish,400)}},1700+index*450)})}function finish(){spinning=false;document.getElementById("spinBtn").disabled=false;const matches=findMatches();if(matches.length>0){drawLines(matches)}let totalWin=0;let totalTreasure=0;matches.forEach(match=>{if(match.length===3){totalWin+=0.25;totalTreasure+=0.5}else if(match.length===4){totalWin+=1;totalTreasure+=1}else if(match.length>=5){totalWin+=5;totalTreasure+=5}});if(totalWin>0){balance+=totalWin;updateBalance();updateTreasure(totalTreasure)}if(matches.some(m=>m.length>=5)){jackpotMusic();const action=jackpotActions[Math.floor(Math.random()*jackpotActions.length)];document.getElementById("jackpotGift").textContent="🎁 "+action;document.getElementById("jackpotPopup").classList.add("active")}else if(matches.some(m=>m.length===4)){winSound();showMessage("🔥 4 совпадения! +$1 • "+winTexts[Math.floor(Math.random()*winTexts.length)])}else if(matches.some(m=>m.length===3)){winSound();showMessage("🎉 3 совпадения! +$0.25 • "+winTexts[Math.floor(Math.random()*winTexts.length)])}else{loseSound();showMessage(loseTexts[Math.floor(Math.random()*loseTexts.length)])}}document.getElementById("spinBtn").onclick=spin;document.getElementById("donateBtn").onclick=()=>{balance+=2;updateBalance();winSound();showMessage("💖 Любимый задонатил +2$")};updateBalance();<\/script></body></html>';
-            });
+<script>
+  (function() {
+    const ICONS = ['❤️', '🔒', '🍕', '🛏️', '🎁'];
+    const WISH_TEXTS = {
+      '❤️': { ru: 'Исполни моё романтическое желание', ua: 'Виконай моє романтичне бажання' },
+      '🔒': { ru: 'Надень наручники и повинуйся', ua: 'Надягни наручники й підкорись' },
+      '🍕': { ru: 'Закажи мою любимую пиццу', ua: 'Замов мою улюблену піцу' },
+      '🛏️': { ru: 'Устрой незабываемую ночь', ua: 'Влаштуй незабутню ніч' },
+      '🎁': { ru: 'Подари мне особенный сюрприз', ua: 'Подаруй мені особливий сюрприз' }
+    };
 
-            document.getElementById('closeIframeBtn').addEventListener('click', function() {
-                const iframe = document.getElementById('fullscreenIframe');
-                const closeBtn = document.getElementById('closeIframeBtn');
-                iframe.classList.remove('active');
-                closeBtn.classList.remove('active');
-                iframe.srcdoc = '';
-            });
+    let currentLanguage = 'ru';
+    let diamonds = 3.0;
+    let treasureProgress = 0;
+    let spinning = false;
+    const GRID = 5;
+    let visibleGrid = [];
+    let strips = [];
 
-            const counterEl = document.getElementById('counterDisplay');
-            function updateCounter() {
-                const now = new Date(), diff = Math.max(0, now - startDate);
-                const d = Math.floor(diff / 86400000), h = Math.floor((diff % 86400000) / 3600000), m = Math.floor((diff % 3600000) / 60000), s = Math.floor((diff % 60000) / 1000);
-                counterEl.textContent = `${d} д. ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            }
-            setInterval(updateCounter, 1000); updateCounter();
+    const mainMenu = document.getElementById('mainMenu');
+    const slotUI = document.getElementById('slotUI');
+    const diamondsSpan = document.getElementById('diamondsCount');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const machineDiv = document.getElementById('machine');
+    const winLinesDiv = document.getElementById('winLines');
+    const messageDisplay = document.getElementById('messageDisplay');
+    const spinButton = document.getElementById('spinButton');
+    const donateButton = document.getElementById('donateButton');
+    const backToMenuBtn = document.getElementById('backToMenu');
+    const winOverlay = document.getElementById('winOverlay');
+    const winMessage = document.getElementById('winMessage');
+    const winIcons = document.getElementById('winIcons');
+    const sendToPartnerBtn = document.getElementById('sendToPartnerBtn');
+    const closeWinBtn = document.getElementById('closeWinBtn');
+    const paymentModal = document.getElementById('paymentModal');
+    const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+    const closePaymentBtn = document.getElementById('closePaymentBtn');
+    const langRuBtn = document.getElementById('langRu');
+    const langUaBtn = document.getElementById('langUa');
+    const mainTitle = document.getElementById('mainTitle');
+    const diamondsLabel = document.getElementById('diamondsLabel');
 
-            const darknessOverlay = document.getElementById('darknessOverlay');
-            const breakupBtn = document.getElementById('breakupButton');
-            let breakupUsed = false;
-            breakupBtn.addEventListener('click', () => { if (!breakupUsed) { darknessOverlay.classList.add('active'); breakupUsed = true; } });
-            document.getElementById('closeDarknessBtn').addEventListener('click', () => { darknessOverlay.classList.remove('active'); breakupBtn.classList.add('hidden'); breakupBtn.style.display = 'none'; });
+    function loadDiamonds() {
+      const saved = localStorage.getItem('wdDiamonds');
+      diamonds = saved ? parseFloat(saved) : 3.0;
+      updateDiamondsDisplay();
+    }
+    function saveDiamonds() {
+      localStorage.setItem('wdDiamonds', diamonds);
+      updateDiamondsDisplay();
+    }
+    function updateDiamondsDisplay() {
+      if (diamondsSpan) diamondsSpan.textContent = diamonds.toFixed(2);
+    }
 
-            const canvas = document.getElementById('heartsCanvas');
-            const ctx = canvas.getContext('2d', { alpha: true });
-            let width, height, hearts = [];
-            const MAX_HEARTS = 12;
-            function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
-            window.addEventListener('resize', resizeCanvas); resizeCanvas();
-            function createHeart() {
-                const s = Math.min(width, height) * 0.035;
-                return { x: Math.random() * width, y: height + 30, size: s + Math.random() * s, speedY: -0.3 - Math.random() * 0.8, speedX: (Math.random() - 0.5) * 0.5, opacity: 0.7 + Math.random() * 0.3, color: `rgba(255, ${140+Math.random()*80}, ${180+Math.random()*40}, 0.85)`, id: Math.random() };
-            }
-            for (let i = 0; i < MAX_HEARTS; i++) hearts.push(createHeart());
-            function burstHeart(heart, cx, cy) {
-                hearts = hearts.filter(h => h.id !== heart.id);
-                for (let i = 0; i < 10; i++) {
-                    const p = document.createElement('div'); p.className = 'particle';
-                    const a = (Math.PI * 2 * i) / 10, d = 30 + Math.random() * 40;
-                    p.style.cssText = `left: ${cx}px; top: ${cy}px; width: ${4+Math.random()*6}px; height: ${4+Math.random()*6}px; background: ${heart.color}; --dx: ${Math.cos(a)*d}px; --dy: ${Math.sin(a)*d}px;`;
-                    document.body.appendChild(p); setTimeout(() => p.remove(), 1000);
-                }
-                const t = document.createElement('div'); t.className = 'burst-text';
-                const phrases = ["Ты самая красивая!", "Твоя улыбка — чудо!", "Ты моя звёздочка!", "Леночка, ты супер!", "Кися моя нежная!", "Роднуля любимая!", "Мышка сладкая!", "Ты лучшая мама!", "Самая сладкая!", "Ты принцесса", "Гордость всех рядом находящихся"];
-                t.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-                document.body.appendChild(t); setTimeout(() => t.remove(), 1800);
-                setTimeout(() => { if (hearts.length < MAX_HEARTS) hearts.push(createHeart()); }, 600);
-            }
-            canvas.addEventListener('click', (e) => {
-                let closest = null, minDist = Math.min(width, height) * 0.1;
-                for (let h of hearts) { const d = Math.hypot(h.x - e.clientX, h.y - e.clientY); if (d < minDist) { minDist = d; closest = h; } }
-                if (closest) burstHeart(closest, e.clientX, e.clientY);
-            });
-            canvas.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const touch = e.touches[0];
-                let closest = null, minDist = Math.min(width, height) * 0.12;
-                for (let h of hearts) { const d = Math.hypot(h.x - touch.clientX, h.y - touch.clientY); if (d < minDist) { minDist = d; closest = h; } }
-                if (closest) burstHeart(closest, touch.clientX, touch.clientY);
-            }, { passive: false });
-            function drawHeart(ctx, h) {
-                ctx.save(); ctx.globalAlpha = h.opacity; ctx.translate(h.x, h.y); ctx.fillStyle = h.color; ctx.shadowColor = '#ff4d6d'; ctx.shadowBlur = 8;
-                const s = h.size; ctx.beginPath(); ctx.moveTo(0, s*0.25); ctx.bezierCurveTo(-s*0.5, -s*0.25, -s*0.5, s*0.45, 0, s*0.85); ctx.bezierCurveTo(s*0.5, s*0.45, s*0.5, -s*0.25, 0, s*0.25); ctx.fill(); ctx.restore();
-            }
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                for (let h of hearts) { h.y += h.speedY; h.x += h.speedX; if (h.y < -40) { h.y = height + 40; h.x = Math.random() * width; } if (h.x < -20) h.x = width + 20; if (h.x > width + 20) h.x = -20; drawHeart(ctx, h); }
-                while (hearts.length < MAX_HEARTS) hearts.push(createHeart());
-                requestAnimationFrame(animate);
-            }
-            animate();
-        })();
-    </script>
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      if (lang === 'ru') {
+        langRuBtn.classList.add('active'); langUaBtn.classList.remove('active');
+        mainTitle.textContent = 'Колесо Желаний'; diamondsLabel.textContent = '💎 Бриллианты:';
+        spinButton.innerHTML = '⚡ КРУТИТЬ'; donateButton.innerHTML = '💖 Любимый донатит +2💎';
+        backToMenuBtn.innerHTML = '↩️ МЕНЮ';
+      } else {
+        langRuBtn.classList.remove('active'); langUaBtn.classList.add('active');
+        mainTitle.textContent = 'Колесо Бажань'; diamondsLabel.textContent = '💎 Діаманти:';
+        spinButton.innerHTML = '⚡ КРУТИТИ'; donateButton.innerHTML = '💖 Коханий донатить +2💎';
+        backToMenuBtn.innerHTML = '↩️ МЕНЮ';
+      }
+    }
+
+    function updateTreasure(add) {
+      treasureProgress = Math.min(100, treasureProgress + add);
+      progressFill.style.width = treasureProgress + '%';
+      progressText.textContent = `Сундук: ${treasureProgress.toFixed(1)}/100%`;
+      if (treasureProgress >= 100) {
+        treasureProgress = 0;
+        progressFill.style.width = '0%';
+        progressText.textContent = 'Сундук: 0/100%';
+        diamonds += 5;
+        saveDiamonds();
+        showMessage(currentLanguage === 'ru' ? '👑 Сундук открыт! +5💎' : '👑 Сундук відкрито! +5💎');
+      }
+    }
+
+    function showMessage(text) {
+      messageDisplay.textContent = text;
+      setTimeout(() => { if (messageDisplay.textContent === text) messageDisplay.textContent = ''; }, 2500);
+    }
+
+    function getSymbolHeight() {
+      const s = document.querySelector('.symbol');
+      return s ? parseFloat(getComputedStyle(s).height) || 48 : 48;
+    }
+
+    function createReels() {
+      machineDiv.innerHTML = '';
+      strips = [];
+      for (let col = 0; col < GRID; col++) {
+        const reel = document.createElement('div'); reel.className = 'reel';
+        const strip = document.createElement('div'); strip.className = 'strip';
+        for (let i = 0; i < 80; i++) {
+          const sym = document.createElement('div'); sym.className = 'symbol';
+          sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
+          strip.appendChild(sym);
+        }
+        reel.appendChild(strip); machineDiv.appendChild(reel); strips.push(strip);
+      }
+    }
+
+    function buildGrid() {
+      visibleGrid = [];
+      for (let r = 0; r < GRID; r++) {
+        visibleGrid[r] = [];
+        for (let c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)];
+      }
+    }
+
+    function applyGrid() {
+      for (let col = 0; col < GRID; col++) {
+        const children = strips[col].children;
+        for (let row = 0; row < GRID; row++) children[row + 6].textContent = visibleGrid[row][col];
+        strips[col].style.top = -(6 * getSymbolHeight()) + 'px';
+      }
+    }
+
+    function findMatches() {
+      const matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
+      dirs.forEach(([dr,dc]) => {
+        for (let r=0; r<GRID; r++) for (let c=0; c<GRID; c++) {
+          const sym = visibleGrid[r][c]; const match = [{row:r, col:c}];
+          let nr=r+dr, nc=c+dc;
+          while(nr>=0&&nr<GRID&&nc>=0&&nc<GRID&&visibleGrid[nr][nc]===sym){ match.push({row:nr,col:nc}); nr+=dr; nc+=dc; }
+          if(match.length>=3){ const pr=r-dr, pc=c-dc; if(pr<0||pr>=GRID||pc<0||pc>=GRID||visibleGrid[pr][pc]!==sym) matches.push(match); }
+        }
+      });
+      return matches;
+    }
+
+    function clearLines() { winLinesDiv.innerHTML = ''; }
+    function drawLines(matches) {
+      clearLines();
+      const reels = [...document.querySelectorAll('.reel')];
+      matches.forEach(match => {
+        for (let i=0; i<match.length-1; i++) {
+          const a=match[i], b=match[i+1];
+          const reelA=reels[a.col], reelB=reels[b.col];
+          const rA=reelA.getBoundingClientRect(), rB=reelB.getBoundingClientRect();
+          const wrapRect=winLinesDiv.getBoundingClientRect();
+          const symH=rA.height/5;
+          const x1=rA.left+rA.width/2-wrapRect.left, y1=rA.top+(a.row*symH)+symH/2-wrapRect.top;
+          const x2=rB.left+rB.width/2-wrapRect.left, y2=rB.top+(b.row*symH)+symH/2-wrapRect.top;
+          const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy), ang=Math.atan2(dy,dx)*180/Math.PI;
+          const line=document.createElement('div'); line.className='win-line';
+          line.style.left=x1+'px'; line.style.top=y1+'px'; line.style.width=len+'px'; line.style.transform=`rotate(${ang}deg)`;
+          winLinesDiv.appendChild(line);
+        }
+      });
+      setTimeout(clearLines, 2800);
+    }
+
+    function spin() {
+      if (spinning) return;
+      if (diamonds < 0.25) { showMessage(currentLanguage==='ru'?'💔 Мало бриллиантов!':'💔 Мало діамантів!'); return; }
+      spinning = true; diamonds -= 0.25; saveDiamonds(); clearLines(); spinButton.disabled = true;
+      buildGrid();
+      strips.forEach((strip, idx) => {
+        let pos = -getSymbolHeight(); const speed = 28 + Math.random()*7;
+        const loop = setInterval(() => { pos -= speed; if(pos<-3500) pos=-getSymbolHeight(); strip.style.top = pos+'px'; }, 40);
+        setTimeout(() => { clearInterval(loop); applyGrid(); if(idx===GRID-1) setTimeout(finishSpin, 400); }, 1700+idx*400);
+      });
+    }
+
+    function finishSpin() {
+      spinning = false; spinButton.disabled = false;
+      const matches = findMatches();
+      if (matches.length) drawLines(matches);
+      let jackpot = false, treasureAdd = 0;
+      matches.forEach(m => {
+        if (m.length === 3) { diamonds += 0.25; treasureAdd += 0.5; }
+        else if (m.length === 4) { diamonds += 1; treasureAdd += 1; }
+        else if (m.length >= 5) { diamonds += 5; treasureAdd += 5; jackpot = true; }
+      });
+      if (treasureAdd > 0) { saveDiamonds(); updateTreasure(treasureAdd); }
+      if (jackpot) {
+        const icon = visibleGrid[matches.find(m=>m.length>=5)[0].row][matches.find(m=>m.length>=5)[0].col];
+        triggerJackpot(icon);
+      } else if (matches.some(m=>m.length===4)) showMessage('🔥 4 совпадения!');
+      else if (matches.some(m=>m.length===3)) showMessage('🎉 3 совпадения!');
+      else showMessage(currentLanguage==='ru'?'💫 Попробуй ещё':'💫 Спробуй ще');
+    }
+
+    function triggerJackpot(icon) {
+      const wish = currentLanguage==='ru' ? WISH_TEXTS[icon]?.ru : WISH_TEXTS[icon]?.ua;
+      winIcons.textContent = `${icon}${icon}${icon}`;
+      winMessage.textContent = wish || 'желание';
+      winOverlay.classList.remove('hidden');
+      window.lastWinIcon = icon; window.lastWishText = wish;
+    }
+
+    function generatePartnerImage() {
+      const icon = window.lastWinIcon || '❤️';
+      const wish = window.lastWishText || 'исполни желание';
+      const canvas = document.createElement('canvas');
+      canvas.width = 700; canvas.height = 500;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#1a0b2e'; ctx.fillRect(0,0,700,500);
+      ctx.strokeStyle = '#d4af37'; ctx.lineWidth = 10; ctx.strokeRect(15,15,670,470);
+      ctx.font = 'bold 38px "Cormorant Garamond"'; ctx.fillStyle = '#f7e47b'; ctx.textAlign = 'center';
+      ctx.fillText('🎰 THE WHEEL OF DESIRES', 350, 80);
+      ctx.font = '70px sans-serif'; ctx.fillText(icon, 350, 190);
+      ctx.font = '24px "Segoe UI"'; ctx.fillStyle = '#f0dbb0';
+      const words = wish.split(' '); let line = '', y = 270;
+      words.forEach(word => {
+        const test = line + word + ' ';
+        if (ctx.measureText(test).width > 600) { ctx.fillText(line, 350, y); line = word + ' '; y += 36; }
+        else line = test;
+      });
+      ctx.fillText(line, 350, y);
+      ctx.font = 'bold 28px "Times New Roman"'; ctx.fillStyle = '#b22222';
+      ctx.save(); ctx.translate(550, 420); ctx.rotate(-0.2);
+      ctx.fillText('✅ VDS', 0, 0); ctx.restore();
+      ctx.font = '18px monospace'; ctx.fillStyle = '#cfaa4a'; ctx.fillText('WISH CHECK · ОФИЦИАЛЬНЫЙ ВЫИГРЫШ', 350, 460);
+      
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `Wish_VDS_${icon}.png`; a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    function enterSlot(mode) {
+      currentMode = mode; mainMenu.classList.add('hidden'); slotUI.classList.remove('hidden');
+      createReels(); buildGrid(); applyGrid(); messageDisplay.textContent = '';
+    }
+
+    function backToMenu() { slotUI.classList.add('hidden'); mainMenu.classList.remove('hidden'); winOverlay.classList.add('hidden'); paymentModal.classList.add('hidden'); }
+
+    document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', e => enterSlot(e.currentTarget.dataset.mode)));
+    spinButton.addEventListener('click', spin);
+    backToMenuBtn.addEventListener('click', backToMenu);
+    donateButton.addEventListener('click', () => { diamonds += 2; saveDiamonds(); showMessage('💖 +2💎'); });
+    closeWinBtn.addEventListener('click', ()=> winOverlay.classList.add('hidden'));
+    sendToPartnerBtn.addEventListener('click', generatePartnerImage);
+    document.getElementById('refillButton')?.addEventListener('click', ()=> paymentModal.classList.remove('hidden'));
+    closePaymentBtn.addEventListener('click', ()=> paymentModal.classList.add('hidden'));
+    confirmPaymentBtn.addEventListener('click', ()=>{ diamonds += 5; saveDiamonds(); paymentModal.classList.add('hidden'); showMessage('✨ +5💎'); });
+    langRuBtn.addEventListener('click', ()=> setLanguage('ru'));
+    langUaBtn.addEventListener('click', ()=> setLanguage('ua'));
+    winOverlay.addEventListener('click', e => { if(e.target===winOverlay) winOverlay.classList.add('hidden'); });
+    paymentModal.addEventListener('click', e => { if(e.target===paymentModal) paymentModal.classList.add('hidden'); });
+
+    loadDiamonds(); setLanguage('ru');
+    mainMenu.classList.remove('hidden'); slotUI.classList.add('hidden');
+  })();
+</script>
 </body>
 </html>
