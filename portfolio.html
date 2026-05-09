@@ -50,7 +50,7 @@
       align-items: center;
     }
 
-    /* ----- ВЕРХНИЕ КНОПКИ (как прежде) ----- */
+    /* ----- ВЕРХНИЕ КНОПКИ (фон как у сайта) ----- */
     .nav-bar {
       width: 100%;
       padding: 1.8rem 2rem 1rem;
@@ -58,9 +58,9 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 2rem;
-      background: rgba(10, 10, 20, 0.75);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: transparent; /* убрали фон */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
@@ -75,7 +75,7 @@
       font-size: 1.3rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      background: linear-gradient(135deg, #ff6b9d, #c44dff, #6b7bff);
+      background: linear-gradient(145deg, #0f0f1a 0%, #1a1a2e 100%); /* фон как у сайта */
       background-size: 250% 250%;
       color: white;
       cursor: pointer;
@@ -85,7 +85,20 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+      position: relative;
+    }
+
+    .gradient-btn::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      border-radius: 60px;
+      background: linear-gradient(135deg, #ff6b9d, #c44dff, #6b7bff);
+      z-index: -1;
+      background-size: 300% 300%;
+      animation: gradientShift 4s ease infinite;
     }
 
     .gradient-btn i {
@@ -96,7 +109,6 @@
     .gradient-btn:hover {
       transform: translateY(-3px);
       box-shadow: 0 18px 35px rgba(200, 100, 255, 0.6);
-      animation: gradientShift 2s ease infinite;
     }
 
     .gradient-btn:hover i {
@@ -273,7 +285,7 @@
       background: rgba(20, 20, 35, 0.95);
       border-radius: 2.5rem;
       padding: 2.5rem;
-      max-width: 1000px;  /* Увеличена ширина */
+      max-width: 1000px;
       width: 95%;
       max-height: 85vh;
       overflow-y: auto;
@@ -299,7 +311,7 @@
       transform: scale(1.1);
     }
 
-    /* ПОРТФОЛИО в модалке: только картинки и текст ДО/ПОСЛЕ */
+    /* ПОРТФОЛИО в модалке */
     .portfolio-modal-grid {
       display: flex;
       flex-wrap: wrap;
@@ -338,25 +350,73 @@
     .label-before { color: #b9b9dd; }
     .label-after { color: #f5b7ff; }
 
-    /* Отзывы в модальном окне */
+    /* Отзывы в модальном окне – фиксированный размер карточек */
     .reviews-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
       justify-content: center;
       margin: 1.5rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .review-card {
       background: rgba(255,255,255,0.06);
       border-radius: 1.8rem;
       padding: 1.6rem;
-      flex: 1 1 260px;
       backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 180px;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .stars {
       color: #ffb84d;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      flex: 1;
+      font-style: italic;
+      margin: 0.8rem 0;
+      color: #d1d1f0;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: #c9b0ff;
+    }
+
+    /* Пагинация */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      border-radius: 2rem;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .page-btn.active {
+      background: #c44dff;
+      border-color: #c44dff;
     }
 
     /* Кнопка "Оставить отзыв" справа внизу */
@@ -392,7 +452,7 @@
       100% { box-shadow: 0 0 0 0 rgba(200, 100, 255, 0); }
     }
 
-    /* Форма отзыва (внутри модалки) */
+    /* Форма отзыва */
     .comment-form {
       display: flex;
       flex-direction: column;
@@ -412,6 +472,19 @@
 
     .comment-form input:focus, .comment-form textarea:focus {
       border-color: #c44dff;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 0.8rem;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #ffb84d;
+      justify-content: center;
+    }
+
+    .star-rating .star {
+      transition: 0.2s;
     }
 
     .submit-review-btn {
@@ -447,177 +520,126 @@
 </head>
 <body>
 <div class="site-wrapper">
-  <!-- Верхние кнопки (теперь открывают модальные окна) -->
   <div class="nav-bar">
     <button class="gradient-btn" onclick="openPortfolioModal()"><i class="fas fa-images"></i> Портфолио</button>
     <button class="gradient-btn" onclick="openReviewsModal()"><i class="fas fa-star"></i> Отзывы</button>
     <button class="gradient-btn" onclick="openContactsModal()"><i class="fas fa-address-book"></i> Контакты</button>
   </div>
 
-  <!-- ГЛАВНАЯ: анимированные информационные блоки + текстовые блоки -->
   <section class="info-section">
     <div class="animated-blocks">
-      <div class="info-block">
-        <span class="info-number">5+</span>
-        <span class="info-label">Лет опыта</span>
-        <div class="info-desc">в креативном дизайне</div>
-      </div>
-      <div class="info-block">
-        <span class="info-number">1000+</span>
-        <span class="info-label">Заказов</span>
-        <div class="info-desc">успешно выполнено</div>
-      </div>
-      <div class="info-block">
-        <span class="info-number">98%</span>
-        <span class="info-label">Довольных</span>
-        <div class="info-desc">клиентов возвращаются</div>
-      </div>
-      <div class="info-block">
-        <span class="info-number">🎨</span>
-        <span class="info-label">Дизайнер</span>
-        <div class="info-desc">креативных карточек</div>
-      </div>
+      <div class="info-block"><span class="info-number">5+</span><span class="info-label">Лет опыта</span><div class="info-desc">в креативном дизайне</div></div>
+      <div class="info-block"><span class="info-number">1000+</span><span class="info-label">Заказов</span><div class="info-desc">успешно выполнено</div></div>
+      <div class="info-block"><span class="info-number">98%</span><span class="info-label">Довольных</span><div class="info-desc">клиентов возвращаются</div></div>
+      <div class="info-block"><span class="info-number">🎨</span><span class="info-label">Дизайнер</span><div class="info-desc">креативных карточек</div></div>
     </div>
-
-    <!-- НОВЫЕ ТЕКСТОВЫЕ БЛОКИ НИЖЕ -->
     <div class="text-blocks-section">
-      <div class="text-block">
-        <div class="icon-circle"><i class="fas fa-bolt"></i></div>
-        <h3>Быстрый результат</h3>
-        <p>Обрабатываю карточки за 24 часа. Готовые макеты сразу готовы к загрузке на маркетплейсы. Вы получаете качественный дизайн без задержек.</p>
-      </div>
-      <div class="text-block">
-        <div class="icon-circle"><i class="fas fa-chart-line"></i></div>
-        <h3>Рост конверсии</h3>
-        <p>Мои клиенты отмечают увеличение кликабельности карточек в 2-3 раза. Продающий дизайн работает на ваш бизнес круглосуточно.</p>
-      </div>
-      <div class="text-block">
-        <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
-        <h3>Гарантия качества</h3>
-        <p>Бесплатные правки в течение 48 часов после сдачи. Если результат не устроит — верну деньги. Работаю официально.</p>
-      </div>
+      <div class="text-block"><div class="icon-circle"><i class="fas fa-bolt"></i></div><h3>Быстрый результат</h3><p>Обрабатываю карточки за 24 часа. Готовые макеты сразу готовы к загрузке на маркетплейсы. Вы получаете качественный дизайн без задержек.</p></div>
+      <div class="text-block"><div class="icon-circle"><i class="fas fa-chart-line"></i></div><h3>Рост конверсии</h3><p>Мои клиенты отмечают увеличение кликабельности карточек в 2-3 раза. Продающий дизайн работает на ваш бизнес круглосуточно.</p></div>
+      <div class="text-block"><div class="icon-circle"><i class="fas fa-shield-alt"></i></div><h3>Гарантия качества</h3><p>Бесплатные правки в течение 48 часов после сдачи. Если результат не устроит — верну деньги. Работаю официально.</p></div>
     </div>
   </section>
 </div>
 
-<!-- КНОПКА ОТЗЫВ СПРАВА ВНИЗУ (закреплена) -->
 <button class="floating-review-btn" id="floatingReviewBtn"><i class="fas fa-pen"></i> Отзыв</button>
 
-<!-- МОДАЛЬНОЕ ОКНО: ПОРТФОЛИО (только изображения и ДО/ПОСЛЕ) -->
-<div id="portfolioModal" class="modal">
-  <div class="modal-dialog" style="max-width: 1100px;"> <!-- Шире -->
-    <button class="modal-close" onclick="closeModal('portfolioModal')">&times;</button>
-    <h2 style="text-align:center; margin-bottom:1.5rem;">✨ До / После обработки</h2>
-    <div class="portfolio-modal-grid">
-      <div class="compare-item">
-        <div class="image-only-card"><div class="mock-image" style="background: linear-gradient(135deg, #b0b0c0, #8787a2);"></div></div>
-        <div class="label-before">📸 ДО</div>
-      </div>
-      <div class="compare-item">
-        <div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 20% 30%, #ffd0e0, #c9a5ff);"></div></div>
-        <div class="label-after">✨ ПОСЛЕ</div>
-      </div>
-      <div class="compare-item">
-        <div class="image-only-card"><div class="mock-image" style="background: linear-gradient(145deg, #b8b8d0, #7c7c9c);"></div></div>
-        <div class="label-before">📸 ДО</div>
-      </div>
-      <div class="compare-item">
-        <div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 80% 30%, #ffe5f0, #b594f0);"></div></div>
-        <div class="label-after">✨ ПОСЛЕ</div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- МОДАЛЬНЫЕ ОКНА -->
+<div id="portfolioModal" class="modal"><div class="modal-dialog" style="max-width: 1100px;"><button class="modal-close" onclick="closeModal('portfolioModal')">&times;</button><h2 style="text-align:center;">✨ До / После обработки</h2><div class="portfolio-modal-grid"><div class="compare-item"><div class="image-only-card"><div class="mock-image" style="background: linear-gradient(135deg, #b0b0c0, #8787a2);"></div></div><div class="label-before">📸 ДО</div></div><div class="compare-item"><div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 20% 30%, #ffd0e0, #c9a5ff);"></div></div><div class="label-after">✨ ПОСЛЕ</div></div><div class="compare-item"><div class="image-only-card"><div class="mock-image" style="background: linear-gradient(145deg, #b8b8d0, #7c7c9c);"></div></div><div class="label-before">📸 ДО</div></div><div class="compare-item"><div class="image-only-card"><div class="mock-image" style="background: radial-gradient(circle at 80% 30%, #ffe5f0, #b594f0);"></div></div><div class="label-after">✨ ПОСЛЕ</div></div></div></div></div>
 
-<!-- МОДАЛЬНОЕ ОКНО: ОТЗЫВЫ (просмотр) -->
-<div id="reviewsModal" class="modal">
-  <div class="modal-dialog" style="max-width: 1000px;"> <!-- Шире -->
-    <button class="modal-close" onclick="closeModal('reviewsModal')">&times;</button>
-    <h2 style="text-align:center;">💬 Отзывы клиентов</h2>
-    <div class="reviews-grid" id="reviewsList"></div>
-  </div>
-</div>
+<div id="reviewsModal" class="modal"><div class="modal-dialog" style="max-width: 1100px;"><button class="modal-close" onclick="closeModal('reviewsModal')">&times;</button><h2 style="text-align:center;">💬 Отзывы клиентов</h2><div class="reviews-grid" id="reviewsList"></div><div class="pagination" id="paginationContainer"></div></div></div>
 
-<!-- МОДАЛЬНОЕ ОКНО: КОНТАКТЫ -->
-<div id="contactsModal" class="modal">
-  <div class="modal-dialog" style="max-width: 550px;"> <!-- Шире -->
-    <button class="modal-close" onclick="closeModal('contactsModal')">&times;</button>
-    <h2 style="text-align:center;">Связь со мной</h2>
-    <div class="contact-links">
-      <a href="https://t.me/casper_lider" target="_blank" class="contact-link"><i class="fab fa-telegram-plane"></i> @casper_lider</a>
-      <a href="mailto:arestov03900@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> arestov03900@gmail.com</a>
-    </div>
-  </div>
-</div>
+<div id="contactsModal" class="modal"><div class="modal-dialog" style="max-width: 550px;"><button class="modal-close" onclick="closeModal('contactsModal')">&times;</button><h2>Связь со мной</h2><div class="contact-links"><a href="https://t.me/casper_lider" target="_blank" class="contact-link"><i class="fab fa-telegram-plane"></i> @casper_lider</a><a href="mailto:arestov03900@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> arestov03900@gmail.com</a></div></div></div>
 
-<!-- МОДАЛЬНОЕ ОКНО: ОСТАВИТЬ ОТЗЫВ (после пароля) -->
-<div id="leaveReviewModal" class="modal">
-  <div class="modal-dialog" style="max-width: 600px;"> <!-- Шире -->
-    <button class="modal-close" onclick="closeModal('leaveReviewModal')">&times;</button>
-    <h2 style="text-align:center;">✍️ Новый отзыв</h2>
-    <div class="comment-form">
-      <input type="text" id="authorInput" placeholder="Ваше имя">
-      <textarea id="reviewTextInput" rows="3" placeholder="Поделитесь впечатлением..."></textarea>
-      <button class="submit-review-btn" onclick="submitReviewFromModal()">Отправить</button>
-      <span id="reviewStatus" style="font-size:0.9rem; color:#f5b7ff;"></span>
-    </div>
-  </div>
-</div>
+<div id="leaveReviewModal" class="modal"><div class="modal-dialog" style="max-width: 600px;"><button class="modal-close" onclick="closeModal('leaveReviewModal')">&times;</button><h2>✍️ Новый отзыв</h2><div class="comment-form"><input type="text" id="authorInput" placeholder="Ваше имя"><textarea id="reviewTextInput" rows="3" placeholder="Поделитесь впечатлением..."></textarea><div class="star-rating" id="starRating"><span class="star" data-value="1">☆</span><span class="star" data-value="2">☆</span><span class="star" data-value="3">☆</span><span class="star" data-value="4">☆</span><span class="star" data-value="5">☆</span></div><button class="submit-review-btn" onclick="submitReviewFromModal()">Отправить</button><span id="reviewStatus" style="font-size:0.9rem; color:#f5b7ff;"></span></div></div></div>
 
-<!-- СКРЫТОЕ МОДАЛЬНОЕ ОКНО ДЛЯ ВВОДА ПАРОЛЯ -->
-<div id="passwordModal" class="modal">
-  <div class="modal-dialog" style="max-width: 420px; text-align:center;"> <!-- Шире -->
-    <button class="modal-close" onclick="closeModal('passwordModal')">&times;</button>
-    <h3>🔐 Введите пароль</h3>
-    <input type="password" id="passwordInput" placeholder="Пароль" style="width:100%; margin:1.5rem 0; padding:0.9rem; border-radius:2rem; background:#ffffff10; border:1px solid #ffffff33; color:white;">
-    <button class="submit-review-btn" onclick="checkPassword()">Подтвердить</button>
-    <p id="passError" style="color:#ff9b9b; margin-top:0.8rem;"></p>
-  </div>
-</div>
+<div id="passwordModal" class="modal"><div class="modal-dialog" style="max-width: 420px; text-align:center;"><button class="modal-close" onclick="closeModal('passwordModal')">&times;</button><h3>🔐 Введите пароль</h3><input type="password" id="passwordInput" placeholder="Пароль" style="width:100%; margin:1.5rem 0; padding:0.9rem; border-radius:2rem; background:#ffffff10; border:1px solid #ffffff33; color:white;"><button class="submit-review-btn" onclick="checkPassword()">Подтвердить</button><p id="passError" style="color:#ff9b9b;"></p></div></div>
 
 <script>
   const PASSWORD = "135710";
+  const REVIEWS_PER_PAGE = 12;
+  let currentReviewPage = 1;
+  let selectedStars = 5;
 
-  // Массив отзывов
-  const reviewsData = [
-    { author: "Анна К.", text: "Лучший редактор! Карточки стали продаваться в 3 раза лучше.", stars: 5 },
-    { author: "Максим Б.", text: "Заказал 50 карточек – сдано раньше срока. Профи!", stars: 5 },
-    { author: "Елена В.", text: "До и после – небо и земля. Рекомендую.", stars: 5 },
-    { author: "Артём С.", text: "Грамотный дизайн, улучшил конверсию.", stars: 5 },
-    { author: "Ольга М.", text: "Сотрудничаем больше года. Правки моментальные.", stars: 5 },
-    { author: "Дмитрий П.", text: "Карточки выглядят дорого. Очень доволен!", stars: 5 }
+  // Генерация 100+ отзывов
+  const firstNames = ["Анна", "Максим", "Елена", "Артём", "Ольга", "Дмитрий", "Мария", "Иван", "Светлана", "Николай", "Татьяна", "Алексей", "Юлия", "Роман", "Дарья", "Кирилл"];
+  const lastInitials = ["К.", "Б.", "В.", "С.", "М.", "П.", "Н.", "Т.", "Р.", "Д."];
+  const phrases = [
+    "Лучший редактор! Карточки стали продаваться в 3 раза лучше.", "Заказал 50 карточек – сдано раньше срока.", "До и после – небо и земля.", "Грамотный дизайн, улучшил конверсию.", "Сотрудничаем больше года. Правки моментальные.", "Карточки выглядят дорого.", "Очень доволен скоростью работы.", "Профессионал своего дела!", "Продажи выросли сразу после смены карточек.", "Рекомендую всем селлерам.", "Качественная инфографика.", "Лучшее соотношение цена/качество.", "Приятно работать, всегда на связи.", "Сделал крутые карточки для Wildberries.", "Мои товары теперь выделяются.", "Заказываю не первый раз, всё супер.", "Быстро и качественно.", "Оригинальный подход к дизайну.", "Учёл все пожелания.", "Буду обращаться ещё."
   ];
+
+  let reviewsData = [];
+  for (let i = 0; i < 108; i++) {
+    let name = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastInitials[Math.floor(Math.random() * lastInitials.length)];
+    let text = phrases[Math.floor(Math.random() * phrases.length)];
+    let stars = Math.floor(Math.random() * 3) + 3; // от 3 до 5 звёзд
+    reviewsData.push({ author: name, text: text, stars: stars });
+  }
 
   function renderStars(count) {
     return '★'.repeat(count) + '☆'.repeat(5-count);
   }
 
-  function displayReviews() {
+  function displayReviewsPage(page) {
     const container = document.getElementById('reviewsList');
     if (!container) return;
-    container.innerHTML = reviewsData.map(r => `
+    const start = (page - 1) * REVIEWS_PER_PAGE;
+    const end = start + REVIEWS_PER_PAGE;
+    const pageItems = reviewsData.slice(start, end);
+    container.innerHTML = pageItems.map(r => `
       <div class="review-card">
         <div class="stars">${renderStars(r.stars)}</div>
-        <div style="font-style:italic; margin:0.5rem 0;">“${r.text}”</div>
-        <div style="font-weight:700; color:#c9b0ff;">— ${r.author}</div>
+        <div class="review-text">“${r.text}”</div>
+        <div class="review-author">— ${r.author}</div>
       </div>
     `).join('');
-  }
-  displayReviews();
-
-  // Универсальные функции модалок
-  function openModal(id) {
-    document.getElementById(id).classList.add('active');
-  }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('active');
+    renderPagination();
   }
 
+  function renderPagination() {
+    const totalPages = Math.ceil(reviewsData.length / REVIEWS_PER_PAGE);
+    const pagContainer = document.getElementById('paginationContainer');
+    if (!pagContainer) return;
+    let html = '';
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${i === currentReviewPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    pagContainer.innerHTML = html;
+  }
+
+  function goToPage(page) {
+    currentReviewPage = page;
+    displayReviewsPage(page);
+  }
+
+  // Инициализация звёздного рейтинга
+  function initStarRating() {
+    const stars = document.querySelectorAll('#starRating .star');
+    stars.forEach(star => {
+      star.addEventListener('click', function() {
+        selectedStars = parseInt(this.getAttribute('data-value'));
+        updateStarDisplay();
+      });
+    });
+  }
+
+  function updateStarDisplay() {
+    const stars = document.querySelectorAll('#starRating .star');
+    stars.forEach(star => {
+      const val = parseInt(star.getAttribute('data-value'));
+      star.textContent = val <= selectedStars ? '★' : '☆';
+    });
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('active'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('active'); }
   function openPortfolioModal() { openModal('portfolioModal'); }
-  function openReviewsModal() { openModal('reviewsModal'); }
+  function openReviewsModal() { 
+    openModal('reviewsModal'); 
+    currentReviewPage = 1;
+    displayReviewsPage(1);
+  }
   function openContactsModal() { openModal('contactsModal'); }
 
-  // Логика кнопки "Отзыв" (плавающая)
   document.getElementById('floatingReviewBtn').addEventListener('click', function() {
     openModal('passwordModal');
     document.getElementById('passwordInput').value = '';
@@ -625,13 +647,14 @@
   });
 
   function checkPassword() {
-    const input = document.getElementById('passwordInput').value.trim();
-    if (input === PASSWORD) {
+    if (document.getElementById('passwordInput').value.trim() === PASSWORD) {
       closeModal('passwordModal');
       openModal('leaveReviewModal');
       document.getElementById('authorInput').value = '';
       document.getElementById('reviewTextInput').value = '';
       document.getElementById('reviewStatus').textContent = '';
+      selectedStars = 5;
+      updateStarDisplay();
     } else {
       document.getElementById('passError').textContent = '❌ Неверный пароль';
     }
@@ -640,25 +663,20 @@
   function submitReviewFromModal() {
     const author = document.getElementById('authorInput').value.trim();
     const text = document.getElementById('reviewTextInput').value.trim();
-    const status = document.getElementById('reviewStatus');
     if (!author || !text) {
-      status.textContent = 'Заполните имя и текст';
+      document.getElementById('reviewStatus').textContent = 'Заполните имя и текст';
       return;
     }
-    reviewsData.unshift({ author, text, stars: 5 });
-    displayReviews();
-    status.textContent = '✅ Отзыв добавлен!';
-    setTimeout(() => {
-      closeModal('leaveReviewModal');
-    }, 1000);
+    reviewsData.unshift({ author, text, stars: selectedStars });
+    document.getElementById('reviewStatus').textContent = '✅ Отзыв добавлен!';
+    setTimeout(() => closeModal('leaveReviewModal'), 1000);
   }
 
-  // Закрытие по клику вне диалога
   window.addEventListener('click', function(e) {
-    if (e.target.classList.contains('modal')) {
-      e.target.classList.remove('active');
-    }
+    if (e.target.classList.contains('modal')) e.target.classList.remove('active');
   });
+
+  initStarRating();
 </script>
 </body>
 </html>
