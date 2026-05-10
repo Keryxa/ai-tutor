@@ -254,8 +254,6 @@
     .thread-btn:nth-child(6) { animation-delay: 0.5s; }
     .thread-btn:nth-child(7) { animation-delay: 0.6s; }
     .thread-btn:nth-child(8) { animation-delay: 0.7s; }
-    .thread-btn:nth-child(9) { animation-delay: 0.8s; }
-    .thread-btn:nth-child(10) { animation-delay: 0.9s; }
 
     @keyframes waveFloat {
       0%, 100% { transform: translateX(0); }
@@ -531,6 +529,87 @@
       font-size: 1rem;
       line-height: 1.8;
     }
+
+    .support-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd700, #ff8c00);
+      border: 3px solid #fff;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 8px 20px rgba(0,0,0,0.5);
+      cursor: pointer;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      animation: supportPulse 2s ease-in-out infinite;
+      transition: transform 0.2s;
+    }
+
+    .support-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .support-btn:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes supportPulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 8px 20px rgba(0,0,0,0.5); }
+      50% { box-shadow: 0 0 45px rgba(255, 215, 0, 0.9), 0 12px 30px rgba(0,0,0,0.7); }
+    }
+
+    .chat-messages {
+      max-height: 300px;
+      overflow-y: auto;
+      text-align: left;
+      color: #f0dbb0;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+    }
+
+    .chat-message {
+      margin: 6px 0;
+      padding: 8px 12px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+    }
+
+    .chat-message.admin {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid #d4af37;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .chat-message.user {
+      background: rgba(75, 44, 110, 0.4);
+      border: 1px solid #cfaa4a;
+      text-align: right;
+      margin-left: 20px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 25px;
+      border: 2px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.85rem;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -577,9 +656,7 @@
       <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
       <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
       <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
-      <button class="thread-btn" data-mode="kids">🧒 Для Детей</button>
       <button class="thread-btn" data-mode="friends">👫 Для Друзей</button>
-      <button class="thread-btn" data-mode="chores">📋 Хлопоты</button>
       <button class="thread-btn full-width-btn gold-text-btn" id="historyBtn">История</button>
     </div>
 
@@ -611,6 +688,8 @@
       </div>
     </div>
   </div>
+
+  <div class="support-btn" id="supportBtn">💬</div>
 
   <div class="spin-win-display" id="spinWinDisplay"></div>
 
@@ -683,6 +762,20 @@
     </div>
   </div>
 
+  <div id="supportModal" class="overlay hidden">
+    <div class="win-card" style="max-width:420px;">
+      <h3 style="color:#ffd966;" id="supportTitle">💬 Онлайн поддержка</h3>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message admin">👋 Здравствуйте! Чем могу помочь?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Введите сообщение...">
+        <button id="sendChatBtn" class="thread-btn" style="animation:none; padding:10px 16px; font-size:0.8rem;">📤</button>
+      </div>
+      <button id="closeSupportBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
   <div id="policyModal" class="overlay hidden">
     <div class="win-card" style="max-width:520px;">
       <h3 style="color:#ffd966;" id="policyTitle">Политика конфиденциальности</h3>
@@ -734,20 +827,10 @@
           ua: ['Пограй з дітьми', 'Приготуй сімейну вечерю', 'Допоможи з домашнім завданням', 'Влаштуй сімейну гру', 'Почитай казку'],
           en: ['Play with kids', 'Cook family dinner', 'Help with homework', 'Have a family game', 'Read a story']
         },
-        'kids': {
-          ru: ['Поиграй в прятки', 'Нарисуй рисунок', 'Построй замок из кубиков', 'Почитай сказку', 'Сходи на прогулку'],
-          ua: ['Пограй у хованки', 'Намалюй малюнок', 'Побудуй замок з кубиків', 'Почитай казку', 'Сходи на прогулянку'],
-          en: ['Play hide and seek', 'Draw a picture', 'Build a block castle', 'Read a story', 'Go for a walk']
-        },
         'friends': {
           ru: ['Устрой вечеринку', 'Поиграй в настолки', 'Посмотри фильм вместе', 'Сходи в кафе', 'Поделись секретом'],
           ua: ['Влаштуй вечірку', 'Пограй у настолки', 'Подивись фільм разом', 'Сходи в кафе', 'Поділись секретом'],
           en: ['Throw a party', 'Play board games', 'Watch a movie together', 'Go to a cafe', 'Share a secret']
-        },
-        'chores': {
-          ru: ['Помой посуду', 'Пропылесось', 'Вынеси мусор', 'Приготовь ужин', 'Постирай вещи'],
-          ua: ['Помий посуд', 'Пропилосось', 'Винеси сміття', 'Приготуй вечерю', 'Попери речі'],
-          en: ['Wash dishes', 'Vacuum', 'Take out trash', 'Cook dinner', 'Do laundry']
         }
       };
 
@@ -763,7 +846,7 @@
           loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
           customRewardsBtn: 'Мои желания', historyBtn: 'История',
           menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
-          menuKids: '🧒 Для Детей', menuFriends: '👫 Для Друзей', menuChores: '📋 Хлопоты',
+          menuFriends: '👫 Для Друзей',
           diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
           nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
@@ -774,14 +857,15 @@
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
           notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '👑 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
           win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', logoutBtn: '🚪 Выйти',
-          mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша'
+          mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша',
+          supportTitle: '💬 Онлайн поддержка', supportPlaceholder: 'Введите сообщение...', sendBtn: '📤'
         },
         ua: {
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
           loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
           customRewardsBtn: 'Мої бажання', historyBtn: 'Історія',
           menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
-          menuKids: '🧒 Для Дітей', menuFriends: '👫 Для Друзів', menuChores: '📋 Клопоти',
+          menuFriends: '👫 Для Друзів',
           diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
           nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
@@ -792,14 +876,15 @@
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
           notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '👑 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
           win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', logoutBtn: '🚪 Вийти',
-          mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу'
+          mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу',
+          supportTitle: '💬 Онлайн підтримка', supportPlaceholder: 'Введіть повідомлення...', sendBtn: '📤'
         },
         en: {
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
           loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
           customRewardsBtn: 'My Wishes', historyBtn: 'History',
           menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
-          menuKids: '🧒 For Kids', menuFriends: '👫 For Friends', menuChores: '📋 Chores',
+          menuFriends: '👫 For Friends',
           diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '🚀 LAUNCH',
           jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
           nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
@@ -810,7 +895,8 @@
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
           notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '👑 +10 free spins!', tryAgain: '💫 Try again',
           win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', logoutBtn: '🚪 Logout',
-          mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details'
+          mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details',
+          supportTitle: '💬 Online Support', supportPlaceholder: 'Enter message...', sendBtn: '📤'
         }
       };
 
@@ -837,6 +923,7 @@
       let customRewards = [];
       let useCustomRewards = false;
       let audioCtx = null;
+      let chatMessages = [];
 
       function t(key) { return TRANSLATIONS[currentLanguage]?.[key] || TRANSLATIONS.ru[key] || key; }
 
@@ -849,73 +936,121 @@
       function playLoseSound() { playTone(200, 0.2, 'sawtooth', 0.03); }
       function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => setTimeout(() => playTone(f, 0.3, 'sine', 0.07), i * 100)); }
 
-      const authOverlay = document.getElementById('authOverlay');
-      const loginForm = document.getElementById('loginForm');
-      const registerForm = document.getElementById('registerForm');
-      const loginNickname = document.getElementById('loginNickname');
-      const registerNickname = document.getElementById('registerNickname');
-      const loginBtn = document.getElementById('loginBtn');
-      const registerBtn = document.getElementById('registerBtn');
-      const showRegisterBtn = document.getElementById('showRegisterBtn');
-      const showLoginBtn = document.getElementById('showLoginBtn');
-      const nicknameDisplay = document.getElementById('nicknameDisplay');
-      const mainBalanceDisplay = document.getElementById('mainBalanceDisplay');
-      const spinWinDisplay = document.getElementById('spinWinDisplay');
-      const logoutBtn = document.getElementById('logoutBtn');
-      const mainTopUpBtn = document.getElementById('mainTopUpBtn');
+      const $ = id => document.getElementById(id);
+      const authOverlay = $('authOverlay');
+      const loginForm = $('loginForm');
+      const registerForm = $('registerForm');
+      const loginNickname = $('loginNickname');
+      const registerNickname = $('registerNickname');
+      const loginBtn = $('loginBtn');
+      const registerBtn = $('registerBtn');
+      const showRegisterBtn = $('showRegisterBtn');
+      const showLoginBtn = $('showLoginBtn');
+      const nicknameDisplay = $('nicknameDisplay');
+      const mainBalanceDisplay = $('mainBalanceDisplay');
+      const spinWinDisplay = $('spinWinDisplay');
+      const logoutBtn = $('logoutBtn');
+      const mainTopUpBtn = $('mainTopUpBtn');
+      const supportBtn = $('supportBtn');
+      const supportModal = $('supportModal');
+      const chatMessagesDiv = $('chatMessages');
+      const chatInput = $('chatInput');
+      const sendChatBtn = $('sendChatBtn');
+      const closeSupportBtn = $('closeSupportBtn');
 
-      const mainMenu = document.getElementById('mainMenu');
-      const slotUI = document.getElementById('slotUI');
-      const diamondsSpan = document.getElementById('diamondsCount');
-      const progressFill = document.getElementById('progressFill');
-      const progressText = document.getElementById('progressText');
-      const freeSpinsBadge = document.getElementById('freeSpinsBadge');
-      const machineDiv = document.getElementById('machine');
-      const winLinesDiv = document.getElementById('winLines');
-      const messageDisplay = document.getElementById('messageDisplay');
-      const spinButton = document.getElementById('spinButton');
-      const donateButton = document.getElementById('donateButton');
-      const backToMenuBtn = document.getElementById('backToMenu');
-      const winOverlay = document.getElementById('winOverlay');
-      const winMessage = document.getElementById('winMessage');
-      const winIcons = document.getElementById('winIcons');
-      const sendToPartnerBtn = document.getElementById('sendToPartnerBtn');
-      const closeWinBtn = document.getElementById('closeWinBtn');
-      const nameFormModal = document.getElementById('nameFormModal');
-      const userNameInput = document.getElementById('userNameInput');
-      const partnerNameInput = document.getElementById('partnerNameInput');
-      const downloadWithNamesBtn = document.getElementById('downloadWithNamesBtn');
-      const closeNameFormBtn = document.getElementById('closeNameFormBtn');
-      const paymentModal = document.getElementById('paymentModal');
-      const closePaymentBtn = document.getElementById('closePaymentBtn');
-      const historyModal = document.getElementById('historyModal');
-      const historyList = document.getElementById('historyList');
-      const closeHistoryBtn = document.getElementById('closeHistoryBtn');
-      const historyBtn = document.getElementById('historyBtn');
-      const winDetailModal = document.getElementById('winDetailModal');
-      const winDetailTitle = document.getElementById('winDetailTitle');
-      const winDetailContent = document.getElementById('winDetailContent');
-      const closeWinDetailBtn = document.getElementById('closeWinDetailBtn');
-      const customRewardsBtn = document.getElementById('customRewardsBtn');
-      const customRewardsModal = document.getElementById('customRewardsModal');
-      const customRewardsList = document.getElementById('customRewardsList');
-      const addCustomRewardBtn = document.getElementById('addCustomRewardBtn');
-      const saveAndPlayBtn = document.getElementById('saveAndPlayBtn');
-      const closeCustomRewardsBtn = document.getElementById('closeCustomRewardsBtn');
-      const jackpotPrizesBtn = document.getElementById('jackpotPrizesBtn');
-      const jackpotPrizesModal = document.getElementById('jackpotPrizesModal');
-      const jackpotPrizesList = document.getElementById('jackpotPrizesList');
-      const closeJackpotPrizesBtn = document.getElementById('closeJackpotPrizesBtn');
-      const policyModal = document.getElementById('policyModal');
-      const policyTitle = document.getElementById('policyTitle');
-      const policyContent = document.getElementById('policyContent');
-      const closePolicyBtn = document.getElementById('closePolicyBtn');
-      const privacyPolicyLink = document.getElementById('privacyPolicyLink');
-      const termsOfUseLink = document.getElementById('termsOfUseLink');
-      const langRuOuter = document.getElementById('langRuOuter');
-      const langUaOuter = document.getElementById('langUaOuter');
-      const langEnOuter = document.getElementById('langEnOuter');
-      const diamondsLabel = document.getElementById('diamondsLabel');
+      const mainMenu = $('mainMenu');
+      const slotUI = $('slotUI');
+      const diamondsSpan = $('diamondsCount');
+      const progressFill = $('progressFill');
+      const progressText = $('progressText');
+      const freeSpinsBadge = $('freeSpinsBadge');
+      const machineDiv = $('machine');
+      const winLinesDiv = $('winLines');
+      const messageDisplay = $('messageDisplay');
+      const spinButton = $('spinButton');
+      const donateButton = $('donateButton');
+      const backToMenuBtn = $('backToMenu');
+      const winOverlay = $('winOverlay');
+      const winMessage = $('winMessage');
+      const winIcons = $('winIcons');
+      const sendToPartnerBtn = $('sendToPartnerBtn');
+      const closeWinBtn = $('closeWinBtn');
+      const nameFormModal = $('nameFormModal');
+      const userNameInput = $('userNameInput');
+      const partnerNameInput = $('partnerNameInput');
+      const downloadWithNamesBtn = $('downloadWithNamesBtn');
+      const closeNameFormBtn = $('closeNameFormBtn');
+      const paymentModal = $('paymentModal');
+      const closePaymentBtn = $('closePaymentBtn');
+      const historyModal = $('historyModal');
+      const historyList = $('historyList');
+      const closeHistoryBtn = $('closeHistoryBtn');
+      const historyBtn = $('historyBtn');
+      const winDetailModal = $('winDetailModal');
+      const winDetailTitle = $('winDetailTitle');
+      const winDetailContent = $('winDetailContent');
+      const closeWinDetailBtn = $('closeWinDetailBtn');
+      const customRewardsBtn = $('customRewardsBtn');
+      const customRewardsModal = $('customRewardsModal');
+      const customRewardsList = $('customRewardsList');
+      const addCustomRewardBtn = $('addCustomRewardBtn');
+      const saveAndPlayBtn = $('saveAndPlayBtn');
+      const closeCustomRewardsBtn = $('closeCustomRewardsBtn');
+      const jackpotPrizesBtn = $('jackpotPrizesBtn');
+      const jackpotPrizesModal = $('jackpotPrizesModal');
+      const jackpotPrizesList = $('jackpotPrizesList');
+      const closeJackpotPrizesBtn = $('closeJackpotPrizesBtn');
+      const policyModal = $('policyModal');
+      const policyTitle = $('policyTitle');
+      const policyContent = $('policyContent');
+      const closePolicyBtn = $('closePolicyBtn');
+      const privacyPolicyLink = $('privacyPolicyLink');
+      const termsOfUseLink = $('termsOfUseLink');
+      const langRuOuter = $('langRuOuter');
+      const langUaOuter = $('langUaOuter');
+      const langEnOuter = $('langEnOuter');
+      const diamondsLabel = $('diamondsLabel');
+
+      function addChatMessage(text, type) {
+        chatMessages.push({ text, type });
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${type}`;
+        msgDiv.textContent = text;
+        chatMessagesDiv.appendChild(msgDiv);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+      }
+
+      function handleChatSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addChatMessage(text, 'user');
+        chatInput.value = '';
+        setTimeout(() => {
+          const responses = {
+            ru: ['Спасибо за обращение! Администратор скоро ответит.', 'Мы получили ваше сообщение. Ожидайте.', 'Ваш запрос передан в поддержку.'],
+            ua: ['Дякуємо за звернення! Адміністратор скоро відповість.', 'Ми отримали ваше повідомлення. Очікуйте.', 'Ваш запит передано в підтримку.'],
+            en: ['Thank you for contacting us! An admin will respond soon.', 'We have received your message. Please wait.', 'Your request has been forwarded to support.']
+          };
+          const resp = responses[currentLanguage] || responses.ru;
+          addChatMessage(resp[Math.floor(Math.random() * resp.length)], 'admin');
+        }, 1000);
+      }
+
+      supportBtn.addEventListener('click', () => {
+        supportModal.classList.remove('hidden');
+        chatMessagesDiv.innerHTML = '';
+        chatMessages = [];
+        const greeting = {
+          ru: '👋 Здравствуйте! Чем могу помочь?',
+          ua: '👋 Здравствуйте! Чим можу допомогти?',
+          en: '👋 Hello! How can I help you?'
+        };
+        addChatMessage(greeting[currentLanguage] || greeting.ru, 'admin');
+      });
+
+      sendChatBtn.addEventListener('click', handleChatSend);
+      chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
+      closeSupportBtn.addEventListener('click', () => supportModal.classList.add('hidden'));
 
       function showWinDetail(item) {
         winDetailTitle.textContent = t('winDetailTitle');
@@ -931,13 +1066,13 @@
       function showJackpotPrizes() {
         const prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
         jackpotPrizesList.innerHTML = prizes.map(p => `<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ${p}</div>`).join('');
-        document.getElementById('jackpotPrizesTitle').textContent = t('jackpotPrizesTitle');
+        $('jackpotPrizesTitle').textContent = t('jackpotPrizesTitle');
         jackpotPrizesModal.classList.remove('hidden');
       }
 
       function updateAllTexts() {
-        document.getElementById('loginTitle').textContent = t('loginTitle');
-        document.getElementById('registerTitle').textContent = t('registerTitle');
+        $('loginTitle').textContent = t('loginTitle');
+        $('registerTitle').textContent = t('registerTitle');
         loginNickname.placeholder = t('loginPlaceholder');
         registerNickname.placeholder = t('registerPlaceholder');
         loginBtn.textContent = t('loginBtn');
@@ -946,33 +1081,35 @@
         showLoginBtn.textContent = t('showLoginBtn');
         customRewardsBtn.textContent = t('customRewardsBtn');
         historyBtn.textContent = t('historyBtn');
-        document.querySelectorAll('[data-mode="18+"]')[0].innerHTML = t('menu18');
-        document.querySelectorAll('[data-mode="home"]')[0].innerHTML = t('menuHome');
-        document.querySelectorAll('[data-mode="party"]')[0].innerHTML = t('menuParty');
-        document.querySelectorAll('[data-mode="young"]')[0].innerHTML = t('menuYoung');
-        document.querySelectorAll('[data-mode="family"]')[0].innerHTML = t('menuFamily');
-        document.querySelectorAll('[data-mode="kids"]')[0].innerHTML = t('menuKids');
-        document.querySelectorAll('[data-mode="friends"]')[0].innerHTML = t('menuFriends');
-        document.querySelectorAll('[data-mode="chores"]')[0].innerHTML = t('menuChores');
+        const modeBtns = document.querySelectorAll('[data-mode]');
+        const modeKeys = ['18+', 'home', 'party', 'young', 'family', 'friends'];
+        modeBtns.forEach(b => {
+          const mode = b.dataset.mode;
+          const idx = modeKeys.indexOf(mode);
+          if (idx >= 0) {
+            const transKeys = ['menu18', 'menuHome', 'menuParty', 'menuYoung', 'menuFamily', 'menuFriends'];
+            b.innerHTML = t(transKeys[idx]);
+          }
+        });
         diamondsLabel.textContent = t('diamondsLabel');
         donateButton.innerHTML = t('donateButton');
         backToMenuBtn.innerHTML = t('backToMenu');
         spinButton.innerHTML = t('spinBtn');
         logoutBtn.textContent = t('logoutBtn');
         mainTopUpBtn.textContent = t('mainTopUpBtn');
-        document.getElementById('jackpotTitle').textContent = t('jackpotTitle');
+        $('jackpotTitle').textContent = t('jackpotTitle');
         sendToPartnerBtn.innerHTML = t('sendToPartner');
         closeWinBtn.textContent = t('closeBtn');
-        document.getElementById('nameFormTitle').textContent = t('nameFormTitle');
+        $('nameFormTitle').textContent = t('nameFormTitle');
         userNameInput.placeholder = t('userNamePlaceholder');
         partnerNameInput.placeholder = t('partnerNamePlaceholder');
         downloadWithNamesBtn.innerHTML = t('downloadBtn');
         closeNameFormBtn.textContent = t('cancelBtn');
-        document.getElementById('paymentTitle').textContent = t('paymentTitle');
+        $('paymentTitle').textContent = t('paymentTitle');
         closePaymentBtn.textContent = t('closePayment');
-        document.getElementById('historyTitle').textContent = t('historyTitle');
-        document.getElementById('customRewardsTitle').textContent = t('customRewardsTitle');
-        document.getElementById('customRewardsDesc').textContent = t('customRewardsDesc');
+        $('historyTitle').textContent = t('historyTitle');
+        $('customRewardsTitle').textContent = t('customRewardsTitle');
+        $('customRewardsDesc').textContent = t('customRewardsDesc');
         addCustomRewardBtn.textContent = t('addBtn');
         saveAndPlayBtn.innerHTML = t('saveAndPlay');
         closeCustomRewardsBtn.textContent = t('closeCustom');
@@ -983,6 +1120,9 @@
         privacyPolicyLink.textContent = t('privacyLink');
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
+        $('supportTitle').textContent = t('supportTitle');
+        chatInput.placeholder = t('supportPlaceholder');
+        sendChatBtn.textContent = t('sendBtn');
         updateFreeSpinsBadge();
         renderHistory();
       }
@@ -1407,6 +1547,7 @@
         customRewardsModal.classList.add('hidden');
         jackpotPrizesModal.classList.add('hidden');
         winDetailModal.classList.add('hidden');
+        supportModal.classList.add('hidden');
         useCustomRewards = false;
         updateMainBalance(); }
 
@@ -1440,7 +1581,7 @@
       langRuOuter.addEventListener('click', () => setLanguage('ru'));
       langUaOuter.addEventListener('click', () => setLanguage('ua'));
       langEnOuter.addEventListener('click', () => setLanguage('en'));
-      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, supportModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
 
       setLanguage('ru');
       updateAllTexts();
