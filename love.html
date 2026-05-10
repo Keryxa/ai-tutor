@@ -101,20 +101,16 @@
       background: rgba(20, 5, 35, 0.8);
       border: 1px solid #c9a13b;
       color: #ddc07a;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 20px;
       font-weight: bold;
       font-size: 0.7rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 3px;
       backdrop-filter: blur(8px);
+      letter-spacing: 1px;
     }
 
     .lang-btn.active { background: #d4af37; color: #150a1f; border-color: #fff; }
-
-    .lang-flag { font-size: 1rem; }
 
     .logout-btn {
       background: rgba(20, 5, 35, 0.8);
@@ -358,8 +354,10 @@
 
     .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 8px; }
     .reel { height: 220px; background: #160c24; border-radius: 16px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 18px black, 0 0 10px rgba(255, 215, 0, 0.4); }
+    @media (max-width: 480px) { .reel { height: 160px; } }
     .strip { position: absolute; width: 100%; top: -44px; }
     .symbol { height: 44px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: #ffd966; }
+    @media (max-width: 480px) { .symbol { height: 32px; font-size: 18px; } }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
     .win-line { position: absolute; height: 3px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 10px; transform-origin: left center; box-shadow: 0 0 12px white, 0 0 20px gold; animation: linePulse 1.2s infinite alternate; }
@@ -425,10 +423,15 @@
       border-radius: 52px;
       padding: 28px 22px;
       max-width: 420px;
+      width: 90vw;
       text-align: center;
       box-shadow: 0 0 70px gold;
       max-height: 80vh;
       overflow-y: auto;
+    }
+
+    .win-card.wide {
+      max-width: 600px;
     }
 
     .hidden { display: none !important; }
@@ -541,9 +544,9 @@
       <div class="outer-site-subtitle">VIBE DARE SMILE</div>
     </div>
     <div class="outer-right-group">
-      <button id="langRuOuter" class="lang-btn active"><span class="lang-flag">🇷🇺</span>RU</button>
-      <button id="langUaOuter" class="lang-btn"><span class="lang-flag">🇺🇦</span>UA</button>
-      <button id="langEnOuter" class="lang-btn"><span class="lang-flag">🇬🇧</span>EN</button>
+      <button id="langRuOuter" class="lang-btn active">RU</button>
+      <button id="langUaOuter" class="lang-btn">UA</button>
+      <button id="langEnOuter" class="lang-btn">EN</button>
       <button class="logout-btn" id="logoutBtn">🚪 Выйти</button>
     </div>
   </div>
@@ -569,10 +572,6 @@
     <div class="user-bar">
       <span class="nickname" id="nicknameDisplay">Игрок</span>
       <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span></span>
-    </div>
-
-    <div class="top-info-bar" id="topInfoBar" style="display: flex; justify-content: space-between; align-items: center; background: rgba(20, 5, 35, 0.6); border: 1px solid #d4af37; border-radius: 30px; padding: 6px 14px; margin: 0 4px; font-size: 0.75rem; color: #ffd966; font-weight: bold;">
-      <span id="topSpinsInfo">🎰 Спины: 0</span>
     </div>
 
     <div id="mainMenu" class="menu-grid">
@@ -654,7 +653,7 @@
   </div>
 
   <div id="historyModal" class="overlay hidden">
-    <div class="win-card" style="max-width:420px;">
+    <div class="win-card wide">
       <h3 style="color:#ffd966;" id="historyTitle">📜 История Джекпотов</h3>
       <div id="historyList" class="history-list"></div>
       <button id="closeHistoryBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
@@ -856,7 +855,6 @@
       const mainBalanceDisplay = document.getElementById('mainBalanceDisplay');
       const spinWinDisplay = document.getElementById('spinWinDisplay');
       const logoutBtn = document.getElementById('logoutBtn');
-      const topSpinsInfo = document.getElementById('topSpinsInfo');
 
       const mainMenu = document.getElementById('mainMenu');
       const slotUI = document.getElementById('slotUI');
@@ -961,14 +959,7 @@
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
         updateFreeSpinsBadge();
-        updateTopSpinsInfo();
         renderHistory();
-      }
-
-      function updateTopSpinsInfo() {
-        if (topSpinsInfo) {
-          topSpinsInfo.textContent = `🎰 ${currentLanguage === 'ru' ? 'Спины' : currentLanguage === 'ua' ? 'Спини' : 'Spins'}: ${freeSpins > 0 ? freeSpins : 0}`;
-        }
       }
 
       function loadUserData() {
@@ -982,7 +973,6 @@
         loadHistory();
         loadCustomRewards();
         updateMainBalance();
-        updateTopSpinsInfo();
       }
 
       function login() {
@@ -996,8 +986,7 @@
           loadDiamonds();
           loadHistory();
           loadCustomRewards();
-          updateMainBalance();
-          updateTopSpinsInfo(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
+          updateMainBalance(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
       }
 
       function register() {
@@ -1011,7 +1000,6 @@
         loadHistory();
         loadCustomRewards();
         updateMainBalance();
-        updateTopSpinsInfo();
       }
 
       function logout() {
@@ -1123,7 +1111,6 @@
         if (freeSpins > 0) { freeSpinsBadge.classList.remove('hidden');
           freeSpinsBadge.textContent = `🎁 ${currentLanguage === 'ru' ? 'Бесплатные спины' : currentLanguage === 'ua' ? 'Безкоштовні спини' : 'Free spins'}: ${freeSpins} (Шанс джекпота +50%)`; } else { freeSpinsBadge.classList.add('hidden');
           jackpotBoost = false; }
-        updateTopSpinsInfo();
       }
 
       function updateTreasure(add) {
@@ -1380,8 +1367,7 @@
         createReels();
         buildGrid();
         applyGrid();
-        messageDisplay.textContent = '';
-        updateTopSpinsInfo(); }
+        messageDisplay.textContent = ''; }
 
       function backToMenu() { slotUI.classList.add('hidden');
         mainMenu.classList.remove('hidden');
@@ -1392,8 +1378,7 @@
         customRewardsModal.classList.add('hidden');
         jackpotPrizesModal.classList.add('hidden');
         useCustomRewards = false;
-        updateMainBalance();
-        updateTopSpinsInfo(); }
+        updateMainBalance(); }
 
       document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', function() { useCustomRewards = false;
         currentMode = this.dataset.mode;
