@@ -13,10 +13,7 @@
   <meta property="og:description" content="Luxury casino-style game of desires. Spin, win, and share romantic wishes!">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vds-game.com">
-  <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%231a0530'/%3E%3Ctext x='256' y='280' font-size='200' font-weight='bold' fill='%23ffd700' text-anchor='middle' font-family='serif'%3EVDS%3C/text%3E%3Ctext x='256' y='340' font-size='40' fill='%23d4af37' text-anchor='middle' font-family='serif'%3EVIBe DARE SMILE%3C/text%3E%3C/svg%3E">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a0530'/%3E%3Ctext x='16' y='22' font-size='16' font-weight='bold' fill='%23ffd700' text-anchor='middle' font-family='serif'%3EV%3C/text%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231a0530'/%3E%3Ctext x='90' y='110' font-size='90' font-weight='bold' fill='%23ffd700' text-anchor='middle' font-family='serif'%3EVDS%3C/text%3E%3C/svg%3E">
-  <link rel="manifest" href="data:application/json,%7B%22name%22:%22VDS%20-%20Vibe%20Dare%20Smile%22,%22short_name%22:%22VDS%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22background_color%22:%22%231a0530%22,%22theme_color%22:%22%231a0530%22%7D">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='8' fill='%231a0530'/%3E%3Ctext x='16' y='22' font-size='16' fill='%23ffd700' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
   <style>
     * {
       margin: 0;
@@ -142,37 +139,6 @@
       margin-top: 40px;
     }
 
-    .vds-title {
-      text-align: center;
-      font-size: clamp(2.2rem, 8vw, 3.5rem);
-      font-weight: 900;
-      letter-spacing: 6px;
-      background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700, #ffea80);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 25px #ffb700) drop-shadow(0 0 50px #b8860b);
-      animation: vdsGlow 2s ease-in-out infinite alternate;
-      margin: 0;
-      line-height: 1.1;
-      display: none;
-    }
-
-    @keyframes vdsGlow {
-      0% { filter: drop-shadow(0 0 20px #ffb700) drop-shadow(0 0 40px #b8860b); }
-      100% { filter: drop-shadow(0 0 35px #ffd700) drop-shadow(0 0 70px #ff8c00); }
-    }
-
-    .subtitle {
-      color: #d4af37;
-      font-size: 0.8rem;
-      letter-spacing: 6px;
-      text-align: center;
-      margin-top: -6px;
-      text-shadow: 0 0 10px black;
-      display: none;
-    }
-
     .user-bar {
       display: flex;
       justify-content: space-between;
@@ -207,6 +173,18 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .top-up-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.7rem;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
     .spin-win-display {
@@ -451,6 +429,17 @@
     .history-item { background: rgba(255, 215, 0, 0.1); border: 1px solid #d4af37; border-radius: 20px; padding: 10px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; flex-wrap: wrap; gap: 5px; }
     .history-item button { background: #d4af37; color: #150a1f; border: none; border-radius: 20px; padding: 6px 12px; font-weight: bold; cursor: pointer; }
 
+    .view-btn {
+      background: #4b2c6e;
+      border: 1px solid #cfaa4a;
+      color: #ffd966;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+
     .form-input {
       width: 100%;
       padding: 12px;
@@ -535,6 +524,13 @@
       font-size: 0.9rem;
       line-height: 1.6;
     }
+
+    .win-detail-text {
+      text-align: left;
+      color: #f0dbb0;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
   </style>
 </head>
 <body>
@@ -571,7 +567,7 @@
 
     <div class="user-bar">
       <span class="nickname" id="nicknameDisplay">Игрок</span>
-      <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span></span>
+      <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span> <button class="top-up-btn" id="mainTopUpBtn">💎 Пополнить</button></span>
     </div>
 
     <div id="mainMenu" class="menu-grid">
@@ -657,6 +653,14 @@
       <h3 style="color:#ffd966;" id="historyTitle">📜 История Джекпотов</h3>
       <div id="historyList" class="history-list"></div>
       <button id="closeHistoryBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="winDetailModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;" id="winDetailTitle">📋 Детали выигрыша</h3>
+      <div class="win-detail-text" id="winDetailContent"></div>
+      <button id="closeWinDetailBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
@@ -769,7 +773,8 @@
           jackpotPrizesTitle: '🎁 Призы джекпота', jackpotPrizesBtn: '🎁 Призы',
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
           notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '👑 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
-          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', logoutBtn: '🚪 Выйти'
+          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', logoutBtn: '🚪 Выйти',
+          mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша'
         },
         ua: {
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
@@ -786,7 +791,8 @@
           jackpotPrizesTitle: '🎁 Призи джекпоту', jackpotPrizesBtn: '🎁 Призи',
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
           notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '👑 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
-          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', logoutBtn: '🚪 Вийти'
+          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', logoutBtn: '🚪 Вийти',
+          mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу'
         },
         en: {
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
@@ -803,7 +809,8 @@
           jackpotPrizesTitle: '🎁 Jackpot Prizes', jackpotPrizesBtn: '🎁 Prizes',
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
           notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '👑 +10 free spins!', tryAgain: '💫 Try again',
-          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', logoutBtn: '🚪 Logout'
+          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', logoutBtn: '🚪 Logout',
+          mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details'
         }
       };
 
@@ -855,6 +862,7 @@
       const mainBalanceDisplay = document.getElementById('mainBalanceDisplay');
       const spinWinDisplay = document.getElementById('spinWinDisplay');
       const logoutBtn = document.getElementById('logoutBtn');
+      const mainTopUpBtn = document.getElementById('mainTopUpBtn');
 
       const mainMenu = document.getElementById('mainMenu');
       const slotUI = document.getElementById('slotUI');
@@ -884,6 +892,10 @@
       const historyList = document.getElementById('historyList');
       const closeHistoryBtn = document.getElementById('closeHistoryBtn');
       const historyBtn = document.getElementById('historyBtn');
+      const winDetailModal = document.getElementById('winDetailModal');
+      const winDetailTitle = document.getElementById('winDetailTitle');
+      const winDetailContent = document.getElementById('winDetailContent');
+      const closeWinDetailBtn = document.getElementById('closeWinDetailBtn');
       const customRewardsBtn = document.getElementById('customRewardsBtn');
       const customRewardsModal = document.getElementById('customRewardsModal');
       const customRewardsList = document.getElementById('customRewardsList');
@@ -904,6 +916,17 @@
       const langUaOuter = document.getElementById('langUaOuter');
       const langEnOuter = document.getElementById('langEnOuter');
       const diamondsLabel = document.getElementById('diamondsLabel');
+
+      function showWinDetail(item) {
+        winDetailTitle.textContent = t('winDetailTitle');
+        winDetailContent.innerHTML = `
+          <p><strong>Иконка:</strong> ${item.icon}</p>
+          <p><strong>Желание:</strong> ${item.wish}</p>
+          <p><strong>Дата:</strong> ${item.date}</p>
+          <p><strong>Время:</strong> ${item.time}</p>
+        `;
+        winDetailModal.classList.remove('hidden');
+      }
 
       function showJackpotPrizes() {
         const prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
@@ -936,6 +959,7 @@
         backToMenuBtn.innerHTML = t('backToMenu');
         spinButton.innerHTML = t('spinBtn');
         logoutBtn.textContent = t('logoutBtn');
+        mainTopUpBtn.textContent = t('mainTopUpBtn');
         document.getElementById('jackpotTitle').textContent = t('jackpotTitle');
         sendToPartnerBtn.innerHTML = t('sendToPartner');
         closeWinBtn.textContent = t('closeBtn');
@@ -955,6 +979,7 @@
         closeHistoryBtn.textContent = t('closeBtn');
         jackpotPrizesBtn.textContent = t('jackpotPrizesBtn');
         closeJackpotPrizesBtn.textContent = t('closeBtn');
+        closeWinDetailBtn.textContent = t('closeBtn');
         privacyPolicyLink.textContent = t('privacyLink');
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
@@ -1015,6 +1040,7 @@
       loginBtn.addEventListener('click', login);
       registerBtn.addEventListener('click', register);
       logoutBtn.addEventListener('click', logout);
+      mainTopUpBtn.addEventListener('click', () => paymentModal.classList.remove('hidden'));
       showRegisterBtn.addEventListener('click', () => { loginForm.classList.add('hidden');
         registerForm.classList.remove('hidden'); });
       showLoginBtn.addEventListener('click', () => { registerForm.classList.add('hidden');
@@ -1050,12 +1076,14 @@
       function renderHistory() {
         if (!historyList) return;
         historyList.innerHTML = jackpotHistory.length === 0 ? `<p style="text-align:center;">${t('noJackpots')}</p>` :
-          jackpotHistory.map((item, i) => `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,20)}...</span><span>${item.date} ${item.time}</span><button onclick="window.downloadHistory(${i})">📥</button></div>`).join('');
+          jackpotHistory.map((item, i) => `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,20)}...</span><span>${item.date}</span><div><button onclick="window.downloadHistory(${i})">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(${i})">${t('viewBtn')}</button></div></div>`).join('');
       }
       window.downloadHistory = function(i) { const item = jackpotHistory[i]; if (!item) return;
         pendingJackpotIcon = item.icon;
         pendingJackpotWish = item.wish;
         nameFormModal.classList.remove('hidden'); };
+      window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return;
+        showWinDetail(item); };
 
       function loadCustomRewards() { const k = `wdVdsCustomRewards_${nickname}`;
         customRewards = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
@@ -1096,6 +1124,7 @@
       closeCustomRewardsBtn.addEventListener('click', () => customRewardsModal.classList.add('hidden'));
       jackpotPrizesBtn.addEventListener('click', showJackpotPrizes);
       closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
+      closeWinDetailBtn.addEventListener('click', () => winDetailModal.classList.add('hidden'));
 
       function setLanguage(lang) {
         currentLanguage = lang;
@@ -1377,6 +1406,7 @@
         nameFormModal.classList.add('hidden');
         customRewardsModal.classList.add('hidden');
         jackpotPrizesModal.classList.add('hidden');
+        winDetailModal.classList.add('hidden');
         useCustomRewards = false;
         updateMainBalance(); }
 
@@ -1410,7 +1440,7 @@
       langRuOuter.addEventListener('click', () => setLanguage('ru'));
       langUaOuter.addEventListener('click', () => setLanguage('ua'));
       langEnOuter.addEventListener('click', () => setLanguage('en'));
-      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
 
       setLanguage('ru');
       updateAllTexts();
