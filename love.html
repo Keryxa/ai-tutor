@@ -100,6 +100,20 @@
       text-shadow: 0 0 10px black;
     }
 
+    .top-info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      border-radius: 30px;
+      padding: 6px 14px;
+      margin: 0 4px;
+      font-size: 0.75rem;
+      color: #ffd966;
+      font-weight: bold;
+    }
+
     .user-bar {
       display: flex;
       justify-content: space-between;
@@ -134,6 +148,18 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid #c9a13b;
+      color: #ddc07a;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-left: 8px;
     }
 
     .spin-win-display {
@@ -224,36 +250,44 @@
       background: rgba(0, 0, 0, 0.4);
       border: 2px solid #b49450;
       border-radius: 44px;
-      padding: 16px 12px;
+      padding: 12px 12px;
       backdrop-filter: blur(14px);
       box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 15px 25px black;
+    }
+
+    .slot-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
     }
 
     .treasure-section {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 6px;
+      gap: 8px;
       background: rgba(20, 5, 35, 0.6);
       border-radius: 40px;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border: 1px solid #d4af37;
+      flex: 1;
     }
 
-    .treasure-box { font-size: 2.4rem; filter: drop-shadow(0 0 15px gold); }
-    .progress-container { flex: 1; max-width: 180px; }
-    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.8rem; margin-bottom: 3px; text-align: center; }
-    .progress-bar { width: 100%; height: 12px; background: #1f0b2e; border-radius: 10px; overflow: hidden; border: 1px solid #c9a13b; }
+    .treasure-box { font-size: 2rem; filter: drop-shadow(0 0 15px gold); }
+    .progress-container { flex: 1; max-width: 140px; }
+    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.7rem; margin-bottom: 2px; text-align: center; }
+    .progress-bar { width: 100%; height: 10px; background: #1f0b2e; border-radius: 10px; overflow: hidden; border: 1px solid #c9a13b; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ffaa00); transition: width 0.4s ease; width: 0%; border-radius: 8px; }
 
-    .balance-row { display: flex; justify-content: space-between; color: #e5d9b0; font-weight: bold; margin: 8px 4px; font-size: 1rem; }
-    .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.9rem; text-align: center; margin: 4px 0; text-shadow: 0 0 10px gold; }
+    .balance-row { display: flex; justify-content: space-between; color: #e5d9b0; font-weight: bold; margin: 4px 4px; font-size: 0.85rem; }
+    .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.8rem; text-align: center; margin: 2px 0; text-shadow: 0 0 10px gold; }
 
-    .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 10px; }
-    .reel { height: 240px; background: #160c24; border-radius: 16px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 18px black, 0 0 10px rgba(255, 215, 0, 0.4); }
-    .strip { position: absolute; width: 100%; top: -48px; }
-    .symbol { height: 48px; display: flex; justify-content: center; align-items: center; font-size: 26px; color: #ffd966; }
+    .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 8px; }
+    .reel { height: 220px; background: #160c24; border-radius: 16px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 18px black, 0 0 10px rgba(255, 215, 0, 0.4); }
+    .strip { position: absolute; width: 100%; top: -44px; }
+    .symbol { height: 44px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: #ffd966; }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
     .win-line { position: absolute; height: 3px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 10px; transform-origin: left center; box-shadow: 0 0 12px white, 0 0 20px gold; animation: linePulse 1.2s infinite alternate; }
@@ -261,16 +295,23 @@
 
     .controls-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: stretch;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .left-buttons {
-      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+      flex: 0 0 auto;
+      width: 45%;
+    }
+
+    .left-buttons .thread-btn {
+      animation: none;
+      font-size: 0.75rem;
+      padding: 10px 10px;
     }
 
     .spin-btn {
@@ -278,13 +319,18 @@
       border: none;
       color: #1f0a2e;
       font-weight: 900;
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       letter-spacing: 2px;
-      box-shadow: 0 0 25px #ffaa33;
-      flex: 0 0 70px;
+      box-shadow: 0 0 30px #ffaa33;
+      flex: 1;
       padding: 10px;
-      animation: none;
+      animation: spinPulse 1.5s ease-in-out infinite;
       border-radius: 20px;
+    }
+
+    @keyframes spinPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px #ffaa33; }
+      50% { transform: scale(1.03); box-shadow: 0 0 40px #ffcc00; }
     }
 
     .overlay {
@@ -318,29 +364,30 @@
     .lang-switch {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 2px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .lang-btn {
       background: transparent;
       border: 1px solid #c9a13b;
       color: #ddc07a;
-      padding: 6px 16px;
+      padding: 5px 12px;
       border-radius: 30px;
       font-weight: bold;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     .lang-btn.active { background: #d4af37; color: #150a1f; border-color: #fff; }
 
     .lang-flag {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .social-btn {
@@ -443,7 +490,7 @@
       <div class="win-card" id="authCard">
         <div id="loginForm">
           <h3 class="auth-title" id="loginTitle">🔐 ВХОД</h3>
-          <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм" id="loginPlaceholder">
+          <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм">
           <button id="loginBtn" class="thread-btn" style="animation:none; width:100%;">ВОЙТИ</button>
           <button id="showRegisterBtn" class="thread-btn" style="animation:none; width:100%; margin-top:8px; background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
         </div>
@@ -457,9 +504,9 @@
     </div>
 
     <div class="lang-switch">
-      <button id="langRu" class="lang-btn active"><span class="lang-flag">🇷🇺</span> RU</button>
-      <button id="langUa" class="lang-btn"><span class="lang-flag">🇺🇦</span> UA</button>
-      <button id="langEn" class="lang-btn"><span class="lang-flag">🇬🇧</span> EN</button>
+      <button id="langRu" class="lang-btn active"><span class="lang-flag">🇷🇺</span>RU</button>
+      <button id="langUa" class="lang-btn"><span class="lang-flag">🇺🇦</span>UA</button>
+      <button id="langEn" class="lang-btn"><span class="lang-flag">🇬🇧</span>EN</button>
     </div>
 
     <div>
@@ -470,29 +517,37 @@
     <div class="user-bar">
       <span class="nickname" id="nicknameDisplay">Игрок</span>
       <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span></span>
+      <button class="logout-btn" id="logoutBtn">🚪 Выйти</button>
+    </div>
+
+    <div class="top-info-bar">
+      <span>💎 1 спин = 10 алмазов</span>
+      <span id="topSpinsInfo">🎰 Спины: 0</span>
     </div>
 
     <div id="mainMenu" class="menu-grid">
-      <button class="thread-btn full-width-btn" id="customRewardsBtn" style="background:#3d2058;">🎁 Мои награды</button>
+      <button class="thread-btn full-width-btn" id="customRewardsBtn" style="background:#3d2058;">🎁✨ Мои желания</button>
       <button class="thread-btn" data-mode="18+" id="btn18">🔞 18+</button>
       <button class="thread-btn" data-mode="home" id="btnHome">🏠 Для Дома</button>
       <button class="thread-btn" data-mode="party" id="btnParty">🎉 Для Вечеринки</button>
       <button class="thread-btn" data-mode="young" id="btnYoung">💑 Молодая Пара</button>
       <button class="thread-btn" data-mode="family" id="btnFamily">👨‍👩‍👧 Семейная Пара</button>
-      <button class="thread-btn full-width-btn" id="historyBtn">📜 История</button>
+      <button class="thread-btn full-width-btn" id="historyBtn">📜📖 История</button>
     </div>
 
     <div id="slotUI" class="slot-machine hidden">
-      <div class="treasure-section">
-        <div class="treasure-box">👑</div>
-        <div class="progress-container">
-          <div class="progress-text" id="progressText">Сундук: 0/100%</div>
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="slot-top-row">
+        <div class="treasure-section">
+          <div class="treasure-box">👑</div>
+          <div class="progress-container">
+            <div class="progress-text" id="progressText">Сундук: 0/100%</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
         </div>
-      </div>
-      <div class="balance-row">
-        <span id="diamondsLabel">💎 Алмазы:</span>
-        <span id="diamondsCount">100</span>
+        <div class="balance-row" style="margin:0; flex-shrink:0;">
+          <span id="diamondsLabel">💎 Алмазы:</span>
+          <span id="diamondsCount">100</span>
+        </div>
       </div>
       <div class="free-spins-badge hidden" id="freeSpinsBadge">🎁 Бесплатные спины: 0 (Шанс джекпота +50%)</div>
       <div class="machine" id="machine"></div>
@@ -500,10 +555,10 @@
       <div style="color:#ffd966; text-align:center; min-height:22px; font-weight:bold;" id="messageDisplay"></div>
       <div class="controls-row">
         <div class="left-buttons">
-          <button id="donateButton" class="thread-btn" style="font-size:1rem; animation: none;">💎 Пополнить алмазы</button>
-          <button id="backToMenu" class="thread-btn" style="font-size:1rem; background:#2a1738; animation: none;">↩️ МЕНЮ</button>
+          <button id="donateButton" class="thread-btn">💎 Пополнить</button>
+          <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
         </div>
-        <button id="spinButton" class="thread-btn spin-btn">⚡</button>
+        <button id="spinButton" class="thread-btn spin-btn">⚡ СТАРТ</button>
       </div>
     </div>
   </div>
@@ -554,7 +609,7 @@
 
   <div id="customRewardsModal" class="overlay hidden">
     <div class="win-card" style="max-width:420px;">
-      <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои награды (3-10)</h3>
+      <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои желания (3-10)</h3>
       <p style="color:#ddd; font-size:0.8rem;" id="customRewardsDesc">Введите свои желания для джекпота</p>
       <div id="customRewardsList"></div>
       <button id="addCustomRewardBtn" class="thread-btn" style="animation:none; margin-top:8px;">+ Добавить</button>
@@ -598,47 +653,47 @@
         ru: {
           loginTitle: '🔐 ВХОД', registerTitle: '📝 РЕГИСТРАЦИЯ', loginPlaceholder: 'Введите никнейм', registerPlaceholder: 'Придумайте никнейм',
           loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
-          customRewardsBtn: '🎁 Мои награды', historyBtn: '📜 История',
+          customRewardsBtn: '🎁✨ Мои желания', historyBtn: '📜📖 История',
           menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
-          diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить алмазы', backToMenu: '↩️ МЕНЮ',
+          diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '⚡ СТАРТ',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
           nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
           paymentTitle: '💎 ПОПОЛНЕНИЕ АЛМАЗОВ', closePayment: 'ОТМЕНА',
           historyTitle: '📜 История Джекпотов', noJackpots: 'Нет джекпотов',
-          customRewardsTitle: '🎁 Мои награды (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
+          customRewardsTitle: '🎁 Мои желания (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
           notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '👑 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
-          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', spinCost: 10
+          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', spinCost: '💎 1 спин = 10 алмазов', logoutBtn: '🚪 Выйти'
         },
         ua: {
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
           loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
-          customRewardsBtn: '🎁 Мої нагороди', historyBtn: '📜 Історія',
+          customRewardsBtn: '🎁✨ Мої бажання', historyBtn: '📜📖 Історія',
           menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
-          diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити алмази', backToMenu: '↩️ МЕНЮ',
+          diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '⚡ СТАРТ',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
           nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
           paymentTitle: '💎 ПОПОВНЕННЯ АЛМАЗІВ', closePayment: 'СКАСУВАТИ',
           historyTitle: '📜 Історія Джекпотів', noJackpots: 'Немає джекпотів',
-          customRewardsTitle: '🎁 Мої нагороди (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
+          customRewardsTitle: '🎁 Мої бажання (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
           notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '👑 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
-          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', spinCost: 10
+          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', spinCost: '💎 1 спин = 10 алмазів', logoutBtn: '🚪 Вийти'
         },
         en: {
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
           loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
-          customRewardsBtn: '🎁 My Rewards', historyBtn: '📜 History',
+          customRewardsBtn: '🎁✨ My Wishes', historyBtn: '📜📖 History',
           menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
-          diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up Diamonds', backToMenu: '↩️ MENU',
+          diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '⚡ START',
           jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
           nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
           paymentTitle: '💎 TOP UP DIAMONDS', closePayment: 'CANCEL',
           historyTitle: '📜 Jackpot History', noJackpots: 'No jackpots yet',
-          customRewardsTitle: '🎁 My Rewards (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
+          customRewardsTitle: '🎁 My Wishes (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
           notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '👑 +10 free spins!', tryAgain: '💫 Try again',
-          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', spinCost: 10
+          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', spinCost: '💎 1 spin = 10 diamonds', logoutBtn: '🚪 Logout'
         }
       };
 
@@ -688,6 +743,8 @@
       const nicknameDisplay = document.getElementById('nicknameDisplay');
       const mainBalanceDisplay = document.getElementById('mainBalanceDisplay');
       const spinWinDisplay = document.getElementById('spinWinDisplay');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const topSpinsInfo = document.getElementById('topSpinsInfo');
 
       const mainMenu = document.getElementById('mainMenu');
       const slotUI = document.getElementById('slotUI');
@@ -743,8 +800,8 @@
         registerBtn.textContent = t('registerBtn');
         showRegisterBtn.textContent = t('showRegisterBtn');
         showLoginBtn.textContent = t('showLoginBtn');
-        customRewardsBtn.innerHTML = '🎁 ' + t('customRewardsBtn');
-        historyBtn.innerHTML = '📜 ' + t('historyBtn');
+        customRewardsBtn.innerHTML = t('customRewardsBtn');
+        historyBtn.innerHTML = t('historyBtn');
         document.getElementById('btn18').innerHTML = t('menu18');
         document.getElementById('btnHome').innerHTML = t('menuHome');
         document.getElementById('btnParty').innerHTML = t('menuParty');
@@ -753,6 +810,8 @@
         diamondsLabel.textContent = t('diamondsLabel');
         donateButton.innerHTML = t('donateButton');
         backToMenuBtn.innerHTML = t('backToMenu');
+        spinButton.innerHTML = t('spinBtn');
+        logoutBtn.textContent = t('logoutBtn');
         document.getElementById('jackpotTitle').textContent = t('jackpotTitle');
         sendToPartnerBtn.innerHTML = t('sendToPartner');
         closeWinBtn.textContent = t('closeBtn');
@@ -773,8 +832,16 @@
         privacyPolicyLink.textContent = t('privacyLink');
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
+        document.querySelector('.top-info-bar span:first-child').textContent = t('spinCost');
         updateFreeSpinsBadge();
+        updateTopSpinsInfo();
         renderHistory();
+      }
+
+      function updateTopSpinsInfo() {
+        if (topSpinsInfo) {
+          topSpinsInfo.textContent = `🎰 ${currentLanguage === 'ru' ? 'Спины' : currentLanguage === 'ua' ? 'Спини' : 'Spins'}: ${freeSpins > 0 ? freeSpins : 0}`;
+        }
       }
 
       function loadUserData() {
@@ -788,6 +855,7 @@
         loadHistory();
         loadCustomRewards();
         updateMainBalance();
+        updateTopSpinsInfo();
       }
 
       function login() {
@@ -801,7 +869,8 @@
           loadDiamonds();
           loadHistory();
           loadCustomRewards();
-          updateMainBalance(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
+          updateMainBalance();
+          updateTopSpinsInfo(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
       }
 
       function register() {
@@ -815,10 +884,22 @@
         loadHistory();
         loadCustomRewards();
         updateMainBalance();
+        updateTopSpinsInfo();
+      }
+
+      function logout() {
+        nickname = '';
+        localStorage.removeItem('wdVdsNickname');
+        authOverlay.classList.remove('hidden');
+        mainMenu.classList.add('hidden');
+        slotUI.classList.add('hidden');
+        loginNickname.value = '';
+        registerNickname.value = '';
       }
 
       loginBtn.addEventListener('click', login);
       registerBtn.addEventListener('click', register);
+      logoutBtn.addEventListener('click', logout);
       showRegisterBtn.addEventListener('click', () => { loginForm.classList.add('hidden');
         registerForm.classList.remove('hidden'); });
       showLoginBtn.addEventListener('click', () => { registerForm.classList.add('hidden');
@@ -886,13 +967,13 @@
 
       saveAndPlayBtn.addEventListener('click', () => {
         const validRewards = customRewards.filter(r => r.trim() !== '');
-        if (validRewards.length < 3) { alert(currentLanguage === 'ru' ? 'Нужно минимум 3 награды!' : currentLanguage === 'ua' ? 'Потрібно мінімум 3 нагороди!' : 'Need at least 3 rewards!'); return; }
+        if (validRewards.length < 3) { alert(currentLanguage === 'ru' ? 'Нужно минимум 3 желания!' : currentLanguage === 'ua' ? 'Потрібно мінімум 3 бажання!' : 'Need at least 3 wishes!'); return; }
         customRewards = validRewards;
         saveCustomRewardsData();
         useCustomRewards = true;
         customRewardsModal.classList.add('hidden');
         enterSlot();
-        showMessage('🎁 ' + (currentLanguage === 'ru' ? 'Игра с вашими наградами!' : currentLanguage === 'ua' ? 'Гра з вашими нагородами!' : 'Playing with your rewards!'));
+        showMessage('🎁 ' + (currentLanguage === 'ru' ? 'Игра с вашими желаниями!' : currentLanguage === 'ua' ? 'Гра з вашими бажаннями!' : 'Playing with your wishes!'));
       });
 
       customRewardsBtn.addEventListener('click', () => { renderCustomRewards();
@@ -913,8 +994,9 @@
 
       function updateFreeSpinsBadge() {
         if (freeSpins > 0) { freeSpinsBadge.classList.remove('hidden');
-          freeSpinsBadge.textContent = `🎁 ${currentLanguage === 'ru' ? 'Бесплатные спины' : currentLanguage === 'ua' ? 'Безкоштовні спини' : 'Free spins'}: ${freeSpins}`; } else { freeSpinsBadge.classList.add('hidden');
+          freeSpinsBadge.textContent = `🎁 ${currentLanguage === 'ru' ? 'Бесплатные спины' : currentLanguage === 'ua' ? 'Безкоштовні спини' : 'Free spins'}: ${freeSpins} (Шанс джекпота +50%)`; } else { freeSpinsBadge.classList.add('hidden');
           jackpotBoost = false; }
+        updateTopSpinsInfo();
       }
 
       function updateTreasure(add) {
@@ -942,7 +1024,7 @@
         setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
       }
 
-      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 48 : 48; }
+      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 44 : 44; }
 
       function createReels() { machineDiv.innerHTML = '';
         strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
@@ -1170,7 +1252,8 @@
         createReels();
         buildGrid();
         applyGrid();
-        messageDisplay.textContent = ''; }
+        messageDisplay.textContent = '';
+        updateTopSpinsInfo(); }
 
       function backToMenu() { slotUI.classList.add('hidden');
         mainMenu.classList.remove('hidden');
@@ -1180,7 +1263,8 @@
         nameFormModal.classList.add('hidden');
         customRewardsModal.classList.add('hidden');
         useCustomRewards = false;
-        updateMainBalance(); }
+        updateMainBalance();
+        updateTopSpinsInfo(); }
 
       document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', () => { useCustomRewards = false;
         enterSlot(); }));
