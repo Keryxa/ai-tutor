@@ -39,9 +39,12 @@
     body::before {
       content: "";
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(ellipse at 30% 40%, rgba(255,215,0,0.1) 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, rgba(180,100,255,0.12) 0%, transparent 70%);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 30% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(180, 100, 255, 0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -51,11 +54,11 @@
       height: 100vh;
       height: 100dvh;
       max-width: 100%;
-      background: rgba(8,3,18,0.7);
+      background: rgba(8, 3, 18, 0.7);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
-      border: 2px solid rgba(212,175,55,0.4);
-      box-shadow: 0 0 50px rgba(180,130,50,0.5);
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 0 50px rgba(180, 130, 50, 0.5);
       display: flex;
       flex-direction: column;
       position: relative;
@@ -73,37 +76,98 @@
       }
     }
 
-    .app-header {
+    .top-bar {
       flex-shrink: 0;
-      padding: 16px 20px 8px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
       gap: 8px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     }
 
-    .vds-title {
-      text-align: center;
-      font-size: clamp(1.8rem, 6vw, 2.8rem);
+    .site-title {
+      font-size: 1.2rem;
       font-weight: 900;
-      letter-spacing: 6px;
+      letter-spacing: 3px;
       background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 20px #ffb700);
+      filter: drop-shadow(0 0 12px #ffb700);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .site-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #c9a13b;
+      color: #ddc07a;
+      padding: 5px 10px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .lang-btn {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .lang-btn.active {
+      background: #d4af37;
+      color: #150a1f;
+    }
+
+    .app-header {
+      flex-shrink: 0;
+      padding: 4px 20px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .vds-title {
+      text-align: center;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px #ffb700);
       animation: vdsGlow 2s ease-in-out infinite alternate;
-      line-height: 1;
+      line-height: 1.1;
     }
 
     @keyframes vdsGlow {
-      0% { filter: drop-shadow(0 0 20px #ffb700); }
-      100% { filter: drop-shadow(0 0 35px #ffd700); }
+      0% { filter: drop-shadow(0 0 15px #ffb700); }
+      100% { filter: drop-shadow(0 0 25px #ffd700); }
     }
 
     .subtitle {
       color: #d4af37;
-      font-size: 0.7rem;
-      letter-spacing: 5px;
+      font-size: 0.6rem;
+      letter-spacing: 4px;
       text-align: center;
     }
 
@@ -111,586 +175,1088 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(20,5,35,0.6);
+      background: rgba(20, 5, 35, 0.6);
       border: 2px solid #d4af37;
       border-radius: 40px;
-      padding: 10px 18px;
-      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+      padding: 6px 14px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+      margin: 0 4px;
     }
+
     .nickname {
       font-weight: 900;
-      font-size: 1rem;
+      font-size: 0.85rem;
       color: #ffd700;
-      text-shadow: 0 0 10px #ffd700;
+      text-shadow: 0 0 8px #ffd700;
       animation: nickGlow 2s infinite alternate;
     }
+
     @keyframes nickGlow {
-      0% { text-shadow: 0 0 8px #ffd700; }
-      100% { text-shadow: 0 0 15px #ffea80; }
+      0% { text-shadow: 0 0 6px #ffd700; }
+      100% { text-shadow: 0 0 12px #ffea80; }
     }
+
     .balance-display {
       font-weight: 900;
-      font-size: 1rem;
+      font-size: 0.85rem;
       color: #ffd966;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
-
-    .lang-switch {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .lang-btn {
-      background: transparent;
-      border: 1px solid #c9a13b;
-      color: #ddc07a;
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .lang-btn.active { background: #d4af37; color: #150a1f; }
 
     .app-content {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 8px 20px 12px;
+      padding: 6px 16px 8px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       -webkit-overflow-scrolling: touch;
     }
 
     .menu-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
-    .full-width-btn { grid-column: 1 / -1; }
+
+    .full-width-btn {
+      grid-column: 1 / -1;
+    }
 
     .thread-btn {
       background: linear-gradient(180deg, #2d1840, #150920);
       border: 2px solid #c9a13b;
       border-radius: 50px;
-      padding: 14px 10px;
+      padding: 12px 8px;
       font-weight: 700;
       color: #f7e9c3;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 0.9rem;
-      box-shadow: 0 8px 14px rgba(0,0,0,0.6), 0 0 12px rgba(255,200,0,0.4);
+      font-size: 0.8rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 200, 0, 0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       backdrop-filter: blur(8px);
       animation: waveFloat 4s ease-in-out infinite;
       white-space: nowrap;
       transition: transform 0.2s;
     }
-    .thread-btn:nth-child(1){animation-delay:0s}
-    .thread-btn:nth-child(2){animation-delay:.1s}
-    .thread-btn:nth-child(3){animation-delay:.2s}
-    .thread-btn:nth-child(4){animation-delay:.3s}
-    .thread-btn:nth-child(5){animation-delay:.4s}
-    .thread-btn:nth-child(6){animation-delay:.5s}
-    .thread-btn:nth-child(7){animation-delay:.6s}
-    @keyframes waveFloat {
-      0%,100%{transform:translateX(0)}
-      25%{transform:translateX(5px)}
-      75%{transform:translateX(-5px)}
+
+    @media (min-width: 768px) {
+      .thread-btn {
+        padding: 14px 12px;
+        font-size: 0.95rem;
+      }
     }
-    .thread-btn:active { transform:scale(0.96); animation:none; }
+
+    .thread-btn:nth-child(1) { animation-delay: 0s; }
+    .thread-btn:nth-child(2) { animation-delay: 0.1s; }
+    .thread-btn:nth-child(3) { animation-delay: 0.2s; }
+    .thread-btn:nth-child(4) { animation-delay: 0.3s; }
+    .thread-btn:nth-child(5) { animation-delay: 0.4s; }
+    .thread-btn:nth-child(6) { animation-delay: 0.5s; }
+    .thread-btn:nth-child(7) { animation-delay: 0.6s; }
+
+    @keyframes waveFloat {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+    }
+
+    .thread-btn:active {
+      transform: scale(0.96);
+      animation: none;
+    }
 
     .slot-machine {
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       border: 2px solid #b49450;
-      border-radius: 36px;
-      padding: 12px 10px;
+      border-radius: 30px;
+      padding: 8px 8px;
       backdrop-filter: blur(14px);
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
+
+    @media (min-width: 768px) {
+      .slot-machine {
+        padding: 12px 10px;
+        gap: 8px;
+      }
+    }
+
     .treasure-section {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background: rgba(20,5,35,0.6);
+      gap: 6px;
+      background: rgba(20, 5, 35, 0.6);
       border-radius: 40px;
-      padding: 6px 12px;
+      padding: 4px 10px;
       border: 1px solid #d4af37;
     }
-    .treasure-box { font-size: 2rem; filter: drop-shadow(0 0 12px gold); }
-    .progress-container { flex: 1; max-width: 150px; }
-    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.7rem; text-align: center; }
-    .progress-bar { height: 10px; background: #1f0b2e; border-radius: 8px; overflow: hidden; border: 1px solid #c9a13b; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg,#ffd700,#ffaa00); transition: width 0.4s; width: 0%; }
 
-    .balance-row { display: flex; justify-content: space-between; color: #e5d9b0; font-weight: bold; font-size: 0.9rem; }
-    .free-spins-badge { color: #ffd966; font-size: 0.8rem; text-align: center; }
+    .treasure-box {
+      font-size: 1.6rem;
+      filter: drop-shadow(0 0 10px gold);
+    }
 
-    .machine { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
-    .reel { height: 180px; background: #160c24; border-radius: 14px; overflow: hidden; border: 2px solid #e4b429; position: relative; }
-    @media (min-width: 768px) { .reel { height: 220px; } }
-    .strip { position: absolute; width: 100%; top: -40px; }
-    .symbol { height: 40px; display: flex; justify-content: center; align-items: center; font-size: 22px; color: #ffd966; }
-    @media (min-width: 768px) { .symbol { height: 44px; font-size: 26px; } }
+    .progress-container {
+      flex: 1;
+      max-width: 130px;
+    }
 
-    .win-lines { position: relative; pointer-events: none; z-index: 40; height: 0; }
-    .win-line { position: absolute; height: 3px; background: linear-gradient(90deg,#fff,#ffd700,#fff); border-radius: 10px; transform-origin: left center; box-shadow: 0 0 12px #fff; animation: linePulse 1.2s infinite alternate; }
-    @keyframes linePulse { 0%{opacity:.5} 100%{opacity:1} }
+    .progress-text {
+      color: #ffd966;
+      font-weight: bold;
+      font-size: 0.65rem;
+      text-align: center;
+    }
 
-    .controls-row { display: flex; gap: 8px; align-items: stretch; }
-    .left-buttons { flex:1; display: flex; flex-direction: column; gap: 6px; }
-    .left-buttons .thread-btn { animation: none; font-size: 0.8rem; padding: 12px; }
+    .progress-bar {
+      height: 8px;
+      background: #1f0b2e;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #c9a13b;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffd700, #ffaa00);
+      transition: width 0.4s;
+      width: 0%;
+    }
+
+    .balance-row {
+      display: flex;
+      justify-content: space-between;
+      color: #e5d9b0;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .free-spins-badge {
+      color: #ffd966;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+
+    .machine {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+    }
+
+    .reel {
+      aspect-ratio: 0.7;
+      background: #160c24;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #e4b429;
+      position: relative;
+      height: auto;
+      min-height: 140px;
+    }
+
+    @media (min-width: 768px) {
+      .reel {
+        aspect-ratio: 0.65;
+        min-height: 200px;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .reel {
+        min-height: 110px;
+      }
+    }
+
+    @media (min-height: 800px) {
+      .reel {
+        min-height: 170px;
+      }
+    }
+
+    .strip {
+      position: absolute;
+      width: 100%;
+      top: -36px;
+    }
+
+    .symbol {
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: #ffd966;
+    }
+
+    @media (min-width: 768px) {
+      .symbol {
+        height: 44px;
+        font-size: 24px;
+      }
+    }
+
+    .win-lines {
+      position: relative;
+      pointer-events: none;
+      z-index: 40;
+      height: 0;
+    }
+
+    .win-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, #fff, #ffd700, #fff);
+      border-radius: 8px;
+      transform-origin: left center;
+      box-shadow: 0 0 10px #fff;
+      animation: linePulse 1.2s infinite alternate;
+    }
+
+    @keyframes linePulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 6px;
+      align-items: stretch;
+    }
+
+    .left-buttons {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .left-buttons .thread-btn {
+      animation: none;
+      font-size: 0.7rem;
+      padding: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .left-buttons .thread-btn {
+        font-size: 0.85rem;
+        padding: 12px;
+      }
+    }
+
     .spin-btn {
       background: radial-gradient(circle at 30% 30%, #ffea80, #b5891a);
       border: none;
       color: #1f0a2e;
       font-weight: 900;
-      font-size: 1.1rem;
-      box-shadow: 0 0 25px #ffaa33;
-      flex: 0 0 60px;
-      padding: 8px;
+      font-size: 1rem;
+      box-shadow: 0 0 20px #ffaa33;
+      flex: 0 0 50px;
+      padding: 6px;
       animation: none;
-      border-radius: 16px;
-      writing-mode: horizontal-tb;
+      border-radius: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .spin-btn {
+        flex: 0 0 65px;
+        font-size: 1.2rem;
+      }
     }
 
     .overlay {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.9);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(18px);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 200;
     }
+
     .win-card {
       background: #1f1233;
       border: 3px solid #e4b429;
-      border-radius: 48px;
-      padding: 24px 20px;
+      border-radius: 40px;
+      padding: 20px 16px;
       max-width: 95vw;
-      width: 380px;
-      max-height: 85vh;
+      width: 360px;
+      max-height: 80vh;
       overflow-y: auto;
       text-align: center;
-      box-shadow: 0 0 60px gold;
+      box-shadow: 0 0 50px gold;
     }
+
     .hidden { display: none !important; }
 
     .form-input {
-      width: 100%; padding: 12px; margin: 6px 0;
-      border-radius: 30px; border: 2px solid #d4af37;
-      background: #2a1540; color: #ffd966; font-size: 0.9rem;
-      text-align: center; outline: none;
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 25px;
+      border: 2px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.85rem;
+      text-align: center;
+      outline: none;
     }
+
     .form-input::placeholder { color: #b8945f; }
 
     .diamond-option {
-      background: #2a1540; border: 1px solid #d4af37; color: #ffd966;
-      padding: 10px; margin: 5px 0; border-radius: 20px; cursor: pointer;
+      background: #2a1540;
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 8px;
+      margin: 4px 0;
+      border-radius: 18px;
+      cursor: pointer;
+      font-size: 0.8rem;
     }
-    .diamond-option:hover { background: #3d2058; }
 
-    .history-list { max-height: 250px; overflow-y: auto; text-align: left; color: #f0dbb0; }
-    .history-item { background: rgba(255,215,0,0.1); border: 1px solid #d4af37; border-radius: 16px; padding: 8px; margin: 6px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 4px; }
-    .history-item button { background: #d4af37; color: #150a1f; border: none; border-radius: 16px; padding: 5px 10px; font-weight: bold; cursor: pointer; }
+    .history-list {
+      max-height: 220px;
+      overflow-y: auto;
+      text-align: left;
+      color: #f0dbb0;
+    }
+
+    .history-item {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid #d4af37;
+      border-radius: 14px;
+      padding: 6px;
+      margin: 4px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .history-item button {
+      background: #d4af37;
+      color: #150a1f;
+      border: none;
+      border-radius: 14px;
+      padding: 4px 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
 
     .custom-reward-input {
-      width: 100%; padding: 8px; margin: 3px 0;
-      border-radius: 16px; border: 1px solid #d4af37;
-      background: #2a1540; color: #ffd966; font-size: 0.8rem; text-align: center; outline: none;
+      width: 100%;
+      padding: 7px;
+      margin: 2px 0;
+      border-radius: 14px;
+      border: 1px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.75rem;
+      text-align: center;
+      outline: none;
     }
 
     .spin-win-display {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      font-size: 2.5rem; font-weight: 900; color: #ffd700;
-      text-shadow: 0 0 30px #ffd700; z-index: 300; pointer-events: none; opacity: 0;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 25px #ffd700;
+      z-index: 300;
+      pointer-events: none;
+      opacity: 0;
     }
-    .spin-win-display.show { animation: winPopup 2s ease-out forwards; }
+
+    .spin-win-display.show {
+      animation: winPopup 2s ease-out forwards;
+    }
+
     @keyframes winPopup {
-      0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
-      20%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}
-      40%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-      100%{opacity:0;transform:translate(-50%,-120%) scale(.8)}
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+      40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
     }
 
     .footer {
       flex-shrink: 0;
       text-align: center;
       color: #b8945f;
-      font-size: 0.65rem;
-      padding: 6px 20px;
-      border-top: 1px solid rgba(212,175,55,0.2);
+      font-size: 0.6rem;
+      padding: 4px 16px;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
     }
-    .footer a { color: #d4af37; text-decoration: underline; cursor: pointer; margin: 0 6px; }
-    .policy-text { text-align: left; color: #ddd; font-size: 0.8rem; line-height: 1.4; max-height: 250px; overflow-y: auto; padding: 8px; }
+
+    .footer a {
+      color: #d4af37;
+      text-decoration: underline;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    .policy-text {
+      text-align: left;
+      color: #ddd;
+      font-size: 0.75rem;
+      line-height: 1.3;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 6px;
+    }
   </style>
 </head>
 <body>
-<div id="app">
-  <div id="authOverlay" class="overlay">
+  <div id="app">
+    <div id="authOverlay" class="overlay">
+      <div class="win-card">
+        <div id="loginForm">
+          <h3 style="color:#ffd700;font-size:1.1rem;" id="loginTitle">🔐 ВХОД</h3>
+          <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм">
+          <button id="loginBtn" class="thread-btn" style="animation:none;width:100%;">ВОЙТИ</button>
+          <button id="showRegisterBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
+        </div>
+        <div id="registerForm" class="hidden">
+          <h3 style="color:#ffd700;font-size:1.1rem;" id="registerTitle">📝 РЕГИСТРАЦИЯ</h3>
+          <input type="text" id="registerNickname" class="form-input" placeholder="Придумайте никнейм">
+          <button id="registerBtn" class="thread-btn" style="animation:none;width:100%;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+          <button id="showLoginBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;background:#2a1738;">↩️ НАЗАД</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-bar">
+      <span class="site-title">VDS</span>
+      <div class="lang-switch">
+        <button class="lang-btn active" id="langRu"><span>🇷🇺</span> RU</button>
+        <button class="lang-btn" id="langUa"><span>🇺🇦</span> UA</button>
+        <button class="lang-btn" id="langEn"><span>🇬🇧</span> EN</button>
+      </div>
+    </div>
+
+    <div class="app-header">
+      <div class="subtitle">VIBE DARE SMILE</div>
+      <div class="user-bar">
+        <span class="nickname" id="nicknameDisplay">Игрок</span>
+        <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span></span>
+      </div>
+    </div>
+
+    <div class="app-content" id="appContent">
+      <div id="mainMenu" class="menu-grid">
+        <button class="thread-btn full-width-btn" id="customRewardsBtn">🎁 Мои награды</button>
+        <button class="thread-btn" data-mode="18+">🔞 18+</button>
+        <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
+        <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
+        <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
+        <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
+        <button class="thread-btn full-width-btn" id="historyBtn">📜 История</button>
+      </div>
+
+      <div id="slotUI" class="slot-machine hidden">
+        <div class="treasure-section">
+          <div class="treasure-box">👑</div>
+          <div class="progress-container">
+            <div class="progress-text" id="progressText">Сундук: 0/100%</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+        </div>
+        <div class="balance-row">
+          <span id="diamondsLabel">💎 Алмазы:</span>
+          <span id="diamondsCount">100</span>
+        </div>
+        <div class="free-spins-badge hidden" id="freeSpinsBadge"></div>
+        <div class="machine" id="machine"></div>
+        <div class="win-lines" id="winLines"></div>
+        <div style="color:#ffd966;text-align:center;min-height:16px;font-size:0.75rem;font-weight:bold;" id="messageDisplay"></div>
+        <div class="controls-row">
+          <div class="left-buttons">
+            <button id="donateButton" class="thread-btn">💎 Пополнить</button>
+            <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
+          </div>
+          <button id="spinButton" class="thread-btn spin-btn">⚡</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a id="privacyPolicyLink">Политика</a> |
+      <a id="termsOfUseLink">Условия</a>
+      <span style="margin-left:8px;">© 2024 VDS</span>
+    </div>
+  </div>
+
+  <div class="spin-win-display" id="spinWinDisplay"></div>
+
+  <div id="winOverlay" class="overlay hidden">
     <div class="win-card">
-      <div id="loginForm">
-        <h3 style="color:#ffd700;" id="loginTitle">🔐 ВХОД</h3>
-        <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм">
-        <button id="loginBtn" class="thread-btn" style="animation:none;width:100%;">ВОЙТИ</button>
-        <button id="showRegisterBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
-      </div>
-      <div id="registerForm" class="hidden">
-        <h3 style="color:#ffd700;" id="registerTitle">📝 РЕГИСТРАЦИЯ</h3>
-        <input type="text" id="registerNickname" class="form-input" placeholder="Придумайте никнейм">
-        <button id="registerBtn" class="thread-btn" style="animation:none;width:100%;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
-        <button id="showLoginBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;background:#2a1738;">↩️ НАЗАД</button>
-      </div>
+      <h2 style="color:#ffd966;font-size:1.2rem;" id="jackpotTitle">🎉 ДЖЕКПОТ!</h2>
+      <p style="color:#f0dbb0;font-size:1rem;margin:6px 0;" id="winMessage"></p>
+      <div style="font-size:2rem;" id="winIcons"></div>
+      <button id="sendToPartnerBtn" class="thread-btn" style="animation:none;width:100%;margin-top:8px;">💌 Отправить</button>
+      <button id="closeWinBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
-  <div class="app-header">
-    <div class="lang-switch">
-      <button class="lang-btn active" id="langRu"><span>🇷🇺</span> RU</button>
-      <button class="lang-btn" id="langUa"><span>🇺🇦</span> UA</button>
-      <button class="lang-btn" id="langEn"><span>🇬🇧</span> EN</button>
-    </div>
-    <h1 class="vds-title">VDS</h1>
-    <div class="subtitle">VIBE DARE SMILE</div>
-    <div class="user-bar">
-      <span class="nickname" id="nicknameDisplay">Игрок</span>
-      <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span></span>
+  <div id="nameFormModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;font-size:1rem;" id="nameFormTitle">📝 Введите имена</h3>
+      <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
+      <input type="text" id="partnerNameInput" class="form-input" placeholder="Имя партнёра">
+      <button id="downloadWithNamesBtn" class="thread-btn" style="animation:none;width:100%;">📥 Скачать</button>
+      <button id="closeNameFormBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;">Отмена</button>
     </div>
   </div>
 
-  <div class="app-content" id="appContent">
-    <div id="mainMenu" class="menu-grid">
-      <button class="thread-btn full-width-btn" id="customRewardsBtn">🎁 Мои награды</button>
-      <button class="thread-btn" data-mode="18+">🔞 18+</button>
-      <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
-      <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
-      <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
-      <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
-      <button class="thread-btn full-width-btn" id="historyBtn">📜 История</button>
-    </div>
-
-    <div id="slotUI" class="slot-machine hidden">
-      <div class="treasure-section">
-        <div class="treasure-box">👑</div>
-        <div class="progress-container">
-          <div class="progress-text" id="progressText">Сундук: 0/100%</div>
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        </div>
-      </div>
-      <div class="balance-row">
-        <span id="diamondsLabel">💎 Алмазы:</span>
-        <span id="diamondsCount">100</span>
-      </div>
-      <div class="free-spins-badge hidden" id="freeSpinsBadge"></div>
-      <div class="machine" id="machine"></div>
-      <div class="win-lines" id="winLines"></div>
-      <div style="color:#ffd966;text-align:center;min-height:20px;font-size:0.85rem;font-weight:bold;" id="messageDisplay"></div>
-      <div class="controls-row">
-        <div class="left-buttons">
-          <button id="donateButton" class="thread-btn">💎 Пополнить</button>
-          <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
-        </div>
-        <button id="spinButton" class="thread-btn spin-btn">⚡</button>
-      </div>
+  <div id="paymentModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#f7e47b;font-size:1rem;" id="paymentTitle">💎 ПОПОЛНЕНИЕ</h3>
+      <div class="diamond-option" data-d="100">💎 100 - $1</div>
+      <div class="diamond-option" data-d="500">💎 500 - $5</div>
+      <div class="diamond-option" data-d="1000">💎 1000 - $10</div>
+      <div class="diamond-option" data-d="5000">💎 5000 - $50</div>
+      <div class="diamond-option" data-d="10000">💎 10000 - $100</div>
+      <button id="closePaymentBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">ОТМЕНА</button>
     </div>
   </div>
 
-  <div class="footer">
-    <a id="privacyPolicyLink">Политика конфиденциальности</a> |
-    <a id="termsOfUseLink">Условия использования</a>
-    <p style="margin-top:2px;">© 2024 VDS - Vibe Dare Smile</p>
+  <div id="historyModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;font-size:1rem;" id="historyTitle">📜 История</h3>
+      <div id="historyList" class="history-list"></div>
+      <button id="closeHistoryBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">ЗАКРЫТЬ</button>
+    </div>
   </div>
-</div>
 
-<div class="spin-win-display" id="spinWinDisplay"></div>
-
-<div id="winOverlay" class="overlay hidden">
-  <div class="win-card">
-    <h2 style="color:#ffd966;" id="jackpotTitle">🎉 ДЖЕКПОТ!</h2>
-    <p style="color:#f0dbb0;font-size:1.1rem;margin:8px 0;" id="winMessage"></p>
-    <div style="font-size:2.5rem;" id="winIcons"></div>
-    <button id="sendToPartnerBtn" class="thread-btn" style="animation:none;width:100%;margin-top:10px;">💌 Отправить</button>
-    <button id="closeWinBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">ЗАКРЫТЬ</button>
+  <div id="customRewardsModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;font-size:1rem;" id="customRewardsTitle">🎁 Мои награды (3-10)</h3>
+      <p style="color:#ddd;font-size:0.7rem;" id="customRewardsDesc">Введите желания для джекпота</p>
+      <div id="customRewardsList"></div>
+      <button id="addCustomRewardBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;">+ Добавить</button>
+      <button id="saveAndPlayBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;background:#d4af37;color:#150a1f;">💾 Сохранить и играть</button>
+      <button id="closeCustomRewardsBtn" class="thread-btn" style="animation:none;width:100%;margin-top:5px;">ЗАКРЫТЬ</button>
+    </div>
   </div>
-</div>
 
-<div id="nameFormModal" class="overlay hidden">
-  <div class="win-card">
-    <h3 style="color:#ffd966;" id="nameFormTitle">📝 Введите имена</h3>
-    <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
-    <input type="text" id="partnerNameInput" class="form-input" placeholder="Имя партнёра">
-    <button id="downloadWithNamesBtn" class="thread-btn" style="animation:none;width:100%;">📥 Скачать</button>
-    <button id="closeNameFormBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">Отмена</button>
+  <div id="policyModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;font-size:1rem;" id="policyTitle"></h3>
+      <div class="policy-text" id="policyContent"></div>
+      <button id="closePolicyBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">ЗАКРЫТЬ</button>
+    </div>
   </div>
-</div>
 
-<div id="paymentModal" class="overlay hidden">
-  <div class="win-card">
-    <h3 style="color:#f7e47b;" id="paymentTitle">💎 ПОПОЛНЕНИЕ</h3>
-    <div class="diamond-option" data-d="100">💎 100 - $1</div>
-    <div class="diamond-option" data-d="500">💎 500 - $5</div>
-    <div class="diamond-option" data-d="1000">💎 1000 - $10</div>
-    <div class="diamond-option" data-d="5000">💎 5000 - $50</div>
-    <div class="diamond-option" data-d="10000">💎 10000 - $100</div>
-    <button id="closePaymentBtn" class="thread-btn" style="animation:none;width:100%;margin-top:8px;">ОТМЕНА</button>
-  </div>
-</div>
+  <script>
+    (function() {
+      const ICONS = ['❤️', '🔒', '🍕', '🛏️', '🎁'];
+      const WISH_TEXTS = {
+        '❤️': { ru: 'Исполни моё романтическое желание', ua: 'Виконай моє романтичне бажання', en: 'Fulfill my romantic wish' },
+        '🔒': { ru: 'Надень наручники и повинуйся', ua: 'Надягни наручники й підкорись', en: 'Put on handcuffs and obey' },
+        '🍕': { ru: 'Закажи мою любимую пиццу', ua: 'Замов мою улюблену піцу', en: 'Order my favorite pizza' },
+        '🛏️': { ru: 'Устрой незабываемую ночь', ua: 'Влаштуй незабутню ніч', en: 'Create an unforgettable night' },
+        '🎁': { ru: 'Подари мне особенный сюрприз', ua: 'Подаруй мені особливий сюрприз', en: 'Give me a special surprise' }
+      };
+      const CERT_TEXTS = {
+        ru: { title: 'VDS СЕРТИФИКАТ', wonMsg: (u, p) => `${u} выиграл(а) для ${p}!`, official: 'ОФИЦИАЛЬНЫЙ ЧЕК • VDS' },
+        ua: { title: 'VDS СЕРТИФІКАТ', wonMsg: (u, p) => `${u} виграв(ла) для ${p}!`, official: 'ОФІЦІЙНИЙ ЧЕК • VDS' },
+        en: { title: 'VDS CERTIFICATE', wonMsg: (u, p) => `${u} won for ${p}!`, official: 'OFFICIAL CHECK • VDS' }
+      };
+      const T = {
+        ru: { loginTitle: '🔐 ВХОД', registerTitle: '📝 РЕГИСТРАЦИЯ', loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegister: '📝 РЕГИСТРАЦИЯ', showLogin: '↩️ НАЗАД', customRewards: '🎁 Мои награды', history: '📜 История', diamonds: '💎 Алмазы:', donate: '💎 Пополнить', back: '↩️ МЕНЮ', jackpot: '🎉 ДЖЕКПОТ!', send: '💌 Отправить', close: 'ЗАКРЫТЬ', nameTitle: '📝 Введите имена', download: '📥 Скачать', cancel: 'Отмена', payment: '💎 ПОПОЛНЕНИЕ', historyTitle: '📜 История', noJackpots: 'Нет джекпотов', customTitle: '🎁 Мои награды (3-10)', customDesc: 'Введите желания', add: '+ Добавить', savePlay: '💾 Сохранить и играть', privacy: 'Политика', terms: 'Условия', noDiamonds: '💔 Мало алмазов!', chest: '👑 +10 спинов!', tryAgain: '💫 Попробуй ещё', win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', freeSpins: 'Бесплатные спины' },
+        ua: { loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegister: '📝 РЕЄСТРАЦІЯ', showLogin: '↩️ НАЗАД', customRewards: '🎁 Мої нагороди', history: '📜 Історія', diamonds: '💎 Алмази:', donate: '💎 Поповнити', back: '↩️ МЕНЮ', jackpot: '🎉 ДЖЕКПОТ!', send: '💌 Надіслати', close: 'ЗАКРИТИ', nameTitle: '📝 Введіть імена', download: '📥 Завантажити', cancel: 'Скасувати', payment: '💎 ПОПОВНЕННЯ', historyTitle: '📜 Історія', noJackpots: 'Немає джекпотів', customTitle: '🎁 Мої нагороди (3-10)', customDesc: 'Введіть бажання', add: '+ Додати', savePlay: '💾 Зберегти і грати', privacy: 'Політика', terms: 'Умови', noDiamonds: '💔 Мало алмазів!', chest: '👑 +10 спинів!', tryAgain: '💫 Спробуй ще', win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', freeSpins: 'Безкоштовні спини' },
+        en: { loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegister: '📝 REGISTER', showLogin: '↩️ BACK', customRewards: '🎁 My Rewards', history: '📜 History', diamonds: '💎 Diamonds:', donate: '💎 Top Up', back: '↩️ MENU', jackpot: '🎉 JACKPOT!', send: '💌 Send', close: 'CLOSE', nameTitle: '📝 Enter Names', download: '📥 Download', cancel: 'Cancel', payment: '💎 TOP UP', historyTitle: '📜 History', noJackpots: 'No jackpots', customTitle: '🎁 My Rewards (3-10)', customDesc: 'Enter wishes', add: '+ Add', savePlay: '💾 Save & Play', privacy: 'Privacy', terms: 'Terms', noDiamonds: '💔 Not enough!', chest: '👑 +10 spins!', tryAgain: '💫 Try again', win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', freeSpins: 'Free spins' }
+      };
+      const POL = {
+        ru: { privacy: '<h4>Политика конфиденциальности</h4><p>Собираем только никнейм и игровые данные. Хранятся локально.</p>', terms: '<h4>Условия использования</h4><p>Игра для развлечения.</p>' },
+        ua: { privacy: '<h4>Політика конфіденційності</h4><p>Збираємо лише нікнейм та ігрові дані.</p>', terms: '<h4>Умови використання</h4><p>Гра для розваг.</p>' },
+        en: { privacy: '<h4>Privacy Policy</h4><p>We only collect nickname and game data.</p>', terms: '<h4>Terms of Use</h4><p>Entertainment only.</p>' }
+      };
 
-<div id="historyModal" class="overlay hidden">
-  <div class="win-card">
-    <h3 style="color:#ffd966;" id="historyTitle">📜 История</h3>
-    <div id="historyList" class="history-list"></div>
-    <button id="closeHistoryBtn" class="thread-btn" style="animation:none;width:100%;margin-top:8px;">ЗАКРЫТЬ</button>
-  </div>
-</div>
+      let lang = 'ru',
+        nickname = '',
+        diamonds = 100,
+        treasureProgress = 0,
+        freeSpins = 0,
+        jackpotBoost = false,
+        spinning = false;
+      const GRID = 5;
+      let visibleGrid = [],
+        strips = [],
+        jackpotHistory = [],
+        pendingIcon = null,
+        pendingWish = null,
+        customRewards = [],
+        useCustom = false;
+      let audioCtx = null;
 
-<div id="customRewardsModal" class="overlay hidden">
-  <div class="win-card">
-    <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои награды (3-10)</h3>
-    <p style="color:#ddd;font-size:0.75rem;" id="customRewardsDesc">Введите желания для джекпота</p>
-    <div id="customRewardsList"></div>
-    <button id="addCustomRewardBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">+ Добавить</button>
-    <button id="saveAndPlayBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;background:#d4af37;color:#150a1f;">💾 Сохранить и играть</button>
-    <button id="closeCustomRewardsBtn" class="thread-btn" style="animation:none;width:100%;margin-top:6px;">ЗАКРЫТЬ</button>
-  </div>
-</div>
+      function t(k) { return T[lang]?.[k] || T.ru[k] || k; }
 
-<div id="policyModal" class="overlay hidden">
-  <div class="win-card">
-    <h3 style="color:#ffd966;" id="policyTitle"></h3>
-    <div class="policy-text" id="policyContent"></div>
-    <button id="closePolicyBtn" class="thread-btn" style="animation:none;width:100%;margin-top:8px;">ЗАКРЫТЬ</button>
-  </div>
-</div>
+      function initAudio() { if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
 
-<script>
-(function(){
-const ICONS=['❤️','🔒','🍕','🛏️','🎁'];
-const WISH_TEXTS={
-'❤️':{ru:'Исполни моё романтическое желание',ua:'Виконай моє романтичне бажання',en:'Fulfill my romantic wish'},
-'🔒':{ru:'Надень наручники и повинуйся',ua:'Надягни наручники й підкорись',en:'Put on handcuffs and obey'},
-'🍕':{ru:'Закажи мою любимую пиццу',ua:'Замов мою улюблену піцу',en:'Order my favorite pizza'},
-'🛏️':{ru:'Устрой незабываемую ночь',ua:'Влаштуй незабутню ніч',en:'Create an unforgettable night'},
-'🎁':{ru:'Подари мне особенный сюрприз',ua:'Подаруй мені особливий сюрприз',en:'Give me a special surprise'}
-};
-const CERT_TEXTS={
-ru:{title:'VDS СЕРТИФИКАТ ВЫИГРЫША',subtitle:'Vibe Dare Smile',wonMsg:(u,p)=>`${u} выиграл(а) задание для ${p}!`,official:'ОФИЦИАЛЬНЫЙ ЧЕК • VDS'},
-ua:{title:'VDS СЕРТИФІКАТ ВИГРАШУ',subtitle:'Vibe Dare Smile',wonMsg:(u,p)=>`${u} виграв(ла) завдання для ${p}!`,official:'ОФІЦІЙНИЙ ЧЕК • VDS'},
-en:{title:'VDS WINNINGS CERTIFICATE',subtitle:'Vibe Dare Smile',wonMsg:(u,p)=>`${u} won a task for ${p}!`,official:'OFFICIAL CHECK • VDS'}
-};
-const T={
-ru:{loginTitle:'🔐 ВХОД',registerTitle:'📝 РЕГИСТРАЦИЯ',loginBtn:'ВОЙТИ',registerBtn:'ЗАРЕГИСТРИРОВАТЬСЯ',showRegister:'📝 РЕГИСТРАЦИЯ',showLogin:'↩️ НАЗАД',customRewards:'🎁 Мои награды',history:'📜 История',diamonds:'💎 Алмазы:',donate:'💎 Пополнить',back:'↩️ МЕНЮ',jackpot:'🎉 ДЖЕКПОТ!',send:'💌 Отправить',close:'ЗАКРЫТЬ',nameTitle:'📝 Введите имена',download:'📥 Скачать',cancel:'Отмена',payment:'💎 ПОПОЛНЕНИЕ',historyTitle:'📜 История',noJackpots:'Нет джекпотов',customTitle:'🎁 Мои награды (3-10)',customDesc:'Введите желания для джекпота',add:'+ Добавить',savePlay:'💾 Сохранить и играть',privacy:'Политика конфиденциальности',terms:'Условия использования',noDiamonds:'💔 Мало алмазов!',chest:'👑 +10 спинов!',tryAgain:'💫 Попробуй ещё',win3:'🎉 3 совпадения! +2💎',win4:'🔥 4 совпадения! +5💎',freeSpins:'Бесплатные спины'},
-ua:{loginTitle:'🔐 ВХІД',registerTitle:'📝 РЕЄСТРАЦІЯ',loginBtn:'УВІЙТИ',registerBtn:'ЗАРЕЄСТРУВАТИСЬ',showRegister:'📝 РЕЄСТРАЦІЯ',showLogin:'↩️ НАЗАД',customRewards:'🎁 Мої нагороди',history:'📜 Історія',diamonds:'💎 Алмази:',donate:'💎 Поповнити',back:'↩️ МЕНЮ',jackpot:'🎉 ДЖЕКПОТ!',send:'💌 Надіслати',close:'ЗАКРИТИ',nameTitle:'📝 Введіть імена',download:'📥 Завантажити',cancel:'Скасувати',payment:'💎 ПОПОВНЕННЯ',historyTitle:'📜 Історія',noJackpots:'Немає джекпотів',customTitle:'🎁 Мої нагороди (3-10)',customDesc:'Введіть бажання для джекпоту',add:'+ Додати',savePlay:'💾 Зберегти і грати',privacy:'Політика конфіденційності',terms:'Умови використання',noDiamonds:'💔 Мало алмазів!',chest:'👑 +10 спинів!',tryAgain:'💫 Спробуй ще',win3:'🎉 3 збіги! +2💎',win4:'🔥 4 збіги! +5💎',freeSpins:'Безкоштовні спини'},
-en:{loginTitle:'🔐 LOGIN',registerTitle:'📝 REGISTER',loginBtn:'LOGIN',registerBtn:'REGISTER',showRegister:'📝 REGISTER',showLogin:'↩️ BACK',customRewards:'🎁 My Rewards',history:'📜 History',diamonds:'💎 Diamonds:',donate:'💎 Top Up',back:'↩️ MENU',jackpot:'🎉 JACKPOT!',send:'💌 Send',close:'CLOSE',nameTitle:'📝 Enter Names',download:'📥 Download',cancel:'Cancel',payment:'💎 TOP UP',historyTitle:'📜 History',noJackpots:'No jackpots',customTitle:'🎁 My Rewards (3-10)',customDesc:'Enter wishes for jackpot',add:'+ Add',savePlay:'💾 Save & Play',privacy:'Privacy Policy',terms:'Terms of Use',noDiamonds:'💔 Not enough!',chest:'👑 +10 spins!',tryAgain:'💫 Try again',win3:'🎉 3 matches! +2💎',win4:'🔥 4 matches! +5💎',freeSpins:'Free spins'}
-};
-const POL={
-ru:{privacy:'<h4>Политика конфиденциальности</h4><p>Собираем только никнейм и игровые данные. Хранятся локально. Не передаем третьим лицам.</p>',terms:'<h4>Условия использования</h4><p>Игра для развлечения. Пользователь отвечает за свои данные.</p>'},
-ua:{privacy:'<h4>Політика конфіденційності</h4><p>Збираємо лише нікнейм та ігрові дані. Зберігаються локально.</p>',terms:'<h4>Умови використання</h4><p>Гра для розваг. Користувач відповідає за свої дані.</p>'},
-en:{privacy:'<h4>Privacy Policy</h4><p>We only collect nickname and game data. Stored locally. Not shared.</p>',terms:'<h4>Terms of Use</h4><p>Entertainment only. User responsible for own data.</p>'}
-};
+      function playTone(f, d, type = 'sine', v = 0.05) { try { const c = initAudio();
+          const o = c.createOscillator();
+          const g = c.createGain();
+          o.type = type;
+          o.frequency.value = f;
+          g.gain.setValueAtTime(v, c.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d);
+          o.connect(g);
+          g.connect(c.destination);
+          o.start();
+          o.stop(c.currentTime + d); } catch (e) {} }
 
-let lang='ru',nickname='',diamonds=100,treasureProgress=0,freeSpins=0,jackpotBoost=false,spinning=false;
-const GRID=5;let visibleGrid=[],strips=[],jackpotHistory=[],pendingIcon=null,pendingWish=null,customRewards=[],useCustom=false;
-let audioCtx=null;
-function t(k){return T[lang]?.[k]||T.ru[k]||k}
-function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
-function playTone(f,d,type='sine',v=0.06){try{const c=initAudio();const o=c.createOscillator();const g=c.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+d);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+d)}catch(e){}}
-function sndClick(){playTone(600,.1,'square');setTimeout(()=>playTone(800,.1,'square'),50)}
-function sndReel(){playTone(150+Math.random()*80,.06,'sawtooth',.015)}
-function sndStop(){playTone(300,.12,'triangle',.03)}
-function sndWin(){playTone(523,.15);setTimeout(()=>playTone(659,.15),120)}
-function sndLose(){playTone(200,.2,'sawtooth',.02)}
-function sndJackpot(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,.25,'sine',.06),i*100))}
+      function sndClick() { playTone(600, .1, 'square');
+        setTimeout(() => playTone(800, .1, 'square'), 50); }
 
-const $=id=>document.getElementById(id);
-const authOverlay=$('authOverlay'),loginForm=$('loginForm'),registerForm=$('registerForm');
-const loginNick=$('loginNickname'),registerNick=$('registerNickname');
-const mainMenu=$('mainMenu'),slotUI=$('slotUI'),machineDiv=$('machine'),winLinesDiv=$('winLines');
-const spinBtn=$('spinButton'),diamondsSpan=$('diamondsCount'),mainBal=$('mainBalanceDisplay');
-const msgDisplay=$('messageDisplay'),spinWinDisplay=$('spinWinDisplay');
-const winOverlay=$('winOverlay'),winMsg=$('winMessage'),winIcons=$('winIcons');
-const nameModal=$('nameFormModal'),paymentModal=$('paymentModal'),historyModal=$('historyModal');
-const customModal=$('customRewardsModal'),customList=$('customRewardsList');
-const policyModal=$('policyModal'),policyTitle=$('policyTitle'),policyContent=$('policyContent');
+      function sndReel() { playTone(150 + Math.random() * 80, .06, 'sawtooth', .012); }
 
-function updateUI(){
-  $('loginTitle').textContent=t('loginTitle');
-  $('registerTitle').textContent=t('registerTitle');
-  loginNick.placeholder=t('loginTitle').replace(/[🔐📝]/g,'').trim()||'Nickname';
-  registerNick.placeholder=t('registerTitle').replace(/[🔐📝]/g,'').trim()||'Nickname';
-  $('loginBtn').textContent=t('loginBtn');
-  $('registerBtn').textContent=t('registerBtn');
-  $('showRegisterBtn').textContent=t('showRegister');
-  $('showLoginBtn').textContent=t('showLogin');
-  $('customRewardsBtn').innerHTML=t('customRewards');
-  $('historyBtn').innerHTML=t('history');
-  $('diamondsLabel').textContent=t('diamonds');
-  $('donateButton').innerHTML=t('donate');
-  $('backToMenu').innerHTML=t('back');
-  $('jackpotTitle').textContent=t('jackpot');
-  $('sendToPartnerBtn').innerHTML=t('send');
-  $('closeWinBtn').textContent=t('close');
-  $('nameFormTitle').textContent=t('nameTitle');
-  $('downloadWithNamesBtn').innerHTML=t('download');
-  $('closeNameFormBtn').textContent=t('cancel');
-  $('paymentTitle').textContent=t('payment');
-  $('closePaymentBtn').textContent=t('cancel');
-  $('historyTitle').textContent=t('historyTitle');
-  $('customRewardsTitle').textContent=t('customTitle');
-  $('customRewardsDesc').textContent=t('customDesc');
-  $('addCustomRewardBtn').textContent=t('add');
-  $('saveAndPlayBtn').innerHTML=t('savePlay');
-  $('closeCustomRewardsBtn').textContent=t('close');
-  $('closeHistoryBtn').textContent=t('close');
-  $('privacyPolicyLink').textContent=t('privacy');
-  $('termsOfUseLink').textContent=t('terms');
-  updateFreeSpinsBadge();
-  renderHistory();
-}
+      function sndStop() { playTone(300, .12, 'triangle', .025); }
 
-function loadUser(){
-  nickname=localStorage.getItem('vdsNick')||'';
-  if(!nickname){authOverlay.classList.remove('hidden');mainMenu.classList.add('hidden');slotUI.classList.add('hidden')}
-  else{authOverlay.classList.add('hidden');mainMenu.classList.remove('hidden');$('nicknameDisplay').textContent=nickname}
-  loadDiamonds();loadHistory();loadCustom();updateMainBal();
-}
-function login(){
-  const n=loginNick.value.trim();if(!n)return;
-  const s=localStorage.getItem('vdsNick');
-  if(s===n||!s){nickname=n;localStorage.setItem('vdsNick',n);authOverlay.classList.add('hidden');mainMenu.classList.remove('hidden');$('nicknameDisplay').textContent=n;loadDiamonds();loadHistory();loadCustom();updateMainBal()}
-  else{alert(lang==='ru'?'Не найден':lang==='ua'?'Не знайдено':'Not found')}
-}
-function register(){
-  const n=registerNick.value.trim();if(!n)return;
-  nickname=n;localStorage.setItem('vdsNick',n);authOverlay.classList.add('hidden');mainMenu.classList.remove('hidden');$('nicknameDisplay').textContent=n;loadDiamonds();loadHistory();loadCustom();updateMainBal()
-}
-$('loginBtn').onclick=login;$('registerBtn').onclick=register;
-$('showRegisterBtn').onclick=()=>{loginForm.classList.add('hidden');registerForm.classList.remove('hidden')};
-$('showLoginBtn').onclick=()=>{registerForm.classList.add('hidden');loginForm.classList.remove('hidden')};
-loginNick.onkeypress=e=>{if(e.key==='Enter')login()};
-registerNick.onkeypress=e=>{if(e.key==='Enter')register()};
+      function sndWin() { playTone(523, .15);
+        setTimeout(() => playTone(659, .15), 120); }
 
-function loadDiamonds(){const k='vdsDiam_'+nickname;diamonds=localStorage.getItem(k)?parseInt(localStorage.getItem(k)):100;updateDiamonds();updateMainBal()}
-function saveDiamonds(){localStorage.setItem('vdsDiam_'+nickname,diamonds);updateDiamonds();updateMainBal()}
-function updateDiamonds(){if(diamondsSpan)diamondsSpan.textContent=diamonds}
-function updateMainBal(){if(mainBal)mainBal.textContent=diamonds}
+      function sndLose() { playTone(200, .2, 'sawtooth', .018); }
 
-function loadHistory(){const k='vdsHist_'+nickname;jackpotHistory=localStorage.getItem(k)?JSON.parse(localStorage.getItem(k)):[];renderHistory()}
-function saveHistory(){localStorage.setItem('vdsHist_'+nickname,JSON.stringify(jackpotHistory));renderHistory()}
-function addHistory(icon,wish){jackpotHistory.unshift({icon,wish,date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString()});if(jackpotHistory.length>50)jackpotHistory.pop();saveHistory()}
-function renderHistory(){if(!$('historyList'))return;$('historyList').innerHTML=jackpotHistory.length===0?`<p style="text-align:center;">${t('noJackpots')}</p>`:jackpotHistory.map((item,i)=>`<div class="history-item"><span>${item.icon} ${item.wish.substring(0,18)}...</span><span>${item.date}</span><button onclick="window.dlHist(${i})">📥</button></div>`).join('')}
-window.dlHist=function(i){const item=jackpotHistory[i];if(!item)return;pendingIcon=item.icon;pendingWish=item.wish;nameModal.classList.remove('hidden')};
+      function sndJackpot() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, .25, 'sine', .05), i *
+          100)); }
 
-function loadCustom(){const k='vdsCustom_'+nickname;customRewards=localStorage.getItem(k)?JSON.parse(localStorage.getItem(k)):[];renderCustom()}
-function saveCustomData(){localStorage.setItem('vdsCustom_'+nickname,JSON.stringify(customRewards));renderCustom()}
-function renderCustom(){if(!customList)return;customList.innerHTML=customRewards.map((r,i)=>`<div style="display:flex;gap:4px;margin:3px 0;"><input class="custom-reward-input" value="${r}" onchange="window.updCustom(${i},this.value)"><button onclick="window.rmCustom(${i})" style="background:#b22222;color:#fff;border:none;border-radius:14px;padding:4px 8px;cursor:pointer;">✕</button></div>`).join('')}
-window.updCustom=function(i,v){customRewards[i]=v};
-window.rmCustom=function(i){customRewards.splice(i,1);renderCustom()};
-$('addCustomRewardBtn').onclick=()=>{if(customRewards.length>=10)return;customRewards.push('');renderCustom()};
-$('saveAndPlayBtn').onclick=()=>{const v=customRewards.filter(r=>r.trim());if(v.length<3){alert(lang==='ru'?'Минимум 3':lang==='ua'?'Мінімум 3':'Min 3');return}customRewards=v;saveCustomData();useCustom=true;customModal.classList.add('hidden');enterSlot();showMsg('🎁 '+t('customRewards'))};
-$('customRewardsBtn').onclick=()=>{renderCustom();customModal.classList.remove('hidden')};
-$('closeCustomRewardsBtn').onclick=()=>customModal.classList.add('hidden');
+      const $ = id => document.getElementById(id);
+      const authOverlay = $('authOverlay'),
+        loginForm = $('loginForm'),
+        registerForm = $('registerForm');
+      const loginNick = $('loginNickname'),
+        registerNick = $('registerNickname');
+      const mainMenu = $('mainMenu'),
+        slotUI = $('slotUI'),
+        machineDiv = $('machine'),
+        winLinesDiv = $('winLines');
+      const spinBtn = $('spinButton'),
+        diamondsSpan = $('diamondsCount'),
+        mainBal = $('mainBalanceDisplay');
+      const msgDisplay = $('messageDisplay'),
+        spinWinDisplay = $('spinWinDisplay');
+      const winOverlay = $('winOverlay'),
+        winMsg = $('winMessage'),
+        winIcons = $('winIcons');
+      const nameModal = $('nameFormModal'),
+        paymentModal = $('paymentModal'),
+        historyModal = $('historyModal');
+      const customModal = $('customRewardsModal'),
+        customList = $('customRewardsList');
+      const policyModal = $('policyModal'),
+        policyTitle = $('policyTitle'),
+        policyContent = $('policyContent');
 
-function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));$('lang'+l.charAt(0).toUpperCase()+l.slice(1)).classList.add('active');updateUI()}
-$('langRu').onclick=()=>setLang('ru');
-$('langUa').onclick=()=>setLang('ua');
-$('langEn').onclick=()=>setLang('en');
+      function updateUI() {
+        $('loginTitle').textContent = t('loginTitle');
+        $('registerTitle').textContent = t('registerTitle');
+        loginNick.placeholder = t('loginTitle').replace(/[🔐📝]/g, '').trim();
+        registerNick.placeholder = t('registerTitle').replace(/[🔐📝]/g, '').trim();
+        $('loginBtn').textContent = t('loginBtn');
+        $('registerBtn').textContent = t('registerBtn');
+        $('showRegisterBtn').textContent = t('showRegister');
+        $('showLoginBtn').textContent = t('showLogin');
+        $('customRewardsBtn').innerHTML = t('customRewards');
+        $('historyBtn').innerHTML = t('history');
+        $('diamondsLabel').textContent = t('diamonds');
+        $('donateButton').innerHTML = t('donate');
+        $('backToMenu').innerHTML = t('back');
+        $('jackpotTitle').textContent = t('jackpot');
+        $('sendToPartnerBtn').innerHTML = t('send');
+        $('closeWinBtn').textContent = t('close');
+        $('nameFormTitle').textContent = t('nameTitle');
+        $('downloadWithNamesBtn').innerHTML = t('download');
+        $('closeNameFormBtn').textContent = t('cancel');
+        $('paymentTitle').textContent = t('payment');
+        $('closePaymentBtn').textContent = t('cancel');
+        $('historyTitle').textContent = t('historyTitle');
+        $('customRewardsTitle').textContent = t('customTitle');
+        $('customRewardsDesc').textContent = t('customDesc');
+        $('addCustomRewardBtn').textContent = t('add');
+        $('saveAndPlayBtn').innerHTML = t('savePlay');
+        $('closeCustomRewardsBtn').textContent = t('close');
+        $('closeHistoryBtn').textContent = t('close');
+        $('privacyPolicyLink').textContent = t('privacy');
+        $('termsOfUseLink').textContent = t('terms');
+        updateFreeSpinsBadge();
+        renderHistory();
+      }
 
-function updateFreeSpinsBadge(){
-  const b=$('freeSpinsBadge');
-  if(freeSpins>0){b.classList.remove('hidden');b.textContent=`🎁 ${t('freeSpins')}: ${freeSpins}`}
-  else{b.classList.add('hidden');jackpotBoost=false}
-}
-function updateTreasure(add){
-  treasureProgress=Math.min(100,treasureProgress+add);
-  $('progressFill').style.width=treasureProgress+'%';
-  $('progressText').textContent=`${lang==='ru'?'Сундук':lang==='ua'?'Скриня':'Chest'}: ${treasureProgress.toFixed(1)}/100%`;
-  if(treasureProgress>=100){treasureProgress=0;$('progressFill').style.width='0%';freeSpins+=10;jackpotBoost=true;updateFreeSpinsBadge();showMsg(t('chest'))}
-}
-function showMsg(text){msgDisplay.textContent=text;setTimeout(()=>{if(msgDisplay.textContent===text)msgDisplay.textContent=''},2500)}
-function showSpinWin(amount){spinWinDisplay.textContent=`+${amount}💎`;spinWinDisplay.classList.remove('show');void spinWinDisplay.offsetWidth;spinWinDisplay.classList.add('show');setTimeout(()=>spinWinDisplay.classList.remove('show'),2000)}
+      function loadUser() {
+        nickname = localStorage.getItem('vdsNick') || '';
+        if (!nickname) { authOverlay.classList.remove('hidden');
+          mainMenu.classList.add('hidden');
+          slotUI.classList.add('hidden'); } else { authOverlay.classList.add('hidden');
+          mainMenu.classList.remove('hidden');
+          $('nicknameDisplay').textContent = nickname; }
+        loadDiamonds();
+        loadHistory();
+        loadCustom();
+        updateMainBal();
+      }
 
-function getSymH(){const s=document.querySelector('.symbol');return s?parseFloat(getComputedStyle(s).height)||40:40}
-function createReels(){machineDiv.innerHTML='';strips=[];for(let c=0;c<GRID;c++){const reel=document.createElement('div');reel.className='reel';const strip=document.createElement('div');strip.className='strip';for(let i=0;i<80;i++){const sym=document.createElement('div');sym.className='symbol';sym.textContent=ICONS[Math.floor(Math.random()*ICONS.length)];strip.appendChild(sym)}reel.appendChild(strip);machineDiv.appendChild(reel);strips.push(strip)}}
-function buildGrid(){visibleGrid=[];for(let r=0;r<GRID;r++){visibleGrid[r]=[];for(let c=0;c<GRID;c++)visibleGrid[r][c]=ICONS[Math.floor(Math.random()*ICONS.length)]}}
-function applyGrid(){for(let c=0;c<GRID;c++){const ch=strips[c].children;for(let r=0;r<GRID;r++)ch[r+6].textContent=visibleGrid[r][c];strips[c].style.top=-(6*getSymH())+'px'}}
-function findMatches(){const m=[],dirs=[[0,1],[1,0],[1,1],[1,-1]];dirs.forEach(([dr,dc])=>{for(let r=0;r<GRID;r++)for(let c=0;c<GRID;c++){const sym=visibleGrid[r][c];const match=[{row:r,col:c}];let nr=r+dr,nc=c+dc;while(nr>=0&&nr<GRID&&nc>=0&&nc<GRID&&visibleGrid[nr][nc]===sym){match.push({row:nr,col:nc});nr+=dr;nc+=dc}if(match.length>=3){const pr=r-dr,pc=c-dc;if(pr<0||pr>=GRID||pc<0||pc>=GRID||visibleGrid[pr][pc]!==sym)m.push(match)}}});return m}
-function clearLines(){winLinesDiv.innerHTML=''}
-function drawLines(matches){clearLines();const reels=[...document.querySelectorAll('.reel')];matches.forEach(match=>{for(let i=0;i<match.length-1;i++){const a=match[i],b=match[i+1];const ra=reels[a.col],rb=reels[b.col];const rA=ra.getBoundingClientRect(),rB=rb.getBoundingClientRect();const wr=winLinesDiv.getBoundingClientRect();const sh=rA.height/5;const x1=rA.left+rA.width/2-wr.left,y1=rA.top+(a.row*sh)+sh/2-wr.top;const x2=rB.left+rB.width/2-wr.left,y2=rB.top+(b.row*sh)+sh/2-wr.top;const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy),ang=Math.atan2(dy,dx)*180/Math.PI;const line=document.createElement('div');line.className='win-line';line.style.left=x1+'px';line.style.top=y1+'px';line.style.width=len+'px';line.style.transform=`rotate(${ang}deg)`;winLinesDiv.appendChild(line)}});setTimeout(clearLines,2500)}
+      function login() { const n = loginNick.value.trim(); if (!n) return;
+        const s = localStorage.getItem('vdsNick'); if (s === n || !s) { nickname = n;
+          localStorage.setItem('vdsNick', n);
+          authOverlay.classList.add('hidden');
+          mainMenu.classList.remove('hidden');
+          $('nicknameDisplay').textContent = n;
+          loadDiamonds();
+          loadHistory();
+          loadCustom();
+          updateMainBal(); } else { alert(lang === 'ru' ? 'Не найден' : lang === 'ua' ? 'Не знайдено' : 'Not found'); } }
 
-function getWish(icon){if(useCustom&&customRewards.length>=3)return customRewards[Math.floor(Math.random()*customRewards.length)];return WISH_TEXTS[icon]?.[lang]||'желание'}
+      function register() { const n = registerNick.value.trim(); if (!n) return;
+        nickname = n;
+        localStorage.setItem('vdsNick', n);
+        authOverlay.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        $('nicknameDisplay').textContent = n;
+        loadDiamonds();
+        loadHistory();
+        loadCustom();
+        updateMainBal(); }
+      $('loginBtn').onclick = login;
+      $('registerBtn').onclick = register;
+      $('showRegisterBtn').onclick = () => { loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden'); };
+      $('showLoginBtn').onclick = () => { registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden'); };
+      loginNick.onkeypress = e => { if (e.key === 'Enter') login(); };
+      registerNick.onkeypress = e => { if (e.key === 'Enter') register(); };
 
-function spin(){
-  if(spinning)return;
-  if(freeSpins>0){freeSpins--;updateFreeSpinsBadge();if(freeSpins===0)jackpotBoost=false}
-  else{if(diamonds<10){showMsg(t('noDiamonds'));return}diamonds-=10;saveDiamonds()}
-  spinning=true;clearLines();spinBtn.disabled=true;sndClick();buildGrid();
-  if(jackpotBoost&&Math.random()<.03){const s=ICONS[Math.floor(Math.random()*ICONS.length)];const row=Math.floor(Math.random()*GRID);for(let c=0;c<GRID;c++)visibleGrid[row][c]=s}
-  else if(Math.random()<.005){const s=ICONS[Math.floor(Math.random()*ICONS.length)];const row=Math.floor(Math.random()*GRID);for(let c=0;c<GRID;c++)visibleGrid[row][c]=s}
-  strips.forEach((strip,idx)=>{let pos=-getSymH();const si=setInterval(()=>sndReel(),80);const loop=setInterval(()=>{pos-=28+Math.random()*7;if(pos<-3500)pos=-getSymH();strip.style.top=pos+'px'},40);setTimeout(()=>{clearInterval(loop);clearInterval(si);sndStop();applyGrid();if(idx===GRID-1)setTimeout(finishSpin,400)},1700+idx*400)})
-}
-function finishSpin(){
-  spinning=false;spinBtn.disabled=false;const matches=findMatches();if(matches.length)drawLines(matches);
-  let win=0,jackpot=false,ta=0;
-  matches.forEach(m=>{if(m.length===3){win+=2;ta+=.5}else if(m.length===4){win+=5;ta+=1}else if(m.length>=5){win+=30;ta+=5;jackpot=true}});
-  if(win>0){diamonds+=win;saveDiamonds();updateTreasure(ta);showSpinWin(win)}
-  if(jackpot){const match=matches.find(m=>m.length>=5);const icon=visibleGrid[match[0].row][match[0].col];const wish=getWish(icon);addHistory(icon,wish);sndJackpot();triggerJackpot(icon,wish)}
-  else if(win>0){sndWin();showMsg(win===2?t('win3'):t('win4'))}
-  else{sndLose();showMsg(t('tryAgain'))}
-  updateFreeSpinsBadge();
-}
-function triggerJackpot(icon,wish){winIcons.textContent=icon+icon+icon;winMsg.textContent=wish;winOverlay.classList.remove('hidden');pendingIcon=icon;pendingWish=wish}
+      function loadDiamonds() { const k = 'vdsDiam_' + nickname;
+        diamonds = localStorage.getItem(k) ? parseInt(localStorage.getItem(k)) : 100;
+        updateDiamonds();
+        updateMainBal(); }
 
-function generateCert(icon,wish,uname,pname){
-  const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=700;const ctx=canvas.getContext('2d');
-  const ct=CERT_TEXTS[lang]||CERT_TEXTS.ru;
-  ctx.fillStyle='#0a0a0f';ctx.fillRect(0,0,1000,700);
-  ctx.strokeStyle='#ffd700';ctx.lineWidth=6;ctx.shadowColor='#ffd700';ctx.shadowBlur=20;ctx.strokeRect(25,25,950,650);ctx.shadowBlur=0;
-  ctx.beginPath();ctx.arc(500,370,70,0,Math.PI*2);const g=ctx.createRadialGradient(500,370,15,500,370,70);g.addColorStop(0,'#ffd700');g.addColorStop(1,'#8b6508');ctx.fillStyle=g;ctx.fill();ctx.fillStyle='#0a0a0f';ctx.font='bold 40px Times New Roman';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('VDS',500,370);
-  ctx.fillStyle='#ffd700';ctx.font='bold 36px Cormorant Garamond';ctx.fillText(ct.title,500,100);
-  ctx.font='100px sans-serif';ctx.fillText(icon,500,220);
-  ctx.fillStyle='#f0dbb0';ctx.font='bold 26px Segoe UI';ctx.fillText(ct.wonMsg(uname,pname),500,500);
-  ctx.fillStyle='#ffd966';ctx.font='24px Cormorant Garamond';ctx.fillText(wish,500,550);
-  ctx.fillStyle='#cfaa4a';ctx.font='16px monospace';ctx.fillText(ct.official,500,640);
-  canvas.toBlob(b=>{const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`VDS_${icon}.png`;a.click();URL.revokeObjectURL(u)})
-}
-$('sendToPartnerBtn').onclick=()=>{nameModal.classList.remove('hidden')};
-$('downloadWithNamesBtn').onclick=()=>{const u=$('userNameInput').value.trim()||'User',p=$('partnerNameInput').value.trim()||'Partner';if(pendingIcon&&pendingWish)generateCert(pendingIcon,pendingWish,u,p);nameModal.classList.add('hidden')};
-$('closeNameFormBtn').onclick=()=>nameModal.classList.add('hidden');
+      function saveDiamonds() { localStorage.setItem('vdsDiam_' + nickname, diamonds);
+        updateDiamonds();
+        updateMainBal(); }
 
-function enterSlot(){mainMenu.classList.add('hidden');slotUI.classList.remove('hidden');createReels();buildGrid();applyGrid();msgDisplay.textContent=''}
-function backToMenu(){slotUI.classList.add('hidden');mainMenu.classList.remove('hidden');[winOverlay,paymentModal,historyModal,nameModal,customModal].forEach(m=>m.classList.add('hidden'));useCustom=false;updateMainBal()}
-document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{useCustom=false;enterSlot()});
-spinBtn.onclick=spin;$('backToMenu').onclick=backToMenu;
-$('donateButton').onclick=()=>paymentModal.classList.remove('hidden');
-$('closeWinBtn').onclick=()=>winOverlay.classList.add('hidden');
-$('closePaymentBtn').onclick=()=>paymentModal.classList.add('hidden');
-document.querySelectorAll('.diamond-option').forEach(o=>o.onclick=function(){diamonds+=parseInt(this.dataset.d);saveDiamonds();paymentModal.classList.add('hidden');showMsg(`✨ +${this.dataset.d}💎`)});
-$('historyBtn').onclick=()=>{historyModal.classList.remove('hidden');renderHistory()};
-$('closeHistoryBtn').onclick=()=>historyModal.classList.add('hidden');
+      function updateDiamonds() { if (diamondsSpan) diamondsSpan.textContent = diamonds; }
 
-function showPolicy(type){const p=POL[lang]||POL.ru;policyTitle.textContent=type==='privacy'?t('privacy'):t('terms');policyContent.innerHTML=type==='privacy'?p.privacy:p.terms;policyModal.classList.remove('hidden')}
-$('privacyPolicyLink').onclick=()=>showPolicy('privacy');
-$('termsOfUseLink').onclick=()=>showPolicy('terms');
-$('closePolicyBtn').onclick=()=>policyModal.classList.add('hidden');
-[winOverlay,paymentModal,historyModal,nameModal,customModal,policyModal].forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.add('hidden')});
+      function updateMainBal() { if (mainBal) mainBal.textContent = diamonds; }
 
-setLang('ru');updateUI();loadUser();
-})();
-</script>
+      function loadHistory() { const k = 'vdsHist_' + nickname;
+        jackpotHistory = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
+        renderHistory(); }
+
+      function saveHistory() { localStorage.setItem('vdsHist_' + nickname, JSON.stringify(jackpotHistory));
+        renderHistory(); }
+
+      function addHistory(icon, wish) { jackpotHistory.unshift({ icon, wish, date: new Date().toLocaleDateString(),
+          time: new Date().toLocaleTimeString() }); if (jackpotHistory.length > 50) jackpotHistory.pop();
+        saveHistory(); }
+
+      function renderHistory() { if (!$('historyList')) return;
+        $('historyList').innerHTML = jackpotHistory.length === 0 ? `<p style="text-align:center;">${t('noJackpots')}</p>` :
+          jackpotHistory.map((item, i) =>
+            `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,16)}...</span><span>${item.date}</span><button onclick="window.dlHist(${i})">📥</button></div>`
+            ).join(''); }
+      window.dlHist = function(i) { const item = jackpotHistory[i]; if (!item) return;
+        pendingIcon = item.icon;
+        pendingWish = item.wish;
+        nameModal.classList.remove('hidden'); };
+
+      function loadCustom() { const k = 'vdsCustom_' + nickname;
+        customRewards = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
+        renderCustom(); }
+
+      function saveCustomData() { localStorage.setItem('vdsCustom_' + nickname, JSON.stringify(customRewards));
+        renderCustom(); }
+
+      function renderCustom() { if (!customList) return;
+        customList.innerHTML = customRewards.map((r, i) =>
+          `<div style="display:flex;gap:4px;margin:2px 0;"><input class="custom-reward-input" value="${r}" onchange="window.updCustom(${i},this.value)"><button onclick="window.rmCustom(${i})" style="background:#b22222;color:#fff;border:none;border-radius:12px;padding:3px 7px;cursor:pointer;">✕</button></div>`
+          ).join(''); }
+      window.updCustom = function(i, v) { customRewards[i] = v; };
+      window.rmCustom = function(i) { customRewards.splice(i, 1);
+        renderCustom(); };
+      $('addCustomRewardBtn').onclick = () => { if (customRewards.length >= 10) return;
+        customRewards.push('');
+        renderCustom(); };
+      $('saveAndPlayBtn').onclick = () => { const v = customRewards.filter(r => r.trim()); if (v.length < 3) { alert(lang ===
+            'ru' ? 'Минимум 3' : lang === 'ua' ? 'Мінімум 3' : 'Min 3'); return; }
+        customRewards = v;
+        saveCustomData();
+        useCustom = true;
+        customModal.classList.add('hidden');
+        enterSlot();
+        showMsg('🎁 ' + t('customRewards')); };
+      $('customRewardsBtn').onclick = () => { renderCustom();
+        customModal.classList.remove('hidden'); };
+      $('closeCustomRewardsBtn').onclick = () => customModal.classList.add('hidden');
+
+      function setLang(l) { lang = l;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        $('lang' + l.charAt(0).toUpperCase() + l.slice(1)).classList.add('active');
+        updateUI(); }
+      $('langRu').onclick = () => setLang('ru');
+      $('langUa').onclick = () => setLang('ua');
+      $('langEn').onclick = () => setLang('en');
+
+      function updateFreeSpinsBadge() { const b = $('freeSpinsBadge'); if (freeSpins > 0) { b.classList.remove('hidden');
+          b.textContent = `🎁 ${t('freeSpins')}: ${freeSpins}`; } else { b.classList.add('hidden');
+          jackpotBoost = false; } }
+
+      function updateTreasure(add) { treasureProgress = Math.min(100, treasureProgress + add);
+        $('progressFill').style.width = treasureProgress + '%';
+        $('progressText').textContent =
+          `${lang==='ru'?'Сундук':lang==='ua'?'Скриня':'Chest'}: ${treasureProgress.toFixed(1)}/100%`; if (
+          treasureProgress >= 100) { treasureProgress = 0;
+          $('progressFill').style.width = '0%';
+          freeSpins += 10;
+          jackpotBoost = true;
+          updateFreeSpinsBadge();
+          showMsg(t('chest')); } }
+
+      function showMsg(text) { msgDisplay.textContent = text;
+        setTimeout(() => { if (msgDisplay.textContent === text) msgDisplay.textContent = ''; }, 2200); }
+
+      function showSpinWin(amount) { spinWinDisplay.textContent = `+${amount}💎`;
+        spinWinDisplay.classList.remove('show');
+        void spinWinDisplay.offsetWidth;
+        spinWinDisplay.classList.add('show');
+        setTimeout(() => spinWinDisplay.classList.remove('show'), 2000); }
+
+      function getSymH() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) ||
+          36 : 36; }
+
+      function createReels() { machineDiv.innerHTML = '';
+        strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
+          reel.className = 'reel';
+          const strip = document.createElement('div');
+          strip.className = 'strip'; for (let i = 0; i < 80; i++) { const sym = document.createElement('div');
+            sym.className = 'symbol';
+            sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
+            strip.appendChild(sym); }
+          reel.appendChild(strip);
+          machineDiv.appendChild(reel);
+          strips.push(strip); } }
+
+      function buildGrid() { visibleGrid = []; for (let r = 0; r < GRID; r++) { visibleGrid[r] = []; for (let c = 0; c <
+            GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
+
+      function applyGrid() { for (let c = 0; c < GRID; c++) { const ch = strips[c].children; for (let r = 0; r < GRID; r++)
+            ch[r + 6].textContent = visibleGrid[r][c];
+          strips[c].style.top = -(6 * getSymH()) + 'px'; } }
+
+      function findMatches() { const m = [],
+          dirs = [
+            [0, 1],
+            [1, 0],
+            [1, 1],
+            [1, -1]
+          ];
+        dirs.forEach(([dr, dc]) => { for (let r = 0; r < GRID; r++) for (let c = 0; c < GRID; c++) { const sym =
+              visibleGrid[r][c];
+            const match = [{ row: r, col: c }];
+            let nr = r + dr,
+              nc = c + dc; while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && visibleGrid[nr][nc] === sym) { match
+                .push({ row: nr, col: nc });
+              nr += dr;
+              nc += dc; } if (match.length >= 3) { const pr = r - dr,
+                pc = c - dc; if (pr < 0 || pr >= GRID || pc < 0 || pc >= GRID || visibleGrid[pr][pc] !== sym) m.push(
+                match); } } }); return m; }
+
+      function clearLines() { winLinesDiv.innerHTML = ''; }
+
+      function drawLines(matches) { clearLines();
+        const reels = [...document.querySelectorAll('.reel')];
+        matches.forEach(match => { for (let i = 0; i < match.length - 1; i++) { const a = match[i],
+              b = match[i + 1];
+            const ra = reels[a.col],
+              rb = reels[b.col];
+            const rA = ra.getBoundingClientRect(),
+              rB = rb.getBoundingClientRect();
+            const wr = winLinesDiv.getBoundingClientRect();
+            const sh = rA.height / 5;
+            const x1 = rA.left + rA.width / 2 - wr.left,
+              y1 = rA.top + (a.row * sh) + sh / 2 - wr.top;
+            const x2 = rB.left + rB.width / 2 - wr.left,
+              y2 = rB.top + (b.row * sh) + sh / 2 - wr.top;
+            const dx = x2 - x1,
+              dy = y2 - y1,
+              len = Math.sqrt(dx * dx + dy * dy),
+              ang = Math.atan2(dy, dx) * 180 / Math.PI;
+            const line = document.createElement('div');
+            line.className = 'win-line';
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.width = len + 'px';
+            line.style.transform = `rotate(${ang}deg)`;
+            winLinesDiv.appendChild(line); } });
+        setTimeout(clearLines, 2200); }
+
+      function getWish(icon) { if (useCustom && customRewards.length >= 3) return customRewards[Math.floor(Math.random() *
+            customRewards.length)]; return WISH_TEXTS[icon]?.[lang] || 'желание'; }
+
+      function spin() { if (spinning) return; if (freeSpins > 0) { freeSpins--;
+          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 10) { showMsg(t(
+              'noDiamonds')); return; }
+          diamonds -= 10;
+          saveDiamonds(); }
+        spinning = true;
+        clearLines();
+        spinBtn.disabled = true;
+        sndClick();
+        buildGrid(); if (jackpotBoost && Math.random() < .03) { const s = ICONS[Math.floor(Math.random() * ICONS.length)];
+          const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = s; } else if (
+          Math.random() < .005) { const s = ICONS[Math.floor(Math.random() * ICONS.length)];
+          const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = s; }
+        strips.forEach((strip, idx) => { let pos = -getSymH();
+          const si = setInterval(() => sndReel(), 80);
+          const loop = setInterval(() => { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymH();
+            strip.style.top = pos + 'px'; }, 40);
+          setTimeout(() => { clearInterval(loop);
+            clearInterval(si);
+            sndStop();
+            applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); }); }
+
+      function finishSpin() { spinning = false;
+        spinBtn.disabled = false;
+        const matches = findMatches(); if (matches.length) drawLines(matches);
+        let win = 0,
+          jackpot = false,
+          ta = 0;
+        matches.forEach(m => { if (m.length === 3) { win += 2;
+            ta += .5; } else if (m.length === 4) { win += 5;
+            ta += 1; } else if (m.length >= 5) { win += 30;
+            ta += 5;
+            jackpot = true; } }); if (win > 0) { diamonds += win;
+          saveDiamonds();
+          updateTreasure(ta);
+          showSpinWin(win); } if (jackpot) { const match = matches.find(m => m.length >= 5);
+          const icon = visibleGrid[match[0].row][match[0].col];
+          const wish = getWish(icon);
+          addHistory(icon, wish);
+          sndJackpot();
+          triggerJackpot(icon, wish); } else if (win > 0) { sndWin();
+          showMsg(win === 2 ? t('win3') : t('win4')); } else { sndLose();
+          showMsg(t('tryAgain')); }
+        updateFreeSpinsBadge(); }
+
+      function triggerJackpot(icon, wish) { winIcons.textContent = icon + icon + icon;
+        winMsg.textContent = wish;
+        winOverlay.classList.remove('hidden');
+        pendingIcon = icon;
+        pendingWish = wish; }
+
+      function generateCert(icon, wish, uname, pname) { const canvas = document.createElement('canvas');
+        canvas.width = 800;
+        canvas.height = 560;
+        const ctx = canvas.getContext('2d');
+        const ct = CERT_TEXTS[lang] || CERT_TEXTS.ru;
+        ctx.fillStyle = '#0a0a0f';
+        ctx.fillRect(0, 0, 800, 560);
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 5;
+        ctx.strokeRect(20, 20, 760, 520);
+        ctx.beginPath();
+        ctx.arc(400, 300, 55, 0, Math.PI * 2);
+        const g = ctx.createRadialGradient(400, 300, 10, 400, 300, 55);
+        g.addColorStop(0, '#ffd700');
+        g.addColorStop(1, '#8b6508');
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.fillStyle = '#0a0a0f';
+        ctx.font = 'bold 32px Times New Roman';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('VDS', 400, 300);
+        ctx.fillStyle = '#ffd700';
+        ctx.font = 'bold 28px Cormorant Garamond';
+        ctx.fillText(ct.title, 400, 70);
+        ctx.font = '70px sans-serif';
+        ctx.fillText(icon, 400, 170);
+        ctx.fillStyle = '#f0dbb0';
+        ctx.font = 'bold 20px Segoe UI';
+        ctx.fillText(ct.wonMsg(uname, pname), 400, 400);
+        ctx.fillStyle = '#ffd966';
+        ctx.font = '20px Cormorant Garamond';
+        ctx.fillText(wish, 400, 440);
+        ctx.fillStyle = '#cfaa4a';
+        ctx.font = '14px monospace';
+        ctx.fillText(ct.official, 400, 500);
+        canvas.toBlob(b => { const u = URL.createObjectURL(b);
+          const a = document.createElement('a');
+          a.href = u;
+          a.download = `VDS_${icon}.png`;
+          a.click();
+          URL.revokeObjectURL(u); }); }
+      $('sendToPartnerBtn').onclick = () => { nameModal.classList.remove('hidden'); };
+      $('downloadWithNamesBtn').onclick = () => { const u = $('userNameInput').value.trim() || 'User',
+          p = $('partnerNameInput').value.trim() || 'Partner'; if (pendingIcon && pendingWish) generateCert(pendingIcon,
+          pendingWish, u, p);
+        nameModal.classList.add('hidden'); };
+      $('closeNameFormBtn').onclick = () => nameModal.classList.add('hidden');
+
+      function enterSlot() { mainMenu.classList.add('hidden');
+        slotUI.classList.remove('hidden');
+        createReels();
+        buildGrid();
+        applyGrid();
+        msgDisplay.textContent = ''; }
+
+      function backToMenu() { slotUI.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        [winOverlay, paymentModal, historyModal, nameModal, customModal].forEach(m => m.classList.add('hidden'));
+        useCustom = false;
+        updateMainBal(); }
+      document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { useCustom = false;
+        enterSlot(); });
+      spinBtn.onclick = spin;
+      $('backToMenu').onclick = backToMenu;
+      $('donateButton').onclick = () => paymentModal.classList.remove('hidden');
+      $('closeWinBtn').onclick = () => winOverlay.classList.add('hidden');
+      $('closePaymentBtn').onclick = () => paymentModal.classList.add('hidden');
+      document.querySelectorAll('.diamond-option').forEach(o => o.onclick = function() { diamonds += parseInt(this.dataset
+          .d);
+        saveDiamonds();
+        paymentModal.classList.add('hidden');
+        showMsg(`✨ +${this.dataset.d}💎`); });
+      $('historyBtn').onclick = () => { historyModal.classList.remove('hidden');
+        renderHistory(); };
+      $('closeHistoryBtn').onclick = () => historyModal.classList.add('hidden');
+
+      function showPolicy(type) { const p = POL[lang] || POL.ru;
+        policyTitle.textContent = type === 'privacy' ? t('privacy') : t('terms');
+        policyContent.innerHTML = type === 'privacy' ? p.privacy : p.terms;
+        policyModal.classList.remove('hidden'); }
+      $('privacyPolicyLink').onclick = () => showPolicy('privacy');
+      $('termsOfUseLink').onclick = () => showPolicy('terms');
+      $('closePolicyBtn').onclick = () => policyModal.classList.add('hidden');
+      [winOverlay, paymentModal, historyModal, nameModal, customModal, policyModal].forEach(m => m.onclick = e => { if (e
+          .target === m) m.classList.add('hidden'); });
+
+      setLang('ru');
+      updateUI();
+      loadUser();
+    })();
+  </script>
 </body>
 </html>
