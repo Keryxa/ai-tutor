@@ -279,6 +279,9 @@
     .thread-btn:nth-child(5) { animation-delay: 0.4s; }
     .thread-btn:nth-child(6) { animation-delay: 0.5s; }
     .thread-btn:nth-child(7) { animation-delay: 0.6s; }
+    .thread-btn:nth-child(8) { animation-delay: 0.7s; }
+    .thread-btn:nth-child(9) { animation-delay: 0.8s; }
+    .thread-btn:nth-child(10) { animation-delay: 0.9s; }
 
     @keyframes waveFloat {
       0%, 100% { transform: translateX(0); }
@@ -338,8 +341,20 @@
     .progress-bar { width: 100%; height: 10px; background: #1f0b2e; border-radius: 10px; overflow: hidden; border: 1px solid #c9a13b; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ffaa00); transition: width 0.4s ease; width: 0%; border-radius: 8px; }
 
-    .balance-row { display: flex; justify-content: space-between; color: #e5d9b0; font-weight: bold; margin: 4px 4px; font-size: 0.85rem; }
+    .balance-row { display: flex; justify-content: space-between; align-items: center; color: #e5d9b0; font-weight: bold; margin: 4px 4px; font-size: 0.85rem; }
     .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.8rem; text-align: center; margin: 2px 0; text-shadow: 0 0 10px gold; }
+
+    .jackpot-prizes-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.7rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
 
     .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 8px; }
     .reel { height: 220px; background: #160c24; border-radius: 16px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 18px black, 0 0 10px rgba(255, 215, 0, 0.4); }
@@ -510,6 +525,13 @@
       overflow-y: auto;
       padding: 10px;
     }
+
+    .prizes-list {
+      text-align: left;
+      color: #f0dbb0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -555,11 +577,14 @@
 
     <div id="mainMenu" class="menu-grid">
       <button class="thread-btn full-width-btn gold-text-btn" id="customRewardsBtn" style="background:#3d2058;">Мои желания</button>
-      <button class="thread-btn" data-mode="18+" id="btn18">🔞 18+</button>
-      <button class="thread-btn" data-mode="home" id="btnHome">🏠 Для Дома</button>
-      <button class="thread-btn" data-mode="party" id="btnParty">🎉 Для Вечеринки</button>
-      <button class="thread-btn" data-mode="young" id="btnYoung">💑 Молодая Пара</button>
-      <button class="thread-btn" data-mode="family" id="btnFamily">👨‍👩‍👧 Семейная Пара</button>
+      <button class="thread-btn" data-mode="18+">🔞 18+</button>
+      <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
+      <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
+      <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
+      <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
+      <button class="thread-btn" data-mode="kids">🧒 Для Детей</button>
+      <button class="thread-btn" data-mode="friends">👫 Для Друзей</button>
+      <button class="thread-btn" data-mode="chores">📋 Хлопоты</button>
       <button class="thread-btn full-width-btn gold-text-btn" id="historyBtn">История</button>
     </div>
 
@@ -572,9 +597,10 @@
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
         </div>
-        <div class="balance-row" style="margin:0; flex-shrink:0;">
+        <div class="balance-row" style="margin:0; flex-shrink:0; gap: 8px;">
           <span id="diamondsLabel">💎 Алмазы:</span>
           <span id="diamondsCount">100</span>
+          <button class="jackpot-prizes-btn" id="jackpotPrizesBtn">🎁 Призы</button>
         </div>
       </div>
       <div class="free-spins-badge hidden" id="freeSpinsBadge">🎁 Бесплатные спины: 0 (Шанс джекпота +50%)</div>
@@ -586,7 +612,7 @@
           <button id="donateButton" class="thread-btn">💎 Пополнить</button>
           <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
         </div>
-        <button id="spinButton" class="thread-btn spin-btn">⚡ СТАРТ</button>
+        <button id="spinButton" class="thread-btn spin-btn">🚀 ЗАПУСК</button>
       </div>
     </div>
   </div>
@@ -646,6 +672,14 @@
     </div>
   </div>
 
+  <div id="jackpotPrizesModal" class="overlay hidden">
+    <div class="win-card" style="max-width:420px;">
+      <h3 style="color:#ffd966;" id="jackpotPrizesTitle">🎁 Призы джекпота</h3>
+      <div class="prizes-list" id="jackpotPrizesList"></div>
+      <button id="closeJackpotPrizesBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
   <div id="policyModal" class="overlay hidden">
     <div class="win-card" style="max-width:520px;">
       <h3 style="color:#ffd966;" id="policyTitle">Политика конфиденциальности</h3>
@@ -671,6 +705,49 @@
         '🎁': { ru: 'Подари мне особенный сюрприз', ua: 'Подаруй мені особливий сюрприз', en: 'Give me a special surprise' }
       };
 
+      const MODE_PRIZES = {
+        '18+': {
+          ru: ['Исполни моё романтическое желание', 'Надень наручники и повинуйся', 'Устрой незабываемую ночь', 'Подари мне особенный сюрприз', 'Закажи мою любимую пиццу'],
+          ua: ['Виконай моє романтичне бажання', 'Надягни наручники й підкорись', 'Влаштуй незабутню ніч', 'Подаруй мені особливий сюрприз', 'Замов мою улюблену піцу'],
+          en: ['Fulfill my romantic wish', 'Put on handcuffs and obey', 'Create an unforgettable night', 'Give me a special surprise', 'Order my favorite pizza']
+        },
+        'home': {
+          ru: ['Приготовь ужин', 'Убери в комнате', 'Помой посуду', 'Пропылесось квартиру', 'Сделай мне чай'],
+          ua: ['Приготуй вечерю', 'Прибери в кімнаті', 'Помий посуд', 'Пропилосось квартиру', 'Зроби мені чай'],
+          en: ['Cook dinner', 'Clean the room', 'Wash dishes', 'Vacuum the apartment', 'Make me tea']
+        },
+        'party': {
+          ru: ['Танцуй со мной', 'Спой караоке', 'Приготовь коктейль', 'Сделай смешное фото', 'Расскажи анекдот'],
+          ua: ['Танцюй зі мною', 'Заспівай караоке', 'Приготуй коктейль', 'Зроби смішне фото', 'Розкажи анекдот'],
+          en: ['Dance with me', 'Sing karaoke', 'Make a cocktail', 'Take a funny photo', 'Tell a joke']
+        },
+        'young': {
+          ru: ['Устрой романтический ужин', 'Напиши любовное письмо', 'Подари цветы', 'Сделай массаж', 'Посмотри фильм вместе'],
+          ua: ['Влаштуй романтичну вечерю', 'Напиши любовний лист', 'Подаруй квіти', 'Зроби масаж', 'Подивись фільм разом'],
+          en: ['Have a romantic dinner', 'Write a love letter', 'Give flowers', 'Give a massage', 'Watch a movie together']
+        },
+        'family': {
+          ru: ['Поиграй с детьми', 'Приготовь семейный ужин', 'Помоги с домашним заданием', 'Устрой семейную игру', 'Почитай сказку'],
+          ua: ['Пограй з дітьми', 'Приготуй сімейну вечерю', 'Допоможи з домашнім завданням', 'Влаштуй сімейну гру', 'Почитай казку'],
+          en: ['Play with kids', 'Cook family dinner', 'Help with homework', 'Have a family game', 'Read a story']
+        },
+        'kids': {
+          ru: ['Поиграй в прятки', 'Нарисуй рисунок', 'Построй замок из кубиков', 'Почитай сказку', 'Сходи на прогулку'],
+          ua: ['Пограй у хованки', 'Намалюй малюнок', 'Побудуй замок з кубиків', 'Почитай казку', 'Сходи на прогулянку'],
+          en: ['Play hide and seek', 'Draw a picture', 'Build a block castle', 'Read a story', 'Go for a walk']
+        },
+        'friends': {
+          ru: ['Устрой вечеринку', 'Поиграй в настолки', 'Посмотри фильм вместе', 'Сходи в кафе', 'Поделись секретом'],
+          ua: ['Влаштуй вечірку', 'Пограй у настолки', 'Подивись фільм разом', 'Сходи в кафе', 'Поділись секретом'],
+          en: ['Throw a party', 'Play board games', 'Watch a movie together', 'Go to a cafe', 'Share a secret']
+        },
+        'chores': {
+          ru: ['Помой посуду', 'Пропылесось', 'Вынеси мусор', 'Приготовь ужин', 'Постирай вещи'],
+          ua: ['Помий посуд', 'Пропилосось', 'Винеси сміття', 'Приготуй вечерю', 'Попери речі'],
+          en: ['Wash dishes', 'Vacuum', 'Take out trash', 'Cook dinner', 'Do laundry']
+        }
+      };
+
       const CERTIFICATE_TEXTS = {
         ru: { title: 'VDS СЕРТИФИКАТ ВЫИГРЫША', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} выиграл(а) задание для тебя, ${p}!`, official: 'ОФИЦИАЛЬНЫЙ ЧЕК ВЫИГРЫША • VDS СЕРТИФИЦИРОВАНО' },
         ua: { title: 'VDS СЕРТИФІКАТ ВИГРАШУ', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} виграв(ла) завдання для тебе, ${p}!`, official: 'ОФІЦІЙНИЙ ЧЕК ВИГРАШУ • VDS СЕРТИФІКОВАНО' },
@@ -683,45 +760,51 @@
           loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
           customRewardsBtn: 'Мои желания', historyBtn: 'История',
           menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
-          diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '⚡ СТАРТ',
+          menuKids: '🧒 Для Детей', menuFriends: '👫 Для Друзей', menuChores: '📋 Хлопоты',
+          diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
           nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
           paymentTitle: '💎 ПОПОЛНЕНИЕ АЛМАЗОВ', closePayment: 'ОТМЕНА',
           historyTitle: '📜 История Джекпотов', noJackpots: 'Нет джекпотов',
           customRewardsTitle: '🎁 Мои желания (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
+          jackpotPrizesTitle: '🎁 Призы джекпота', jackpotPrizesBtn: '🎁 Призы',
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
           notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '👑 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
-          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', spinCost: '💎 1 спин = 10 алмазов', logoutBtn: '🚪 Выйти'
+          win3: '🎉 3 совпадения! +2💎', win4: '🔥 4 совпадения! +5💎', logoutBtn: '🚪 Выйти'
         },
         ua: {
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
           loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
           customRewardsBtn: 'Мої бажання', historyBtn: 'Історія',
           menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
-          diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '⚡ СТАРТ',
+          menuKids: '🧒 Для Дітей', menuFriends: '👫 Для Друзів', menuChores: '📋 Клопоти',
+          diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
           nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
           paymentTitle: '💎 ПОПОВНЕННЯ АЛМАЗІВ', closePayment: 'СКАСУВАТИ',
           historyTitle: '📜 Історія Джекпотів', noJackpots: 'Немає джекпотів',
           customRewardsTitle: '🎁 Мої бажання (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
+          jackpotPrizesTitle: '🎁 Призи джекпоту', jackpotPrizesBtn: '🎁 Призи',
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
           notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '👑 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
-          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', spinCost: '💎 1 спин = 10 алмазів', logoutBtn: '🚪 Вийти'
+          win3: '🎉 3 збіги! +2💎', win4: '🔥 4 збіги! +5💎', logoutBtn: '🚪 Вийти'
         },
         en: {
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
           loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
           customRewardsBtn: 'My Wishes', historyBtn: 'History',
           menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
-          diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '⚡ START',
+          menuKids: '🧒 For Kids', menuFriends: '👫 For Friends', menuChores: '📋 Chores',
+          diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '🚀 LAUNCH',
           jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
           nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
           paymentTitle: '💎 TOP UP DIAMONDS', closePayment: 'CANCEL',
           historyTitle: '📜 Jackpot History', noJackpots: 'No jackpots yet',
           customRewardsTitle: '🎁 My Wishes (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
+          jackpotPrizesTitle: '🎁 Jackpot Prizes', jackpotPrizesBtn: '🎁 Prizes',
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
           notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '👑 +10 free spins!', tryAgain: '💫 Try again',
-          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', spinCost: '💎 1 spin = 10 diamonds', logoutBtn: '🚪 Logout'
+          win3: '🎉 3 matches! +2💎', win4: '🔥 4 matches! +5💎', logoutBtn: '🚪 Logout'
         }
       };
 
@@ -738,6 +821,7 @@
       let freeSpins = 0;
       let jackpotBoost = false;
       let spinning = false;
+      let currentMode = '18+';
       const GRID = 5;
       let visibleGrid = [];
       let strips = [];
@@ -808,6 +892,10 @@
       const addCustomRewardBtn = document.getElementById('addCustomRewardBtn');
       const saveAndPlayBtn = document.getElementById('saveAndPlayBtn');
       const closeCustomRewardsBtn = document.getElementById('closeCustomRewardsBtn');
+      const jackpotPrizesBtn = document.getElementById('jackpotPrizesBtn');
+      const jackpotPrizesModal = document.getElementById('jackpotPrizesModal');
+      const jackpotPrizesList = document.getElementById('jackpotPrizesList');
+      const closeJackpotPrizesBtn = document.getElementById('closeJackpotPrizesBtn');
       const policyModal = document.getElementById('policyModal');
       const policyTitle = document.getElementById('policyTitle');
       const policyContent = document.getElementById('policyContent');
@@ -818,6 +906,13 @@
       const langUaOuter = document.getElementById('langUaOuter');
       const langEnOuter = document.getElementById('langEnOuter');
       const diamondsLabel = document.getElementById('diamondsLabel');
+
+      function showJackpotPrizes() {
+        const prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        jackpotPrizesList.innerHTML = prizes.map(p => `<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ${p}</div>`).join('');
+        document.getElementById('jackpotPrizesTitle').textContent = t('jackpotPrizesTitle');
+        jackpotPrizesModal.classList.remove('hidden');
+      }
 
       function updateAllTexts() {
         document.getElementById('loginTitle').textContent = t('loginTitle');
@@ -830,11 +925,14 @@
         showLoginBtn.textContent = t('showLoginBtn');
         customRewardsBtn.textContent = t('customRewardsBtn');
         historyBtn.textContent = t('historyBtn');
-        document.getElementById('btn18').innerHTML = t('menu18');
-        document.getElementById('btnHome').innerHTML = t('menuHome');
-        document.getElementById('btnParty').innerHTML = t('menuParty');
-        document.getElementById('btnYoung').innerHTML = t('menuYoung');
-        document.getElementById('btnFamily').innerHTML = t('menuFamily');
+        document.querySelectorAll('[data-mode="18+"]')[0].innerHTML = t('menu18');
+        document.querySelectorAll('[data-mode="home"]')[0].innerHTML = t('menuHome');
+        document.querySelectorAll('[data-mode="party"]')[0].innerHTML = t('menuParty');
+        document.querySelectorAll('[data-mode="young"]')[0].innerHTML = t('menuYoung');
+        document.querySelectorAll('[data-mode="family"]')[0].innerHTML = t('menuFamily');
+        document.querySelectorAll('[data-mode="kids"]')[0].innerHTML = t('menuKids');
+        document.querySelectorAll('[data-mode="friends"]')[0].innerHTML = t('menuFriends');
+        document.querySelectorAll('[data-mode="chores"]')[0].innerHTML = t('menuChores');
         diamondsLabel.textContent = t('diamondsLabel');
         donateButton.innerHTML = t('donateButton');
         backToMenuBtn.innerHTML = t('backToMenu');
@@ -857,6 +955,8 @@
         saveAndPlayBtn.innerHTML = t('saveAndPlay');
         closeCustomRewardsBtn.textContent = t('closeCustom');
         closeHistoryBtn.textContent = t('closeBtn');
+        jackpotPrizesBtn.textContent = t('jackpotPrizesBtn');
+        closeJackpotPrizesBtn.textContent = t('closeBtn');
         privacyPolicyLink.textContent = t('privacyLink');
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
@@ -1006,6 +1106,8 @@
       customRewardsBtn.addEventListener('click', () => { renderCustomRewards();
         customRewardsModal.classList.remove('hidden'); });
       closeCustomRewardsBtn.addEventListener('click', () => customRewardsModal.classList.add('hidden'));
+      jackpotPrizesBtn.addEventListener('click', showJackpotPrizes);
+      closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
 
       function setLanguage(lang) {
         currentLanguage = lang;
@@ -1105,7 +1207,8 @@
         if (useCustomRewards && customRewards.length >= 3) {
           return customRewards[Math.floor(Math.random() * customRewards.length)];
         }
-        return WISH_TEXTS[icon]?.[currentLanguage] || 'желание';
+        const modePrizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        return modePrizes[Math.floor(Math.random() * modePrizes.length)] || WISH_TEXTS[icon]?.[currentLanguage] || 'желание';
       }
 
       function spin() {
@@ -1287,11 +1390,13 @@
         historyModal.classList.add('hidden');
         nameFormModal.classList.add('hidden');
         customRewardsModal.classList.add('hidden');
+        jackpotPrizesModal.classList.add('hidden');
         useCustomRewards = false;
         updateMainBalance();
         updateTopSpinsInfo(); }
 
-      document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', () => { useCustomRewards = false;
+      document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', function() { useCustomRewards = false;
+        currentMode = this.dataset.mode;
         enterSlot(); }));
       spinButton.addEventListener('click', spin);
       backToMenuBtn.addEventListener('click', backToMenu);
@@ -1320,7 +1425,7 @@
       langRuOuter.addEventListener('click', () => setLanguage('ru'));
       langUaOuter.addEventListener('click', () => setLanguage('ua'));
       langEnOuter.addEventListener('click', () => setLanguage('en'));
-      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
 
       setLanguage('ru');
       updateAllTexts();
