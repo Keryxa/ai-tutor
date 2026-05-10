@@ -474,11 +474,11 @@
 
     <div id="mainMenu" class="menu-grid">
       <button class="thread-btn full-width-btn" id="customRewardsBtn" style="background:#3d2058;">🎁 Мои награды</button>
-      <button class="thread-btn" data-mode="18+">🔞 18+</button>
-      <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
-      <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
-      <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
-      <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
+      <button class="thread-btn" data-mode="18+" id="btn18">🔞 18+</button>
+      <button class="thread-btn" data-mode="home" id="btnHome">🏠 Для Дома</button>
+      <button class="thread-btn" data-mode="party" id="btnParty">🎉 Для Вечеринки</button>
+      <button class="thread-btn" data-mode="young" id="btnYoung">💑 Молодая Пара</button>
+      <button class="thread-btn" data-mode="family" id="btnFamily">👨‍👩‍👧 Семейная Пара</button>
       <button class="thread-btn full-width-btn" id="historyBtn">📜 История</button>
     </div>
 
@@ -599,6 +599,7 @@
           loginTitle: '🔐 ВХОД', registerTitle: '📝 РЕГИСТРАЦИЯ', loginPlaceholder: 'Введите никнейм', registerPlaceholder: 'Придумайте никнейм',
           loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
           customRewardsBtn: '🎁 Мои награды', historyBtn: '📜 История',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
           diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить алмазы', backToMenu: '↩️ МЕНЮ',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
           nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
@@ -613,6 +614,7 @@
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
           loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
           customRewardsBtn: '🎁 Мої нагороди', historyBtn: '📜 Історія',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
           diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити алмази', backToMenu: '↩️ МЕНЮ',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
           nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
@@ -627,6 +629,7 @@
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
           loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
           customRewardsBtn: '🎁 My Rewards', historyBtn: '📜 History',
+          menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
           diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up Diamonds', backToMenu: '↩️ MENU',
           jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
           nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
@@ -742,6 +745,11 @@
         showLoginBtn.textContent = t('showLoginBtn');
         customRewardsBtn.innerHTML = '🎁 ' + t('customRewardsBtn');
         historyBtn.innerHTML = '📜 ' + t('historyBtn');
+        document.getElementById('btn18').innerHTML = t('menu18');
+        document.getElementById('btnHome').innerHTML = t('menuHome');
+        document.getElementById('btnParty').innerHTML = t('menuParty');
+        document.getElementById('btnYoung').innerHTML = t('menuYoung');
+        document.getElementById('btnFamily').innerHTML = t('menuFamily');
         diamondsLabel.textContent = t('diamondsLabel');
         donateButton.innerHTML = t('donateButton');
         backToMenuBtn.innerHTML = t('backToMenu');
