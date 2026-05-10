@@ -610,6 +610,19 @@
       font-size: 0.85rem;
       outline: none;
     }
+
+    .custom-rewards-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .custom-rewards-buttons .thread-btn {
+      flex: 1;
+      animation: none;
+      font-size: 0.8rem;
+      padding: 12px;
+    }
   </style>
 </head>
 <body>
@@ -744,13 +757,15 @@
   </div>
 
   <div id="customRewardsModal" class="overlay hidden">
-    <div class="win-card" style="max-width:420px;">
+    <div class="win-card wide">
       <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои желания (3-10)</h3>
       <p style="color:#ddd; font-size:0.8rem;" id="customRewardsDesc">Введите свои желания для джекпота</p>
       <div id="customRewardsList"></div>
       <button id="addCustomRewardBtn" class="thread-btn" style="animation:none; margin-top:8px;">+ Добавить</button>
-      <button id="saveAndPlayBtn" class="thread-btn" style="animation:none; margin-top:8px; background:#d4af37; color:#150a1f;">💾 Сохранить и играть</button>
-      <button id="closeCustomRewardsBtn" class="thread-btn" style="animation:none; margin-top:8px;">ЗАКРЫТЬ</button>
+      <div class="custom-rewards-buttons">
+        <button id="saveAndPlayBtn" class="thread-btn" style="background:#d4af37; color:#150a1f;">💾 Сохранить и играть</button>
+        <button id="closeCustomRewardsBtn" class="thread-btn">ЗАКРЫТЬ</button>
+      </div>
     </div>
   </div>
 
