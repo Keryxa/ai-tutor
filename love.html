@@ -9,11 +9,16 @@
   <meta name="author" content="VDS Games">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#1a0530">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VDS Game">
   <meta property="og:title" content="VDS | Vibe Dare Smile - Wheel of Desires">
   <meta property="og:description" content="Luxury casino-style game of desires. Spin, win, and share romantic wishes!">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vds-game.com">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='8' fill='%231a0530'/%3E%3Ctext x='16' y='22' font-size='16' fill='%23ffd700' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231a0530'/%3E%3Ctext x='90' y='110' font-size='90' font-weight='bold' fill='%23ffd700' text-anchor='middle' font-family='serif'%3EVDS%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlZEUyAtIFZpYmUgRGFyZSBTbWlsZSIsCiAgInNob3J0X25hbWUiOiAiVkRTIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMxYTA1MzAiLAogICJ0aGVtZV9jb2xvciI6ICIjMWEwNTMwIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxOTInIGhlaWdodD0nMTkyJyB2aWV3Qm94PScwIDAgMTkyIDE5MiclM0UlM0NyZWN0IHdpZHRoPScxOTInIGhlaWdodD0nMTkyJyByeD0nNDAnIGZpbGw9JyUyMzFhMDUzMCcvJTNFJTNDdGV4dCB4PSc5NicgeT0nMTIwJyBmb250LXNpemU9Jzk2JyBmb250LXdlaWdodD0nYm9sZCcgZmlsbD0nJTIzZmZkNzAwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nc2VyaWYnJTNFVkRTJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ3JlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMDAnIGZpbGw9JyUyMzFhMDUzMCcvJTNFJTNDdGV4dCB4PScyNTYnIHk9JzMwMCcgZm9udC1zaXplPScyNTAnIGZvbnQtd2VpZ2h0PSdib2xkJyBmaWxsPSclMjNmZmQ3MDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZvbnQtZmFtaWx5PSdzZXJpZiclM0VWRFMlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
   <style>
     * {
       margin: 0;
@@ -623,6 +628,15 @@
       font-size: 0.8rem;
       padding: 12px;
     }
+
+    @media (display-mode: standalone) {
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+    }
   </style>
 </head>
 <body>
@@ -806,6 +820,32 @@
   </div>
 
   <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          self.addEventListener('install', (event) => {
+            self.skipWaiting();
+          });
+          self.addEventListener('activate', (event) => {
+            event.waitUntil(clients.claim());
+          });
+          self.addEventListener('fetch', (event) => {
+            event.respondWith(fetch(event.request));
+          });
+        `;
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl)
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
+    }
+
     (function() {
       const ICONS = ['❤️', '🔒', '🍕', '🛏️', '🎁'];
       const WISH_TEXTS = {
