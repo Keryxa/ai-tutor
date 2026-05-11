@@ -37,7 +37,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 8px;
       margin: 0;
       touch-action: manipulation;
       position: relative;
@@ -58,9 +58,9 @@
 
     .outer-header {
       position: fixed;
-      top: 8px;
-      left: 16px;
-      right: 16px;
+      top: 6px;
+      left: 12px;
+      right: 12px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -73,28 +73,28 @@
     }
 
     .outer-site-title {
-      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      font-size: clamp(1rem, 4vw, 1.5rem);
       font-weight: 900;
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 20px #ffb700);
+      filter: drop-shadow(0 0 15px #ffb700);
       line-height: 1;
     }
 
     .outer-site-subtitle {
-      font-size: clamp(0.5rem, 2vw, 0.7rem);
+      font-size: clamp(0.45rem, 1.8vw, 0.65rem);
       color: #d4af37;
-      letter-spacing: 3px;
-      text-shadow: 0 0 8px black;
+      letter-spacing: 2px;
+      text-shadow: 0 0 6px black;
     }
 
     .outer-right-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
@@ -103,10 +103,10 @@
       background: rgba(20, 5, 35, 0.8);
       border: 1px solid #c9a13b;
       color: #ddc07a;
-      padding: 4px 8px;
-      border-radius: 20px;
+      padding: 3px 7px;
+      border-radius: 16px;
       font-weight: bold;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       cursor: pointer;
       backdrop-filter: blur(8px);
       letter-spacing: 1px;
@@ -118,30 +118,30 @@
       background: rgba(20, 5, 35, 0.8);
       border: 1px solid #c9a13b;
       color: #ddc07a;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 16px;
       font-weight: bold;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       cursor: pointer;
       backdrop-filter: blur(8px);
     }
 
     #app {
       width: 100%;
-      max-width: 680px;
+      max-width: 650px;
       background: rgba(8, 3, 18, 0.7);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 2px solid rgba(212, 175, 55, 0.4);
-      box-shadow: 0 35px 55px rgba(0, 0, 0, 0.9), 0 0 50px rgba(180, 130, 50, 0.5);
-      border-radius: 56px;
-      padding: 24px 24px 28px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.9), 0 0 45px rgba(180, 130, 50, 0.5);
+      border-radius: 48px;
+      padding: 18px 18px 22px;
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      margin-top: 40px;
+      gap: 14px;
+      margin-top: 35px;
     }
 
     .user-bar {
@@ -151,18 +151,20 @@
       background: rgba(20, 5, 35, 0.6);
       border: 2px solid #d4af37;
       border-radius: 40px;
-      padding: 10px 18px;
-      margin: 0 4px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      padding: 8px 14px;
+      margin: 0 2px;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+      gap: 8px;
     }
 
     .nickname {
       font-weight: 900;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #ffd700;
       text-shadow: 0 0 10px #ffd700, 0 0 20px #b8860b;
       animation: nickGlow 2s ease-in-out infinite alternate;
       letter-spacing: 1px;
+      flex-shrink: 0;
     }
 
     @keyframes nickGlow {
@@ -172,22 +174,23 @@
 
     .balance-display {
       font-weight: 900;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #ffd966;
       text-shadow: 0 0 10px #ffd700;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      flex-shrink: 0;
     }
 
     .top-up-btn {
       background: rgba(20, 5, 35, 0.6);
       border: 1px solid #d4af37;
       color: #ffd966;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 16px;
       font-weight: bold;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -221,34 +224,35 @@
     .menu-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin: 8px 0;
-      padding: 0 8px;
+      gap: 10px;
+      margin: 4px 0;
+      padding: 0 4px;
     }
 
     .menu-grid .thread-btn {
-      font-size: 1.1rem;
-      padding: 16px 12px;
+      font-size: 0.95rem;
+      padding: 14px 10px;
     }
 
     .thread-btn {
       background: linear-gradient(180deg, #2d1840 0%, #150920 100%);
       border: 2px solid #c9a13b;
-      border-radius: 60px;
-      padding: 16px 18px;
+      border-radius: 50px;
+      padding: 14px 14px;
       font-weight: 700;
       color: #f7e9c3;
-      letter-spacing: 2px;
-      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 200, 0, 0.5);
+      letter-spacing: 1px;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 200, 0, 0.4);
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       backdrop-filter: blur(8px);
       animation: waveFloat 4s ease-in-out infinite;
       white-space: nowrap;
+      text-align: center;
     }
 
     .thread-btn:nth-child(1) { animation-delay: 0s; }
@@ -262,8 +266,8 @@
 
     @keyframes waveFloat {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(7px); }
-      75% { transform: translateX(-7px); }
+      25% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
     }
 
     .thread-btn:active {
@@ -286,83 +290,85 @@
     .slot-machine {
       background: rgba(0, 0, 0, 0.4);
       border: 2px solid #b49450;
-      border-radius: 44px;
-      padding: 12px 12px;
+      border-radius: 38px;
+      padding: 10px 10px;
       backdrop-filter: blur(14px);
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 15px 25px black;
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), 0 12px 22px black;
     }
 
     .slot-top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 4px;
+      gap: 6px;
+      margin-bottom: 3px;
+      flex-wrap: wrap;
     }
 
     .treasure-section {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       background: rgba(20, 5, 35, 0.6);
-      border-radius: 40px;
-      padding: 6px 12px;
+      border-radius: 35px;
+      padding: 5px 10px;
       border: 1px solid #d4af37;
       flex: 1;
+      min-width: 0;
     }
 
-    .treasure-box { font-size: 2rem; filter: drop-shadow(0 0 15px gold); }
-    .progress-container { flex: 1; max-width: 140px; }
-    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.7rem; margin-bottom: 2px; text-align: center; }
-    .progress-bar { width: 100%; height: 10px; background: #1f0b2e; border-radius: 10px; overflow: hidden; border: 1px solid #c9a13b; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ffaa00); transition: width 0.4s ease; width: 0%; border-radius: 8px; }
+    .treasure-box { font-size: 1.8rem; filter: drop-shadow(0 0 12px gold); }
+    .progress-container { flex: 1; max-width: 130px; }
+    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.65rem; margin-bottom: 1px; text-align: center; }
+    .progress-bar { width: 100%; height: 8px; background: #1f0b2e; border-radius: 8px; overflow: hidden; border: 1px solid #c9a13b; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ffaa00); transition: width 0.4s ease; width: 0%; border-radius: 6px; }
 
-    .balance-row { display: flex; justify-content: space-between; align-items: center; color: #e5d9b0; font-weight: bold; margin: 4px 4px; font-size: 0.85rem; }
-    .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.8rem; text-align: center; margin: 2px 0; text-shadow: 0 0 10px gold; }
+    .balance-row { display: flex; justify-content: space-between; align-items: center; color: #e5d9b0; font-weight: bold; margin: 3px 3px; font-size: 0.8rem; gap: 6px; flex-wrap: wrap; }
+    .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.75rem; text-align: center; margin: 2px 0; text-shadow: 0 0 8px gold; }
 
     .jackpot-prizes-btn {
       background: rgba(20, 5, 35, 0.6);
       border: 1px solid #d4af37;
       color: #ffd966;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 16px;
       font-weight: bold;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       cursor: pointer;
       white-space: nowrap;
     }
 
-    .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 8px; }
-    .reel { height: 220px; background: #160c24; border-radius: 16px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 18px black, 0 0 10px rgba(255, 215, 0, 0.4); }
-    @media (max-width: 480px) { .reel { height: 160px; } }
-    .strip { position: absolute; width: 100%; top: -44px; }
-    .symbol { height: 44px; display: flex; justify-content: center; align-items: center; font-size: 24px; color: #ffd966; }
-    @media (max-width: 480px) { .symbol { height: 32px; font-size: 18px; } }
+    .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 6px; }
+    .reel { height: 200px; background: #160c24; border-radius: 14px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 16px black, 0 0 8px rgba(255, 215, 0, 0.3); }
+    @media (max-width: 480px) { .reel { height: 150px; } }
+    .strip { position: absolute; width: 100%; top: -40px; }
+    .symbol { height: 40px; display: flex; justify-content: center; align-items: center; font-size: 22px; color: #ffd966; }
+    @media (max-width: 480px) { .symbol { height: 30px; font-size: 17px; } }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
-    .win-line { position: absolute; height: 3px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 10px; transform-origin: left center; box-shadow: 0 0 12px white, 0 0 20px gold; animation: linePulse 1.2s infinite alternate; }
+    .win-line { position: absolute; height: 2px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 8px; transform-origin: left center; box-shadow: 0 0 10px white, 0 0 16px gold; animation: linePulse 1.2s infinite alternate; }
     @keyframes linePulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
 
     .controls-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: stretch;
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     .left-buttons {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       flex: 0 0 auto;
       width: 45%;
     }
 
     .left-buttons .thread-btn {
       animation: none;
-      font-size: 0.75rem;
-      padding: 10px 10px;
+      font-size: 0.7rem;
+      padding: 9px 9px;
     }
 
     .spin-btn {
@@ -370,18 +376,18 @@
       border: none;
       color: #1f0a2e;
       font-weight: 900;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       letter-spacing: 2px;
-      box-shadow: 0 0 30px #ffaa33;
+      box-shadow: 0 0 25px #ffaa33;
       flex: 1;
-      padding: 10px;
+      padding: 8px;
       animation: spinPulse 1.5s ease-in-out infinite;
-      border-radius: 20px;
+      border-radius: 16px;
     }
 
     @keyframes spinPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 25px #ffaa33; }
-      50% { transform: scale(1.03); box-shadow: 0 0 40px #ffcc00; }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ffaa33; }
+      50% { transform: scale(1.03); box-shadow: 0 0 35px #ffcc00; }
     }
 
     .overlay {
@@ -401,18 +407,18 @@
     .win-card {
       background: #1f1233;
       border: 3px solid #e4b429;
-      border-radius: 52px;
-      padding: 28px 22px;
+      border-radius: 44px;
+      padding: 24px 18px;
       max-width: 420px;
       width: 90vw;
       text-align: center;
-      box-shadow: 0 0 70px gold;
+      box-shadow: 0 0 60px gold;
       max-height: 80vh;
       overflow-y: auto;
     }
 
     .win-card.wide {
-      max-width: 600px;
+      max-width: 580px;
     }
 
     .hidden { display: none !important; }
@@ -421,23 +427,23 @@
       background: #4b2c6e;
       border: 1px solid #cfaa4a;
       color: #ffd966;
-      padding: 14px 18px;
-      border-radius: 40px;
+      padding: 12px 16px;
+      border-radius: 35px;
       font-weight: bold;
-      margin-top: 14px;
+      margin-top: 12px;
       width: 100%;
     }
 
-    .history-list { max-height: 300px; overflow-y: auto; margin: 15px 0; text-align: left; color: #f0dbb0; }
-    .history-item { background: rgba(255, 215, 0, 0.1); border: 1px solid #d4af37; border-radius: 20px; padding: 10px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; flex-wrap: wrap; gap: 5px; }
-    .history-item button { background: #d4af37; color: #150a1f; border: none; border-radius: 20px; padding: 6px 12px; font-weight: bold; cursor: pointer; }
+    .history-list { max-height: 280px; overflow-y: auto; margin: 12px 0; text-align: left; color: #f0dbb0; }
+    .history-item { background: rgba(255, 215, 0, 0.1); border: 1px solid #d4af37; border-radius: 16px; padding: 8px; margin: 6px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; flex-wrap: wrap; gap: 4px; }
+    .history-item button { background: #d4af37; color: #150a1f; border: none; border-radius: 16px; padding: 5px 10px; font-weight: bold; cursor: pointer; }
 
     .view-btn {
       background: #4b2c6e;
       border: 1px solid #cfaa4a;
       color: #ffd966;
-      padding: 6px 12px;
-      border-radius: 20px;
+      padding: 5px 10px;
+      border-radius: 16px;
       font-weight: bold;
       cursor: pointer;
       font-size: 0.7rem;
@@ -445,13 +451,13 @@
 
     .form-input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 30px;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 25px;
       border: 2px solid #d4af37;
       background: #2a1540;
       color: #ffd966;
-      font-size: 1rem;
+      font-size: 0.9rem;
       text-align: center;
       outline: none;
     }
@@ -462,31 +468,32 @@
       background: #2a1540;
       border: 1px solid #d4af37;
       color: #ffd966;
-      padding: 10px;
-      margin: 6px 0;
-      border-radius: 20px;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 16px;
       cursor: pointer;
       transition: 0.2s;
+      font-size: 0.8rem;
     }
 
     .diamond-option:hover { background: #3d2058; }
 
     .auth-title {
       color: #ffd700;
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      text-shadow: 0 0 15px gold;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      text-shadow: 0 0 12px gold;
     }
 
     .custom-reward-input {
       width: 100%;
-      padding: 10px;
-      margin: 4px 0;
-      border-radius: 20px;
+      padding: 8px;
+      margin: 3px 0;
+      border-radius: 16px;
       border: 1px solid #d4af37;
       background: #2a1540;
       color: #ffd966;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-align: center;
       outline: none;
     }
@@ -494,11 +501,11 @@
     .footer {
       text-align: center;
       color: #b8945f;
-      font-size: 0.7rem;
-      margin-top: 10px;
+      font-size: 0.65rem;
+      margin-top: 8px;
       z-index: 1;
       position: relative;
-      max-width: 680px;
+      max-width: 650px;
       width: 100%;
     }
 
@@ -506,7 +513,7 @@
       color: #d4af37;
       text-decoration: underline;
       cursor: pointer;
-      margin: 0 8px;
+      margin: 0 6px;
     }
 
     .footer a:hover { color: #ffd700; }
@@ -514,119 +521,114 @@
     .policy-text {
       text-align: left;
       color: #ddd;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      max-height: 300px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      max-height: 280px;
       overflow-y: auto;
-      padding: 10px;
+      padding: 8px;
     }
 
     .prizes-list {
       text-align: left;
       color: #f0dbb0;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      font-size: 0.85rem;
+      line-height: 1.5;
     }
 
     .win-detail-text {
       text-align: left;
       color: #f0dbb0;
-      font-size: 1rem;
-      line-height: 1.8;
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
 
     .support-btn {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
+      bottom: 16px;
+      right: 16px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: linear-gradient(135deg, #ffd700, #ff8c00);
       border: 3px solid #fff;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 8px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 6px 16px rgba(0,0,0,0.5);
       cursor: pointer;
       z-index: 150;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       animation: supportPulse 2s ease-in-out infinite;
       transition: transform 0.2s;
     }
 
-    .support-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .support-btn:active {
-      transform: scale(0.95);
-    }
+    .support-btn:hover { transform: scale(1.1); }
+    .support-btn:active { transform: scale(0.95); }
 
     @keyframes supportPulse {
-      0%, 100% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 8px 20px rgba(0,0,0,0.5); }
-      50% { box-shadow: 0 0 45px rgba(255, 215, 0, 0.9), 0 12px 30px rgba(0,0,0,0.7); }
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 6px 16px rgba(0,0,0,0.5); }
+      50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 10px 25px rgba(0,0,0,0.7); }
     }
 
     .chat-messages {
-      max-height: 300px;
+      max-height: 280px;
       overflow-y: auto;
       text-align: left;
       color: #f0dbb0;
-      margin-bottom: 10px;
-      padding: 10px;
+      margin-bottom: 8px;
+      padding: 8px;
       background: rgba(0,0,0,0.3);
-      border-radius: 20px;
+      border-radius: 16px;
     }
 
     .chat-message {
-      margin: 6px 0;
-      padding: 8px 12px;
-      border-radius: 16px;
-      font-size: 0.85rem;
+      margin: 5px 0;
+      padding: 7px 10px;
+      border-radius: 14px;
+      font-size: 0.8rem;
     }
 
     .chat-message.admin {
       background: rgba(212, 175, 55, 0.2);
       border: 1px solid #d4af37;
       text-align: left;
-      margin-right: 20px;
+      margin-right: 16px;
     }
 
     .chat-message.user {
       background: rgba(75, 44, 110, 0.4);
       border: 1px solid #cfaa4a;
       text-align: right;
-      margin-left: 20px;
+      margin-left: 16px;
     }
 
     .chat-input-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .chat-input {
       flex: 1;
-      padding: 10px;
-      border-radius: 25px;
+      padding: 8px;
+      border-radius: 22px;
       border: 2px solid #d4af37;
       background: #2a1540;
       color: #ffd966;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       outline: none;
     }
 
     .custom-rewards-buttons {
       display: flex;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
+      margin-top: 6px;
     }
 
     .custom-rewards-buttons .thread-btn {
       flex: 1;
       animation: none;
-      font-size: 0.8rem;
-      padding: 12px;
+      font-size: 0.75rem;
+      padding: 10px;
     }
 
     @media (display-mode: standalone) {
@@ -660,13 +662,13 @@
           <h3 class="auth-title" id="loginTitle">🔐 ВХОД</h3>
           <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм">
           <button id="loginBtn" class="thread-btn" style="animation:none; width:100%;">ВОЙТИ</button>
-          <button id="showRegisterBtn" class="thread-btn" style="animation:none; width:100%; margin-top:8px; background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
+          <button id="showRegisterBtn" class="thread-btn" style="animation:none; width:100%; margin-top:6px; background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
         </div>
         <div id="registerForm" class="hidden">
           <h3 class="auth-title" id="registerTitle">📝 РЕГИСТРАЦИЯ</h3>
           <input type="text" id="registerNickname" class="form-input" placeholder="Придумайте никнейм">
           <button id="registerBtn" class="thread-btn" style="animation:none; width:100%;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
-          <button id="showLoginBtn" class="thread-btn" style="animation:none; width:100%; margin-top:8px; background:#2a1738;">↩️ НАЗАД К ВХОДУ</button>
+          <button id="showLoginBtn" class="thread-btn" style="animation:none; width:100%; margin-top:6px; background:#2a1738;">↩️ НАЗАД К ВХОДУ</button>
         </div>
       </div>
     </div>
@@ -696,7 +698,7 @@
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
         </div>
-        <div class="balance-row" style="margin:0; flex-shrink:0; gap: 8px;">
+        <div class="balance-row" style="margin:0; flex-shrink:0; gap: 6px;">
           <span id="diamondsLabel">💎 Алмазы:</span>
           <span id="diamondsCount">100</span>
           <button class="jackpot-prizes-btn" id="jackpotPrizesBtn">🎁 Призы</button>
@@ -705,7 +707,7 @@
       <div class="free-spins-badge hidden" id="freeSpinsBadge">🎁 Бесплатные спины: 0 (Шанс джекпота +50%)</div>
       <div class="machine" id="machine"></div>
       <div class="win-lines" id="winLines"></div>
-      <div style="color:#ffd966; text-align:center; min-height:22px; font-weight:bold;" id="messageDisplay"></div>
+      <div style="color:#ffd966; text-align:center; min-height:20px; font-weight:bold; font-size:0.8rem;" id="messageDisplay"></div>
       <div class="controls-row">
         <div class="left-buttons">
           <button id="donateButton" class="thread-btn">💎 Пополнить</button>
@@ -723,10 +725,10 @@
   <div id="winOverlay" class="overlay hidden">
     <div class="win-card">
       <h2 style="color:#ffd966;" id="jackpotTitle">🎉 ДЖЕКПОТ!</h2>
-      <p style="color:#f0dbb0; font-size:1.2rem; margin:10px 0;" id="winMessage"></p>
-      <div style="font-size:3rem;" id="winIcons"></div>
+      <p style="color:#f0dbb0; font-size:1.1rem; margin:8px 0;" id="winMessage"></p>
+      <div style="font-size:2.8rem;" id="winIcons"></div>
       <button id="sendToPartnerBtn" class="social-btn">💌 Отправить Партнёру</button>
-      <button id="closeWinBtn" class="thread-btn" style="margin-top:14px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closeWinBtn" class="thread-btn" style="margin-top:12px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
@@ -735,13 +737,13 @@
       <h3 style="color:#ffd966;" id="nameFormTitle">📝 Введите имена</h3>
       <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
       <input type="text" id="partnerNameInput" class="form-input" placeholder="Имя партнёра">
-      <button id="downloadWithNamesBtn" class="thread-btn" style="animation:none; margin-top:10px;">📥 Скачать</button>
-      <button id="closeNameFormBtn" class="thread-btn" style="animation:none; margin-top:8px;">Отмена</button>
+      <button id="downloadWithNamesBtn" class="thread-btn" style="animation:none; margin-top:8px;">📥 Скачать</button>
+      <button id="closeNameFormBtn" class="thread-btn" style="animation:none; margin-top:6px;">Отмена</button>
     </div>
   </div>
 
   <div id="paymentModal" class="overlay hidden">
-    <div class="win-card" style="max-width:360px;">
+    <div class="win-card" style="max-width:340px;">
       <h3 style="color:#f7e47b;" id="paymentTitle">💎 ПОПОЛНЕНИЕ АЛМАЗОВ</h3>
       <div id="diamondOptions">
         <div class="diamond-option" data-diamonds="100" data-price="1">💎 100 алмазов - $1.00</div>
@@ -750,7 +752,7 @@
         <div class="diamond-option" data-diamonds="5000" data-price="50">💎 5000 алмазов - $50.00</div>
         <div class="diamond-option" data-diamonds="10000" data-price="100">💎 10000 алмазов - $100.00</div>
       </div>
-      <button id="closePaymentBtn" class="thread-btn" style="margin-top:10px; animation: none;">ОТМЕНА</button>
+      <button id="closePaymentBtn" class="thread-btn" style="margin-top:8px; animation: none;">ОТМЕНА</button>
     </div>
   </div>
 
@@ -758,7 +760,7 @@
     <div class="win-card wide">
       <h3 style="color:#ffd966;" id="historyTitle">📜 История Джекпотов</h3>
       <div id="historyList" class="history-list"></div>
-      <button id="closeHistoryBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closeHistoryBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
@@ -766,16 +768,16 @@
     <div class="win-card">
       <h3 style="color:#ffd966;" id="winDetailTitle">📋 Детали выигрыша</h3>
       <div class="win-detail-text" id="winDetailContent"></div>
-      <button id="closeWinDetailBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closeWinDetailBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
   <div id="customRewardsModal" class="overlay hidden">
     <div class="win-card wide">
       <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои желания (3-10)</h3>
-      <p style="color:#ddd; font-size:0.8rem;" id="customRewardsDesc">Введите свои желания для джекпота</p>
+      <p style="color:#ddd; font-size:0.75rem;" id="customRewardsDesc">Введите свои желания для джекпота</p>
       <div id="customRewardsList"></div>
-      <button id="addCustomRewardBtn" class="thread-btn" style="animation:none; margin-top:8px;">+ Добавить</button>
+      <button id="addCustomRewardBtn" class="thread-btn" style="animation:none; margin-top:6px;">+ Добавить</button>
       <div class="custom-rewards-buttons">
         <button id="saveAndPlayBtn" class="thread-btn" style="background:#d4af37; color:#150a1f;">💾 Сохранить и играть</button>
         <button id="closeCustomRewardsBtn" class="thread-btn">ЗАКРЫТЬ</button>
@@ -784,65 +786,52 @@
   </div>
 
   <div id="jackpotPrizesModal" class="overlay hidden">
-    <div class="win-card" style="max-width:420px;">
+    <div class="win-card" style="max-width:400px;">
       <h3 style="color:#ffd966;" id="jackpotPrizesTitle">🎁 Призы джекпота</h3>
       <div class="prizes-list" id="jackpotPrizesList"></div>
-      <button id="closeJackpotPrizesBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closeJackpotPrizesBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
   <div id="supportModal" class="overlay hidden">
-    <div class="win-card" style="max-width:420px;">
+    <div class="win-card" style="max-width:400px;">
       <h3 style="color:#ffd966;" id="supportTitle">💬 Онлайн поддержка</h3>
       <div class="chat-messages" id="chatMessages">
         <div class="chat-message admin">👋 Здравствуйте! Чем могу помочь?</div>
       </div>
       <div class="chat-input-row">
         <input type="text" class="chat-input" id="chatInput" placeholder="Введите сообщение...">
-        <button id="sendChatBtn" class="thread-btn" style="animation:none; padding:10px 16px; font-size:0.8rem;">📤</button>
+        <button id="sendChatBtn" class="thread-btn" style="animation:none; padding:8px 14px; font-size:0.75rem;">📤</button>
       </div>
-      <button id="closeSupportBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closeSupportBtn" class="thread-btn" style="margin-top:6px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
   <div id="policyModal" class="overlay hidden">
-    <div class="win-card" style="max-width:520px;">
+    <div class="win-card" style="max-width:500px;">
       <h3 style="color:#ffd966;" id="policyTitle">Политика конфиденциальности</h3>
       <div class="policy-text" id="policyContent"></div>
-      <button id="closePolicyBtn" class="thread-btn" style="margin-top:10px; animation: none;">ЗАКРЫТЬ</button>
+      <button id="closePolicyBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
   <div class="footer">
     <a id="privacyPolicyLink">Политика конфиденциальности</a> |
     <a id="termsOfUseLink">Условия использования</a>
-    <p style="margin-top:4px;">© 2024 VDS - Vibe Dare Smile. Все права защищены.</p>
+    <p style="margin-top:3px;">© 2024 VDS - Vibe Dare Smile. Все права защищены.</p>
   </div>
 
   <script>
-    // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         const swCode = `
-          self.addEventListener('install', (event) => {
-            self.skipWaiting();
-          });
-          self.addEventListener('activate', (event) => {
-            event.waitUntil(clients.claim());
-          });
-          self.addEventListener('fetch', (event) => {
-            event.respondWith(fetch(event.request));
-          });
+          self.addEventListener('install', (event) => { self.skipWaiting(); });
+          self.addEventListener('activate', (event) => { event.waitUntil(clients.claim()); });
+          self.addEventListener('fetch', (event) => { event.respondWith(fetch(event.request)); });
         `;
         const blob = new Blob([swCode], { type: 'application/javascript' });
         const swUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(swUrl)
-          .then(registration => {
-            console.log('Service Worker registered with scope:', registration.scope);
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed:', error);
-          });
+        navigator.serviceWorker.register(swUrl).catch(() => {});
       });
     }
 
@@ -1362,7 +1351,7 @@
         setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
       }
 
-      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 44 : 44; }
+      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 40 : 40; }
 
       function createReels() { machineDiv.innerHTML = '';
         strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
