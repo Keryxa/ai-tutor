@@ -1108,7 +1108,12 @@
       }
 
       function showJackpotPrizes() {
-        const prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        let prizes = [];
+        if (useCustomRewards && customRewards.length >= 3) {
+          prizes = customRewards;
+        } else {
+          prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        }
         jackpotPrizesList.innerHTML = prizes.map(p => `<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ${p}</div>`).join('');
         $('jackpotPrizesTitle').textContent = t('jackpotPrizesTitle');
         jackpotPrizesModal.classList.remove('hidden');
