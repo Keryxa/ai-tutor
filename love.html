@@ -234,7 +234,7 @@
       z-index: 350;
       pointer-events: none;
       opacity: 0;
-      animation: jackpotBannerIn 0.5s ease-out forwards, jackpotBannerOut 0.5s ease-in 2.5s forwards;
+      animation: jackpotBannerIn 0.5s ease-out forwards, jackpotBannerOut 0.5s ease-in 4.5s forwards;
       letter-spacing: 8px;
     }
 
@@ -262,24 +262,41 @@
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Chest explosion animation */
-    .chest-explosion {
-      animation: chestExplode 0.6s ease-out forwards;
+    /* Coin mountain explosion animation */
+    .coin-mountain-explosion {
+      animation: coinMountainExplode 0.8s ease-out forwards;
     }
 
-    @keyframes chestExplode {
+    @keyframes coinMountainExplode {
       0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.5); opacity: 0.5; }
-      100% { transform: scale(0); opacity: 0; }
+      30% { transform: scale(1.3); opacity: 0.8; }
+      100% { transform: scale(2); opacity: 0; filter: blur(8px); }
     }
 
-    .chest-reappear {
-      animation: chestReappear 0.5s ease-in forwards;
+    .coin-mountain-reappear {
+      animation: coinMountainReappear 0.6s ease-in forwards;
     }
 
-    @keyframes chestReappear {
+    @keyframes coinMountainReappear {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Coin mountain styles */
+    .coin-mountain-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: all 0.3s ease;
+    }
+
+    .coin-row {
+      display: flex;
+      justify-content: center;
+      gap: 1px;
     }
 
     .menu-grid {
@@ -377,9 +394,17 @@
       border: 1px solid #d4af37;
       flex: 1;
       min-width: 0;
+      min-height: 80px;
     }
 
-    .treasure-box { font-size: 1.8rem; filter: drop-shadow(0 0 12px gold); transition: transform 0.3s; }
+    .treasure-box { 
+      font-size: 1.2rem; 
+      filter: drop-shadow(0 0 8px gold);
+      transition: transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .progress-container { flex: 1; max-width: 130px; }
     .progress-text { color: #ffd966; font-weight: bold; font-size: 0.65rem; margin-bottom: 1px; text-align: center; }
     .progress-bar { width: 100%; height: 8px; background: #1f0b2e; border-radius: 8px; overflow: hidden; border: 1px solid #c9a13b; }
@@ -794,9 +819,11 @@
     <div id="slotUI" class="slot-machine hidden">
       <div class="slot-top-row">
         <div class="treasure-section">
-          <div class="treasure-box" id="treasureBox">📦</div>
+          <div class="treasure-box" id="treasureBox">
+            <div class="coin-mountain-container" id="coinMountain"></div>
+          </div>
           <div class="progress-container">
-            <div class="progress-text" id="progressText">Сундук: 0/100%</div>
+            <div class="progress-text" id="progressText">Монеты: 0/100%</div>
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
         </div>
@@ -1007,7 +1034,7 @@
           customRewardsTitle: '🎁 Мои желания (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
           jackpotPrizesTitle: '🎁 Призы джекпота', jackpotPrizesBtn: '🎁 Призы',
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
-          notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '📦 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
+          notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '🪙 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
           win3: '🎉 3 совпадения! +1💎', win4: '🔥 4 совпадения! +3💎', logoutBtn: '🚪 Выйти',
           mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша',
           supportTitle: '💬 Онлайн поддержка', supportPlaceholder: 'Введите сообщение...', sendBtn: '📤',
@@ -1027,7 +1054,7 @@
           customRewardsTitle: '🎁 Мої бажання (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
           jackpotPrizesTitle: '🎁 Призи джекпоту', jackpotPrizesBtn: '🎁 Призи',
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
-          notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '📦 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
+          notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '🪙 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
           win3: '🎉 3 збіги! +1💎', win4: '🔥 4 збіги! +3💎', logoutBtn: '🚪 Вийти',
           mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу',
           supportTitle: '💬 Онлайн підтримка', supportPlaceholder: 'Введіть повідомлення...', sendBtn: '📤',
@@ -1047,7 +1074,7 @@
           customRewardsTitle: '🎁 My Wishes (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
           jackpotPrizesTitle: '🎁 Jackpot Prizes', jackpotPrizesBtn: '🎁 Prizes',
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
-          notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '📦 +10 free spins!', tryAgain: '💫 Try again',
+          notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '🪙 +10 free spins!', tryAgain: '💫 Try again',
           win3: '🎉 3 matches! +1💎', win4: '🔥 4 matches! +3💎', logoutBtn: '🚪 Logout',
           mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details',
           supportTitle: '💬 Online Support', supportPlaceholder: 'Enter message...', sendBtn: '📤',
@@ -1092,7 +1119,7 @@
       function playWinSound() { playTone(523, 0.15, 'sine', 0.06); setTimeout(() => playTone(659, 0.15, 'sine', 0.06), 120); }
       function playLoseSound() { playTone(200, 0.2, 'sawtooth', 0.03); }
       function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => setTimeout(() => playTone(f, 0.3, 'sine', 0.07), i * 100)); }
-      function playChestExplosionSound() { [200, 300, 400, 600, 800].forEach((f, i) => setTimeout(() => playTone(f, 0.2, 'triangle', 0.05), i * 60)); }
+      function playCoinExplosionSound() { [300, 400, 500, 600, 700, 800, 900, 1000].forEach((f, i) => setTimeout(() => playTone(f, 0.15, 'triangle', 0.04), i * 40)); }
 
       const $ = id => document.getElementById(id);
       const authOverlay = $('authOverlay');
@@ -1170,7 +1197,38 @@
       const langUaOuter = $('langUaOuter');
       const langEnOuter = $('langEnOuter');
       const diamondsLabel = $('diamondsLabel');
-      const treasureBox = $('treasureBox');
+      const coinMountain = $('coinMountain');
+
+      // Build coin mountain based on progress
+      function renderCoinMountain(progress) {
+        if (!coinMountain) return;
+        const levels = Math.floor(progress / 10);
+        let html = '';
+        for (let level = 0; level < levels; level++) {
+          const coinsInRow = 10 - level;
+          html += '<div class="coin-row">';
+          for (let i = 0; i < coinsInRow; i++) {
+            html += '<span>🪙</span>';
+          }
+          html += '</div>';
+        }
+        coinMountain.innerHTML = html;
+      }
+
+      function animateCoinMountainExplosion() {
+        playCoinExplosionSound();
+        if (coinMountain) {
+          coinMountain.classList.add('coin-mountain-explosion');
+          setTimeout(() => {
+            coinMountain.classList.remove('coin-mountain-explosion');
+            coinMountain.classList.add('coin-mountain-reappear');
+            coinMountain.innerHTML = '';
+            setTimeout(() => {
+              coinMountain.classList.remove('coin-mountain-reappear');
+            }, 600);
+          }, 800);
+        }
+      }
 
       // Load all users from localStorage
       function loadAllUsers() {
@@ -1184,7 +1242,6 @@
             }
           }
         }
-        // Also check for diamond keys to find more users
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (key.startsWith('wdVdsDiamonds_')) {
@@ -1194,7 +1251,6 @@
             }
           }
         }
-        // Ensure current user is included
         if (nickname && !allNicks.includes(nickname)) {
           allNicks.push(nickname);
         }
@@ -1204,7 +1260,6 @@
 
       function updateJackpotFeed() {
         if (!jackpotFeedList) return;
-        // Display up to 10 users without scrolling
         const displayUsers = allUsers.slice(0, 10);
         if (displayUsers.length === 0) {
           jackpotFeedList.innerHTML = `<div class="jackpot-feed-item" style="justify-content:center;color:#b8945f;">${t('noJackpotsFeed')}</div>`;
@@ -1221,7 +1276,6 @@
             </div>
           `;
         }).join('');
-        // Adjust max-height to show exactly 10 lines
         if (jackpotFeed) {
           jackpotFeed.style.maxHeight = (displayUsers.length * 32 + 30) + 'px';
         }
@@ -1557,39 +1611,10 @@
 
       function updateTreasureProgress(add) {
         treasureProgress = Math.min(100, treasureProgress + add);
-        // Add coins to the chest as it fills up
-        const fillPercent = treasureProgress / 100;
-        const coinCount = Math.min(4, Math.floor(fillPercent * 5));
-        let coins = '';
-        for (let i = 0; i < coinCount; i++) {
-          coins += '🪙';
-        }
-        if (treasureProgress < 5) {
-          treasureBox.textContent = '📦';
-        } else if (treasureProgress < 100) {
-          treasureBox.textContent = '📦' + coins;
-        }
         progressFill.style.width = treasureProgress + '%';
-        const chestWord = currentLanguage === 'ru' ? 'Сундук' : currentLanguage === 'ua' ? 'Скриня' : 'Chest';
-        progressText.textContent = `${chestWord}: ${treasureProgress.toFixed(1)}/100%`;
-      }
-
-      function animateChestExplosion() {
-        // Animate chest explosion
-        playChestExplosionSound();
-        treasureBox.classList.add('chest-explosion');
-        
-        setTimeout(() => {
-          treasureBox.textContent = '💥';
-          setTimeout(() => {
-            treasureBox.classList.remove('chest-explosion');
-            treasureBox.classList.add('chest-reappear');
-            treasureBox.textContent = '📦';
-            setTimeout(() => {
-              treasureBox.classList.remove('chest-reappear');
-            }, 500);
-          }, 300);
-        }, 300);
+        const coinWord = currentLanguage === 'ru' ? 'Монеты' : currentLanguage === 'ua' ? 'Монети' : 'Coins';
+        progressText.textContent = `${coinWord}: ${treasureProgress.toFixed(1)}/100%`;
+        renderCoinMountain(treasureProgress);
       }
 
       function updateTreasure(add) {
@@ -1597,11 +1622,11 @@
         if (treasureProgress >= 100) {
           treasureProgress = 0;
           progressFill.style.width = '0%';
-          const chestWord = currentLanguage === 'ru' ? 'Сундук' : currentLanguage === 'ua' ? 'Скриня' : 'Chest';
-          progressText.textContent = `${chestWord}: 0/100%`;
+          const coinWord = currentLanguage === 'ru' ? 'Монеты' : currentLanguage === 'ua' ? 'Монети' : 'Coins';
+          progressText.textContent = `${coinWord}: 0/100%`;
           
-          // Animate explosion
-          animateChestExplosion();
+          // Animate coin mountain explosion
+          animateCoinMountainExplosion();
           
           // Award 10 free spins and 50% jackpot chance
           freeSpins += 10;
@@ -1622,30 +1647,29 @@
         setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
       }
 
-      // Falling gifts animation for jackpot
+      // Falling gifts animation for jackpot - 5 seconds
       function startGiftRain() {
         const giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
         const container = document.body;
         const gifts = [];
         
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 50; i++) {
           setTimeout(() => {
             const gift = document.createElement('div');
             gift.className = 'falling-gift';
             gift.textContent = giftTypes[Math.floor(Math.random() * giftTypes.length)];
             gift.style.left = Math.random() * 100 + '%';
-            gift.style.animationDuration = (2 + Math.random() * 2) + 's';
+            gift.style.animationDuration = (2 + Math.random() * 3) + 's';
             gift.style.animationDelay = '0s';
             gift.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
             container.appendChild(gift);
             gifts.push(gift);
             
-            // Remove gift after animation
             setTimeout(() => {
               if (gift.parentNode) {
                 gift.remove();
               }
-            }, 3000);
+            }, 5000);
           }, i * 100);
         }
       }
@@ -1660,7 +1684,7 @@
           if (banner.parentNode) {
             banner.remove();
           }
-        }, 3000);
+        }, 5000);
       }
 
       function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 40 : 40; }
@@ -1771,13 +1795,12 @@
           addToJackpotFeed(nickname, currentMode, 20);
           saveJackpotFeedData();
           playJackpotSound();
-          // Start jackpot animations
+          // Start jackpot animations - 5 seconds
           showJackpotBanner();
           startGiftRain();
-          // Delay showing the win window until after the 3-second animation
           setTimeout(() => {
             triggerJackpot(icon, wish);
-          }, 3000);
+          }, 5000);
         } else if (totalWin > 0) { playWinSound();
           showMessage(totalWin === 1 ? t('win3') : t('win4')); } else { playLoseSound();
           showMessage(t('tryAgain')); }
@@ -1787,7 +1810,6 @@
       function triggerJackpot(icon, wish) { winIcons.textContent = `${icon}${icon}${icon}`;
         winMessage.textContent = wish;
         winOverlay.classList.remove('hidden');
-        // Add animation class to win card
         const winCard = winOverlay.querySelector('.win-card');
         if (winCard) {
           winCard.style.animation = 'none';
@@ -1803,9 +1825,31 @@
         canvas.height = 800;
         const ctx = canvas.getContext('2d');
         const certTexts = CERTIFICATE_TEXTS[currentLanguage] || CERTIFICATE_TEXTS.ru;
+        
+        // Background
         ctx.fillStyle = '#0a0a0f';
         ctx.fillRect(0, 0, 1200, 800);
-        ctx.fillStyle = 'rgba(20,15,30,0.3)'; for (let i = 0; i < 1200; i += 8) for (let j = 0; j < 800; j += 8) if (Math.random() > 0.7) ctx.fillRect(i, j, 4, 4);
+        
+        // Gold dots in background FIRST (before any text)
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 8;
+        for (let i = 0; i < 1200; i += 8) {
+          for (let j = 0; j < 800; j += 8) {
+            if (Math.random() > 0.7) {
+              ctx.beginPath();
+              if (Math.random() > 0.5) {
+                ctx.arc(i, j, 2 + Math.random() * 6, 0, Math.PI * 2);
+              } else {
+                ctx.fillRect(i, j, 3 + Math.random() * 5, 3 + Math.random() * 5);
+              }
+              ctx.fill();
+            }
+          }
+        }
+        ctx.shadowBlur = 0;
+        
+        // Border decorations
         ctx.strokeStyle = '#ffd700';
         ctx.lineWidth = 8;
         ctx.shadowColor = '#ffd700';
@@ -1822,6 +1866,8 @@
           ctx.strokeStyle='#b8860b';
           ctx.lineWidth=3;
           ctx.stroke(); });
+        
+        // VDS Seal
         ctx.save();
         ctx.beginPath();
         ctx.arc(600,420,90,0,Math.PI*2);
@@ -1843,12 +1889,14 @@
         ctx.textBaseline='middle';
         ctx.fillText('VDS',600,420);
         ctx.restore();
+        
+        // Title and subtitle
         ctx.fillStyle='#ffd700';
-        ctx.font='bold 44px Cormorant Garamond';
+        ctx.font='bold 44px Cormorant Garamond, Times New Roman, serif';
         ctx.textAlign='center';
         ctx.fillText(certTexts.title,600,140);
         ctx.fillStyle='#d4af37';
-        ctx.font='italic 28px Cormorant Garamond';
+        ctx.font='italic 28px Cormorant Garamond, Times New Roman, serif';
         ctx.fillText(certTexts.subtitle,600,185);
         ctx.strokeStyle='#ffd700';
         ctx.lineWidth=2;
@@ -1856,28 +1904,31 @@
         ctx.moveTo(200,210);
         ctx.lineTo(1000,210);
         ctx.stroke();
+        
+        // Icon
         ctx.font='100px sans-serif';
         ctx.fillText(icon,600,310);
+        
+        // Winner message
         ctx.fillStyle='#f0dbb0';
-        ctx.font='bold 30px Segoe UI';
+        ctx.font='bold 30px Segoe UI, Arial, sans-serif';
         ctx.fillText(certTexts.wonMsg(userName,partnerName),600,530);
+        
+        // Wish text
         ctx.fillStyle='#ffd966';
-        ctx.font='28px Cormorant Garamond';
+        ctx.font='28px Cormorant Garamond, Times New Roman, serif';
         const words=wish.split(' ');
         let line='',y=580;
         words.forEach(w=>{const tl=line+w+' ';if(ctx.measureText(tl).width>800){ctx.fillText(line,600,y);line=w+' ';y+=40;}else line=tl;});
         ctx.fillText(line,600,y);
-        for(let i=0;i<80;i++){const sx=80+Math.random()*1040,sy=80+Math.random()*640,sz=2+Math.random()*8;
-          ctx.fillStyle=Math.random()>0.5?'#ffd700':'#ffea80';
-          ctx.shadowColor='#ffd700';
-          ctx.shadowBlur=8;
-          ctx.beginPath();if(Math.random()>0.5)ctx.arc(sx,sy,sz,0,Math.PI*2);else ctx.fillRect(sx,sy,sz,sz);
-          ctx.fill();
-          ctx.shadowBlur=0;}
+        
+        // Official text
         ctx.fillStyle='#cfaa4a';
         ctx.font='18px monospace';
         ctx.textAlign='center';
         ctx.fillText(certTexts.official,600,680);
+        
+        // Red seal
         ctx.save();
         ctx.beginPath();
         ctx.arc(1100,720,50,0,Math.PI*2);
@@ -1892,6 +1943,7 @@
         ctx.textBaseline='middle';
         ctx.fillText('VDS',1100,720);
         ctx.restore();
+        
         canvas.toBlob(b=>{const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`VDS_Wish_${icon}.png`;a.click();URL.revokeObjectURL(u);});
       }
 
@@ -1910,8 +1962,7 @@
         applyGrid();
         messageDisplay.textContent = '';
         updateJackpotFeed();
-        // Reset treasure box
-        treasureBox.textContent = '📦';
+        renderCoinMountain(treasureProgress);
         updateTreasureProgress(0); }
 
       function backToMenu() { slotUI.classList.add('hidden');
