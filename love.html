@@ -262,41 +262,78 @@
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Coin mountain explosion animation */
-    .coin-mountain-explosion {
-      animation: coinMountainExplode 0.8s ease-out forwards;
+    /* Gift size animation based on percentage */
+    .gift-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
 
-    @keyframes coinMountainExplode {
+    .gift-icon {
+      transition: all 0.5s ease;
+      filter: drop-shadow(0 0 8px gold);
+      animation: giftPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes giftPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px gold); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 15px gold); }
+    }
+
+    /* Gift explosion animation */
+    .gift-explosion {
+      animation: giftExplode 0.8s ease-out forwards;
+    }
+
+    @keyframes giftExplode {
       0% { transform: scale(1); opacity: 1; }
-      30% { transform: scale(1.3); opacity: 0.8; }
-      100% { transform: scale(2); opacity: 0; filter: blur(8px); }
+      30% { transform: scale(1.5); opacity: 0.8; }
+      100% { transform: scale(2.5); opacity: 0; filter: blur(8px); }
     }
 
-    .coin-mountain-reappear {
-      animation: coinMountainReappear 0.6s ease-in forwards;
+    .gift-reappear {
+      animation: giftReappear 0.6s ease-in forwards;
     }
 
-    @keyframes coinMountainReappear {
+    @keyframes giftReappear {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* Coin mountain styles */
-    .coin-mountain-container {
+    /* Auto-spin button */
+    .auto-spin-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2d1840, #150920);
+      border: 2px solid #c9a13b;
+      color: #f7e9c3;
+      font-weight: 900;
+      font-size: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 200, 0, 0.3);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      font-size: 1.2rem;
-      line-height: 1;
-      transition: all 0.3s ease;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
-    .coin-row {
-      display: flex;
-      justify-content: center;
-      gap: 1px;
+    .auto-spin-btn.active {
+      background: linear-gradient(135deg, #ff8c00, #ff4500);
+      border-color: #ffd700;
+      box-shadow: 0 0 25px rgba(255, 140, 0, 0.7);
+      animation: autoSpinPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes autoSpinPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(255, 200, 0, 0.9); }
+    }
+
+    .auto-spin-btn:active {
+      transform: scale(0.9);
     }
 
     .menu-grid {
@@ -394,13 +431,10 @@
       border: 1px solid #d4af37;
       flex: 1;
       min-width: 0;
-      min-height: 80px;
+      min-height: 70px;
     }
 
     .treasure-box { 
-      font-size: 1.2rem; 
-      filter: drop-shadow(0 0 8px gold);
-      transition: transform 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -414,6 +448,18 @@
     .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.75rem; text-align: center; margin: 2px 0; text-shadow: 0 0 8px gold; }
 
     .jackpot-prizes-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .winnings-btn {
       background: rgba(20, 5, 35, 0.6);
       border: 1px solid #d4af37;
       color: #ffd966;
@@ -457,6 +503,13 @@
       padding: 9px 9px;
     }
 
+    .middle-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
     .spin-btn {
       background: radial-gradient(circle at 30% 30%, #ffea80, #b5891a);
       border: none;
@@ -474,41 +527,6 @@
     @keyframes spinPulse {
       0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ffaa33; }
       50% { transform: scale(1.03); box-shadow: 0 0 35px #ffcc00; }
-    }
-
-    .jackpot-feed {
-      background: rgba(0, 0, 0, 0.5);
-      border: 2px solid #d4af37;
-      border-radius: 20px;
-      padding: 8px 10px;
-      margin-top: 6px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .jackpot-feed-title {
-      color: #ffd700;
-      font-weight: bold;
-      font-size: 0.7rem;
-      text-align: center;
-      margin-bottom: 4px;
-      text-shadow: 0 0 8px gold;
-    }
-
-    .jackpot-feed-item {
-      color: #f0dbb0;
-      font-size: 0.65rem;
-      padding: 3px 0;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .jackpot-feed-item:last-child {
-      border-bottom: none;
     }
 
     .overlay {
@@ -820,16 +838,19 @@
       <div class="slot-top-row">
         <div class="treasure-section">
           <div class="treasure-box" id="treasureBox">
-            <div class="coin-mountain-container" id="coinMountain"></div>
+            <div class="gift-container" id="giftContainer">
+              <span class="gift-icon" id="giftIcon">🎁</span>
+            </div>
           </div>
           <div class="progress-container">
-            <div class="progress-text" id="progressText">Монеты: 0/100%</div>
+            <div class="progress-text" id="progressText">Бонус: 0/100%</div>
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           </div>
         </div>
         <div class="balance-row" style="margin:0; flex-shrink:0; gap: 6px;">
           <span id="diamondsLabel">💎 Алмазы:</span>
           <span id="diamondsCount">100</span>
+          <button class="winnings-btn" id="winningsBtn">🏆 Выигрыши</button>
           <button class="jackpot-prizes-btn" id="jackpotPrizesBtn">🎁 Призы</button>
         </div>
       </div>
@@ -842,13 +863,10 @@
           <button id="donateButton" class="thread-btn">💎 Пополнить</button>
           <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
         </div>
-        <button id="spinButton" class="thread-btn spin-btn">🚀 ЗАПУСК</button>
-      </div>
-      <div class="jackpot-feed" id="jackpotFeed">
-        <div class="jackpot-feed-title">🏆 Последние джекпоты</div>
-        <div id="jackpotFeedList">
-          <div class="jackpot-feed-item" style="justify-content:center;color:#b8945f;">Пока нет джекпотов</div>
+        <div class="middle-buttons">
+          <button id="autoSpinBtn" class="auto-spin-btn" title="Авто-запуск">🔄<br>AUTO</button>
         </div>
+        <button id="spinButton" class="thread-btn spin-btn">🚀 ЗАПУСК</button>
       </div>
     </div>
   </div>
@@ -896,6 +914,14 @@
       <h3 style="color:#ffd966;" id="historyTitle">📜 История Джекпотов</h3>
       <div id="historyList" class="history-list"></div>
       <button id="closeHistoryBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="winningsModal" class="overlay hidden">
+    <div class="win-card" style="max-width:500px;">
+      <h3 style="color:#ffd966;" id="winningsTitle">🏆 Последние джекпоты</h3>
+      <div id="winningsList" class="history-list"></div>
+      <button id="closeWinningsBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
     </div>
   </div>
 
@@ -1034,11 +1060,11 @@
           customRewardsTitle: '🎁 Мои желания (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
           jackpotPrizesTitle: '🎁 Призы джекпота', jackpotPrizesBtn: '🎁 Призы',
           privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
-          notEnoughDiamonds: '💔 Мало алмазов!', chestOpened: '🪙 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
+          notEnoughDiamonds: '💔 Мало алмазов!', bonusOpened: '🎁 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
           win3: '🎉 3 совпадения! +1💎', win4: '🔥 4 совпадения! +3💎', logoutBtn: '🚪 Выйти',
           mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша',
           supportTitle: '💬 Онлайн поддержка', supportPlaceholder: 'Введите сообщение...', sendBtn: '📤',
-          jackpotFeedTitle: '🏆 Последние джекпоты', noJackpotsFeed: 'Пока нет джекпотов'
+          winningsBtn: '🏆 Выигрыши', winningsTitle: '🏆 Последние джекпоты', noWinnings: 'Пока нет джекпотов'
         },
         ua: {
           loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
@@ -1054,11 +1080,11 @@
           customRewardsTitle: '🎁 Мої бажання (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
           jackpotPrizesTitle: '🎁 Призи джекпоту', jackpotPrizesBtn: '🎁 Призи',
           privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
-          notEnoughDiamonds: '💔 Мало алмазів!', chestOpened: '🪙 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
+          notEnoughDiamonds: '💔 Мало алмазів!', bonusOpened: '🎁 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
           win3: '🎉 3 збіги! +1💎', win4: '🔥 4 збіги! +3💎', logoutBtn: '🚪 Вийти',
           mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу',
           supportTitle: '💬 Онлайн підтримка', supportPlaceholder: 'Введіть повідомлення...', sendBtn: '📤',
-          jackpotFeedTitle: '🏆 Останні джекпоти', noJackpotsFeed: 'Поки немає джекпотів'
+          winningsBtn: '🏆 Виграші', winningsTitle: '🏆 Останні джекпоти', noWinnings: 'Поки немає джекпотів'
         },
         en: {
           loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
@@ -1074,11 +1100,11 @@
           customRewardsTitle: '🎁 My Wishes (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
           jackpotPrizesTitle: '🎁 Jackpot Prizes', jackpotPrizesBtn: '🎁 Prizes',
           privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
-          notEnoughDiamonds: '💔 Not enough diamonds!', chestOpened: '🪙 +10 free spins!', tryAgain: '💫 Try again',
+          notEnoughDiamonds: '💔 Not enough diamonds!', bonusOpened: '🎁 +10 free spins!', tryAgain: '💫 Try again',
           win3: '🎉 3 matches! +1💎', win4: '🔥 4 matches! +3💎', logoutBtn: '🚪 Logout',
           mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details',
           supportTitle: '💬 Online Support', supportPlaceholder: 'Enter message...', sendBtn: '📤',
-          jackpotFeedTitle: '🏆 Latest Jackpots', noJackpotsFeed: 'No jackpots yet'
+          winningsBtn: '🏆 Winnings', winningsTitle: '🏆 Latest Jackpots', noWinnings: 'No jackpots yet'
         }
       };
 
@@ -1095,6 +1121,7 @@
       let freeSpins = 0;
       let jackpotBoost = false;
       let spinning = false;
+      let autoSpinning = false;
       let currentMode = '18+';
       const GRID = 5;
       let visibleGrid = [];
@@ -1107,7 +1134,6 @@
       let audioCtx = null;
       let chatMessages = [];
       let jackpotFeedData = [];
-      let allUsers = [];
 
       function t(key) { return TRANSLATIONS[currentLanguage]?.[key] || TRANSLATIONS.ru[key] || key; }
 
@@ -1119,7 +1145,7 @@
       function playWinSound() { playTone(523, 0.15, 'sine', 0.06); setTimeout(() => playTone(659, 0.15, 'sine', 0.06), 120); }
       function playLoseSound() { playTone(200, 0.2, 'sawtooth', 0.03); }
       function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => setTimeout(() => playTone(f, 0.3, 'sine', 0.07), i * 100)); }
-      function playCoinExplosionSound() { [300, 400, 500, 600, 700, 800, 900, 1000].forEach((f, i) => setTimeout(() => playTone(f, 0.15, 'triangle', 0.04), i * 40)); }
+      function playGiftExplosionSound() { [400, 500, 600, 700, 800, 900].forEach((f, i) => setTimeout(() => playTone(f, 0.15, 'triangle', 0.04), i * 40)); }
 
       const $ = id => document.getElementById(id);
       const authOverlay = $('authOverlay');
@@ -1153,6 +1179,7 @@
       const winLinesDiv = $('winLines');
       const messageDisplay = $('messageDisplay');
       const spinButton = $('spinButton');
+      const autoSpinBtn = $('autoSpinBtn');
       const donateButton = $('donateButton');
       const backToMenuBtn = $('backToMenu');
       const winOverlay = $('winOverlay');
@@ -1171,6 +1198,10 @@
       const historyList = $('historyList');
       const closeHistoryBtn = $('closeHistoryBtn');
       const historyBtn = $('historyBtn');
+      const winningsModal = $('winningsModal');
+      const winningsList = $('winningsList');
+      const winningsBtn = $('winningsBtn');
+      const closeWinningsBtn = $('closeWinningsBtn');
       const winDetailModal = $('winDetailModal');
       const winDetailTitle = $('winDetailTitle');
       const winDetailContent = $('winDetailContent');
@@ -1185,8 +1216,6 @@
       const jackpotPrizesModal = $('jackpotPrizesModal');
       const jackpotPrizesList = $('jackpotPrizesList');
       const closeJackpotPrizesBtn = $('closeJackpotPrizesBtn');
-      const jackpotFeed = $('jackpotFeed');
-      const jackpotFeedList = $('jackpotFeedList');
       const policyModal = $('policyModal');
       const policyTitle = $('policyTitle');
       const policyContent = $('policyContent');
@@ -1197,109 +1226,46 @@
       const langUaOuter = $('langUaOuter');
       const langEnOuter = $('langEnOuter');
       const diamondsLabel = $('diamondsLabel');
-      const coinMountain = $('coinMountain');
+      const giftIcon = $('giftIcon');
 
-      // Build coin mountain based on progress
-      function renderCoinMountain(progress) {
-        if (!coinMountain) return;
-        const levels = Math.floor(progress / 10);
-        let html = '';
-        for (let level = 0; level < levels; level++) {
-          const coinsInRow = 10 - level;
-          html += '<div class="coin-row">';
-          for (let i = 0; i < coinsInRow; i++) {
-            html += '<span>🪙</span>';
-          }
-          html += '</div>';
-        }
-        coinMountain.innerHTML = html;
+      // Update gift size based on progress percentage
+      function updateGiftSize(progress) {
+        if (!giftIcon) return;
+        const scale = 0.5 + (progress / 100) * 2.5; // Scale from 0.5 to 3.0
+        giftIcon.style.fontSize = (1.2 * scale) + 'rem';
       }
 
-      function animateCoinMountainExplosion() {
-        playCoinExplosionSound();
-        if (coinMountain) {
-          coinMountain.classList.add('coin-mountain-explosion');
+      function animateGiftExplosion() {
+        playGiftExplosionSound();
+        if (giftIcon) {
+          giftIcon.classList.add('gift-explosion');
           setTimeout(() => {
-            coinMountain.classList.remove('coin-mountain-explosion');
-            coinMountain.classList.add('coin-mountain-reappear');
-            coinMountain.innerHTML = '';
+            giftIcon.classList.remove('gift-explosion');
+            giftIcon.classList.add('gift-reappear');
+            giftIcon.style.fontSize = '1.2rem';
             setTimeout(() => {
-              coinMountain.classList.remove('coin-mountain-reappear');
+              giftIcon.classList.remove('gift-reappear');
             }, 600);
           }, 800);
         }
       }
 
-      // Load all users from localStorage
-      function loadAllUsers() {
-        const allNicks = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key.startsWith('wdVdsNickname_') || key === 'wdVdsNickname') {
-            const nick = key === 'wdVdsNickname' ? localStorage.getItem(key) : localStorage.getItem(key);
-            if (nick && !allNicks.includes(nick)) {
-              allNicks.push(nick);
-            }
-          }
-        }
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key.startsWith('wdVdsDiamonds_')) {
-            const nick = key.replace('wdVdsDiamonds_', '');
-            if (nick && !allNicks.includes(nick)) {
-              allNicks.push(nick);
-            }
-          }
-        }
-        if (nickname && !allNicks.includes(nickname)) {
-          allNicks.push(nickname);
-        }
-        allUsers = allNicks;
-        updateJackpotFeed();
-      }
-
-      function updateJackpotFeed() {
-        if (!jackpotFeedList) return;
-        const displayUsers = allUsers.slice(0, 10);
-        if (displayUsers.length === 0) {
-          jackpotFeedList.innerHTML = `<div class="jackpot-feed-item" style="justify-content:center;color:#b8945f;">${t('noJackpotsFeed')}</div>`;
+      function updateWinningsList() {
+        if (!winningsList) return;
+        const recentJackpots = jackpotFeedData.slice(0, 10);
+        if (recentJackpots.length === 0) {
+          winningsList.innerHTML = `<p style="text-align:center;color:#b8945f;">${t('noWinnings')}</p>`;
           return;
         }
-        jackpotFeedList.innerHTML = displayUsers.map(nick => {
-          const userJackpots = jackpotFeedData.filter(item => item.nickname === nick);
-          const latestJackpot = userJackpots.length > 0 ? userJackpots[0] : null;
-          return `
-            <div class="jackpot-feed-item">
-              <span>👤 ${nick}</span>
-              ${latestJackpot ? `<span>💰 +${latestJackpot.amount}💎</span><span>🕐 ${latestJackpot.date} ${latestJackpot.time}</span>` : '<span style="color:#b8945f;">Нет джекпотов</span>'}
-              <button class="view-btn" onclick="window.viewUserFeedJackpot('${nick}')">${t('viewBtn')}</button>
-            </div>
-          `;
-        }).join('');
-        if (jackpotFeed) {
-          jackpotFeed.style.maxHeight = (displayUsers.length * 32 + 30) + 'px';
-        }
+        winningsList.innerHTML = recentJackpots.map((item, i) => `
+          <div class="history-item">
+            <span>👤 ${item.nickname}</span>
+            <span>💰 +${item.amount}💎</span>
+            <span>📂 ${item.mode}</span>
+            <span>🕐 ${item.date} ${item.time}</span>
+          </div>
+        `).join('');
       }
-
-      window.viewUserFeedJackpot = function(nick) {
-        const userJackpots = jackpotFeedData.filter(item => item.nickname === nick);
-        if (userJackpots.length > 0) {
-          const latest = userJackpots[0];
-          winDetailTitle.textContent = t('winDetailTitle');
-          winDetailContent.innerHTML = `
-            <p><strong>👤 Пользователь:</strong> ${nick}</p>
-            <p><strong>💰 Сумма:</strong> ${latest.amount}💎</p>
-            <p><strong>📅 Дата:</strong> ${latest.date}</p>
-            <p><strong>🕐 Время:</strong> ${latest.time}</p>
-            <p><strong>📂 Режим:</strong> ${latest.mode}</p>
-          `;
-          winDetailModal.classList.remove('hidden');
-        } else {
-          winDetailTitle.textContent = t('winDetailTitle');
-          winDetailContent.innerHTML = `<p>У пользователя ${nick} пока нет джекпотов.</p>`;
-          winDetailModal.classList.remove('hidden');
-        }
-      };
 
       function addToJackpotFeed(nickname, mode, amount) {
         const now = new Date();
@@ -1311,7 +1277,6 @@
           time: now.toLocaleTimeString()
         });
         if (jackpotFeedData.length > 50) jackpotFeedData.pop();
-        updateJackpotFeed();
       }
 
       function addChatMessage(text, type) {
@@ -1416,25 +1381,26 @@
         $('paymentTitle').textContent = t('paymentTitle');
         closePaymentBtn.textContent = t('closePayment');
         $('historyTitle').textContent = t('historyTitle');
+        $('winningsTitle').textContent = t('winningsTitle');
         $('customRewardsTitle').textContent = t('customRewardsTitle');
         $('customRewardsDesc').textContent = t('customRewardsDesc');
         addCustomRewardBtn.textContent = t('addBtn');
         saveAndPlayBtn.innerHTML = t('saveAndPlay');
         closeCustomRewardsBtn.textContent = t('closeCustom');
         closeHistoryBtn.textContent = t('closeBtn');
+        closeWinningsBtn.textContent = t('closeBtn');
         jackpotPrizesBtn.textContent = t('jackpotPrizesBtn');
         closeJackpotPrizesBtn.textContent = t('closeBtn');
         closeWinDetailBtn.textContent = t('closeBtn');
+        winningsBtn.textContent = t('winningsBtn');
         privacyPolicyLink.textContent = t('privacyLink');
         termsOfUseLink.textContent = t('termsLink');
         document.querySelector('.footer p').textContent = t('copyright');
         $('supportTitle').textContent = t('supportTitle');
         chatInput.placeholder = t('supportPlaceholder');
         sendChatBtn.textContent = t('sendBtn');
-        document.querySelector('.jackpot-feed-title').textContent = t('jackpotFeedTitle');
         updateFreeSpinsBadge();
         renderHistory();
-        updateJackpotFeed();
       }
 
       function loadUserData() {
@@ -1448,19 +1414,17 @@
         loadHistory();
         loadCustomRewards();
         loadJackpotFeedData();
-        loadAllUsers();
         updateMainBalance();
       }
 
       function loadJackpotFeedData() {
         const k = 'wdVdsJackpotFeed';
         jackpotFeedData = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
-        updateJackpotFeed();
       }
 
       function saveJackpotFeedData() {
         localStorage.setItem('wdVdsJackpotFeed', JSON.stringify(jackpotFeedData));
-        updateJackpotFeed();
+        updateWinningsList();
       }
 
       function login() {
@@ -1475,7 +1439,6 @@
           loadHistory();
           loadCustomRewards();
           loadJackpotFeedData();
-          loadAllUsers();
           updateMainBalance(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
       }
 
@@ -1490,7 +1453,6 @@
         loadHistory();
         loadCustomRewards();
         loadJackpotFeedData();
-        loadAllUsers();
         updateMainBalance();
       }
 
@@ -1593,6 +1555,29 @@
       closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
       closeWinDetailBtn.addEventListener('click', () => winDetailModal.classList.add('hidden'));
 
+      // Winnings button
+      winningsBtn.addEventListener('click', () => {
+        updateWinningsList();
+        winningsModal.classList.remove('hidden');
+      });
+      closeWinningsBtn.addEventListener('click', () => winningsModal.classList.add('hidden'));
+
+      // Auto-spin button
+      autoSpinBtn.addEventListener('click', () => {
+        autoSpinning = !autoSpinning;
+        if (autoSpinning) {
+          autoSpinBtn.classList.add('active');
+          autoSpinBtn.innerHTML = '🔄<br>STOP';
+          // Start auto-spinning
+          if (!spinning) {
+            spin();
+          }
+        } else {
+          autoSpinBtn.classList.remove('active');
+          autoSpinBtn.innerHTML = '🔄<br>AUTO';
+        }
+      });
+
       function setLanguage(lang) {
         currentLanguage = lang;
         [langRuOuter, langUaOuter, langEnOuter].forEach(b => b.classList.remove('active'));
@@ -1612,9 +1597,9 @@
       function updateTreasureProgress(add) {
         treasureProgress = Math.min(100, treasureProgress + add);
         progressFill.style.width = treasureProgress + '%';
-        const coinWord = currentLanguage === 'ru' ? 'Монеты' : currentLanguage === 'ua' ? 'Монети' : 'Coins';
-        progressText.textContent = `${coinWord}: ${treasureProgress.toFixed(1)}/100%`;
-        renderCoinMountain(treasureProgress);
+        const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+        progressText.textContent = `${bonusWord}: ${treasureProgress.toFixed(1)}/100%`;
+        updateGiftSize(treasureProgress);
       }
 
       function updateTreasure(add) {
@@ -1622,17 +1607,17 @@
         if (treasureProgress >= 100) {
           treasureProgress = 0;
           progressFill.style.width = '0%';
-          const coinWord = currentLanguage === 'ru' ? 'Монеты' : currentLanguage === 'ua' ? 'Монети' : 'Coins';
-          progressText.textContent = `${coinWord}: 0/100%`;
+          const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+          progressText.textContent = `${bonusWord}: 0/100%`;
           
-          // Animate coin mountain explosion
-          animateCoinMountainExplosion();
+          // Animate gift explosion
+          animateGiftExplosion();
           
           // Award 10 free spins and 50% jackpot chance
           freeSpins += 10;
           jackpotBoost = true;
           updateFreeSpinsBadge();
-          showMessage(t('chestOpened'));
+          showMessage(t('bonusOpened'));
         }
       }
 
@@ -1647,7 +1632,7 @@
         setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
       }
 
-      // Falling gifts animation for jackpot - 5 seconds
+      // Falling gifts animation for jackpot
       function startGiftRain() {
         const giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
         const container = document.body;
@@ -1750,7 +1735,16 @@
       function spin() {
         if (spinning) return;
         if (freeSpins > 0) { freeSpins--;
-          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 5) { showMessage(t('notEnoughDiamonds')); return; }
+          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 5) {
+            // Stop auto-spin if no diamonds
+            if (autoSpinning) {
+              autoSpinning = false;
+              autoSpinBtn.classList.remove('active');
+              autoSpinBtn.innerHTML = '🔄<br>AUTO';
+            }
+            showMessage(t('notEnoughDiamonds'));
+            return;
+          }
           diamonds -= 5;
           saveDiamonds(); }
         spinning = true;
@@ -1795,7 +1789,13 @@
           addToJackpotFeed(nickname, currentMode, 20);
           saveJackpotFeedData();
           playJackpotSound();
-          // Start jackpot animations - 5 seconds
+          // Stop auto-spin on jackpot
+          if (autoSpinning) {
+            autoSpinning = false;
+            autoSpinBtn.classList.remove('active');
+            autoSpinBtn.innerHTML = '🔄<br>AUTO';
+          }
+          // Start jackpot animations
           showJackpotBanner();
           startGiftRain();
           setTimeout(() => {
@@ -1805,6 +1805,15 @@
           showMessage(totalWin === 1 ? t('win3') : t('win4')); } else { playLoseSound();
           showMessage(t('tryAgain')); }
         updateFreeSpinsBadge();
+        
+        // Continue auto-spin if active
+        if (autoSpinning && !jackpot) {
+          setTimeout(() => {
+            if (autoSpinning) {
+              spin();
+            }
+          }, 500);
+        }
       }
 
       function triggerJackpot(icon, wish) { winIcons.textContent = `${icon}${icon}${icon}`;
@@ -1961,11 +1970,19 @@
         buildGrid();
         applyGrid();
         messageDisplay.textContent = '';
-        updateJackpotFeed();
-        renderCoinMountain(treasureProgress);
-        updateTreasureProgress(0); }
+        updateGiftSize(treasureProgress);
+        updateTreasureProgress(0);
+        // Reset auto-spin
+        autoSpinning = false;
+        autoSpinBtn.classList.remove('active');
+        autoSpinBtn.innerHTML = '🔄<br>AUTO'; }
 
-      function backToMenu() { slotUI.classList.add('hidden');
+      function backToMenu() { 
+        // Stop auto-spin when going back to menu
+        autoSpinning = false;
+        autoSpinBtn.classList.remove('active');
+        autoSpinBtn.innerHTML = '🔄<br>AUTO';
+        slotUI.classList.add('hidden');
         mainMenu.classList.remove('hidden');
         winOverlay.classList.add('hidden');
         paymentModal.classList.add('hidden');
@@ -1975,6 +1992,7 @@
         jackpotPrizesModal.classList.add('hidden');
         winDetailModal.classList.add('hidden');
         supportModal.classList.add('hidden');
+        winningsModal.classList.add('hidden');
         useCustomRewards = false;
         updateMainBalance(); }
 
@@ -2008,7 +2026,7 @@
       langRuOuter.addEventListener('click', () => setLanguage('ru'));
       langUaOuter.addEventListener('click', () => setLanguage('ua'));
       langEnOuter.addEventListener('click', () => setLanguage('en'));
-      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, supportModal, policyModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, supportModal, policyModal, winningsModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
 
       setLanguage('ru');
       updateAllTexts();
