@@ -1419,8 +1419,8 @@
       function spin() {
         if (spinning) return;
         if (freeSpins > 0) { freeSpins--;
-          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 10) { showMessage(t('notEnoughDiamonds')); return; }
-          diamonds -= 10;
+          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 5) { showMessage(t('notEnoughDiamonds')); return; }
+          diamonds -= 5;
           saveDiamonds(); }
         spinning = true;
         clearLines();
