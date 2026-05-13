@@ -513,8 +513,8 @@
 
     .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-bottom: 5px; }
     .reel { height: clamp(120px, 30vw, 200px); background: #160c24; border-radius: 10px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 12px black, 0 0 6px rgba(255, 215, 0, 0.3); }
-    .strip { position: absolute; width: 100%; top: -30px; }
-    .symbol { height: 32px; display: flex; justify-content: center; align-items: center; font-size: clamp(16px, 4vw, 22px); color: #ffd966; }
+    .strip { position: absolute; width: 100%; top: -32px; left: 0; }
+    .symbol { height: 32px; display: flex; justify-content: center; align-items: center; font-size: clamp(16px, 4vw, 22px); color: #ffd966; line-height: 32px; }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
     .win-line { position: absolute; height: 2px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 6px; transform-origin: left center; box-shadow: 0 0 8px white, 0 0 12px gold; animation: linePulse 1.2s infinite alternate; }
@@ -580,6 +580,10 @@
       align-items: center;
       justify-content: center;
       z-index: 200;
+    }
+
+    .overlay-top {
+      z-index: 250;
     }
 
     .win-card {
@@ -877,6 +881,11 @@
       .symbol {
         height: 26px;
         font-size: 14px;
+        line-height: 26px;
+      }
+      
+      .strip {
+        top: -26px;
       }
       
       .treasure-section {
@@ -950,6 +959,11 @@
       .symbol {
         height: 22px;
         font-size: 12px;
+        line-height: 22px;
+      }
+      
+      .strip {
+        top: -22px;
       }
       
       .treasure-section {
@@ -1066,7 +1080,7 @@
     </div>
   </div>
 
-  <div id="nameFormModal" class="overlay hidden">
+  <div id="nameFormModal" class="overlay overlay-top hidden">
     <div class="win-card">
       <h3 style="color:#ffd966;" id="nameFormTitle">📝 Введите имена</h3>
       <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
@@ -1777,10 +1791,16 @@
         historyList.innerHTML = jackpotHistory.length === 0 ? `<p style="text-align:center;">${t('noJackpots')}</p>` :
           jackpotHistory.map((item, i) => `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,15)}...</span><span>${item.date}</span><div><button onclick="window.downloadHistory(${i})">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(${i})">${t('viewBtn')}</button></div></div>`).join('');
       }
-      window.downloadHistory = function(i) { const item = jackpotHistory[i]; if (!item) return;
+      window.downloadHistory = function(i) { 
+        const item = jackpotHistory[i]; 
+        if (!item) return;
         pendingJackpotIcon = item.icon;
         pendingJackpotWish = item.wish;
-        nameFormModal.classList.remove('hidden'); };
+        // Ensure name form modal appears on top of everything
+        nameFormModal.classList.remove('hidden');
+        // Bring to front by temporarily increasing z-index
+        nameFormModal.style.zIndex = '999';
+      };
       window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return;
         showWinDetail(item); };
 
@@ -1932,24 +1952,62 @@
         }, 5000);
       }
 
-      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 32 : 32; }
+      function getSymbolHeight() { 
+        const s = document.querySelector('.symbol'); 
+        if (!s) return 32;
+        const computedHeight = parseFloat(getComputedStyle(s).height);
+        return isNaN(computedHeight) ? 32 : computedHeight;
+      }
 
-      function createReels() { machineDiv.innerHTML = '';
-        strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
+      function createReels() { 
+        machineDiv.innerHTML = '';
+        strips = []; 
+        const symHeight = getSymbolHeight();
+        for (let c = 0; c < GRID; c++) { 
+          const reel = document.createElement('div');
           reel.className = 'reel';
           const strip = document.createElement('div');
-          strip.className = 'strip'; for (let i = 0; i < 80; i++) { const sym = document.createElement('div');
+          strip.className = 'strip';
+          strip.style.top = '-' + symHeight + 'px';
+          for (let i = 0; i < 80; i++) { 
+            const sym = document.createElement('div');
             sym.className = 'symbol';
             sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
-            strip.appendChild(sym); }
+            strip.appendChild(sym); 
+          }
           reel.appendChild(strip);
           machineDiv.appendChild(reel);
-          strips.push(strip); } }
+          strips.push(strip); 
+        } 
+      }
 
-      function buildGrid() { visibleGrid = []; for (let r = 0; r < GRID; r++) { visibleGrid[r] = []; for (let c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
+      function buildGrid() { 
+        visibleGrid = []; 
+        for (let r = 0; r < GRID; r++) { 
+          visibleGrid[r] = []; 
+          for (let c = 0; c < GRID; c++) {
+            visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; 
+          }
+        } 
+      }
 
-      function applyGrid() { for (let c = 0; c < GRID; c++) { const ch = strips[c].children; for (let r = 0; r < GRID; r++) ch[r + 6].textContent = visibleGrid[r][c];
-          strips[c].style.top = -(6 * getSymbolHeight()) + 'px'; } }
+      function applyGrid() { 
+        const symHeight = getSymbolHeight();
+        for (let c = 0; c < GRID; c++) { 
+          const ch = strips[c].children; 
+          for (let r = 0; r < GRID; r++) {
+            if (ch[r + 6]) {
+              ch[r + 6].textContent = visibleGrid[r][c];
+            }
+          }
+          // Ensure exact positioning to prevent glitching
+          strips[c].style.transition = 'none';
+          strips[c].style.top = -(6 * symHeight) + 'px';
+          // Force reflow
+          strips[c].offsetHeight;
+          strips[c].style.transition = '';
+        } 
+      }
 
       function findMatches() {
         const matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
@@ -1968,6 +2026,7 @@
         const reels = [...document.querySelectorAll('.reel')];
         matches.forEach(match => { for (let i = 0; i < match.length - 1; i++) { const a = match[i], b = match[i + 1];
             const ra = reels[a.col], rb = reels[b.col];
+            if (!ra || !rb) continue;
             const rA = ra.getBoundingClientRect(), rB = rb.getBoundingClientRect();
             const wr = winLinesDiv.getBoundingClientRect();
             const sh = rA.height / 5;
@@ -2015,14 +2074,37 @@
         if (jackpotBoost && Math.random() < 0.03) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
           const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; } else if (Math.random() < 0.005) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
           const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
-        strips.forEach((strip, idx) => { let pos = -getSymbolHeight();
+        
+        const symHeight = getSymbolHeight();
+        strips.forEach((strip, idx) => { 
+          let pos = -symHeight;
           const reelSoundInterval = setInterval(() => playReelSpinSound(), 80);
-          const loop = setInterval(() => { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymbolHeight();
-            strip.style.top = pos + 'px'; }, 40);
-          setTimeout(() => { clearInterval(loop);
-            clearInterval(reelSoundInterval);
-            playReelStopSound();
-            applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); });
+          const spinDuration = 1700 + idx * 400;
+          const startTime = Date.now();
+          
+          const loop = setInterval(() => { 
+            const elapsed = Date.now() - startTime;
+            if (elapsed >= spinDuration) {
+              clearInterval(loop);
+              clearInterval(reelSoundInterval);
+              playReelStopSound();
+              // Snap to exact position
+              strip.style.top = -(6 * symHeight) + 'px';
+              strip.style.transition = 'top 0.1s ease-out';
+              if (idx === GRID - 1) {
+                // Apply grid after all reels stop
+                setTimeout(() => {
+                  applyGrid();
+                  setTimeout(finishSpin, 400);
+                }, 50);
+              }
+              return;
+            }
+            pos -= 28 + Math.random() * 7; 
+            if (pos < -symHeight * 60) pos = -symHeight;
+            strip.style.top = pos + 'px'; 
+          }, 40);
+        });
       }
 
       function finishSpin() {
@@ -2213,13 +2295,24 @@
         canvas.toBlob(b=>{const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`VDS_Wish_${icon}.png`;a.click();URL.revokeObjectURL(u);});
       }
 
-      function openNameForm() { nameFormModal.classList.remove('hidden');
+      function openNameForm() { 
+        nameFormModal.classList.remove('hidden');
+        // Reset z-index when opening from jackpot win
+        nameFormModal.style.zIndex = '250';
         userNameInput.value = '';
-        partnerNameInput.value = ''; }
+        partnerNameInput.value = ''; 
+      }
       sendToPartnerBtn.addEventListener('click', openNameForm);
-      downloadWithNamesBtn.addEventListener('click', () => { const un = userNameInput.value.trim() || 'User', pn = partnerNameInput.value.trim() || 'Partner'; if (pendingJackpotIcon && pendingJackpotWish) generateLuxuryCertificate(pendingJackpotIcon, pendingJackpotWish, un, pn);
-        nameFormModal.classList.add('hidden'); });
-      closeNameFormBtn.addEventListener('click', () => nameFormModal.classList.add('hidden'));
+      downloadWithNamesBtn.addEventListener('click', () => { 
+        const un = userNameInput.value.trim() || 'User', pn = partnerNameInput.value.trim() || 'Partner'; 
+        if (pendingJackpotIcon && pendingJackpotWish) generateLuxuryCertificate(pendingJackpotIcon, pendingJackpotWish, un, pn);
+        nameFormModal.classList.add('hidden');
+        nameFormModal.style.zIndex = '250';
+      });
+      closeNameFormBtn.addEventListener('click', () => {
+        nameFormModal.classList.add('hidden');
+        nameFormModal.style.zIndex = '250';
+      });
 
       function enterSlot() { mainMenu.classList.add('hidden');
         slotUI.classList.remove('hidden');
@@ -2246,6 +2339,7 @@
         paymentModal.classList.add('hidden');
         historyModal.classList.add('hidden');
         nameFormModal.classList.add('hidden');
+        nameFormModal.style.zIndex = '250';
         customRewardsModal.classList.add('hidden');
         jackpotPrizesModal.classList.add('hidden');
         winDetailModal.classList.add('hidden');
