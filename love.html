@@ -234,32 +234,48 @@
       100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
     }
 
-    /* Jackpot animation */
+    /* Jackpot banner - redesigned: text only, sudden appear, flash, abrupt disappear */
     .jackpot-banner {
       position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: clamp(2rem, 10vw, 4rem);
-      font-weight: 900;
-      color: #ffd700;
-      text-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00, 0 0 100px #ff4500;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 350;
       pointer-events: none;
       opacity: 0;
-      animation: jackpotBannerIn 0.5s ease-out forwards, jackpotBannerOut 0.5s ease-in 4.5s forwards;
-      letter-spacing: 4px;
-      white-space: nowrap;
     }
 
-    @keyframes jackpotBannerIn {
-      0% { opacity: 0; transform: translateX(-50%) scale(0.3) rotate(-10deg); }
-      100% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+    .jackpot-banner.show {
+      animation: jackpotFlash 3s ease-out forwards;
     }
 
-    @keyframes jackpotBannerOut {
-      0% { opacity: 1; transform: translateX(-50%) scale(1); }
-      100% { opacity: 0; transform: translateX(-50%) scale(1.5); }
+    .jackpot-banner-text {
+      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 40px #ffd700, 0 0 80px #ff8c00, 0 0 120px #ff4500, 0 0 160px #ff0000;
+      letter-spacing: 6px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    @keyframes jackpotFlash {
+      0% { opacity: 0; }
+      5% { opacity: 1; }
+      10% { opacity: 0.3; }
+      15% { opacity: 1; }
+      20% { opacity: 0.2; }
+      25% { opacity: 1; }
+      30% { opacity: 0.4; }
+      35% { opacity: 1; }
+      50% { opacity: 0.8; }
+      70% { opacity: 0.3; }
+      85% { opacity: 1; }
+      100% { opacity: 0; }
     }
 
     .falling-gift {
@@ -531,8 +547,8 @@
 
     .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 4px; }
     .reel { height: clamp(120px, 30vw, 200px); background: #160c24; border-radius: 10px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 12px black, 0 0 6px rgba(255, 215, 0, 0.3); }
-    .strip { position: absolute; width: 100%; top: -32px; left: 0; }
-    .symbol { height: 32px; display: flex; justify-content: center; align-items: center; font-size: clamp(14px, 3.5vw, 22px); color: #ffd966; line-height: 32px; }
+    .strip { position: absolute; width: 100%; top: -32px; left: 0; will-change: transform; }
+    .symbol { height: 32px; display: flex; justify-content: center; align-items: center; font-size: clamp(14px, 3.5vw, 22px); color: #ffd966; line-height: 32px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
     .win-line { position: absolute; height: 2px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 6px; transform-origin: left center; box-shadow: 0 0 8px white, 0 0 12px gold; animation: linePulse 1.2s infinite alternate; }
@@ -1132,6 +1148,10 @@
 
   <div class="spin-win-display" id="spinWinDisplay"></div>
 
+  <div id="jackpotBanner" class="jackpot-banner">
+    <div class="jackpot-banner-text">JACKPOT</div>
+  </div>
+
   <div id="winOverlay" class="overlay hidden">
     <div class="win-card">
       <h2 style="color:#ffd966;" id="jackpotTitle">🎉 ДЖЕКПОТ!</h2>
@@ -1487,6 +1507,7 @@
       const diamondsLabel = $('diamondsLabel');
       const giftIcon = $('giftIcon');
       const treasureSection = $('treasureSection');
+      const jackpotBanner = $('jackpotBanner');
 
       // Update gift size - grows with progress
       function updateGiftSize(progress) {
@@ -1986,37 +2007,73 @@
         }
       }
 
-      function showJackpotBanner() {
-        const banner = document.createElement('div');
-        banner.className = 'jackpot-banner';
-        banner.textContent = '🎉 JACKPOT 🎉';
-        document.body.appendChild(banner);
+      function showJackpotBannerFn() {
+        if (!jackpotBanner) return;
+        jackpotBanner.classList.remove('show');
+        void jackpotBanner.offsetWidth;
+        jackpotBanner.classList.add('show');
         
         setTimeout(() => {
-          if (banner.parentNode) {
-            banner.remove();
-          }
-        }, 5000);
+          jackpotBanner.classList.remove('show');
+        }, 3000);
       }
 
-      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 32 : 32; }
+      function getSymbolHeight() { 
+        const s = document.querySelector('.symbol'); 
+        if (!s) return 32;
+        const h = parseFloat(getComputedStyle(s).height);
+        return isNaN(h) ? 32 : h;
+      }
 
-      function createReels() { machineDiv.innerHTML = '';
-        strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
+      function createReels() { 
+        machineDiv.innerHTML = '';
+        strips = []; 
+        const symHeight = getSymbolHeight();
+        for (let c = 0; c < GRID; c++) { 
+          const reel = document.createElement('div');
           reel.className = 'reel';
           const strip = document.createElement('div');
-          strip.className = 'strip'; for (let i = 0; i < 80; i++) { const sym = document.createElement('div');
+          strip.className = 'strip';
+          strip.style.top = '-' + symHeight + 'px';
+          for (let i = 0; i < 80; i++) { 
+            const sym = document.createElement('div');
             sym.className = 'symbol';
             sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
-            strip.appendChild(sym); }
+            sym.setAttribute('data-index', i);
+            strip.appendChild(sym); 
+          }
           reel.appendChild(strip);
           machineDiv.appendChild(reel);
-          strips.push(strip); } }
+          strips.push(strip); 
+        } 
+      }
 
-      function buildGrid() { visibleGrid = []; for (let r = 0; r < GRID; r++) { visibleGrid[r] = []; for (let c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
+      function buildGrid() { 
+        visibleGrid = []; 
+        for (let r = 0; r < GRID; r++) { 
+          visibleGrid[r] = []; 
+          for (let c = 0; c < GRID; c++) {
+            visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; 
+          }
+        } 
+      }
 
-      function applyGrid() { for (let c = 0; c < GRID; c++) { const ch = strips[c].children; for (let r = 0; r < GRID; r++) ch[r + 6].textContent = visibleGrid[r][c];
-          strips[c].style.top = -(6 * getSymbolHeight()) + 'px'; } }
+      function applyGrid() { 
+        const symHeight = getSymbolHeight();
+        for (let c = 0; c < GRID; c++) { 
+          const ch = strips[c].children; 
+          for (let r = 0; r < GRID; r++) {
+            if (ch[r + 6]) {
+              ch[r + 6].textContent = visibleGrid[r][c];
+            }
+          }
+          strips[c].style.transition = 'none';
+          strips[c].style.transform = 'translateY(0px)';
+          strips[c].style.top = -(6 * symHeight) + 'px';
+          strips[c].offsetHeight;
+          strips[c].style.transition = '';
+        } 
+      }
 
       function findMatches() {
         const matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
@@ -2035,6 +2092,7 @@
         const reels = [...document.querySelectorAll('.reel')];
         matches.forEach(match => { for (let i = 0; i < match.length - 1; i++) { const a = match[i], b = match[i + 1];
             const ra = reels[a.col], rb = reels[b.col];
+            if (!ra || !rb) continue;
             const rA = ra.getBoundingClientRect(), rB = rb.getBoundingClientRect();
             const wr = winLinesDiv.getBoundingClientRect();
             const sh = rA.height / 5;
@@ -2082,14 +2140,64 @@
         if (jackpotBoost && Math.random() < 0.03) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
           const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; } else if (Math.random() < 0.005) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
           const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
-        strips.forEach((strip, idx) => { let pos = -getSymbolHeight();
-          const reelSoundInterval = setInterval(() => playReelSpinSound(), 80);
-          const loop = setInterval(() => { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymbolHeight();
-            strip.style.top = pos + 'px'; }, 40);
-          setTimeout(() => { clearInterval(loop);
-            clearInterval(reelSoundInterval);
-            playReelStopSound();
-            applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); });
+        
+        const symHeight = getSymbolHeight();
+        strips.forEach((strip, idx) => { 
+          let currentPos = -symHeight;
+          const spinDuration = 1700 + idx * 400;
+          const startTime = performance.now();
+          let lastFrameTime = startTime;
+          
+          function animateReel(timestamp) {
+            if (!spinning && timestamp - startTime < 100) {
+              if (idx === GRID - 1) {
+                applyGrid();
+                setTimeout(finishSpin, 400);
+              }
+              return;
+            }
+            
+            const elapsed = timestamp - startTime;
+            const deltaTime = Math.min(timestamp - lastFrameTime, 50);
+            lastFrameTime = timestamp;
+            
+            if (elapsed >= spinDuration) {
+              playReelStopSound();
+              strip.style.transition = 'top 0.15s ease-out';
+              strip.style.top = -(6 * symHeight) + 'px';
+              strip.style.transform = 'translateY(0px)';
+              
+              if (idx === GRID - 1) {
+                setTimeout(() => {
+                  applyGrid();
+                  setTimeout(finishSpin, 400);
+                }, 80);
+              }
+              return;
+            }
+            
+            const speed = 28 + Math.random() * 7;
+            currentPos -= speed * (deltaTime / 16.67);
+            if (currentPos < -symHeight * 60) {
+              currentPos += symHeight * 30;
+            }
+            strip.style.top = currentPos + 'px';
+            strip.style.transform = 'translateY(0px)';
+            
+            if (elapsed < spinDuration - 50) {
+              requestAnimationFrame(animateReel);
+            } else {
+              setTimeout(() => {
+                requestAnimationFrame(animateReel);
+              }, 20);
+            }
+          }
+          
+          // Start with a small delay for staggered effect
+          setTimeout(() => {
+            requestAnimationFrame(animateReel);
+          }, idx * 20);
+        });
       }
 
       function finishSpin() {
@@ -2121,7 +2229,7 @@
             autoSpinBtn.classList.remove('active');
             autoSpinBtn.innerHTML = '🔄<br>AUTO';
           }
-          showJackpotBanner();
+          showJackpotBannerFn();
           startGiftRain();
           setTimeout(() => {
             triggerJackpot(icon, wish);
