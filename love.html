@@ -602,14 +602,6 @@
       z-index: 200;
     }
 
-    .overlay-top {
-      z-index: 600 !important;
-    }
-
-    .overlay-super-top {
-      z-index: 999 !important;
-    }
-
     .win-card {
       background: #1f1233;
       border: 3px solid #e4b429;
@@ -1150,7 +1142,7 @@
     </div>
   </div>
 
-  <div id="nameFormModal" class="overlay overlay-super-top hidden">
+  <div id="nameFormModal" class="overlay hidden">
     <div class="win-card">
       <h3 style="color:#ffd966;" id="nameFormTitle">📝 Введите имена</h3>
       <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
@@ -1609,23 +1601,9 @@
             <span>💰 +${item.amount}💎</span>
             <span>📂 ${item.mode}</span>
             <span>🕐 ${item.date} ${item.time}</span>
-            <button class="view-btn" onclick="window.viewWinningsItem('${item.nickname}', ${item.amount}, '${item.mode}', '${item.date}', '${item.time}')">${t('viewBtn')}</button>
           </div>
         `).join('');
       }
-
-      window.viewWinningsItem = function(nick, amount, mode, date, time) {
-        winDetailTitle.textContent = t('winDetailTitle');
-        winDetailContent.innerHTML = `
-          <p><strong>👤 Пользователь:</strong> ${nick}</p>
-          <p><strong>💰 Сумма выигрыша:</strong> +${amount}💎</p>
-          <p><strong>📂 Режим:</strong> ${mode}</p>
-          <p><strong>📅 Дата:</strong> ${date}</p>
-          <p><strong>🕐 Время:</strong> ${time}</p>
-        `;
-        winDetailModal.classList.remove('hidden');
-        winDetailModal.style.zIndex = '999';
-      };
 
       function addToJackpotFeed(nickname, mode, amount) {
         const now = new Date();
@@ -1689,7 +1667,6 @@
           <p><strong>Время:</strong> ${item.time}</p>
         `;
         winDetailModal.classList.remove('hidden');
-        winDetailModal.style.zIndex = '999';
       }
 
       function showJackpotPrizes() {
@@ -1868,14 +1845,10 @@
         historyList.innerHTML = jackpotHistory.length === 0 ? `<p style="text-align:center;">${t('noJackpots')}</p>` :
           jackpotHistory.map((item, i) => `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,20)}...</span><span>${item.date}</span><div><button onclick="window.downloadHistory(${i})">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(${i})">${t('viewBtn')}</button></div></div>`).join('');
       }
-      window.downloadHistory = function(i) { 
-        const item = jackpotHistory[i]; 
-        if (!item) return;
+      window.downloadHistory = function(i) { const item = jackpotHistory[i]; if (!item) return;
         pendingJackpotIcon = item.icon;
         pendingJackpotWish = item.wish;
-        nameFormModal.classList.remove('hidden');
-        nameFormModal.style.zIndex = '9999';
-      };
+        nameFormModal.classList.remove('hidden'); };
       window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return;
         showWinDetail(item); };
 
@@ -1918,10 +1891,7 @@
       closeCustomRewardsBtn.addEventListener('click', () => customRewardsModal.classList.add('hidden'));
       jackpotPrizesBtn.addEventListener('click', showJackpotPrizes);
       closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
-      closeWinDetailBtn.addEventListener('click', () => {
-        winDetailModal.classList.add('hidden');
-        winDetailModal.style.zIndex = '200';
-      });
+      closeWinDetailBtn.addEventListener('click', () => winDetailModal.classList.add('hidden'));
 
       // Winnings button
       winningsBtn.addEventListener('click', () => {
@@ -2330,7 +2300,6 @@
       }
 
       function openNameForm() { nameFormModal.classList.remove('hidden');
-        nameFormModal.style.zIndex = '9999';
         userNameInput.value = '';
         partnerNameInput.value = ''; }
       sendToPartnerBtn.addEventListener('click', openNameForm);
@@ -2366,7 +2335,6 @@
         customRewardsModal.classList.add('hidden');
         jackpotPrizesModal.classList.add('hidden');
         winDetailModal.classList.add('hidden');
-        winDetailModal.style.zIndex = '200';
         supportModal.classList.add('hidden');
         winningsModal.classList.add('hidden');
         useCustomRewards = false;
