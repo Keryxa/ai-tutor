@@ -223,7 +223,6 @@
       100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
     }
 
-    /* Jackpot animation */
     .jackpot-banner {
       position: fixed;
       top: 0;
@@ -264,7 +263,6 @@
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Gift size animation based on percentage */
     .gift-container {
       display: flex;
       align-items: center;
@@ -286,7 +284,6 @@
       50% { transform: scale(1.08); filter: drop-shadow(0 0 12px gold); }
     }
 
-    /* Gift shake animation before explosion */
     .gift-shake {
       animation: giftShake 0.15s ease-in-out infinite !important;
     }
@@ -301,7 +298,6 @@
       90% { transform: translateX(1px) rotate(1deg); }
     }
 
-    /* Gift explosion animation */
     .gift-explosion {
       animation: giftExplode 0.6s ease-out forwards !important;
     }
@@ -320,7 +316,6 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* Particle styles */
     .particle {
       position: absolute;
       width: 6px;
@@ -336,7 +331,6 @@
       100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
     }
 
-    /* Auto-spin button */
     .auto-spin-btn {
       width: clamp(44px, 12vw, 60px);
       height: clamp(44px, 12vw, 60px);
@@ -513,7 +507,7 @@
 
     .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-bottom: 5px; }
     .reel { height: clamp(120px, 30vw, 200px); background: #160c24; border-radius: 10px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 12px black, 0 0 6px rgba(255, 215, 0, 0.3); }
-    .strip { position: absolute; width: 100%; top: -32px; left: 0; }
+    .strip { position: absolute; width: 100%; top: -32px; left: 0; will-change: top; }
     .symbol { height: 32px; display: flex; justify-content: center; align-items: center; font-size: clamp(16px, 4vw, 22px); color: #ffd966; line-height: 32px; }
 
     .win-lines { position: relative; pointer-events: none; z-index: 40; }
@@ -822,7 +816,6 @@
       padding: 8px;
     }
 
-    /* Mobile-specific adjustments */
     @media (max-width: 480px) {
       body {
         padding: 3px;
@@ -1426,19 +1419,16 @@
       const giftIcon = $('giftIcon');
       const treasureSection = $('treasureSection');
 
-      // Update gift size - at 100% it becomes half the maximum size
       function updateGiftSize(progress) {
         if (!giftIcon) return;
         if (progress >= 100) {
-          // At 100%, set to half size (mobile-optimized)
           giftIcon.style.fontSize = '1.3rem';
         } else {
-          const scale = 0.5 + (progress / 100) * 2.5; // Scale from 0.5 to 3.0
+          const scale = 0.5 + (progress / 100) * 2.5;
           giftIcon.style.fontSize = (1.1 * scale) + 'rem';
         }
       }
 
-      // Spawn colored particles flying from the gift
       function spawnParticles() {
         if (!treasureSection || !giftIcon) return;
         const container = treasureSection;
@@ -1478,33 +1468,24 @@
       function animateGiftShakeAndExplosion() {
         if (!giftIcon) return;
         
-        // First, set the gift to half size at 100%
         giftIcon.style.fontSize = '1.3rem';
         
-        // Pause the game
         gamePaused = true;
         spinButton.disabled = true;
         
-        // Start shake animation for 3 seconds
         giftIcon.classList.add('gift-shake');
         
-        // Play shake sounds periodically
         const shakeInterval = setInterval(() => {
           playGiftShakeSound();
         }, 150);
         
-        // After 3 seconds, explode
         setTimeout(() => {
           clearInterval(shakeInterval);
           giftIcon.classList.remove('gift-shake');
           
-          // Spawn colored particles
           spawnParticles();
-          
-          // Play explosion sound
           playGiftExplosionSound();
           
-          // Explosion animation
           giftIcon.classList.add('gift-explosion');
           
           setTimeout(() => {
@@ -1512,13 +1493,11 @@
             giftIcon.classList.add('gift-reappear');
             giftIcon.style.fontSize = '1.1rem';
             
-            // Reset progress
             treasureProgress = 0;
             progressFill.style.width = '0%';
             const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
             progressText.textContent = `${bonusWord}: 0/100%`;
             
-            // Award 10 free spins and 50% jackpot chance
             freeSpins += 10;
             jackpotBoost = true;
             updateFreeSpinsBadge();
@@ -1526,7 +1505,6 @@
             
             setTimeout(() => {
               giftIcon.classList.remove('gift-reappear');
-              // Unpause the game
               gamePaused = false;
               spinButton.disabled = false;
             }, 600);
@@ -1796,9 +1774,7 @@
         if (!item) return;
         pendingJackpotIcon = item.icon;
         pendingJackpotWish = item.wish;
-        // Ensure name form modal appears on top of everything
         nameFormModal.classList.remove('hidden');
-        // Bring to front by temporarily increasing z-index
         nameFormModal.style.zIndex = '999';
       };
       window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return;
@@ -1845,14 +1821,12 @@
       closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
       closeWinDetailBtn.addEventListener('click', () => winDetailModal.classList.add('hidden'));
 
-      // Winnings button
       winningsBtn.addEventListener('click', () => {
         updateWinningsList();
         winningsModal.classList.remove('hidden');
       });
       closeWinningsBtn.addEventListener('click', () => winningsModal.classList.add('hidden'));
 
-      // Auto-spin button
       autoSpinBtn.addEventListener('click', () => {
         if (gamePaused) return;
         autoSpinning = !autoSpinning;
@@ -1895,7 +1869,6 @@
       function updateTreasure(add) {
         updateTreasureProgress(add);
         if (treasureProgress >= 100) {
-          // Trigger the shake and explosion sequence (pauses game for 3+ seconds)
           animateGiftShakeAndExplosion();
         }
       }
@@ -1911,7 +1884,6 @@
         setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
       }
 
-      // Falling gifts animation for jackpot
       function startGiftRain() {
         const giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
         const container = document.body;
@@ -1952,6 +1924,7 @@
         }, 5000);
       }
 
+      // MACHINE LOGIC from the provided code
       function getSymbolHeight() { 
         const s = document.querySelector('.symbol'); 
         if (!s) return 32;
@@ -2000,10 +1973,8 @@
               ch[r + 6].textContent = visibleGrid[r][c];
             }
           }
-          // Ensure exact positioning to prevent glitching
           strips[c].style.transition = 'none';
           strips[c].style.top = -(6 * symHeight) + 'px';
-          // Force reflow
           strips[c].offsetHeight;
           strips[c].style.transition = '';
         } 
@@ -2088,11 +2059,9 @@
               clearInterval(loop);
               clearInterval(reelSoundInterval);
               playReelStopSound();
-              // Snap to exact position
               strip.style.top = -(6 * symHeight) + 'px';
               strip.style.transition = 'top 0.1s ease-out';
               if (idx === GRID - 1) {
-                // Apply grid after all reels stop
                 setTimeout(() => {
                   applyGrid();
                   setTimeout(finishSpin, 400);
@@ -2174,11 +2143,9 @@
         const ctx = canvas.getContext('2d');
         const certTexts = CERTIFICATE_TEXTS[currentLanguage] || CERTIFICATE_TEXTS.ru;
         
-        // Background
         ctx.fillStyle = '#0a0a0f';
         ctx.fillRect(0, 0, 1200, 800);
         
-        // Gold dots in background FIRST (before any text)
         ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
         ctx.shadowColor = '#ffd700';
         ctx.shadowBlur = 8;
@@ -2197,7 +2164,6 @@
         }
         ctx.shadowBlur = 0;
         
-        // Border decorations
         ctx.strokeStyle = '#ffd700';
         ctx.lineWidth = 8;
         ctx.shadowColor = '#ffd700';
@@ -2215,7 +2181,6 @@
           ctx.lineWidth=3;
           ctx.stroke(); });
         
-        // VDS Seal
         ctx.save();
         ctx.beginPath();
         ctx.arc(600,420,90,0,Math.PI*2);
@@ -2238,7 +2203,6 @@
         ctx.fillText('VDS',600,420);
         ctx.restore();
         
-        // Title and subtitle
         ctx.fillStyle='#ffd700';
         ctx.font='bold 44px Cormorant Garamond, Times New Roman, serif';
         ctx.textAlign='center';
@@ -2253,16 +2217,13 @@
         ctx.lineTo(1000,210);
         ctx.stroke();
         
-        // Icon
         ctx.font='100px sans-serif';
         ctx.fillText(icon,600,310);
         
-        // Winner message
         ctx.fillStyle='#f0dbb0';
         ctx.font='bold 30px Segoe UI, Arial, sans-serif';
         ctx.fillText(certTexts.wonMsg(userName,partnerName),600,530);
         
-        // Wish text
         ctx.fillStyle='#ffd966';
         ctx.font='28px Cormorant Garamond, Times New Roman, serif';
         const words=wish.split(' ');
@@ -2270,13 +2231,11 @@
         words.forEach(w=>{const tl=line+w+' ';if(ctx.measureText(tl).width>800){ctx.fillText(line,600,y);line=w+' ';y+=40;}else line=tl;});
         ctx.fillText(line,600,y);
         
-        // Official text
         ctx.fillStyle='#cfaa4a';
         ctx.font='18px monospace';
         ctx.textAlign='center';
         ctx.fillText(certTexts.official,600,680);
         
-        // Red seal
         ctx.save();
         ctx.beginPath();
         ctx.arc(1100,720,50,0,Math.PI*2);
@@ -2297,7 +2256,6 @@
 
       function openNameForm() { 
         nameFormModal.classList.remove('hidden');
-        // Reset z-index when opening from jackpot win
         nameFormModal.style.zIndex = '250';
         userNameInput.value = '';
         partnerNameInput.value = ''; 
