@@ -1,889 +1,2146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>VDC - Vortex Delivery Co | Браузерная космическая стратегия</title>
-    <meta name="description" content="VDC - бесплатная браузерная космическая стратегия в реальном времени. Управляй черной дырой, собирай людей, улучшай характеристики и соревнуйся с другими игроками.">
-    
-    <!-- Open Graph для соцсетей и поисковиков -->
-    <meta property="og:title" content="VDC - Vortex Delivery Co | Космическая стратегия">
-    <meta property="og:description" content="Бесплатная браузерная космическая стратегия. Управляй черной дырой, собирай людей и соревнуйся с другими игроками.">
-    <meta property="og:image" content="https://ibb.co/GQR6SJRT">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://vds-game.ink/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="VDC - Vortex Delivery Co">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VDC - Vortex Delivery Co | Космическая стратегия">
-    <meta name="twitter:description" content="Бесплатная браузерная космическая стратегия. Управляй черной дырой и соревнуйся с другими игроками.">
-    <meta name="twitter:image" content="https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%230ff' stroke-width='5'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23f0f' stroke-width='3' opacity='0.6'/%3E%3Ccircle cx='50' cy='50' r='20' fill='%23111' stroke='%230ff' stroke-width='2'/%3E%3Ctext x='50' y='58' text-anchor='middle' fill='%230ff' font-family='Arial Black' font-size='24' font-weight='900'%3EVDC%3C/text%3E%3C/svg%3E"/>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2245560654052061" crossorigin="anonymous"></script>
-    <style>
-        * { margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; position: fixed; }
-        #vortex-app { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; width: 100dvw; height: 100dvh; background: #000; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; user-select: none; -webkit-user-select: none; touch-action: none; -webkit-tap-highlight-color: transparent; }
-        #game-scaler { width: 100%; height: 100%; position: absolute; left: 0; top: 0; }
-        #vortex-app *,#vortex-app *::before,#vortex-app *::after{box-sizing:border-box;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, height=device-height">
+  <title>VDS | Vibe Dare Smile - Wheel of Desires</title>
+  <meta name="description" content="VDS - Vibe Dare Smile: Luxury casino-style game of desires. Spin the wheel, win diamonds, and send romantic wishes to your partner.">
+  <meta name="keywords" content="VDS, Vibe Dare Smile, wheel of desires, casino game, romantic wishes, slot machine, diamonds">
+  <meta name="author" content="VDS Games">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a0530">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VDS Game">
+  <meta property="og:title" content="VDS | Vibe Dare Smile - Wheel of Desires">
+  <meta property="og:description" content="Luxury casino-style game of desires. Spin, win, and share romantic wishes!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vds-game.com">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' rx='8' fill='%231a0530'/%3E%3Ctext x='16' y='22' font-size='16' fill='%23ffd700' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231a0530'/%3E%3Ctext x='90' y='110' font-size='90' font-weight='bold' fill='%23ffd700' text-anchor='middle' font-family='serif'%3EVDS%3C/text%3E%3C/svg%3E">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlZEUyAtIFZpYmUgRGFyZSBTbWlsZSIsCiAgInNob3J0X25hbWUiOiAiVkRTIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMxYTA1MzAiLAogICJ0aGVtZV9jb2xvciI6ICIjMWEwNTMwIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxOTInIGhlaWdodD0nMTkyJyB2aWV3Qm94PScwIDAgMTkyIDE5MiclM0UlM0NyZWN0IHdpZHRoPScxOTInIGhlaWdodD0nMTkyJyByeD0nNDAnIGZpbGw9JyUyMzFhMDUzMCcvJTNFJTNDdGV4dCB4PSc5NicgeT0nMTIwJyBmb250LXNpemU9Jzk2JyBmb250LXdlaWdodD0nYm9sZCcgZmlsbD0nJTIzZmZkNzAwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nc2VyaWYnJTNFVkRTJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHZpZXdCb3g9JzAgMCA1MTIgNTEyJyUzRSUzQ3JlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PScxMDAnIGZpbGw9JyUyMzFhMDUzMCcvJTNFJTNDdGV4dCB4PScyNTYnIHk9JzMwMCcgZm9udC1zaXplPScyNTAnIGZvbnQtd2VpZ2h0PSdib2xkJyBmaWxsPSclMjNmZmQ3MDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZvbnQtZmFtaWx5PSdzZXJpZiclM0VWRFMlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
 
-        #privacy-policy-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000;
-            display: none; align-items: center; justify-content: center;
-        }
-        #privacy-policy-overlay.open { display: flex; }
-        #privacy-policy-box {
-            background: linear-gradient(135deg, #0a0a1a, #0d1a2e); border: 1px solid rgba(0,255,255,0.35);
-            border-radius: 16px; padding: 25px; max-width: 420px; width: 90%; max-height: 75vh; overflow-y: auto;
-            color: #aaa; font-size: 12px; text-align: left; line-height: 1.6; box-shadow: 0 0 40px rgba(0,255,255,0.15);
-        }
-        #privacy-policy-box h3 { color: #0ff; margin-bottom: 12px; font-size: 17px; text-align: center; }
-        #privacy-policy-box p { margin-bottom: 8px; }
-        #privacy-policy-box a { color: #0ff; }
-        #privacy-policy-close {
-            padding: 10px 32px; background: linear-gradient(45deg,#6200ea,#00c6ff); border: none;
-            border-radius: 20px; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer;
-            display: block; margin: 15px auto 0; touch-action: manipulation;
-        }
+    body {
+      font-family: 'Cormorant Garamond', 'Segoe UI', 'Times New Roman', serif;
+      background: radial-gradient(circle at 20% 30%, #1a0530, #050010 90%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      margin: 0;
+      touch-action: manipulation;
+      position: relative;
+    }
 
-        @media (max-width: 600px) {
-            .vx-s-btn{font-size:8px;padding:5px 6px;min-width:70px;}
-            .vx-title-letter{font-size:24px;}
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 30% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(180, 100, 255, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .vx-s-btn{
-            background:#6200ea; color:#fff; border:1px solid #fff; padding:8px 10px; border-radius:5px; font-weight:bold;
-            cursor:pointer; font-size:10px; min-width:100px; display:-webkit-inline-flex; display:inline-flex;
-            flex-direction:column; align-items:center; touch-action:manipulation; -webkit-appearance:none; appearance:none;
-            line-height:1.3; background-size: cover; background-position: center; background-repeat: no-repeat;
-            position: relative; overflow: hidden; transition: 0.2s;
-        }
-        .vx-s-btn span{
-            font-size:11px; font-weight:bold; opacity:1; margin-top:2px; position: relative; z-index: 1;
-            text-shadow: 0 0 6px black, 0 0 12px black; color:#ffd700;
-        }
-        .vx-s-btn:disabled{
-            background:#222; color:#fff; border-color:#333; cursor:not-allowed; filter: grayscale(0.8);
-        }
-        .vx-s-btn:disabled span{
-            color:#ffd700 !important; opacity:1; text-shadow: 0 0 6px black, 0 0 12px black;
-        }
+    .outer-header {
+      position: fixed;
+      top: 6px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 10;
+      pointer-events: none;
+    }
 
-        @keyframes vx-blink{0%,100%{opacity:.3}50%{opacity:1}}
-        @keyframes vx-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-        @keyframes vx-letter-wave{0%,100%{transform:translateY(0) scale(1);filter:brightness(1)}50%{transform:translateY(-6px) scale(1.08);filter:brightness(1.4)}}
-        @keyframes neonPulse{0%,100%{box-shadow:0 0 5px #0ff,0 0 10px #0ff,0 0 20px #0ff,0 0 30px #0ff}50%{box-shadow:0 0 10px #f0f,0 0 20px #f0f,0 0 30px #f0f,0 0 40px #f0f}}
-        @keyframes gradientBorder{0%{border-color:#0ff}33%{border-color:#0f0}66%{border-color:#00f}100%{border-color:#0ff}}
-        @keyframes tgPulse{0%,100%{box-shadow:0 0 8px #0088cc,0 0 16px #0088cc;transform:scale(1)}50%{box-shadow:0 0 16px #00aaff,0 0 32px #0088cc;transform:scale(1.04)}}
-        @keyframes modalSlideIn{0%{transform:scale(0.8); opacity:0}100%{transform:scale(1); opacity:1}}
-        @keyframes buttonGlow {
-            0%, 100% { box-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
-            50% { box-shadow: 0 0 20px #f0f, 0 0 30px #f0f; }
-        }
-        @keyframes floatButton {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(5deg); }
-            75% { transform: translateY(-8px) rotate(-5deg); }
-            50% { transform: translateY(-20px) rotate(3deg); }
-        }
-        @keyframes brightTelegramGlow {
-            0%, 100% { box-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080, 0 0 80px #ff0080; }
-            50% { box-shadow: 0 0 30px #ff4500, 0 0 60px #ff4500, 0 0 90px #ff4500, 0 0 120px #ff4500; }
-        }
+    .outer-header > * {
+      pointer-events: auto;
+    }
 
-        .vx-title-wrap{display:flex; gap:2px; justify-content:center; align-items:center; margin-bottom:4px;}
-        .vx-title-letter{display:inline-block; font-size:44px; font-weight:900; font-family:'Arial Black',Arial,sans-serif; letter-spacing:1px; animation:vx-letter-wave 1.8s ease-in-out infinite;}
+    .outer-site-title {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 15px #ffb700);
+      line-height: 1;
+    }
 
-        #vx-start-overlay{position:absolute; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
-        #vx-register-overlay{position:absolute; inset:0; z-index:100; display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; overflow:hidden; background:#000;}
-        #vx-main-menu{display:none; position:absolute; inset:0; z-index:95; background-image:url('https://i.ibb.co/1xPDvr9/d443f33b-61e4-4ebc-a10d-4965eb4c9f34.png'); background-size:cover; background-position:center; background-repeat:no-repeat; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:80px;}
-        .main-menu-nickname{position:absolute; top:20px; left:50%; transform:translateX(-50%); z-index:96; text-align:center; padding:10px 25px; border-radius:12px;}
-        .main-menu-nickname .vx-title-letter{font-size:32px;}
-        .main-balance-display{color:#ffd700; font-size:20px; font-weight:bold; text-shadow:0 0 10px #ffd700; margin-top:20px; margin-bottom:10px; background:rgba(0,0,0,.5); padding:6px 18px; border-radius:20px; border:1px solid rgba(255,215,0,.3); z-index:96; position:relative;}
-        .main-buttons-container{
-            position:absolute; top:50%; left:30%; transform:translate(-50%,-50%); width:320px; max-width:90vw;
-            padding:25px 20px; background:rgba(10,10,30,0.8); border:2px solid rgba(0,255,255,0.3);
-            border-radius:20px; display:flex; flex-direction:column; align-items:center; gap:14px; z-index:96;
-        }
-        .main-menu-btn{
-            width:100%; height:50px; border-radius:25px; font-size:18px; font-weight:bold; letter-spacing:1px;
-            color:#fff; background:linear-gradient(45deg,#1a1a3e,#0a2a1a); border:3px solid #0ff;
-            cursor:pointer; transition:all 0.3s; position:relative; overflow:hidden;
-            animation:buttonGlow 2s infinite; display:flex; align-items:center; justify-content:center;
-            text-transform:uppercase; padding:0 20px; gap:8px;
-        }
-        .main-menu-btn:hover{transform:scale(1.05); background:linear-gradient(45deg,#3e1a1a,#1a0a2a);}
-        .main-menu-btn:active{transform:scale(0.95);}
-        .main-sound-btn{position:absolute; top:20px; right:20px; z-index:97; background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.3); color:#666; font-size:18px; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:bold;}
+    .outer-site-subtitle {
+      font-size: clamp(0.45rem, 1.8vw, 0.65rem);
+      color: #d4af37;
+      letter-spacing: 2px;
+      text-shadow: 0 0 6px black;
+    }
 
-        .telegram-float-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff0080, #ff4500, #ff8c00);
-            border: 3px solid rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: floatButton 3s ease-in-out infinite, brightTelegramGlow 2s ease-in-out infinite;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-        .telegram-float-btn:hover {
-            transform: scale(1.2);
-            animation: floatButton 1.5s ease-in-out infinite, brightTelegramGlow 1s ease-in-out infinite;
-        }
-        .telegram-float-btn:active {
-            transform: scale(0.9);
-        }
-        .telegram-icon {
-            font-size: 36px;
-            color: #fff;
-            text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 30px rgba(255,255,255,0.8);
-            animation: floatButton 2s ease-in-out infinite;
-        }
+    .outer-right-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-        #vx-admin-message-overlay{position:absolute; inset:0; z-index:500; background:rgba(0,0,0,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; color:#fff; text-align:center; padding:30px;}
-        #vx-admin-message-overlay.open{display:flex;}
-        #vx-admin-message-text{font-size:24px; margin-bottom:30px; white-space:pre-wrap; word-break:break-word;}
-        #vx-admin-message-close-btn{padding:15px 40px; font-size:18px; background:#0ff; color:#000; border:none; border-radius:10px; cursor:pointer; font-weight:bold;}
+    .lang-btn {
+      background: rgba(20, 5, 35, 0.8);
+      border: 1px solid #c9a13b;
+      color: #ddc07a;
+      padding: 3px 7px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      letter-spacing: 1px;
+    }
 
-        #vx-rules-modal{position:absolute; inset:0; z-index:200; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.85);}
-        #vx-rules-modal.open{display:flex;}
-        #vx-rules-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:360px; width:90%; color:#fff; text-align:left; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-rules-box h3{color:#0ff; margin:0 0 16px; font-size:17px; text-align:center;}
-        #vx-rules-box p{font-size:12px; line-height:1.6; color:#ccc; margin:0 0 20px;}
-        #vx-rules-close{padding:10px 32px; background:linear-gradient(45deg,#6200ea,#00c6ff); border:none; border-radius:20px; color:#fff; font-weight:bold; font-size:14px; cursor:pointer; touch-action:manipulation; display:block; margin:0 auto;}
+    .lang-btn.active { background: #d4af37; color: #150a1f; border-color: #fff; }
 
-        #vx-pause-menu{position:absolute; inset:0; background:rgba(0,0,0,.88); z-index:130; display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;}
-        #vx-pause-menu.open{display:flex;}
-        #vx-pause-menu h2{color:#0ff; font-size:22px; margin:0; font-family:Arial,sans-serif; text-shadow:0 0 12px #0ff;}
-        .vx-pmenu-btn{padding:13px 40px; border:none; border-radius:12px; font-size:15px; font-weight:bold; font-family:Arial,sans-serif; cursor:pointer; touch-action:manipulation; width:200px;}
+    .logout-btn {
+      background: rgba(20, 5, 35, 0.8);
+      border: 1px solid #c9a13b;
+      color: #ddc07a;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
 
-        #vx-leaderboard-modal{position:absolute; inset:0; z-index:210; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-leaderboard-modal.open{display:flex;}
-        #vx-leaderboard-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:400px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-leaderboard-box h3{color:#0ff; margin:0 0 16px; font-size:17px;}
-        .leaderboard-list{max-height:300px; overflow-y:auto; margin:15px 0;}
-        .leaderboard-item{display:flex; justify-content:space-between; align-items:center; padding:8px 12px; margin:5px 0; background:rgba(255,255,255,.05); border-radius:8px; font-size:13px;}
-        .leaderboard-item.gold{background:rgba(255,215,0,.15);}
-        .leaderboard-item.silver{background:rgba(192,192,192,.1);}
-        .leaderboard-item.bronze{background:rgba(205,127,50,.1);}
-        .leaderboard-rank{font-weight:bold; min-width:30px;}
-        .leaderboard-nick{flex:1; text-align:left; margin:0 10px;}
-        .leaderboard-score{color:#ffd700; font-weight:bold;}
+    #app {
+      width: 100%;
+      max-width: 650px;
+      background: rgba(8, 3, 18, 0.7);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.9), 0 0 45px rgba(180, 130, 50, 0.5);
+      border-radius: 48px;
+      padding: 18px 18px 22px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 35px;
+    }
 
-        #vx-withdraw-modal{position:absolute; inset:0; z-index:250; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-withdraw-modal.open{display:flex; animation:modalSlideIn 0.3s ease-out;}
-        #vx-withdraw-box{background:linear-gradient(135deg,#0a0a1a,#1a0a2a); border:2px solid #ffd700; border-radius:20px; padding:25px; max-width:420px; width:90%; color:#fff; text-align:center; box-shadow:0 0 50px rgba(255,215,0,.3);}
-        #vx-withdraw-box h3{color:#ffd700; margin:0 0 15px; font-size:20px; text-shadow:0 0 15px rgba(255,215,0,.5);}
-        .withdraw-info{background:rgba(255,215,0,.1); border:1px solid rgba(255,215,0,.3); border-radius:10px; padding:12px; margin-bottom:15px; font-size:14px; line-height:1.6; color:#ffd700;}
-        .withdraw-field{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid rgba(255,215,0,.3); background:rgba(0,0,0,.6); color:#fff; font-size:14px; outline:none; transition:border-color 0.3s;}
-        .withdraw-field:focus{border-color:#ffd700;}
-        .withdraw-select{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid rgba(255,215,0,.3); background:rgba(0,0,0,.6); color:#ffd700; font-size:14px; outline:none; cursor:pointer;}
-        .withdraw-buttons{display:flex; gap:10px; margin-top:15px; justify-content:center;}
-        .withdraw-btn{padding:12px 30px; border:none; border-radius:12px; font-size:15px; font-weight:bold; cursor:pointer; transition:all 0.3s;}
-        .withdraw-submit{background:linear-gradient(45deg,#ffd700,#ff8c00); color:#000;}
-        .withdraw-close{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); color:#fff;}
-        .withdraw-btn:hover{transform:scale(1.05); box-shadow:0 0 20px rgba(255,215,0,.5);}
+    .user-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(20, 5, 35, 0.6);
+      border: 2px solid #d4af37;
+      border-radius: 40px;
+      padding: 8px 14px;
+      margin: 0 2px;
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+      gap: 8px;
+    }
 
-        #vx-reward-detail-modal{position:absolute; inset:0; z-index:240; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-reward-detail-modal.open{display:flex;}
-        #vx-reward-detail-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:400px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-reward-detail-box h3{color:#ffd700; margin:0 0 16px; font-size:17px;}
-        #vx-reward-detail-box p{font-size:13px; line-height:1.7; color:#ccc; margin:0 0 20px;}
+    .nickname {
+      font-weight: 900;
+      font-size: 1rem;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700, 0 0 20px #b8860b;
+      animation: nickGlow 2s ease-in-out infinite alternate;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
 
-        #vx-hole-shop{position:absolute; inset:0; background:rgba(0,0,0,.94); z-index:140; display:none; flex-direction:column; align-items:center; overflow-y:auto; padding:16px 0 20px;}
-        #vx-hole-shop.open{display:flex;}
-        #vx-hole-shop h2{color:#ffd700; font-size:20px; margin:0 0 14px; font-family:Arial,sans-serif;}
-        .vx-hole-card{width:310px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:12px 14px; margin:5px 0; display:flex; align-items:center; gap:12px; touch-action:manipulation;}
-        .vx-hole-card.owned{border-color:#ffd700; background:rgba(255,215,0,.07);}
-        .vx-hole-preview{width:48px; height:48px; border-radius:50%; flex-shrink:0;}
-        .vx-hole-info{flex:1; min-height:48px; display:flex; flex-direction:column; justify-content:center;}
-        .vx-hole-info b{display:block; color:#fff; font-size:12px; font-family:Arial,sans-serif; white-space:normal; line-height:1.3; margin-bottom:4px;}
-        .vx-hole-info small{display:block; color:#aaa; font-size:10px; font-family:Arial,sans-serif; white-space:normal; line-height:1.3;}
-        .vx-hole-buy{padding:7px 14px; border:none; border-radius:8px; font-size:11px; font-weight:bold; cursor:pointer; touch-action:manipulation; font-family:Arial,sans-serif; white-space:nowrap; flex-shrink:0;}
+    @keyframes nickGlow {
+      0% { text-shadow: 0 0 8px #ffd700, 0 0 16px #b8860b; }
+      100% { text-shadow: 0 0 15px #ffea80, 0 0 30px #ff8c00; }
+    }
 
-        #vx-nick-error{color:#ff4444; font-size:11px; display:none; margin-top:-8px; text-align:center; font-family:Arial,sans-serif;}
-        #vx-mobile-hint{display:none; position:absolute; bottom:80px; left:50%; transform:translateX(-50%); color:#aaa; font-size:12px; font-family:Arial,sans-serif; text-align:center; z-index:15;}
+    .balance-display {
+      font-weight: 900;
+      font-size: 1rem;
+      color: #ffd966;
+      text-shadow: 0 0 10px #ffd700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
 
-        #vx-referral-modal{position:absolute; inset:0; z-index:220; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-referral-modal.open{display:flex;}
-        #vx-referral-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:380px; width:90%; color:#fff; text-align:center; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-referral-box h3{color:#0ff; margin:0 0 10px; font-size:17px;}
-        .referral-link{background:rgba(0,0,0,.4); border:1px solid #6200ea; border-radius:8px; padding:8px; color:#fff; font-size:11px; word-break:break-all; margin:10px 0; user-select:all;}
-        .referral-count{font-size:24px; font-weight:bold; color:#ffd700; margin:5px 0;}
-        .referral-admin-controls{display:flex; align-items:center; justify-content:center; gap:12px; margin:10px 0;}
-        .referral-admin-btn{width:36px; height:36px; border-radius:50%; border:2px solid #0ff; background:rgba(0,255,255,.1); color:#0ff; font-size:20px; font-weight:bold; cursor:pointer;}
-        #vx-terms-modal{position:absolute; inset:0; z-index:230; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.9);}
-        #vx-terms-modal.open{display:flex;}
-        #vx-terms-box{background:linear-gradient(135deg,#0a0a1a,#0d1a2e); border:1px solid rgba(0,255,255,.35); border-radius:16px; padding:30px 28px; max-width:420px; width:90%; max-height:80vh; overflow-y:auto; color:#fff; text-align:left; box-shadow:0 0 40px rgba(0,255,255,.15);}
-        #vx-terms-box h3{color:#0ff; margin:0 0 16px; font-size:17px; text-align:center;}
-        #vx-terms-close{padding:10px 32px; background:linear-gradient(45deg,#6200ea,#00c6ff); border:none; border-radius:20px; color:#fff; font-weight:bold; font-size:14px; cursor:pointer; touch-action:manipulation; display:block; margin:15px auto 0;}
-        .reg-btn{cursor:pointer; font-size:13px; color:rgba(0,255,255,.75); background:none; border:none; text-decoration:underline; padding:5px;}
-        .seo-text { color: #aaa; font-size: 11px; margin-top: 10px; text-align: center; z-index: 96; position: relative; }
-        .ad-placeholder { width: 320px; height: 50px; margin: 10px auto; background: rgba(255,255,255,0.05); border: 1px dashed #444; color: #666; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 96; position: relative; }
-        .privacy-btn { background: none; border: none; color: rgba(0, 255, 255, 0.7); font-size: 12px; cursor: pointer; text-decoration: underline; padding: 5px; margin-top: 5px; z-index: 96; position: relative; }
-    </style>
+    .top-up-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .spin-win-display {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 30px #ffd700, 0 0 60px #ff8c00;
+      z-index: 300;
+      pointer-events: none;
+      opacity: 0;
+      animation: none;
+    }
+
+    .spin-win-display.show {
+      animation: winPopup 2s ease-out forwards;
+    }
+
+    @keyframes winPopup {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+      40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -120%) scale(0.8); }
+    }
+
+    /* Jackpot animation */
+    .jackpot-banner {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 4rem;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 40px #ffd700, 0 0 80px #ff8c00, 0 0 120px #ff4500;
+      z-index: 350;
+      pointer-events: none;
+      opacity: 0;
+      animation: jackpotBannerIn 0.5s ease-out forwards, jackpotBannerOut 0.5s ease-in 4.5s forwards;
+      letter-spacing: 8px;
+    }
+
+    @keyframes jackpotBannerIn {
+      0% { opacity: 0; transform: translateX(-50%) scale(0.3) rotate(-10deg); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+    }
+
+    @keyframes jackpotBannerOut {
+      0% { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0; transform: translateX(-50%) scale(1.5); }
+    }
+
+    .falling-gift {
+      position: fixed;
+      top: -60px;
+      z-index: 340;
+      pointer-events: none;
+      animation: giftFall linear forwards;
+      font-size: 2rem;
+    }
+
+    @keyframes giftFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Gift size animation based on percentage */
+    .gift-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .gift-icon {
+      transition: all 0.5s ease;
+      filter: drop-shadow(0 0 8px gold);
+      animation: giftPulse 2s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes giftPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px gold); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 15px gold); }
+    }
+
+    /* Gift shake animation before explosion */
+    .gift-shake {
+      animation: giftShake 0.15s ease-in-out infinite !important;
+    }
+
+    @keyframes giftShake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      15% { transform: translateX(-4px) rotate(-3deg); }
+      30% { transform: translateX(3px) rotate(2deg); }
+      45% { transform: translateX(-3px) rotate(-2deg); }
+      60% { transform: translateX(3px) rotate(1deg); }
+      75% { transform: translateX(-2px) rotate(-1deg); }
+      90% { transform: translateX(2px) rotate(1deg); }
+    }
+
+    /* Gift explosion animation */
+    .gift-explosion {
+      animation: giftExplode 0.6s ease-out forwards !important;
+    }
+
+    @keyframes giftExplode {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    .gift-reappear {
+      animation: giftReappear 0.6s ease-in forwards;
+    }
+
+    @keyframes giftReappear {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Particle styles */
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 360;
+      animation: particleFly 1.5s ease-out forwards;
+    }
+
+    @keyframes particleFly {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
+    }
+
+    /* Auto-spin button */
+    .auto-spin-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2d1840, #150920);
+      border: 2px solid #c9a13b;
+      color: #f7e9c3;
+      font-weight: 900;
+      font-size: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 200, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .auto-spin-btn.active {
+      background: linear-gradient(135deg, #ff8c00, #ff4500);
+      border-color: #ffd700;
+      box-shadow: 0 0 25px rgba(255, 140, 0, 0.7);
+      animation: autoSpinPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes autoSpinPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(255, 200, 0, 0.9); }
+    }
+
+    .auto-spin-btn:active {
+      transform: scale(0.9);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 4px 0;
+      padding: 0 4px;
+    }
+
+    .menu-grid .thread-btn {
+      font-size: 0.95rem;
+      padding: 14px 10px;
+    }
+
+    .thread-btn {
+      background: linear-gradient(180deg, #2d1840 0%, #150920 100%);
+      border: 2px solid #c9a13b;
+      border-radius: 50px;
+      padding: 14px 14px;
+      font-weight: 700;
+      color: #f7e9c3;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 200, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+      animation: waveFloat 4s ease-in-out infinite;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .thread-btn:nth-child(1) { animation-delay: 0s; }
+    .thread-btn:nth-child(2) { animation-delay: 0.1s; }
+    .thread-btn:nth-child(3) { animation-delay: 0.2s; }
+    .thread-btn:nth-child(4) { animation-delay: 0.3s; }
+    .thread-btn:nth-child(5) { animation-delay: 0.4s; }
+    .thread-btn:nth-child(6) { animation-delay: 0.5s; }
+    .thread-btn:nth-child(7) { animation-delay: 0.6s; }
+    .thread-btn:nth-child(8) { animation-delay: 0.7s; }
+
+    @keyframes waveFloat {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    .thread-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 5px 12px black, 0 0 28px gold;
+      animation: none;
+    }
+
+    .full-width-btn {
+      grid-column: 1 / -1;
+    }
+
+    .gold-text-btn {
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700, 0 0 20px #b8860b;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .slot-machine {
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid #b49450;
+      border-radius: 38px;
+      padding: 10px 10px;
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), 0 12px 22px black;
+    }
+
+    .slot-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 3px;
+      flex-wrap: wrap;
+    }
+
+    .treasure-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(20, 5, 35, 0.6);
+      border-radius: 35px;
+      padding: 5px 10px;
+      border: 1px solid #d4af37;
+      flex: 1;
+      min-width: 0;
+      min-height: 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .treasure-box { 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .progress-container { flex: 1; max-width: 130px; }
+    .progress-text { color: #ffd966; font-weight: bold; font-size: 0.65rem; margin-bottom: 1px; text-align: center; }
+    .progress-bar { width: 100%; height: 8px; background: #1f0b2e; border-radius: 8px; overflow: hidden; border: 1px solid #c9a13b; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #ffd700, #ffaa00); transition: width 0.4s ease; width: 0%; border-radius: 6px; }
+
+    .balance-row { display: flex; justify-content: space-between; align-items: center; color: #e5d9b0; font-weight: bold; margin: 3px 3px; font-size: 0.8rem; gap: 6px; flex-wrap: wrap; }
+    .free-spins-badge { color: #ffd966; font-weight: bold; font-size: 0.75rem; text-align: center; margin: 2px 0; text-shadow: 0 0 8px gold; }
+
+    .jackpot-prizes-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .winnings-btn {
+      background: rgba(20, 5, 35, 0.6);
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 0.65rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .machine { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 6px; }
+    .reel { height: 200px; background: #160c24; border-radius: 14px; overflow: hidden; border: 2px solid #e4b429; position: relative; box-shadow: inset 0 0 16px black, 0 0 8px rgba(255, 215, 0, 0.3); }
+    @media (max-width: 480px) { .reel { height: 150px; } }
+    .strip { position: absolute; width: 100%; top: -40px; }
+    .symbol { height: 40px; display: flex; justify-content: center; align-items: center; font-size: 22px; color: #ffd966; }
+    @media (max-width: 480px) { .symbol { height: 30px; font-size: 17px; } }
+
+    .win-lines { position: relative; pointer-events: none; z-index: 40; }
+    .win-line { position: absolute; height: 2px; background: linear-gradient(90deg, #fff, #ffd700, #fff); border-radius: 8px; transform-origin: left center; box-shadow: 0 0 10px white, 0 0 16px gold; animation: linePulse 1.2s infinite alternate; }
+    @keyframes linePulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    .controls-row {
+      display: flex;
+      gap: 6px;
+      align-items: stretch;
+      margin-top: 3px;
+    }
+
+    .left-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 0 0 auto;
+      width: 45%;
+    }
+
+    .left-buttons .thread-btn {
+      animation: none;
+      font-size: 0.7rem;
+      padding: 9px 9px;
+    }
+
+    .middle-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .spin-btn {
+      background: radial-gradient(circle at 30% 30%, #ffea80, #b5891a);
+      border: none;
+      color: #1f0a2e;
+      font-weight: 900;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      box-shadow: 0 0 25px #ffaa33;
+      flex: 1;
+      padding: 8px;
+      animation: spinPulse 1.5s ease-in-out infinite;
+      border-radius: 16px;
+    }
+
+    @keyframes spinPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ffaa33; }
+      50% { transform: scale(1.03); box-shadow: 0 0 35px #ffcc00; }
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .win-card {
+      background: #1f1233;
+      border: 3px solid #e4b429;
+      border-radius: 44px;
+      padding: 24px 18px;
+      max-width: 420px;
+      width: 90vw;
+      text-align: center;
+      box-shadow: 0 0 60px gold;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: winCardAppear 0.5s ease-out;
+    }
+
+    @keyframes winCardAppear {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .win-card.wide {
+      max-width: 580px;
+    }
+
+    .hidden { display: none !important; }
+
+    .social-btn {
+      background: #4b2c6e;
+      border: 1px solid #cfaa4a;
+      color: #ffd966;
+      padding: 12px 16px;
+      border-radius: 35px;
+      font-weight: bold;
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .history-list { max-height: 280px; overflow-y: auto; margin: 12px 0; text-align: left; color: #f0dbb0; }
+    .history-item { background: rgba(255, 215, 0, 0.1); border: 1px solid #d4af37; border-radius: 16px; padding: 8px; margin: 6px 0; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; flex-wrap: wrap; gap: 4px; }
+    .history-item button { background: #d4af37; color: #150a1f; border: none; border-radius: 16px; padding: 5px 10px; font-weight: bold; cursor: pointer; }
+
+    .view-btn {
+      background: #4b2c6e;
+      border: 1px solid #cfaa4a;
+      color: #ffd966;
+      padding: 5px 10px;
+      border-radius: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 25px;
+      border: 2px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.9rem;
+      text-align: center;
+      outline: none;
+    }
+
+    .form-input::placeholder { color: #b8945f; }
+
+    .diamond-option {
+      background: #2a1540;
+      border: 1px solid #d4af37;
+      color: #ffd966;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.8rem;
+    }
+
+    .diamond-option:hover { background: #3d2058; }
+
+    .auth-title {
+      color: #ffd700;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      text-shadow: 0 0 12px gold;
+    }
+
+    .custom-reward-input {
+      width: 100%;
+      padding: 8px;
+      margin: 3px 0;
+      border-radius: 16px;
+      border: 1px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.85rem;
+      text-align: center;
+      outline: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: #b8945f;
+      font-size: 0.65rem;
+      margin-top: 8px;
+      z-index: 1;
+      position: relative;
+      max-width: 650px;
+      width: 100%;
+    }
+
+    .footer a {
+      color: #d4af37;
+      text-decoration: underline;
+      cursor: pointer;
+      margin: 0 6px;
+    }
+
+    .footer a:hover { color: #ffd700; }
+
+    .policy-text {
+      text-align: left;
+      color: #ddd;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .prizes-list {
+      text-align: left;
+      color: #f0dbb0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .win-detail-text {
+      text-align: left;
+      color: #f0dbb0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .support-btn {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd700, #ff8c00);
+      border: 3px solid #fff;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 6px 16px rgba(0,0,0,0.5);
+      cursor: pointer;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      animation: supportPulse 2s ease-in-out infinite;
+      transition: transform 0.2s;
+    }
+
+    .support-btn:hover { transform: scale(1.1); }
+    .support-btn:active { transform: scale(0.95); }
+
+    @keyframes supportPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 6px 16px rgba(0,0,0,0.5); }
+      50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 10px 25px rgba(0,0,0,0.7); }
+    }
+
+    .chat-messages {
+      max-height: 280px;
+      overflow-y: auto;
+      text-align: left;
+      color: #f0dbb0;
+      margin-bottom: 8px;
+      padding: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 16px;
+    }
+
+    .chat-message {
+      margin: 5px 0;
+      padding: 7px 10px;
+      border-radius: 14px;
+      font-size: 0.8rem;
+    }
+
+    .chat-message.admin {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid #d4af37;
+      text-align: left;
+      margin-right: 16px;
+    }
+
+    .chat-message.user {
+      background: rgba(75, 44, 110, 0.4);
+      border: 1px solid #cfaa4a;
+      text-align: right;
+      margin-left: 16px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 8px;
+      border-radius: 22px;
+      border: 2px solid #d4af37;
+      background: #2a1540;
+      color: #ffd966;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .custom-rewards-buttons {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .custom-rewards-buttons .thread-btn {
+      flex: 1;
+      animation: none;
+      font-size: 0.75rem;
+      padding: 10px;
+    }
+
+    @media (display-mode: standalone) {
+      body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+    }
+  </style>
 </head>
 <body>
-<div id="vortex-app">
-    <div id="game-scaler">
-        <div id="vx-save-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.95);z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;">
-            <h2 style="color:#f00;margin:0 0 10px;">СИСТЕМА ПЕРЕГРУЖЕНА!</h2>
-            <p id="vx-save-text" style="font-size:18px;margin:0 0 30px;line-height:1.5;"></p>
-            <div style="display:flex;gap:20px;">
-                <button id="vx-btn-save-confirm" style="padding:15px 30px;background:#28a745;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">СОХРАНИТЬ (90%)</button>
-                <button id="vx-btn-save-cancel" style="padding:15px 30px;background:#444;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;">ЗАКОНЧИТЬ</button>
-            </div>
-        </div>
-        <div id="vx-rules-modal"><div id="vx-rules-box"><h3>ПРАВИЛА ИГРЫ</h3><p>1. Собирайте людей чёрной дырой.<br/>2. Высаживайте людей на планету.<br/>3. Очищайте планету.<br/>4. При взрыве спасти 90% звёзд.<br/>5. Ракеты/метеориты несут бомбы/подарки.<br/>6. Бонус-планета — x5.<br/>7. Улучшайте размер/запас/скорость.<br/>8. Покупайте дыры в магазине.<br/>9. Осторожно: красные человечки!</p><button id="vx-rules-close">ПОНЯТНО!</button></div></div>
-        <div id="vx-leaderboard-modal"><div id="vx-leaderboard-box">
-            <h3>🏆 ТАБЛИЦА РЕКОРДОВ</h3>
-            <p style="color:#ffd700;font-size:14px;margin-bottom:15px;">⭐ Топ-10 игроков по звёздам</p>
-            <div class="leaderboard-list" id="leaderboard-list"><div style="color:#666;padding:20px;">Загрузка...</div></div>
-            <button id="vx-leaderboard-close" style="margin-top:15px;padding:10px 30px;background:linear-gradient(45deg,#6200ea,#00c6ff);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">ЗАКРЫТЬ</button>
-        </div></div>
-        <div id="vx-withdraw-modal"><div id="vx-withdraw-box">
-            <h3>💎 ВЫВОД СРЕДСТВ</h3>
-            <div class="withdraw-info">Вывод от 1$<br/><span style="font-size:18px;font-weight:bold;">10.000.000 ⭐ = 1$</span></div>
-            <input type="number" class="withdraw-field" id="vx-withdraw-amount" value="1" min="1" max="50" step="1" placeholder="Сумма в USD (1-50)"/>
-            <select class="withdraw-select" id="vx-withdraw-crypto"><option value="">Выберите криптовалюту</option><option value="TON">TRX</option></select>
-            <input type="text" class="withdraw-field" id="vx-withdraw-address" placeholder="Адрес / реквизиты кошелька"/>
-            <input type="text" class="withdraw-field" id="vx-withdraw-comment" placeholder="Комментарий (по желанию)"/>
-            <input type="text" class="withdraw-field" id="vx-withdraw-telegram" placeholder="Telegram (по желанию)"/>
-            <div class="withdraw-buttons">
-                <button class="withdraw-btn withdraw-submit" id="vx-withdraw-submit">💰 ВЫВОД</button>
-                <button class="withdraw-btn withdraw-close" id="vx-withdraw-close">ЗАКРЫТЬ</button>
-            </div>
-        </div></div>
-        <div id="vx-reward-detail-modal"><div id="vx-reward-detail-box"><h3>🏅 МАТЕРИАЛЬНОЕ ВОЗНАГРАЖДЕНИЕ</h3><p>1 раз в месяц топ 3 игрока по уровню звёзд и топ 3 игрока по уровню запаса, получают материальное вознаграждение за успехи! Пообщаться, посмотреть всю детальную информацию можно в нашем чате в Телеграм.</p><a href="https://t.me/VDC_game" target="_blank" class="tg-btn" id="tg-link-btn"><span class="tg-icon">📱</span> ПЕРЕЙТИ В TELEGRAM</a><button id="vx-reward-detail-close">ЗАКРЫТЬ</button></div></div>
-        <div id="vx-terms-modal"><div id="vx-terms-box"><h3>📋 УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</h3><h4>1. Общие положения</h4><p>Игра "VDC - Vortex Delivery Co" является развлекательным продуктом.</p><h4>2. Правила</h4><ul><li>Управляйте чёрной дырой</li><li>Не превышайте лимит груза</li></ul><h4>3. Конфиденциальность</h4><p>Данные хранятся в зашифрованном виде.</p><button id="vx-terms-close">ПРИНИМАЮ</button></div></div>
-        <div id="vx-referral-modal"><div id="vx-referral-box"><h3>👥 РЕФЕРАЛЬНАЯ СИСТЕМА</h3><p>Приглашай друзей и получай мини-чёрные дыры!</p><div class="referral-reward" style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0;padding:8px;background:rgba(0,0,0,.3);border-radius:8px;"><div class="referral-minihole" style="width:20px;height:20px;border-radius:50%;background:#000;border:2px solid #666;flex-shrink:0;"></div><span style="font-size:14px;">1 реферал = +1 мини чёрная дыра</span></div><p style="font-size:11px;color:#aaa;">Максимум 10 мини-дыр.</p><div style="margin:10px 0;font-size:13px;">Твоих рефералов:</div><div class="referral-count" id="referral-count-display">0</div><div id="referral-admin-panel" style="display:none;"><div class="referral-admin-controls"><button class="referral-admin-btn" id="vx-ref-minus">−</button><span style="font-size:14px;color:#0ff;">Админ</span><button class="referral-admin-btn" id="vx-ref-plus">+</button></div></div><div style="margin:10px 0;font-size:11px;color:#aaa;">Твоя реферальная ссылка:</div><div class="referral-link" id="referral-link-display">Загрузка...</div><button id="vx-copy-referral" style="margin:5px 0;padding:8px 20px;background:#6200ea;color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;">КОПИРОВАТЬ ССЫЛКУ</button><button id="vx-referral-close" style="margin-top:10px;padding:8px 25px;background:#333;border:1px solid #666;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;">ЗАКРЫТЬ</button></div></div>
-        
-        <div id="privacy-policy-overlay">
-            <div id="privacy-policy-box">
-                <h3>Политика конфиденциальности</h3>
-                <p><strong>1. Сбор данных:</strong> Мы собираем никнейм и пароль (в зашифрованном виде) для создания учетной записи. Игровой прогресс сохраняется на наших серверах.</p>
-                <p><strong>2. Использование данных:</strong> Данные используются исключительно для обеспечения игрового процесса, таблицы лидеров и реферальной системы.</p>
-                <p><strong>3. Безопасность:</strong> Пароли хешируются. Мы используем Supabase для хранения данных.</p>
-                <p><strong>4. Файлы cookie:</strong> Сайт использует localStorage для сохранения сессии и реферального кода.</p>
-                <p><strong>5. Реклама:</strong> Google AdSense может использовать файлы cookie для показа рекламы на основе интересов. <a href="https://policies.google.com/technologies/ads" target="_blank">Настройки рекламы Google</a>.</p>
-                <p><strong>6. Контакты:</strong> <a href="https://t.me/VDC_game" target="_blank">VDC_game в Telegram</a></p>
-                <button id="privacy-policy-close">ЗАКРЫТЬ</button>
-            </div>
-        </div>
-
-        <div id="vx-pause-menu"><h2>ПАУЗА</h2><button class="vx-pmenu-btn" id="vx-btn-resume" style="background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;">ПРОДОЛЖИТЬ</button><button class="vx-pmenu-btn" id="vx-btn-open-shop" style="background:linear-gradient(45deg,#b8860b,#ffd700);color:#000;">МАГАЗИН</button><button class="vx-pmenu-btn" id="vx-btn-leaderboard" style="background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;">🏆 ТАБЛИЦА РЕКОРДОВ</button><button class="vx-pmenu-btn" id="vx-btn-main-menu" style="background:linear-gradient(45deg,#333,#555);color:#fff;">🏠 ГЛАВНОЕ МЕНЮ</button></div>
-        <div id="vx-hole-shop"><h2>МАГАЗИН</h2><div id="vx-shop-cards"></div><button id="vx-shop-close" style="margin-top:12px;padding:10px 36px;background:#333;border:1px solid #666;border-radius:10px;color:#fff;font-size:14px;font-weight:bold;cursor:pointer;">НАЗАД</button></div>
-        <div id="vx-start-overlay">
-            <canvas id="vx-bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-            <div id="vx-stars-bg" style="position:absolute;inset:0;pointer-events:none;"></div>
-            <div style="position:absolute;top:10px;left:0;right:0;z-index:3;display:flex;justify-content:center;align-items:center;gap:10px;">
-                <div style="width:40px;height:40px;border-radius:50%;background:#000;border:2px solid #0ff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px rgba(0,255,255,.5);"><span style="color:#0ff;font-weight:900;font-size:12px;font-family:'Arial Black',Arial,sans-serif;">VDC</span></div>
-                <div class="vx-title-wrap" id="vx-title-letters"></div>
-            </div>
-            <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;">
-                <p style="margin:0 0 20px;font-size:11px;color:rgba(0,255,255,.65);letter-spacing:5px;">ГАЛАКТИЧЕСКИЙ СИМУЛЯТОР</p>
-                <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:20px 25px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3),0 0 60px rgba(128,0,255,.3);animation:neonPulse 3s infinite;">
-                    <input type="text" id="vx-nickname" placeholder="Твой никнейм..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" minlength="4"/>
-                    <div id="vx-nick-error">Никнейм должен содержать минимум 4 символа</div>
-                    <input type="password" id="vx-password" placeholder="Пароль..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;box-shadow:0 0 15px rgba(0,255,255,.2);text-align:center;" autocomplete="off" minlength="4"/>
-                    <button id="vx-rules-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Правила пользования</button>
-                    <button id="vx-terms-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Условия использования</button>
-                    <button id="vx-start-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;letter-spacing:1px;box-shadow:0 0 25px rgba(0,198,255,.5);">ПРОДОЛЖИТЬ</button>
-                    <button id="vx-register-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;padding:5px;">Регистрация</button>
-                </div>
-                <button class="privacy-btn" id="privacy-policy-btn">Политика конфиденциальности</button>
-                <p class="seo-text" style="position: absolute; bottom: 15px; left: 0; right: 0;">VDC — браузерная космическая стратегия в реальном времени. Управляй черной дырой и соревнуйся с другими игроками.</p>
-            </div>
-        </div>
-        <div id="vx-register-overlay">
-            <div style="background:rgba(0,0,0,.8);border:2px solid #0ff;border-radius:18px;padding:25px 30px;width:300px;max-width:90vw;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,255,255,.3);animation:neonPulse 3s infinite;">
-                <h3 style="color:#0ff;">📝 РЕГИСТРАЦИЯ</h3>
-                <input type="text" id="reg-nickname" placeholder="Твой никнейм..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
-                <input type="password" id="reg-password" placeholder="Придумай пароль..." style="width:100%;padding:12px;border-radius:10px;border:2px solid #0ff;background:rgba(0,0,0,.6);color:#0ff;font-weight:bold;font-size:15px;outline:none;text-align:center;" autocomplete="off" minlength="4"/>
-                <button id="reg-confirm-btn" style="width:100%;padding:14px;background:linear-gradient(45deg,#6200ea,#00c6ff);color:#fff;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:17px;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
-                <button id="reg-back-btn" style="background:none;border:none;color:rgba(0,255,255,.75);font-size:13px;cursor:pointer;text-decoration:underline;">Назад</button>
-            </div>
-        </div>
-        <div id="vx-main-menu">
-            <div class="main-balance-display" id="main-balance-display" style="position:absolute; top:20px; left:20px; transform:none; margin:0;">⭐ 0</div>
-            <div class="main-menu-nickname" id="main-menu-nickname-wrap">
-                <div class="vx-title-wrap" id="vx-nickname-animated"></div>
-            </div>
-            <button class="main-sound-btn" id="vx-main-sound-btn">♪</button>
-            <div class="ad-placeholder" style="margin-top: 70px;">
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:320px;height:50px"
-                     data-ad-client="ca-pub-2245560654052061"
-                     data-ad-slot="XXXXXXXXXX"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-            <div class="main-buttons-container">
-                <button class="main-menu-btn" id="vx-main-play-btn">🎮 ИГРАТЬ</button>
-                <button class="main-menu-btn" id="vx-main-shop-btn">🛒 МАГАЗИН</button>
-                <button class="main-menu-btn" id="vx-main-leaderboard-btn">🏆 ТАБЛИЦА ЛИДЕРОВ</button>
-                <button class="main-menu-btn" id="vx-main-referral-btn">👥 РЕФЕРАЛЫ</button>
-                <button class="main-menu-btn" id="vx-main-withdraw-btn">💸 ВЫВОД</button>
-            </div>
-            <p class="seo-text" style="position: absolute; bottom: 15px; left: 0; right: 0;">VDC — браузерная космическая стратегия в реальном времени. Управляй черной дырой и соревнуйся с другими игроками.</p>
-            <button class="privacy-btn" style="position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%);" id="privacy-policy-btn-menu">Политика конфиденциальности</button>
-            <a href="https://t.me/VDC_game" target="_blank" class="telegram-float-btn" title="Присоединяйся к нам в Telegram!">
-                <span class="telegram-icon">📱</span>
-            </a>
-        </div>
-        <div id="vx-game-ui" style="display:none;position:absolute;inset:0;pointer-events:none;z-index:10;padding:15px;">
-            <div style="pointer-events:auto;padding:4px 0 0 0;min-width:160px;">
-                <div style="color:#fff;font-size:15px;font-weight:bold;">★ <span id="vx-cash">10</span></div>
-                <div style="position:relative;width:375px;max-width:80vw;height:5px;margin-top:5px;"><div style="position:absolute;inset:0;border-radius:3px;background:rgba(255,255,255,.08);"></div><div id="vx-fill-bar" style="position:absolute;top:0;left:0;height:100%;width:0%;background:#0f0;border-radius:3px;transition:width .1s;"></div></div>
-                <div style="color:#0f0;font-size:11px;margin-top:5px;">Вместительность:&nbsp;<span id="vx-cargo">0</span>&nbsp;/&nbsp;<span id="vx-max">100</span>&nbsp;кг</div>
-            </div>
-            <button id="vx-sound-btn" style="position:absolute;top:12px;right:54px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#666;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">♪</button>
-            <button id="vx-pause-btn" style="position:absolute;top:12px;right:12px;pointer-events:auto;background:rgba(0,0,0,.7);border:1px solid #666;color:#fff;font-size:13px;font-weight:bold;width:36px;height:36px;border-radius:8px;cursor:pointer;">II</button>
-            <div id="vx-portal-ui" style="position:absolute;display:none;pointer-events:auto;z-index:20;transform:translate(-50%,-50%);"><button id="vx-clear-btn" style="background:rgba(160,0,0,.92);border:2px solid #ff5555;border-radius:22px;color:#fff;font-size:13px;font-weight:bold;padding:9px 18px;cursor:pointer;white-space:nowrap;box-shadow:0 0 16px rgba(255,0,0,.6);">ОЧИСТИТЬ</button></div>
-            <div id="vx-mobile-hint">Проведите пальцем для перемещения дыры</div>
-            <div style="position:absolute;bottom:15px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="display:flex;gap:8px;pointer-events:auto;"><button class="vx-s-btn" id="vx-btn-rad">РАЗМЕР 0/10</button><button class="vx-s-btn" id="vx-btn-cap">ЗАПАС 0/50</button><button class="vx-s-btn" id="vx-btn-spd">ТЯГА 0/20</button></div></div>
-            <div class="ad-placeholder" style="position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);">
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:320px;height:50px"
-                     data-ad-client="ca-pub-2245560654052061"
-                     data-ad-slot="XXXXXXXXXX"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-        </div>
-        <div id="vx-admin-message-overlay">
-            <div id="vx-admin-message-text"></div>
-            <button id="vx-admin-message-close-btn">OK</button>
-        </div>
-        <div id="vx-death-msg" style="position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);color:#f00;font-size:32px;font-weight:bold;opacity:0;pointer-events:none;transition:.5s;z-index:110;text-align:center;">ВЗРЫВ!</div>
-        <canvas id="vx-canvas" style="display:block;background:#000;width:100%;height:100%;"></canvas>
+  <div class="outer-header">
+    <div>
+      <div class="outer-site-title">VDS</div>
+      <div class="outer-site-subtitle">VIBE DARE SMILE</div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(function(){
-'use strict';
-var app=document.getElementById('vortex-app');
-var scaler=document.getElementById('game-scaler');
-var canvas=document.getElementById('vx-canvas');
-var ctx=canvas.getContext('2d');
-var audioCtx;
-var soundOn=false;
-var playerNickname='';
-var referralCode='';
-var referralCount=0;
-var inGame=false;
-var isMobile=('ontouchstart' in window&&window.innerWidth<768)||window.innerWidth<768;
-var SUPABASE_URL='https://kmkgqegtulbmdjlmllka.supabase.co';
-var SUPABASE_KEY='sb_publishable_azFcv95b6rBSnDxU2jYWEA_pO2Z5qTI';
-var supabase=null;
-try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);}catch(e){}
+    <div class="outer-right-group">
+      <button id="langRuOuter" class="lang-btn active">RU</button>
+      <button id="langUaOuter" class="lang-btn">UA</button>
+      <button id="langEnOuter" class="lang-btn">EN</button>
+      <button class="logout-btn" id="logoutBtn">🚪 Выйти</button>
+    </div>
+  </div>
 
-function calculatePrice(basePrice, level, multiplier) {
-    var price = basePrice;
-    for (var i = 0; i < level; i++) {
-        price = Math.ceil(price * multiplier);
+  <div id="app">
+    <div id="authOverlay" class="overlay">
+      <div class="win-card" id="authCard">
+        <div id="loginForm">
+          <h3 class="auth-title" id="loginTitle">🔐 ВХОД</h3>
+          <input type="text" id="loginNickname" class="form-input" placeholder="Введите никнейм">
+          <button id="loginBtn" class="thread-btn" style="animation:none; width:100%;">ВОЙТИ</button>
+          <button id="showRegisterBtn" class="thread-btn" style="animation:none; width:100%; margin-top:6px; background:#2a1738;">📝 РЕГИСТРАЦИЯ</button>
+        </div>
+        <div id="registerForm" class="hidden">
+          <h3 class="auth-title" id="registerTitle">📝 РЕГИСТРАЦИЯ</h3>
+          <input type="text" id="registerNickname" class="form-input" placeholder="Придумайте никнейм">
+          <button id="registerBtn" class="thread-btn" style="animation:none; width:100%;">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+          <button id="showLoginBtn" class="thread-btn" style="animation:none; width:100%; margin-top:6px; background:#2a1738;">↩️ НАЗАД К ВХОДУ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-bar">
+      <span class="nickname" id="nicknameDisplay">Игрок</span>
+      <span class="balance-display">💎 <span id="mainBalanceDisplay">100</span> <button class="top-up-btn" id="mainTopUpBtn">💎 Пополнить</button></span>
+    </div>
+
+    <div id="mainMenu" class="menu-grid">
+      <button class="thread-btn full-width-btn gold-text-btn" id="customRewardsBtn" style="background:#3d2058;">Мои желания</button>
+      <button class="thread-btn" data-mode="18+">🔞 18+</button>
+      <button class="thread-btn" data-mode="home">🏠 Для Дома</button>
+      <button class="thread-btn" data-mode="party">🎉 Для Вечеринки</button>
+      <button class="thread-btn" data-mode="young">💑 Молодая Пара</button>
+      <button class="thread-btn" data-mode="family">👨‍👩‍👧 Семейная Пара</button>
+      <button class="thread-btn" data-mode="friends">👫 Для Друзей</button>
+      <button class="thread-btn full-width-btn gold-text-btn" id="historyBtn">История</button>
+    </div>
+
+    <div id="slotUI" class="slot-machine hidden">
+      <div class="slot-top-row">
+        <div class="treasure-section" id="treasureSection">
+          <div class="treasure-box" id="treasureBox">
+            <div class="gift-container" id="giftContainer">
+              <span class="gift-icon" id="giftIcon">🎁</span>
+            </div>
+          </div>
+          <div class="progress-container">
+            <div class="progress-text" id="progressText">Бонус: 0/100%</div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </div>
+        </div>
+        <div class="balance-row" style="margin:0; flex-shrink:0; gap: 6px;">
+          <span id="diamondsLabel">💎 Алмазы:</span>
+          <span id="diamondsCount">100</span>
+          <button class="winnings-btn" id="winningsBtn">🏆 Выигрыши</button>
+          <button class="jackpot-prizes-btn" id="jackpotPrizesBtn">🎁 Призы</button>
+        </div>
+      </div>
+      <div class="free-spins-badge hidden" id="freeSpinsBadge">🎁 Бесплатные спины: 0 (Шанс джекпота +50%)</div>
+      <div class="machine" id="machine"></div>
+      <div class="win-lines" id="winLines"></div>
+      <div style="color:#ffd966; text-align:center; min-height:20px; font-weight:bold; font-size:0.8rem;" id="messageDisplay"></div>
+      <div class="controls-row">
+        <div class="left-buttons">
+          <button id="donateButton" class="thread-btn">💎 Пополнить</button>
+          <button id="backToMenu" class="thread-btn" style="background:#2a1738;">↩️ МЕНЮ</button>
+        </div>
+        <div class="middle-buttons">
+          <button id="autoSpinBtn" class="auto-spin-btn" title="Авто-запуск">🔄<br>AUTO</button>
+        </div>
+        <button id="spinButton" class="thread-btn spin-btn">🚀 ЗАПУСК</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="support-btn" id="supportBtn">💬</div>
+
+  <div class="spin-win-display" id="spinWinDisplay"></div>
+
+  <div id="winOverlay" class="overlay hidden">
+    <div class="win-card">
+      <h2 style="color:#ffd966;" id="jackpotTitle">🎉 ДЖЕКПОТ!</h2>
+      <p style="color:#f0dbb0; font-size:1.1rem; margin:8px 0;" id="winMessage"></p>
+      <div style="font-size:2.8rem;" id="winIcons"></div>
+      <button id="sendToPartnerBtn" class="social-btn">💌 Отправить Партнёру</button>
+      <button id="closeWinBtn" class="thread-btn" style="margin-top:12px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="nameFormModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;" id="nameFormTitle">📝 Введите имена</h3>
+      <input type="text" id="userNameInput" class="form-input" placeholder="Ваше имя">
+      <input type="text" id="partnerNameInput" class="form-input" placeholder="Имя партнёра">
+      <button id="downloadWithNamesBtn" class="thread-btn" style="animation:none; margin-top:8px;">📥 Скачать</button>
+      <button id="closeNameFormBtn" class="thread-btn" style="animation:none; margin-top:6px;">Отмена</button>
+    </div>
+  </div>
+
+  <div id="paymentModal" class="overlay hidden">
+    <div class="win-card" style="max-width:340px;">
+      <h3 style="color:#f7e47b;" id="paymentTitle">💎 ПОПОЛНЕНИЕ АЛМАЗОВ</h3>
+      <div id="diamondOptions">
+        <div class="diamond-option" data-diamonds="100" data-price="1">💎 100 алмазов - $1.00</div>
+        <div class="diamond-option" data-diamonds="500" data-price="5">💎 500 алмазов - $5.00</div>
+        <div class="diamond-option" data-diamonds="1000" data-price="10">💎 1000 алмазов - $10.00</div>
+        <div class="diamond-option" data-diamonds="5000" data-price="50">💎 5000 алмазов - $50.00</div>
+        <div class="diamond-option" data-diamonds="10000" data-price="100">💎 10000 алмазов - $100.00</div>
+      </div>
+      <button id="closePaymentBtn" class="thread-btn" style="margin-top:8px; animation: none;">ОТМЕНА</button>
+    </div>
+  </div>
+
+  <div id="historyModal" class="overlay hidden">
+    <div class="win-card wide">
+      <h3 style="color:#ffd966;" id="historyTitle">📜 История Джекпотов</h3>
+      <div id="historyList" class="history-list"></div>
+      <button id="closeHistoryBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="winningsModal" class="overlay hidden">
+    <div class="win-card" style="max-width:500px;">
+      <h3 style="color:#ffd966;" id="winningsTitle">🏆 Последние джекпоты</h3>
+      <div id="winningsList" class="history-list"></div>
+      <button id="closeWinningsBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="winDetailModal" class="overlay hidden">
+    <div class="win-card">
+      <h3 style="color:#ffd966;" id="winDetailTitle">📋 Детали выигрыша</h3>
+      <div class="win-detail-text" id="winDetailContent"></div>
+      <button id="closeWinDetailBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="customRewardsModal" class="overlay hidden">
+    <div class="win-card wide">
+      <h3 style="color:#ffd966;" id="customRewardsTitle">🎁 Мои желания (3-10)</h3>
+      <p style="color:#ddd; font-size:0.75rem;" id="customRewardsDesc">Введите свои желания для джекпота</p>
+      <div id="customRewardsList"></div>
+      <button id="addCustomRewardBtn" class="thread-btn" style="animation:none; margin-top:6px;">+ Добавить</button>
+      <div class="custom-rewards-buttons">
+        <button id="saveAndPlayBtn" class="thread-btn" style="background:#d4af37; color:#150a1f;">💾 Сохранить и играть</button>
+        <button id="closeCustomRewardsBtn" class="thread-btn">ЗАКРЫТЬ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="jackpotPrizesModal" class="overlay hidden">
+    <div class="win-card" style="max-width:400px;">
+      <h3 style="color:#ffd966;" id="jackpotPrizesTitle">🎁 Призы джекпота</h3>
+      <div class="prizes-list" id="jackpotPrizesList"></div>
+      <button id="closeJackpotPrizesBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="supportModal" class="overlay hidden">
+    <div class="win-card" style="max-width:400px;">
+      <h3 style="color:#ffd966;" id="supportTitle">💬 Онлайн поддержка</h3>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message admin">👋 Здравствуйте! Чем могу помочь?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Введите сообщение...">
+        <button id="sendChatBtn" class="thread-btn" style="animation:none; padding:8px 14px; font-size:0.75rem;">📤</button>
+      </div>
+      <button id="closeSupportBtn" class="thread-btn" style="margin-top:6px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div id="policyModal" class="overlay hidden">
+    <div class="win-card" style="max-width:500px;">
+      <h3 style="color:#ffd966;" id="policyTitle">Политика конфиденциальности</h3>
+      <div class="policy-text" id="policyContent"></div>
+      <button id="closePolicyBtn" class="thread-btn" style="margin-top:8px; animation: none;">ЗАКРЫТЬ</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a id="privacyPolicyLink">Политика конфиденциальности</a> |
+    <a id="termsOfUseLink">Условия использования</a>
+    <p style="margin-top:3px;">© 2024 VDS - Vibe Dare Smile. Все права защищены.</p>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          self.addEventListener('install', (event) => { self.skipWaiting(); });
+          self.addEventListener('activate', (event) => { event.waitUntil(clients.claim()); });
+          self.addEventListener('fetch', (event) => { event.respondWith(fetch(event.request)); });
+        `;
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl).catch(() => {});
+      });
     }
-    return price;
-}
 
-async function checkAndApplyAdminStars() {
-    if (!supabase || !playerNickname) return;
-    try {
-        var { data: messages, error: msgError } = await supabase
-            .from('admin_messages')
-            .select('id, message')
-            .eq('nickname', playerNickname)
-            .eq('read', false)
-            .order('created_at', { ascending: true });
+    (function() {
+      const ICONS = ['❤️', '🔒', '🍕', '🛏️', '🎁'];
+      const WISH_TEXTS = {
+        '❤️': { ru: 'Исполни моё романтическое желание', ua: 'Виконай моє романтичне бажання', en: 'Fulfill my romantic wish' },
+        '🔒': { ru: 'Надень наручники и повинуйся', ua: 'Надягни наручники й підкорись', en: 'Put on handcuffs and obey' },
+        '🍕': { ru: 'Закажи мою любимую пиццу', ua: 'Замов мою улюблену піцу', en: 'Order my favorite pizza' },
+        '🛏️': { ru: 'Устрой незабываемую ночь', ua: 'Влаштуй незабутню ніч', en: 'Create an unforgettable night' },
+        '🎁': { ru: 'Подари мне особенный сюрприз', ua: 'Подаруй мені особливий сюрприз', en: 'Give me a special surprise' }
+      };
 
-        if (!msgError && messages && messages.length > 0) {
-            for (var i = 0; i < messages.length; i++) {
-                var msg = messages[i];
-                var numberMatch = msg.message.match(/(\d[\d\s]*\d|\d+)/);
-                var starsToAdd = 0;
-                
-                if (numberMatch) {
-                    starsToAdd = parseInt(numberMatch[1].replace(/\s/g, ''));
-                }
-                
-                if (starsToAdd > 0) {
-                    if (typeof g !== 'undefined') {
-                        g.cash += starsToAdd;
-                        if (g.active) {
-                            refreshUI();
-                            saveFullProgress();
-                        }
-                    }
-                    
-                    var { data: playerData } = await supabase
-                        .from('players')
-                        .select('stars')
-                        .eq('nickname', playerNickname)
-                        .single();
-                        
-                    if (playerData) {
-                        var currentStars = playerData.stars || 0;
-                        await supabase
-                            .from('players')
-                            .update({ stars: currentStars + starsToAdd })
-                            .eq('nickname', playerNickname);
-                    }
-                    
-                    showStarNotification(starsToAdd);
-                } else {
-                    showAdminMessage(msg.message, msg.id);
-                }
-                
-                await supabase
-                    .from('admin_messages')
-                    .update({ read: true })
-                    .eq('id', msg.id);
+      const MODE_PRIZES = {
+        '18+': {
+          ru: ['Исполни моё романтическое желание', 'Надень наручники и повинуйся', 'Устрой незабываемую ночь', 'Подари мне особенный сюрприз', 'Закажи мою любимую пиццу'],
+          ua: ['Виконай моє романтичне бажання', 'Надягни наручники й підкорись', 'Влаштуй незабутню ніч', 'Подаруй мені особливий сюрприз', 'Замов мою улюблену піцу'],
+          en: ['Fulfill my romantic wish', 'Put on handcuffs and obey', 'Create an unforgettable night', 'Give me a special surprise', 'Order my favorite pizza']
+        },
+        'home': {
+          ru: ['Приготовь ужин', 'Убери в комнате', 'Помой посуду', 'Пропылесось квартиру', 'Сделай мне чай'],
+          ua: ['Приготуй вечерю', 'Прибери в кімнаті', 'Помий посуд', 'Пропилосось квартиру', 'Зроби мені чай'],
+          en: ['Cook dinner', 'Clean the room', 'Wash dishes', 'Vacuum the apartment', 'Make me tea']
+        },
+        'party': {
+          ru: ['Танцуй со мной', 'Спой караоке', 'Приготовь коктейль', 'Сделай смешное фото', 'Расскажи анекдот'],
+          ua: ['Танцюй зі мною', 'Заспівай караоке', 'Приготуй коктейль', 'Зроби смішне фото', 'Розкажи анекдот'],
+          en: ['Dance with me', 'Sing karaoke', 'Make a cocktail', 'Take a funny photo', 'Tell a joke']
+        },
+        'young': {
+          ru: ['Устрой романтический ужин', 'Напиши любовное письмо', 'Подари цветы', 'Сделай массаж', 'Посмотри фильм вместе'],
+          ua: ['Влаштуй романтичну вечерю', 'Напиши любовний лист', 'Подаруй квіти', 'Зроби масаж', 'Подивись фільм разом'],
+          en: ['Have a romantic dinner', 'Write a love letter', 'Give flowers', 'Give a massage', 'Watch a movie together']
+        },
+        'family': {
+          ru: ['Поиграй с детьми', 'Приготовь семейный ужин', 'Помоги с домашним заданием', 'Устрой семейную игру', 'Почитай сказку'],
+          ua: ['Пограй з дітьми', 'Приготуй сімейну вечерю', 'Допоможи з домашнім завданням', 'Влаштуй сімейну гру', 'Почитай казку'],
+          en: ['Play with kids', 'Cook family dinner', 'Help with homework', 'Have a family game', 'Read a story']
+        },
+        'friends': {
+          ru: ['Устрой вечеринку', 'Поиграй в настолки', 'Посмотри фильм вместе', 'Сходи в кафе', 'Поделись секретом'],
+          ua: ['Влаштуй вечірку', 'Пограй у настолки', 'Подивись фільм разом', 'Сходи в кафе', 'Поділись секретом'],
+          en: ['Throw a party', 'Play board games', 'Watch a movie together', 'Go to a cafe', 'Share a secret']
+        }
+      };
+
+      const CERTIFICATE_TEXTS = {
+        ru: { title: 'VDS СЕРТИФИКАТ ВЫИГРЫША', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} выиграл(а) задание для тебя, ${p}!`, official: 'ОФИЦИАЛЬНЫЙ ЧЕК ВЫИГРЫША • VDS СЕРТИФИЦИРОВАНО' },
+        ua: { title: 'VDS СЕРТИФІКАТ ВИГРАШУ', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} виграв(ла) завдання для тебе, ${p}!`, official: 'ОФІЦІЙНИЙ ЧЕК ВИГРАШУ • VDS СЕРТИФІКОВАНО' },
+        en: { title: 'VDS WINNINGS CERTIFICATE', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} won a task for you, ${p}!`, official: 'OFFICIAL WINNINGS CHECK • VDS CERTIFIED' }
+      };
+
+      const TRANSLATIONS = {
+        ru: {
+          loginTitle: '🔐 ВХОД', registerTitle: '📝 РЕГИСТРАЦИЯ', loginPlaceholder: 'Введите никнейм', registerPlaceholder: 'Придумайте никнейм',
+          loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
+          customRewardsBtn: 'Мои желания', historyBtn: 'История',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
+          menuFriends: '👫 Для Друзей',
+          diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
+          jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
+          nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
+          paymentTitle: '💎 ПОПОЛНЕНИЕ АЛМАЗОВ', closePayment: 'ОТМЕНА',
+          historyTitle: '📜 История Джекпотов', noJackpots: 'Нет джекпотов',
+          customRewardsTitle: '🎁 Мои желания (3-10)', customRewardsDesc: 'Введите свои желания для джекпота', addBtn: '+ Добавить', saveAndPlay: '💾 Сохранить и играть', closeCustom: 'ЗАКРЫТЬ',
+          jackpotPrizesTitle: '🎁 Призы джекпота', jackpotPrizesBtn: '🎁 Призы',
+          privacyLink: 'Политика конфиденциальности', termsLink: 'Условия использования', copyright: '© 2024 VDS - Vibe Dare Smile. Все права защищены.',
+          notEnoughDiamonds: '💔 Мало алмазов!', bonusOpened: '🎁 +10 бесплатных спинов!', tryAgain: '💫 Попробуй ещё',
+          win3: '🎉 3 совпадения! +1💎', win4: '🔥 4 совпадения! +3💎', logoutBtn: '🚪 Выйти',
+          mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша',
+          supportTitle: '💬 Онлайн поддержка', supportPlaceholder: 'Введите сообщение...', sendBtn: '📤',
+          winningsBtn: '🏆 Выигрыши', winningsTitle: '🏆 Последние джекпоты', noWinnings: 'Пока нет джекпотов'
+        },
+        ua: {
+          loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
+          loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
+          customRewardsBtn: 'Мої бажання', historyBtn: 'Історія',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
+          menuFriends: '👫 Для Друзів',
+          diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
+          jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
+          nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
+          paymentTitle: '💎 ПОПОВНЕННЯ АЛМАЗІВ', closePayment: 'СКАСУВАТИ',
+          historyTitle: '📜 Історія Джекпотів', noJackpots: 'Немає джекпотів',
+          customRewardsTitle: '🎁 Мої бажання (3-10)', customRewardsDesc: 'Введіть свої бажання для джекпоту', addBtn: '+ Додати', saveAndPlay: '💾 Зберегти і грати', closeCustom: 'ЗАКРИТИ',
+          jackpotPrizesTitle: '🎁 Призи джекпоту', jackpotPrizesBtn: '🎁 Призи',
+          privacyLink: 'Політика конфіденційності', termsLink: 'Умови використання', copyright: '© 2024 VDS - Vibe Dare Smile. Усі права захищені.',
+          notEnoughDiamonds: '💔 Мало алмазів!', bonusOpened: '🎁 +10 безкоштовних спинів!', tryAgain: '💫 Спробуй ще',
+          win3: '🎉 3 збіги! +1💎', win4: '🔥 4 збіги! +3💎', logoutBtn: '🚪 Вийти',
+          mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу',
+          supportTitle: '💬 Онлайн підтримка', supportPlaceholder: 'Введіть повідомлення...', sendBtn: '📤',
+          winningsBtn: '🏆 Виграші', winningsTitle: '🏆 Останні джекпоти', noWinnings: 'Поки немає джекпотів'
+        },
+        en: {
+          loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
+          loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
+          customRewardsBtn: 'My Wishes', historyBtn: 'History',
+          menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
+          menuFriends: '👫 For Friends',
+          diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '🚀 LAUNCH',
+          jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
+          nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
+          paymentTitle: '💎 TOP UP DIAMONDS', closePayment: 'CANCEL',
+          historyTitle: '📜 Jackpot History', noJackpots: 'No jackpots yet',
+          customRewardsTitle: '🎁 My Wishes (3-10)', customRewardsDesc: 'Enter your wishes for jackpot', addBtn: '+ Add', saveAndPlay: '💾 Save & Play', closeCustom: 'CLOSE',
+          jackpotPrizesTitle: '🎁 Jackpot Prizes', jackpotPrizesBtn: '🎁 Prizes',
+          privacyLink: 'Privacy Policy', termsLink: 'Terms of Use', copyright: '© 2024 VDS - Vibe Dare Smile. All rights reserved.',
+          notEnoughDiamonds: '💔 Not enough diamonds!', bonusOpened: '🎁 +10 free spins!', tryAgain: '💫 Try again',
+          win3: '🎉 3 matches! +1💎', win4: '🔥 4 matches! +3💎', logoutBtn: '🚪 Logout',
+          mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details',
+          supportTitle: '💬 Online Support', supportPlaceholder: 'Enter message...', sendBtn: '📤',
+          winningsBtn: '🏆 Winnings', winningsTitle: '🏆 Latest Jackpots', noWinnings: 'No jackpots yet'
+        }
+      };
+
+      const POLICIES = {
+        ru: { privacy: `<h4>Политика конфиденциальности</h4><p>1. Мы собираем только никнейм и игровые данные (алмазы, история джекпотов) для функционирования игры.</p><p>2. Данные хранятся локально в вашем браузере (localStorage).</p><p>3. Мы не передаем данные третьим лицам.</p><p>4. Вы можете удалить данные, очистив localStorage браузера.</p>`, terms: `<h4>Условия использования</h4><p>1. Игра предназначена для развлекательных целей.</p><p>2. Пользователь несет ответственность за сохранность своих данных.</p><p>3. Запрещено использование игры в незаконных целях.</p><p>4. Администрация оставляет за собой право изменять правила.</p>` },
+        ua: { privacy: `<h4>Політика конфіденційності</h4><p>1. Ми збираємо лише нікнейм та ігрові дані для функціонування гри.</p><p>2. Дані зберігаються локально у вашому браузері.</p><p>3. Ми не передаємо дані третім особам.</p>`, terms: `<h4>Умови використання</h4><p>1. Гра призначена для розважальних цілей.</p><p>2. Користувач несе відповідальність за збереження своїх даних.</p>` },
+        en: { privacy: `<h4>Privacy Policy</h4><p>1. We only collect nickname and game data for functionality.</p><p>2. Data is stored locally in your browser.</p><p>3. We do not share data with third parties.</p>`, terms: `<h4>Terms of Use</h4><p>1. This game is for entertainment purposes only.</p><p>2. Users are responsible for their own data.</p>` }
+      };
+
+      let currentLanguage = 'ru';
+      let nickname = '';
+      let diamonds = 100;
+      let treasureProgress = 0;
+      let freeSpins = 0;
+      let jackpotBoost = false;
+      let spinning = false;
+      let autoSpinning = false;
+      let currentMode = '18+';
+      let gamePaused = false;
+      const GRID = 5;
+      let visibleGrid = [];
+      let strips = [];
+      let jackpotHistory = [];
+      let pendingJackpotIcon = null;
+      let pendingJackpotWish = null;
+      let customRewards = [];
+      let useCustomRewards = false;
+      let audioCtx = null;
+      let chatMessages = [];
+      let jackpotFeedData = [];
+
+      function t(key) { return TRANSLATIONS[currentLanguage]?.[key] || TRANSLATIONS.ru[key] || key; }
+
+      function initAudio() { if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
+      function playTone(f, d, type = 'sine', v = 0.08) { try { const c = initAudio(); const o = c.createOscillator(); const g = c.createGain(); o.type = type; o.frequency.value = f; g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d); o.connect(g); g.connect(c.destination); o.start(c.currentTime); o.stop(c.currentTime + d); } catch (e) {} }
+      function playSpinClickSound() { playTone(600, 0.1, 'square', 0.06); setTimeout(() => playTone(800, 0.1, 'square', 0.05), 50); }
+      function playReelSpinSound() { playTone(150 + Math.random() * 80, 0.06, 'sawtooth', 0.02); }
+      function playReelStopSound() { playTone(300, 0.12, 'triangle', 0.04); }
+      function playWinSound() { playTone(523, 0.15, 'sine', 0.06); setTimeout(() => playTone(659, 0.15, 'sine', 0.06), 120); }
+      function playLoseSound() { playTone(200, 0.2, 'sawtooth', 0.03); }
+      function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => setTimeout(() => playTone(f, 0.3, 'sine', 0.07), i * 100)); }
+      function playGiftShakeSound() { playTone(250 + Math.random() * 50, 0.05, 'square', 0.03); }
+      function playGiftExplosionSound() { [300, 400, 500, 600, 700, 800, 900, 1000].forEach((f, i) => setTimeout(() => playTone(f, 0.15, 'triangle', 0.05), i * 30)); }
+
+      const $ = id => document.getElementById(id);
+      const authOverlay = $('authOverlay');
+      const loginForm = $('loginForm');
+      const registerForm = $('registerForm');
+      const loginNickname = $('loginNickname');
+      const registerNickname = $('registerNickname');
+      const loginBtn = $('loginBtn');
+      const registerBtn = $('registerBtn');
+      const showRegisterBtn = $('showRegisterBtn');
+      const showLoginBtn = $('showLoginBtn');
+      const nicknameDisplay = $('nicknameDisplay');
+      const mainBalanceDisplay = $('mainBalanceDisplay');
+      const spinWinDisplay = $('spinWinDisplay');
+      const logoutBtn = $('logoutBtn');
+      const mainTopUpBtn = $('mainTopUpBtn');
+      const supportBtn = $('supportBtn');
+      const supportModal = $('supportModal');
+      const chatMessagesDiv = $('chatMessages');
+      const chatInput = $('chatInput');
+      const sendChatBtn = $('sendChatBtn');
+      const closeSupportBtn = $('closeSupportBtn');
+
+      const mainMenu = $('mainMenu');
+      const slotUI = $('slotUI');
+      const diamondsSpan = $('diamondsCount');
+      const progressFill = $('progressFill');
+      const progressText = $('progressText');
+      const freeSpinsBadge = $('freeSpinsBadge');
+      const machineDiv = $('machine');
+      const winLinesDiv = $('winLines');
+      const messageDisplay = $('messageDisplay');
+      const spinButton = $('spinButton');
+      const autoSpinBtn = $('autoSpinBtn');
+      const donateButton = $('donateButton');
+      const backToMenuBtn = $('backToMenu');
+      const winOverlay = $('winOverlay');
+      const winMessage = $('winMessage');
+      const winIcons = $('winIcons');
+      const sendToPartnerBtn = $('sendToPartnerBtn');
+      const closeWinBtn = $('closeWinBtn');
+      const nameFormModal = $('nameFormModal');
+      const userNameInput = $('userNameInput');
+      const partnerNameInput = $('partnerNameInput');
+      const downloadWithNamesBtn = $('downloadWithNamesBtn');
+      const closeNameFormBtn = $('closeNameFormBtn');
+      const paymentModal = $('paymentModal');
+      const closePaymentBtn = $('closePaymentBtn');
+      const historyModal = $('historyModal');
+      const historyList = $('historyList');
+      const closeHistoryBtn = $('closeHistoryBtn');
+      const historyBtn = $('historyBtn');
+      const winningsModal = $('winningsModal');
+      const winningsList = $('winningsList');
+      const winningsBtn = $('winningsBtn');
+      const closeWinningsBtn = $('closeWinningsBtn');
+      const winDetailModal = $('winDetailModal');
+      const winDetailTitle = $('winDetailTitle');
+      const winDetailContent = $('winDetailContent');
+      const closeWinDetailBtn = $('closeWinDetailBtn');
+      const customRewardsBtn = $('customRewardsBtn');
+      const customRewardsModal = $('customRewardsModal');
+      const customRewardsList = $('customRewardsList');
+      const addCustomRewardBtn = $('addCustomRewardBtn');
+      const saveAndPlayBtn = $('saveAndPlayBtn');
+      const closeCustomRewardsBtn = $('closeCustomRewardsBtn');
+      const jackpotPrizesBtn = $('jackpotPrizesBtn');
+      const jackpotPrizesModal = $('jackpotPrizesModal');
+      const jackpotPrizesList = $('jackpotPrizesList');
+      const closeJackpotPrizesBtn = $('closeJackpotPrizesBtn');
+      const policyModal = $('policyModal');
+      const policyTitle = $('policyTitle');
+      const policyContent = $('policyContent');
+      const closePolicyBtn = $('closePolicyBtn');
+      const privacyPolicyLink = $('privacyPolicyLink');
+      const termsOfUseLink = $('termsOfUseLink');
+      const langRuOuter = $('langRuOuter');
+      const langUaOuter = $('langUaOuter');
+      const langEnOuter = $('langEnOuter');
+      const diamondsLabel = $('diamondsLabel');
+      const giftIcon = $('giftIcon');
+      const treasureSection = $('treasureSection');
+
+      // Update gift size - at 100% it becomes half the maximum size
+      function updateGiftSize(progress) {
+        if (!giftIcon) return;
+        if (progress >= 100) {
+          // At 100%, set to half size (1.5rem)
+          giftIcon.style.fontSize = '1.5rem';
+        } else {
+          const scale = 0.5 + (progress / 100) * 2.5; // Scale from 0.5 to 3.0
+          giftIcon.style.fontSize = (1.2 * scale) + 'rem';
+        }
+      }
+
+      // Spawn colored particles flying from the gift
+      function spawnParticles() {
+        if (!treasureSection || !giftIcon) return;
+        const container = treasureSection;
+        const giftRect = giftIcon.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const centerX = giftRect.left + giftRect.width / 2 - containerRect.left;
+        const centerY = giftRect.top + giftRect.height / 2 - containerRect.top;
+        
+        const colors = ['#ff3333', '#ff4444', '#cc0000', '#3333ff', '#4444ff', '#0000cc', '#ffdd00', '#ffcc00', '#ffaa00'];
+        
+        for (let i = 0; i < 30; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.position = 'absolute';
+          particle.style.left = centerX + 'px';
+          particle.style.top = centerY + 'px';
+          particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          particle.style.width = (4 + Math.random() * 8) + 'px';
+          particle.style.height = (4 + Math.random() * 8) + 'px';
+          particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 30 + Math.random() * 80;
+          particle.style.setProperty('--px', Math.cos(angle) * distance + 'px');
+          particle.style.setProperty('--py', Math.sin(angle) * distance + 'px');
+          particle.style.animationDuration = (0.8 + Math.random() * 1.5) + 's';
+          container.appendChild(particle);
+          
+          setTimeout(() => {
+            if (particle.parentNode) {
+              particle.remove();
             }
+          }, 2000);
+        }
+      }
+
+      function animateGiftShakeAndExplosion() {
+        if (!giftIcon) return;
+        
+        // First, set the gift to half size at 100%
+        giftIcon.style.fontSize = '1.5rem';
+        
+        // Pause the game
+        gamePaused = true;
+        spinButton.disabled = true;
+        
+        // Start shake animation for 3 seconds
+        giftIcon.classList.add('gift-shake');
+        
+        // Play shake sounds periodically
+        const shakeInterval = setInterval(() => {
+          playGiftShakeSound();
+        }, 150);
+        
+        // After 3 seconds, explode
+        setTimeout(() => {
+          clearInterval(shakeInterval);
+          giftIcon.classList.remove('gift-shake');
+          
+          // Spawn colored particles
+          spawnParticles();
+          
+          // Play explosion sound
+          playGiftExplosionSound();
+          
+          // Explosion animation
+          giftIcon.classList.add('gift-explosion');
+          
+          setTimeout(() => {
+            giftIcon.classList.remove('gift-explosion');
+            giftIcon.classList.add('gift-reappear');
+            giftIcon.style.fontSize = '1.2rem';
             
-            updateBalanceDisplay();
-            if (typeof g !== 'undefined' && g.active) {
-                refreshUI();
-            }
+            // Reset progress
+            treasureProgress = 0;
+            progressFill.style.width = '0%';
+            const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+            progressText.textContent = `${bonusWord}: 0/100%`;
+            
+            // Award 10 free spins and 50% jackpot chance
+            freeSpins += 10;
+            jackpotBoost = true;
+            updateFreeSpinsBadge();
+            showMessage(t('bonusOpened'));
+            
+            setTimeout(() => {
+              giftIcon.classList.remove('gift-reappear');
+              // Unpause the game
+              gamePaused = false;
+              spinButton.disabled = false;
+            }, 600);
+          }, 600);
+        }, 3000);
+      }
+
+      function updateWinningsList() {
+        if (!winningsList) return;
+        const recentJackpots = jackpotFeedData.slice(0, 10);
+        if (recentJackpots.length === 0) {
+          winningsList.innerHTML = `<p style="text-align:center;color:#b8945f;">${t('noWinnings')}</p>`;
+          return;
         }
-    } catch (e) {
-        console.log('Error:', e);
-    }
-}
+        winningsList.innerHTML = recentJackpots.map((item, i) => `
+          <div class="history-item">
+            <span>👤 ${item.nickname}</span>
+            <span>💰 +${item.amount}💎</span>
+            <span>📂 ${item.mode}</span>
+            <span>🕐 ${item.date} ${item.time}</span>
+          </div>
+        `).join('');
+      }
 
-function showStarNotification(amount) {
-    var notification = document.createElement('div');
-    notification.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(45deg,#ffd700,#ff8c00);color:#000;padding:15px 25px;border-radius:10px;font-weight:bold;font-size:18px;z-index:1000;box-shadow:0 0 20px rgba(255,215,0,.8);animation:modalSlideIn 0.3s ease-out;';
-    notification.textContent = '⭐ Начислено ' + formatNumber(amount) + ' звёзд!';
-    document.body.appendChild(notification);
-    setTimeout(function() {
-        notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.5s';
-        setTimeout(function() {
-            if (notification.parentNode) document.body.removeChild(notification);
-        }, 500);
-    }, 3000);
-}
+      function addToJackpotFeed(nickname, mode, amount) {
+        const now = new Date();
+        jackpotFeedData.unshift({
+          nickname: nickname,
+          mode: mode,
+          amount: amount,
+          date: now.toLocaleDateString(),
+          time: now.toLocaleTimeString()
+        });
+        if (jackpotFeedData.length > 50) jackpotFeedData.pop();
+      }
 
-function showAdminMessage(message, msgId) {
-    document.getElementById('vx-admin-message-text').textContent = message;
-    var overlay = document.getElementById('vx-admin-message-overlay');
-    overlay.classList.add('open');
-    var closeBtn = document.getElementById('vx-admin-message-close-btn');
-    closeBtn.onclick = async function() {
-        overlay.classList.remove('open');
-        if (msgId) {
-            await supabase.from('admin_messages').update({ read: true }).eq('id', msgId);
-        }
-        await checkAndApplyAdminStars();
-    };
-}
+      function addChatMessage(text, type) {
+        chatMessages.push({ text, type });
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${type}`;
+        msgDiv.textContent = text;
+        chatMessagesDiv.appendChild(msgDiv);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+      }
 
-setInterval(function() {
-    if (playerNickname) checkAndApplyAdminStars();
-}, 3000);
+      function handleChatSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        addChatMessage(text, 'user');
+        chatInput.value = '';
+        setTimeout(() => {
+          const responses = {
+            ru: ['Спасибо за обращение! Администратор скоро ответит.', 'Мы получили ваше сообщение. Ожидайте.', 'Ваш запрос передан в поддержку.'],
+            ua: ['Дякуємо за звернення! Адміністратор скоро відповість.', 'Ми отримали ваше повідомлення. Очікуйте.', 'Ваш запит передано в підтримку.'],
+            en: ['Thank you for contacting us! An admin will respond soon.', 'We have received your message. Please wait.', 'Your request has been forwarded to support.']
+          };
+          const resp = responses[currentLanguage] || responses.ru;
+          addChatMessage(resp[Math.floor(Math.random() * resp.length)], 'admin');
+        }, 1000);
+      }
 
-if (playerNickname) checkAndApplyAdminStars();
-
-(function initUI(){
-    if(playerNickname && playerNickname.length>=4){
-        document.getElementById('vx-start-overlay').style.display='none';
-        document.getElementById('vx-main-menu').style.display='flex';
-        animateNickname(playerNickname);
-        updateBalanceDisplay();
-        checkAdminMessages();
-        checkAndApplyAdminStars();
-    } else {
-        document.getElementById('vx-start-overlay').style.display='flex';
-    }
-})();
-
-document.getElementById('privacy-policy-btn').onclick = function() {
-    document.getElementById('privacy-policy-overlay').classList.add('open');
-};
-document.getElementById('privacy-policy-btn-menu').onclick = function() {
-    document.getElementById('privacy-policy-overlay').classList.add('open');
-};
-document.getElementById('privacy-policy-close').onclick = function() {
-    document.getElementById('privacy-policy-overlay').classList.remove('open');
-};
-
-function updateBalanceDisplay() {
-    var el = document.getElementById('main-balance-display');
-    if (el && typeof g !== 'undefined') {
-        el.textContent = '⭐ ' + formatNumber(Math.floor(g.cash));
-    }
-}
-
-async function checkAdminMessages() {
-    if (!supabase || !playerNickname) return;
-    const { data, error } = await supabase
-        .from('admin_messages')
-        .select('id, message')
-        .eq('nickname', playerNickname)
-        .eq('read', false)
-        .order('created_at', { ascending: true })
-        .limit(1);
-    if (error || !data || data.length === 0) return;
-    await checkAndApplyAdminStars();
-}
-
-async function hashPassword(password){var msgUint8=new TextEncoder().encode(password);var hashBuffer=await crypto.subtle.digest('SHA-256',msgUint8);var hashArray=Array.from(new Uint8Array(hashBuffer));return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');}
-
-function generateReferralCode(){var saved=localStorage.getItem('vx_referral_code');if(saved)return saved;var code='VX'+Math.random().toString(36).substring(2,8).toUpperCase();localStorage.setItem('vx_referral_code',code);return code;}
-function getLocalReferralCount(){var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');return allRefs[referralCode]||0;}
-
-async function loadReferralCountFromSupabase(){if(!supabase)return;try{if(playerNickname){var{data:playerData}=await supabase.from('players').select('total_referrals').eq('nickname',playerNickname).single();if(playerData&&playerData.total_referrals!=null){referralCount=playerData.total_referrals;}}if(referralCode){var{data}=await supabase.from('referrals').select('count').eq('code',referralCode).single();if(data&&data.count>referralCount){referralCount=data.count;}}var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');allRefs[referralCode]=referralCount;localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));}catch(e){}}
-
-async function updateReferralCount(delta){var newCount=Math.max(0,Math.min(10,referralCount+delta));referralCount=newCount;var allRefs=JSON.parse(localStorage.getItem('vx_all_refs')||'{}');allRefs[referralCode]=newCount;localStorage.setItem('vx_all_refs',JSON.stringify(allRefs));if(supabase&&playerNickname){try{await supabase.from('referrals').upsert({code:referralCode,referrer_nickname:playerNickname,count:newCount,last_activity:new Date().toISOString(),updated_at:new Date().toISOString()});await supabase.from('players').update({total_referrals:newCount}).eq('nickname',playerNickname);}catch(e){}}if(typeof g!=='undefined'&&g.active)updateMiniHoles();updateReferralDisplay();}
-
-function updateMiniHoles(){if(typeof g==='undefined')return;g.miniHoles=[];var count=Math.min(referralCount,10);for(var i=0;i<count;i++){g.miniHoles.push({offsetX:Math.cos((i/Math.max(count,1))*Math.PI*2)*(g.rad+20),offsetY:Math.sin((i/Math.max(count,1))*Math.PI*2)*(g.rad+20),rad:8,pull:30});}}
-function updateReferralDisplay(){var d=document.getElementById('referral-count-display');if(d)d.textContent=referralCount;var l=document.getElementById('referral-link-display');if(l){var baseUrl=window.location.origin+window.location.pathname;l.textContent=baseUrl+'?ref='+referralCode;}}
-
-async function updateOnlineStatus(){if(!supabase||!playerNickname)return;try{await supabase.from('players').update({is_online:true,last_login:new Date().toISOString()}).eq('nickname',playerNickname);}catch(e){}}
-
-setInterval(function(){if(playerNickname)updateOnlineStatus();},60000);
-window.addEventListener('beforeunload',function(){if(supabase&&playerNickname){supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);}});
-
-function checkReferral(){var params=new URLSearchParams(window.location.search);var ref=params.get('ref');if(!ref)return;if(ref===referralCode)return;var usedRefs=JSON.parse(localStorage.getItem('vx_used_refs')||'[]');if(usedRefs.indexOf(ref)!==-1)return;usedRefs.push(ref);localStorage.setItem('vx_used_refs',JSON.stringify(usedRefs));localStorage.setItem('vx_pending_referral',ref);}
-
-async function processPendingReferral(){var pendingRef=localStorage.getItem('vx_pending_referral');if(!pendingRef||!supabase||!playerNickname)return;if(pendingRef===referralCode)return;try{var{data:existing}=await supabase.from('referral_tracking').select('id').eq('referrer_code',pendingRef).eq('referred_nickname',playerNickname).single();if(existing)return;await supabase.rpc('process_referral',{p_referrer_code:pendingRef,p_referred_nick:playerNickname});localStorage.removeItem('vx_pending_referral');await loadReferralCountFromSupabase();updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();}catch(e){}}
-
-async function saveFullProgress(){
-    if(!supabase||!playerNickname)return;
-    try{
-        var saveData = {
-            stars: Math.floor(g.cash),
-            cargo_level: g.lvls.cap,
-            speed_level: g.lvls.spd,
-            size_level: g.lvls.rad,
-            hole_type: g_holeIdx,
-            highscore_stars: Math.max(g.cash, 0),
-            highscore_level: g.lvls.cap,
-            upgrade_prices: JSON.stringify(g.prices),
-            owned_holes: JSON.stringify(HOLES.map(function(h){
-                return h.owned ? 1 : 0;
-            }))
+      supportBtn.addEventListener('click', () => {
+        supportModal.classList.remove('hidden');
+        chatMessagesDiv.innerHTML = '';
+        chatMessages = [];
+        const greeting = {
+          ru: '👋 Здравствуйте! Чем могу помочь?',
+          ua: '👋 Здравствуйте! Чим можу допомогти?',
+          en: '👋 Hello! How can I help you?'
         };
+        addChatMessage(greeting[currentLanguage] || greeting.ru, 'admin');
+      });
 
-        await supabase
-            .from('players')
-            .update(saveData)
-            .eq('nickname', playerNickname);
+      sendChatBtn.addEventListener('click', handleChatSend);
+      chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
+      closeSupportBtn.addEventListener('click', () => supportModal.classList.add('hidden'));
 
-    }catch(e){
-        console.log('Save error:', e);
-    }
-}
+      function showWinDetail(item) {
+        winDetailTitle.textContent = t('winDetailTitle');
+        winDetailContent.innerHTML = `
+          <p><strong>Иконка:</strong> ${item.icon}</p>
+          <p><strong>Желание:</strong> ${item.wish}</p>
+          <p><strong>Дата:</strong> ${item.date}</p>
+          <p><strong>Время:</strong> ${item.time}</p>
+        `;
+        winDetailModal.classList.remove('hidden');
+      }
 
-async function showLeaderboard(listElementId){var listEl=document.getElementById(listElementId||'leaderboard-list');if(!listEl)return;listEl.innerHTML='<div style="color:#666;padding:20px;">Загрузка...</div>';document.getElementById('vx-leaderboard-modal').classList.add('open');if(supabase){try{var{data}=await supabase.from('players').select('nickname,highscore_stars').order('highscore_stars',{ascending:false}).limit(10);if(data&&data.length>0){listEl.innerHTML=data.map(function(item,index){var rankClass='',medal='';if(index===0){rankClass='gold';medal='🥇';}else if(index===1){rankClass='silver';medal='🥈';}else if(index===2){rankClass='bronze';medal='🥉';}return '<div class="leaderboard-item '+rankClass+'"><span class="leaderboard-rank">'+(medal||('#'+(index+1)))+'</span><span class="leaderboard-nick">'+item.nickname+'</span><span class="leaderboard-score">⭐ '+formatNumber(item.highscore_stars||0)+'</span></div>';}).join('');return;}}catch(e){}}listEl.innerHTML='<div style="color:#666;padding:20px;">Нет данных</div>';}
-
-document.getElementById('vx-leaderboard-close').addEventListener('click',function(){document.getElementById('vx-leaderboard-modal').classList.remove('open');if(inGame){g.paused=false;if(!drawRunning)draw();}});
-document.getElementById('vx-btn-leaderboard').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');showLeaderboard('leaderboard-list');});
-document.getElementById('vx-btn-main-menu').addEventListener('click',function(){document.getElementById('vx-pause-menu').classList.remove('open');g.paused=false;g.active=false;inGame=false;saveFullProgress();if(supabase&&playerNickname)supabase.from('players').update({is_online:false}).eq('nickname',playerNickname);document.getElementById('vx-game-ui').style.display='none';document.getElementById('vx-main-menu').style.display='flex';animateNickname(playerNickname);updateBalanceDisplay();checkAdminMessages();checkAndApplyAdminStars();});
-
-function showWithdrawModal(){ document.getElementById('vx-withdraw-amount').value = 1; document.getElementById('vx-withdraw-modal').classList.add('open'); }
-document.getElementById('vx-main-withdraw-btn').addEventListener('click',showWithdrawModal);
-document.getElementById('vx-withdraw-close').addEventListener('click',function(){document.getElementById('vx-withdraw-modal').classList.remove('open');});
-document.getElementById('vx-withdraw-submit').addEventListener('click',async function(){
-    var amountInput = document.getElementById('vx-withdraw-amount');
-    var amountUSD = parseInt(amountInput.value);
-    if (isNaN(amountUSD) || amountUSD < 1 || amountUSD > 50) { alert('Введите сумму от 1 до 50 USD'); return; }
-    var requiredStars = amountUSD * 10000000;
-    if(Math.floor(g.cash) < requiredStars){ alert('Недостаточно звёзд! Нужно '+formatNumber(requiredStars)+' ⭐ для вывода $'+amountUSD); return; }
-    var crypto=document.getElementById('vx-withdraw-crypto').value;
-    var address=document.getElementById('vx-withdraw-address').value.trim();
-    var comment=document.getElementById('vx-withdraw-comment').value.trim();
-    var telegram=document.getElementById('vx-withdraw-telegram').value.trim();
-    if(!crypto){alert('Выберите криптовалюту!');return;}
-    if(!address){alert('Введите адрес кошелька!');return;}
-    if(supabase&&playerNickname){
-        try{
-            await supabase.from('withdraw_requests').insert({
-                nickname:playerNickname, crypto:crypto, address:address,
-                comment:comment, telegram:telegram,
-                stars:requiredStars, status:'pending', created_at:new Date().toISOString()
-            });
-            g.cash -= requiredStars;
-            refreshUI();
-            saveFullProgress();
-            alert('Заявка на вывод $'+amountUSD+' успешно отправлена! Ожидайте обработки.');
-        }catch(e){alert('Ошибка при отправке: '+e.message);return;}
-    }else{ alert('Заявка успешно отправлена! (Режим без БД)'); }
-    document.getElementById('vx-withdraw-modal').classList.remove('open');
-    document.getElementById('vx-withdraw-crypto').value='';
-    document.getElementById('vx-withdraw-address').value='';
-    document.getElementById('vx-withdraw-comment').value='';
-    document.getElementById('vx-withdraw-telegram').value='';
-});
-
-function animateNickname(nickname){
-    var wrap=document.getElementById('vx-nickname-animated');
-    if(!wrap)return;
-    wrap.innerHTML='';
-    var colors=['#ffd700','#ffaa00','#ff8c00','#ffcc00','#ffb300','#ffa000','#ff8f00','#ffc107','#ffb300','#ffa000','#ffd700','#ffaa00','#ff8c00','#ffcc00'];
-    nickname.split('').forEach(function(ch,i){
-        var span=document.createElement('span');
-        span.className='vx-title-letter';
-        span.textContent=ch===' '?'\u00a0':ch;
-        span.style.color=colors[i%colors.length];
-        span.style.animationDelay=(i*0.08)+'s';
-        span.style.animationDuration=(1.4+Math.random()*.6)+'s';
-        wrap.appendChild(span);
-    });
-}
-
-document.getElementById('vx-terms-btn').onclick=function(){document.getElementById('vx-terms-modal').classList.add('open');};
-document.getElementById('vx-terms-close').onclick=function(){document.getElementById('vx-terms-modal').classList.remove('open');};
-document.getElementById('vx-reward-detail-close').addEventListener('click',function(){document.getElementById('vx-reward-detail-modal').classList.remove('open');});
-
-function showReferralModal(){loadReferralCountFromSupabase().then(function(){updateReferralDisplay();if(typeof g!=='undefined'&&g.active)updateMiniHoles();});document.getElementById('vx-referral-modal').classList.add('open');document.getElementById('referral-admin-panel').style.display=(playerNickname==='Casper0390')?'block':'none';}
-document.getElementById('vx-referral-close').addEventListener('click',function(){document.getElementById('vx-referral-modal').classList.remove('open');});
-document.getElementById('vx-copy-referral').addEventListener('click',function(){var baseUrl=window.location.origin+window.location.pathname;var link=baseUrl+'?ref='+referralCode;if(navigator.clipboard)navigator.clipboard.writeText(link).then(function(){alert('Ссылка скопирована!');});else prompt('Скопируй ссылку:',link);});
-document.getElementById('vx-ref-plus').addEventListener('click',function(){updateReferralCount(1);});
-document.getElementById('vx-ref-minus').addEventListener('click',function(){updateReferralCount(-1);});
-document.getElementById('vx-register-btn').onclick=function(){document.getElementById('vx-start-overlay').style.display='none';document.getElementById('vx-register-overlay').style.display='flex';};
-document.getElementById('reg-back-btn').onclick=function(){document.getElementById('vx-register-overlay').style.display='none';document.getElementById('vx-start-overlay').style.display='flex';};
-
-document.getElementById('reg-confirm-btn').onclick=async function(){
-    var nick=document.getElementById('reg-nickname').value.trim();
-    var pass=document.getElementById('reg-password').value.trim();
-    if(!nick||nick.length<4||!pass||pass.length<4){alert('Никнейм и пароль — минимум 4 символа');return;}
-    if(supabase){var{data:existing}=await supabase.from('players').select('nickname').eq('nickname',nick).single();if(existing){alert('Этот никнейм уже занят!');return;}var hashedPassword=await hashPassword(pass);var pendingRef=localStorage.getItem('vx_pending_referral');var{error}=await supabase.from('players').insert({nickname:nick,password_hash:hashedPassword,referral_code:referralCode,referrer_code:pendingRef||null,stars:10,last_login:new Date().toISOString(),is_online:true});if(error){alert('Ошибка регистрации: '+error.message);return;}playerNickname=nick;if(pendingRef){try{await supabase.rpc('process_referral',{p_referrer_code:pendingRef,p_referred_nick:nick});localStorage.removeItem('vx_pending_referral');await loadReferralCountFromSupabase();}catch(e){}}}
-    localStorage.setItem('vx_nickname',nick);localStorage.setItem('vx_password_hash',await hashPassword(pass));
-    document.getElementById('vx-register-overlay').style.display='none';
-    animateNickname(nick);
-    document.getElementById('vx-main-menu').style.display='flex';
-    updateBalanceDisplay();
-    checkAdminMessages();
-    checkAndApplyAdminStars();
-};
-
-function startGameFromMenu(){document.getElementById('vx-main-menu').style.display='none';document.getElementById('vx-game-ui').style.display='block';inGame=true;if('ontouchstart' in window){document.getElementById('vx-mobile-hint').style.display='block';setTimeout(function(){document.getElementById('vx-mobile-hint').style.display='none';},4000);}updatePortalBtnPos();g.active=true;setup();refreshUI();updateMiniHoles();updateOnlineStatus();if(!drawRunning)draw();checkAndApplyAdminStars();}
-document.getElementById('vx-main-play-btn').addEventListener('click',startGameFromMenu);
-document.getElementById('vx-main-shop-btn').addEventListener('click',function(){openHoleShop();});
-document.getElementById('vx-main-leaderboard-btn').addEventListener('click',function(){showLeaderboard('leaderboard-list');});
-document.getElementById('vx-main-referral-btn').addEventListener('click',function(){showReferralModal();});
-document.getElementById('vx-main-sound-btn').addEventListener('click',function(){soundOn=!soundOn;var btn=document.getElementById('vx-main-sound-btn');btn.textContent=soundOn?'♪':'♪';btn.style.color=soundOn?'#0ff':'#666';});
-
-document.getElementById('vx-start-btn').onclick=async function(){
-    var nick=document.getElementById('vx-nickname').value.trim();
-    var pass=document.getElementById('vx-password').value.trim();
-    var errorEl=document.getElementById('vx-nick-error');
-    if(!nick||nick.length<4){errorEl.style.display='block';errorEl.textContent='Никнейм должен содержать минимум 4 символа';return;}
-    if(!pass||pass.length<4){errorEl.style.display='block';errorEl.textContent='Пароль должен содержать минимум 4 символа';return;}
-    errorEl.style.display='none';
-    if(supabase){var hashedPassword=await hashPassword(pass);var{data:player}=await supabase.from('players').select('*').eq('nickname',nick).single();
-    if(!player){errorEl.style.display='block';errorEl.textContent='Игрок не найден. Зарегистрируйтесь!';return;}
-    if(player.password_hash&&player.password_hash!==hashedPassword){if(player.password_hash!=='test'&&player.password_hash!==hashedPassword){errorEl.style.display='block';errorEl.textContent='Неверный пароль!';return;}}
-    playerNickname=nick;
-    g.cash=player.stars||10;
-    g.lvls.cap=Math.min(player.cargo_level||0,50);
-    g.lvls.spd=Math.min(player.speed_level||0,20);
-    g.lvls.rad=Math.min(player.size_level||0,10);
-    g_holeIdx=player.hole_type||0;
-    
-    if (player.upgrade_prices) {
-        try {
-            var savedPrices = JSON.parse(player.upgrade_prices);
-            g.prices = savedPrices;
-        } catch(e) {
-            g.prices.rad = calculatePrice(200, g.lvls.rad, 3);
-            g.prices.cap = calculatePrice(50, g.lvls.cap, 2);
-            g.prices.spd = calculatePrice(50, g.lvls.spd, 2);
+      function showJackpotPrizes() {
+        let prizes = [];
+        if (useCustomRewards && customRewards.length >= 3) {
+          prizes = customRewards;
+        } else {
+          prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
         }
-    } else {
-        g.prices.rad = calculatePrice(200, g.lvls.rad, 3);
-        g.prices.cap = calculatePrice(50, g.lvls.cap, 2);
-        g.prices.spd = calculatePrice(50, g.lvls.spd, 2);
-    }
-    
-    if (player.owned_holes) {
-        try {
-            var savedHoles = JSON.parse(player.owned_holes);
-            for (var i = 0; i < HOLES.length && i < savedHoles.length; i++) {
-                HOLES[i].owned = savedHoles[i] === 1;
+        jackpotPrizesList.innerHTML = prizes.map(p => `<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ${p}</div>`).join('');
+        $('jackpotPrizesTitle').textContent = t('jackpotPrizesTitle');
+        jackpotPrizesModal.classList.remove('hidden');
+      }
+
+      function updateAllTexts() {
+        $('loginTitle').textContent = t('loginTitle');
+        $('registerTitle').textContent = t('registerTitle');
+        loginNickname.placeholder = t('loginPlaceholder');
+        registerNickname.placeholder = t('registerPlaceholder');
+        loginBtn.textContent = t('loginBtn');
+        registerBtn.textContent = t('registerBtn');
+        showRegisterBtn.textContent = t('showRegisterBtn');
+        showLoginBtn.textContent = t('showLoginBtn');
+        customRewardsBtn.textContent = t('customRewardsBtn');
+        historyBtn.textContent = t('historyBtn');
+        const modeBtns = document.querySelectorAll('[data-mode]');
+        const modeKeys = ['18+', 'home', 'party', 'young', 'family', 'friends'];
+        modeBtns.forEach(b => {
+          const mode = b.dataset.mode;
+          const idx = modeKeys.indexOf(mode);
+          if (idx >= 0) {
+            const transKeys = ['menu18', 'menuHome', 'menuParty', 'menuYoung', 'menuFamily', 'menuFriends'];
+            b.innerHTML = t(transKeys[idx]);
+          }
+        });
+        diamondsLabel.textContent = t('diamondsLabel');
+        donateButton.innerHTML = t('donateButton');
+        backToMenuBtn.innerHTML = t('backToMenu');
+        spinButton.innerHTML = t('spinBtn');
+        logoutBtn.textContent = t('logoutBtn');
+        mainTopUpBtn.textContent = t('mainTopUpBtn');
+        $('jackpotTitle').textContent = t('jackpotTitle');
+        sendToPartnerBtn.innerHTML = t('sendToPartner');
+        closeWinBtn.textContent = t('closeBtn');
+        $('nameFormTitle').textContent = t('nameFormTitle');
+        userNameInput.placeholder = t('userNamePlaceholder');
+        partnerNameInput.placeholder = t('partnerNamePlaceholder');
+        downloadWithNamesBtn.innerHTML = t('downloadBtn');
+        closeNameFormBtn.textContent = t('cancelBtn');
+        $('paymentTitle').textContent = t('paymentTitle');
+        closePaymentBtn.textContent = t('closePayment');
+        $('historyTitle').textContent = t('historyTitle');
+        $('winningsTitle').textContent = t('winningsTitle');
+        $('customRewardsTitle').textContent = t('customRewardsTitle');
+        $('customRewardsDesc').textContent = t('customRewardsDesc');
+        addCustomRewardBtn.textContent = t('addBtn');
+        saveAndPlayBtn.innerHTML = t('saveAndPlay');
+        closeCustomRewardsBtn.textContent = t('closeCustom');
+        closeHistoryBtn.textContent = t('closeBtn');
+        closeWinningsBtn.textContent = t('closeBtn');
+        jackpotPrizesBtn.textContent = t('jackpotPrizesBtn');
+        closeJackpotPrizesBtn.textContent = t('closeBtn');
+        closeWinDetailBtn.textContent = t('closeBtn');
+        winningsBtn.textContent = t('winningsBtn');
+        privacyPolicyLink.textContent = t('privacyLink');
+        termsOfUseLink.textContent = t('termsLink');
+        document.querySelector('.footer p').textContent = t('copyright');
+        $('supportTitle').textContent = t('supportTitle');
+        chatInput.placeholder = t('supportPlaceholder');
+        sendChatBtn.textContent = t('sendBtn');
+        updateFreeSpinsBadge();
+        renderHistory();
+      }
+
+      function loadUserData() {
+        nickname = localStorage.getItem('wdVdsNickname') || '';
+        if (!nickname) { authOverlay.classList.remove('hidden');
+          mainMenu.classList.add('hidden');
+          slotUI.classList.add('hidden'); } else { authOverlay.classList.add('hidden');
+          mainMenu.classList.remove('hidden');
+          nicknameDisplay.textContent = nickname; }
+        loadDiamonds();
+        loadHistory();
+        loadCustomRewards();
+        loadJackpotFeedData();
+        updateMainBalance();
+      }
+
+      function loadJackpotFeedData() {
+        const k = 'wdVdsJackpotFeed';
+        jackpotFeedData = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
+      }
+
+      function saveJackpotFeedData() {
+        localStorage.setItem('wdVdsJackpotFeed', JSON.stringify(jackpotFeedData));
+        updateWinningsList();
+      }
+
+      function login() {
+        const nick = loginNickname.value.trim(); if (!nick) return;
+        const savedNick = localStorage.getItem('wdVdsNickname');
+        if (savedNick === nick || !savedNick) { nickname = nick;
+          localStorage.setItem('wdVdsNickname', nickname);
+          authOverlay.classList.add('hidden');
+          mainMenu.classList.remove('hidden');
+          nicknameDisplay.textContent = nickname;
+          loadDiamonds();
+          loadHistory();
+          loadCustomRewards();
+          loadJackpotFeedData();
+          updateMainBalance(); } else { alert(currentLanguage === 'ru' ? 'Никнейм не найден.' : currentLanguage === 'ua' ? 'Нікнейм не знайдено.' : 'Nickname not found.'); }
+      }
+
+      function register() {
+        const nick = registerNickname.value.trim(); if (!nick) return;
+        nickname = nick;
+        localStorage.setItem('wdVdsNickname', nickname);
+        authOverlay.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        nicknameDisplay.textContent = nickname;
+        loadDiamonds();
+        loadHistory();
+        loadCustomRewards();
+        loadJackpotFeedData();
+        updateMainBalance();
+      }
+
+      function logout() {
+        nickname = '';
+        localStorage.removeItem('wdVdsNickname');
+        authOverlay.classList.remove('hidden');
+        mainMenu.classList.add('hidden');
+        slotUI.classList.add('hidden');
+        loginNickname.value = '';
+        registerNickname.value = '';
+      }
+
+      loginBtn.addEventListener('click', login);
+      registerBtn.addEventListener('click', register);
+      logoutBtn.addEventListener('click', logout);
+      mainTopUpBtn.addEventListener('click', () => paymentModal.classList.remove('hidden'));
+      showRegisterBtn.addEventListener('click', () => { loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden'); });
+      showLoginBtn.addEventListener('click', () => { registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden'); });
+      loginNickname.addEventListener('keypress', (e) => { if (e.key === 'Enter') login(); });
+      registerNickname.addEventListener('keypress', (e) => { if (e.key === 'Enter') register(); });
+
+      function loadDiamonds() { const k = `wdVdsDiamonds_${nickname}`;
+        diamonds = localStorage.getItem(k) ? parseInt(localStorage.getItem(k)) : 100;
+        updateDiamondsDisplay();
+        updateMainBalance(); }
+
+      function saveDiamonds() { localStorage.setItem(`wdVdsDiamonds_${nickname}`, diamonds);
+        updateDiamondsDisplay();
+        updateMainBalance(); }
+
+      function updateDiamondsDisplay() { if (diamondsSpan) diamondsSpan.textContent = diamonds; }
+      function updateMainBalance() { if (mainBalanceDisplay) mainBalanceDisplay.textContent = diamonds; }
+
+      function loadHistory() { const k = `wdVdsHistory_${nickname}`;
+        jackpotHistory = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
+        renderHistory(); }
+
+      function saveHistory() { localStorage.setItem(`wdVdsHistory_${nickname}`, JSON.stringify(jackpotHistory));
+        renderHistory(); }
+
+      function addJackpotToHistory(icon, wish) {
+        jackpotHistory.unshift({ icon, wish, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() });
+        if (jackpotHistory.length > 50) jackpotHistory.pop();
+        saveHistory();
+      }
+
+      function renderHistory() {
+        if (!historyList) return;
+        historyList.innerHTML = jackpotHistory.length === 0 ? `<p style="text-align:center;">${t('noJackpots')}</p>` :
+          jackpotHistory.map((item, i) => `<div class="history-item"><span>${item.icon} ${item.wish.substring(0,20)}...</span><span>${item.date}</span><div><button onclick="window.downloadHistory(${i})">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(${i})">${t('viewBtn')}</button></div></div>`).join('');
+      }
+      window.downloadHistory = function(i) { const item = jackpotHistory[i]; if (!item) return;
+        pendingJackpotIcon = item.icon;
+        pendingJackpotWish = item.wish;
+        nameFormModal.classList.remove('hidden'); };
+      window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return;
+        showWinDetail(item); };
+
+      function loadCustomRewards() { const k = `wdVdsCustomRewards_${nickname}`;
+        customRewards = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
+        renderCustomRewards(); }
+
+      function saveCustomRewardsData() { localStorage.setItem(`wdVdsCustomRewards_${nickname}`, JSON.stringify(customRewards));
+        renderCustomRewards(); }
+
+      function renderCustomRewards() {
+        if (!customRewardsList) return;
+        customRewardsList.innerHTML = customRewards.map((r, i) => `
+          <div style="display:flex;gap:5px;margin:4px 0;">
+            <input class="custom-reward-input" value="${r}" onchange="window.updateCustomReward(${i}, this.value)" placeholder="${t('customRewardsDesc')}">
+            <button onclick="window.removeCustomReward(${i})" style="background:#b22222;color:white;border:none;border-radius:20px;padding:5px 10px;cursor:pointer;">✕</button>
+          </div>`).join('');
+      }
+      window.updateCustomReward = function(i, v) { customRewards[i] = v; };
+      window.removeCustomReward = function(i) { customRewards.splice(i, 1);
+        renderCustomRewards(); };
+
+      addCustomRewardBtn.addEventListener('click', () => { if (customRewards.length >= 10) return;
+        customRewards.push('');
+        renderCustomRewards(); });
+
+      saveAndPlayBtn.addEventListener('click', () => {
+        const validRewards = customRewards.filter(r => r.trim() !== '');
+        if (validRewards.length < 3) { alert(currentLanguage === 'ru' ? 'Нужно минимум 3 желания!' : currentLanguage === 'ua' ? 'Потрібно мінімум 3 бажання!' : 'Need at least 3 wishes!'); return; }
+        customRewards = validRewards;
+        saveCustomRewardsData();
+        useCustomRewards = true;
+        customRewardsModal.classList.add('hidden');
+        enterSlot();
+        showMessage('🎁 ' + (currentLanguage === 'ru' ? 'Игра с вашими желаниями!' : currentLanguage === 'ua' ? 'Гра з вашими бажаннями!' : 'Playing with your wishes!'));
+      });
+
+      customRewardsBtn.addEventListener('click', () => { renderCustomRewards();
+        customRewardsModal.classList.remove('hidden'); });
+      closeCustomRewardsBtn.addEventListener('click', () => customRewardsModal.classList.add('hidden'));
+      jackpotPrizesBtn.addEventListener('click', showJackpotPrizes);
+      closeJackpotPrizesBtn.addEventListener('click', () => jackpotPrizesModal.classList.add('hidden'));
+      closeWinDetailBtn.addEventListener('click', () => winDetailModal.classList.add('hidden'));
+
+      // Winnings button
+      winningsBtn.addEventListener('click', () => {
+        updateWinningsList();
+        winningsModal.classList.remove('hidden');
+      });
+      closeWinningsBtn.addEventListener('click', () => winningsModal.classList.add('hidden'));
+
+      // Auto-spin button
+      autoSpinBtn.addEventListener('click', () => {
+        if (gamePaused) return;
+        autoSpinning = !autoSpinning;
+        if (autoSpinning) {
+          autoSpinBtn.classList.add('active');
+          autoSpinBtn.innerHTML = '🔄<br>STOP';
+          if (!spinning) {
+            spin();
+          }
+        } else {
+          autoSpinBtn.classList.remove('active');
+          autoSpinBtn.innerHTML = '🔄<br>AUTO';
+        }
+      });
+
+      function setLanguage(lang) {
+        currentLanguage = lang;
+        [langRuOuter, langUaOuter, langEnOuter].forEach(b => b.classList.remove('active'));
+        if (lang === 'ru') langRuOuter.classList.add('active');
+        else if (lang === 'ua') langUaOuter.classList.add('active');
+        else langEnOuter.classList.add('active');
+        updateAllTexts();
+        updateFreeSpinsBadge();
+      }
+
+      function updateFreeSpinsBadge() {
+        if (freeSpins > 0) { freeSpinsBadge.classList.remove('hidden');
+          freeSpinsBadge.textContent = `🎁 ${currentLanguage === 'ru' ? 'Бесплатные спины' : currentLanguage === 'ua' ? 'Безкоштовні спини' : 'Free spins'}: ${freeSpins} (Шанс джекпота +50%)`; } else { freeSpinsBadge.classList.add('hidden');
+          jackpotBoost = false; }
+      }
+
+      function updateTreasureProgress(add) {
+        treasureProgress = Math.min(100, treasureProgress + add);
+        progressFill.style.width = treasureProgress + '%';
+        const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+        progressText.textContent = `${bonusWord}: ${treasureProgress.toFixed(1)}/100%`;
+        updateGiftSize(treasureProgress);
+      }
+
+      function updateTreasure(add) {
+        updateTreasureProgress(add);
+        if (treasureProgress >= 100) {
+          // Trigger the shake and explosion sequence (pauses game for 3+ seconds)
+          animateGiftShakeAndExplosion();
+        }
+      }
+
+      function showMessage(text) { messageDisplay.textContent = text;
+        setTimeout(() => { if (messageDisplay.textContent === text) messageDisplay.textContent = ''; }, 3000); }
+
+      function showSpinWin(amount) {
+        spinWinDisplay.textContent = `+${amount}💎`;
+        spinWinDisplay.classList.remove('show');
+        void spinWinDisplay.offsetWidth;
+        spinWinDisplay.classList.add('show');
+        setTimeout(() => spinWinDisplay.classList.remove('show'), 2000);
+      }
+
+      // Falling gifts animation for jackpot
+      function startGiftRain() {
+        const giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
+        const container = document.body;
+        const gifts = [];
+        
+        for (let i = 0; i < 50; i++) {
+          setTimeout(() => {
+            const gift = document.createElement('div');
+            gift.className = 'falling-gift';
+            gift.textContent = giftTypes[Math.floor(Math.random() * giftTypes.length)];
+            gift.style.left = Math.random() * 100 + '%';
+            gift.style.animationDuration = (2 + Math.random() * 3) + 's';
+            gift.style.animationDelay = '0s';
+            gift.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
+            container.appendChild(gift);
+            gifts.push(gift);
+            
+            setTimeout(() => {
+              if (gift.parentNode) {
+                gift.remove();
+              }
+            }, 5000);
+          }, i * 100);
+        }
+      }
+
+      function showJackpotBanner() {
+        const banner = document.createElement('div');
+        banner.className = 'jackpot-banner';
+        banner.textContent = '🎉 JACKPOT 🎉';
+        document.body.appendChild(banner);
+        
+        setTimeout(() => {
+          if (banner.parentNode) {
+            banner.remove();
+          }
+        }, 5000);
+      }
+
+      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 40 : 40; }
+
+      function createReels() { machineDiv.innerHTML = '';
+        strips = []; for (let c = 0; c < GRID; c++) { const reel = document.createElement('div');
+          reel.className = 'reel';
+          const strip = document.createElement('div');
+          strip.className = 'strip'; for (let i = 0; i < 80; i++) { const sym = document.createElement('div');
+            sym.className = 'symbol';
+            sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
+            strip.appendChild(sym); }
+          reel.appendChild(strip);
+          machineDiv.appendChild(reel);
+          strips.push(strip); } }
+
+      function buildGrid() { visibleGrid = []; for (let r = 0; r < GRID; r++) { visibleGrid[r] = []; for (let c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
+
+      function applyGrid() { for (let c = 0; c < GRID; c++) { const ch = strips[c].children; for (let r = 0; r < GRID; r++) ch[r + 6].textContent = visibleGrid[r][c];
+          strips[c].style.top = -(6 * getSymbolHeight()) + 'px'; } }
+
+      function findMatches() {
+        const matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
+        dirs.forEach(([dr, dc]) => { for (let r = 0; r < GRID; r++) for (let c = 0; c < GRID; c++) { const sym = visibleGrid[r][c];
+            const match = [{ row: r, col: c }];
+            let nr = r + dr, nc = c + dc; while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && visibleGrid[nr][nc] === sym) { match.push({ row: nr, col: nc });
+              nr += dr;
+              nc += dc; } if (match.length >= 3) { const pr = r - dr, pc = c - dc; if (pr < 0 || pr >= GRID || pc < 0 || pc >= GRID || visibleGrid[pr][pc] !== sym) matches.push(match); } } });
+        return matches;
+      }
+
+      function clearLines() { winLinesDiv.innerHTML = ''; }
+
+      function drawLines(matches) {
+        clearLines();
+        const reels = [...document.querySelectorAll('.reel')];
+        matches.forEach(match => { for (let i = 0; i < match.length - 1; i++) { const a = match[i], b = match[i + 1];
+            const ra = reels[a.col], rb = reels[b.col];
+            const rA = ra.getBoundingClientRect(), rB = rb.getBoundingClientRect();
+            const wr = winLinesDiv.getBoundingClientRect();
+            const sh = rA.height / 5;
+            const x1 = rA.left + rA.width / 2 - wr.left, y1 = rA.top + (a.row * sh) + sh / 2 - wr.top;
+            const x2 = rB.left + rB.width / 2 - wr.left, y2 = rB.top + (b.row * sh) + sh / 2 - wr.top;
+            const dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
+            const line = document.createElement('div');
+            line.className = 'win-line';
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.width = len + 'px';
+            line.style.transform = `rotate(${ang}deg)`;
+            winLinesDiv.appendChild(line); } });
+        setTimeout(clearLines, 2800);
+      }
+
+      function getRandomWish(icon) {
+        if (useCustomRewards && customRewards.length >= 3) {
+          return customRewards[Math.floor(Math.random() * customRewards.length)];
+        }
+        const modePrizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        return modePrizes[Math.floor(Math.random() * modePrizes.length)] || WISH_TEXTS[icon]?.[currentLanguage] || 'желание';
+      }
+
+      function spin() {
+        if (spinning) return;
+        if (gamePaused) return;
+        if (freeSpins > 0) { freeSpins--;
+          updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; } else { if (diamonds < 5) {
+            if (autoSpinning) {
+              autoSpinning = false;
+              autoSpinBtn.classList.remove('active');
+              autoSpinBtn.innerHTML = '🔄<br>AUTO';
             }
-        } catch(e) {}
-    }
-    
-    g.max = 100 + (g.lvls.cap * 163);
-    g.rad = 18 + (g.lvls.rad * 5);
-    g.pull = 90 + (g.lvls.rad * 12);
-    g.spd = 0.07 + (g.lvls.spd * 0.015);
-    g.landMax = 2000 + (g.lvls.cap * 1000);
-    
-    if(player.referral_code)referralCode=player.referral_code;
-    if(player.total_referrals!=null)referralCount=player.total_referrals;
-    await updateOnlineStatus();
-    await processPendingReferral();
-    }else{playerNickname=nick;}
-    localStorage.setItem('vx_nickname',nick);
-    animateNickname(nick);
-    document.getElementById('vx-start-overlay').style.display='none';document.getElementById('vx-main-menu').style.display='flex';
-    updateBalanceDisplay();
-    checkAdminMessages();
-    checkAndApplyAdminStars();
-};
+            showMessage(t('notEnoughDiamonds'));
+            return;
+          }
+          diamonds -= 5;
+          saveDiamonds(); }
+        spinning = true;
+        clearLines();
+        spinButton.disabled = true;
+        playSpinClickSound();
+        buildGrid();
+        if (jackpotBoost && Math.random() < 0.03) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
+          const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; } else if (Math.random() < 0.005) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)];
+          const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
+        strips.forEach((strip, idx) => { let pos = -getSymbolHeight();
+          const reelSoundInterval = setInterval(() => playReelSpinSound(), 80);
+          const loop = setInterval(() => { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymbolHeight();
+            strip.style.top = pos + 'px'; }, 40);
+          setTimeout(() => { clearInterval(loop);
+            clearInterval(reelSoundInterval);
+            playReelStopSound();
+            applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); });
+      }
 
-function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}window.addEventListener('resize',resize);resize();
-referralCode=generateReferralCode();referralCount=getLocalReferralCount();loadReferralCountFromSupabase();checkReferral();
-function loadNickname(){var saved=localStorage.getItem('vx_nickname');if(saved&&saved.length>=4){playerNickname=saved;document.getElementById('vx-nickname').value=saved;}}loadNickname();
-var soundBtn=document.getElementById('vx-sound-btn');soundBtn.onclick=function(e){e.stopPropagation();soundOn=!soundOn;soundBtn.textContent=soundOn?'♪':'♪';soundBtn.style.color=soundOn?'#fff':'#666';};
-(function(){var title='VDC DELIVERY';var colors=['#00ffff','#00e5ff','#40c4ff','#a855f7','#c084fc','#00ffff','#40c4ff','#00e5ff','#a855f7','#c084fc','#00ffff','#40c4ff','#a855f7','#00e5ff','#c084fc'];var wrap=document.getElementById('vx-title-letters');if(!wrap)return;title.split('').forEach(function(ch,i){var span=document.createElement('span');span.className='vx-title-letter';span.textContent=ch===' '?'\u00a0':ch;span.style.color=colors[i%colors.length];span.style.animationDelay=(i*0.08)+'s';span.style.animationDuration=(1.4+Math.random()*.6)+'s';wrap.appendChild(span);});})();
-(function(){var bc=document.getElementById('vx-bg-canvas');if(!bc)return;function resizeBg(){bc.width=window.innerWidth;bc.height=window.innerHeight;}resizeBg();window.addEventListener('resize',resizeBg);var bx=bc.getContext('2d');var bgStars=[];for(var i=0;i<120;i++)bgStars.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,r:Math.random()*1.4+.3,b:Math.random()*Math.PI*2,spd:.008+Math.random()*.015});var neb=[{x:window.innerWidth*.3,y:window.innerHeight*.3,r:200,c1:'rgba(98,0,234,.18)',c2:'rgba(0,0,0,0)'},{x:window.innerWidth*.7,y:window.innerHeight*.5,r:180,c1:'rgba(0,198,255,.12)',c2:'rgba(0,0,0,0)'},{x:window.innerWidth*.5,y:window.innerHeight*.7,r:150,c1:'rgba(168,85,247,.14)',c2:'rgba(0,0,0,0)'}];var ang=0;function bgDraw(){var ov=document.getElementById('vx-start-overlay');if(!ov||ov.style.display==='none')return;bx.clearRect(0,0,bc.width,bc.height);var gr=bx.createLinearGradient(0,0,bc.width,bc.height);gr.addColorStop(0,'#05051a');gr.addColorStop(.5,'#0a0520');gr.addColorStop(1,'#020210');bx.fillStyle=gr;bx.fillRect(0,0,bc.width,bc.height);ang+=.003;neb.forEach(function(n,i){bx.save();bx.translate(n.x,n.y);bx.rotate(ang*(i%2===0?1:-1));var g2=bx.createRadialGradient(0,0,0,0,0,n.r);g2.addColorStop(0,n.c1);g2.addColorStop(1,n.c2);bx.fillStyle=g2;bx.beginPath();bx.arc(0,0,n.r,0,Math.PI*2);bx.fill();bx.restore();});bgStars.forEach(function(s){s.b+=s.spd;var a=.3+Math.sin(s.b)*.5;bx.fillStyle='rgba(255,255,255,'+a+')';bx.beginPath();bx.arc(s.x,s.y,s.r,0,Math.PI*2);bx.fill();});requestAnimationFrame(bgDraw);}bgDraw();var sb=document.getElementById('vx-stars-bg');for(var i=0;i<25;i++){var s=document.createElement('div');s.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;width:2px;height:2px;background:#fff;border-radius:50%;animation:vx-blink '+(2+Math.random()*3)+'s infinite';sb.appendChild(s);}})();
-document.getElementById('vx-rules-btn').onclick=function(){document.getElementById('vx-rules-modal').classList.add('open');};
-document.getElementById('vx-rules-close').onclick=function(){document.getElementById('vx-rules-modal').classList.remove('open');};
-var HOLES=[
-    {id:0,name:'СЕРАЯ',desc:'Стандартная.\nДоход x1.0',multi:1.0,price:0,color:null,owned:true},
-    {id:1,name:'СИНЯЯ ЗВЕЗДА',desc:'Небесная сила.\nДоход x1.3',multi:1.3,price:10000,color:['#1e90ff','#00bfff','#87ceeb'],owned:false},
-    {id:2,name:'ЗЕЛЁНЫЙ ВИХРЬ',desc:'Жизненная энергия.\nДоход x1.6',multi:1.6,price:50000,color:['#00c853','#69ff47','#00e676'],owned:false},
-    {id:3,name:'ЗОЛОТОЙ ПУЛЬСАР',desc:'Богатство галактики.\nДоход x2.0',multi:2.0,price:150000,color:['#ffd700','#ffaa00','#ff8c00'],owned:false},
-    {id:4,name:'ПУРПУРНЫЙ КВАЗАР',desc:'Тёмная материя.\nДоход x2.5',multi:2.5,price:400000,color:['#9c27b0','#e040fb','#ce93d8'],owned:false},
-    {id:5,name:'ОГНЕННАЯ',desc:'Пламя вселенной.\nДоход x3.0',multi:3.0,price:800000,color:['#ff3d00','#ff6d00','#ffab00'],owned:false},
-    {id:6,name:'ЛЕДЯНОЙ ВОРТЕКС',desc:'Холод бесконечности.\nДоход x3.7',multi:3.7,price:1500000,color:['#00e5ff','#80d8ff','#e0f7fa'],owned:false},
-    {id:7,name:'РАДУЖНЫЙ КОЛЛАПС',desc:'Призма пространства.\nДоход x4.5',multi:4.5,price:2500000,color:['#ff1744','#2979ff','#00e676'],owned:false},
-    {id:8,name:'ТЁМНАЯ МАТЕРИЯ',desc:'Невидимая сила.\nДоход x5.5',multi:5.5,price:3500000,color:['#311b92','#7c4dff','#ea80fc'],owned:false},
-    {id:9,name:'СИНГУЛЯРНОСТЬ',desc:'Абсолют вселенной.\nДоход x6.5',multi:6.5,price:4000000,color:['#ffd700','#ff6d00','#ff1744','#a855f7'],owned:false}
-];
-var g_holeIdx=0;
-var g={cash:10,cargo:0,max:100,rad:18,pull:90,spd:0.07,land:0,landMax:2000,lvls:{rad:0,cap:0,spd:0},prices:{rad:200,cap:50,spd:50},active:false,paused:false,exploded:false,angle:0,blockUpdate:false,vortexParticles:[],outerSparks:[],landAngle:0,shakeUntil:0,isCtrl:false,isLkm:false,miniHoles:[]};
-var input={x:window.innerWidth/2,y:window.innerHeight/2},player={x:window.innerWidth/2,y:window.innerHeight/2},portal={x:window.innerWidth-70,y:70,r:50};
-var stars=[],humans=[],errorInterval=null;
-var earnLabels=[];
-var rockets=[],nextRocketTime=0,rocketWarn=false;
-var meteors=[],nextMeteorTime=0,meteorWarn=false;
-var bonusPlanet=null,nextBonusTime=0;
-var redHuman=null,greenHuman=null;
-var nextRedHumanTime=0,nextGreenHumanTime=0;
-var warnToken=0;
-var tabHiddenAt=0,tabPaused=false;
+      function finishSpin() {
+        spinning = false;
+        spinButton.disabled = gamePaused ? true : false;
+        const matches = findMatches();
+        if (matches.length) drawLines(matches);
+        let totalWin = 0, jackpot = false, treasureAdd = 0;
+        matches.forEach(m => {
+          if (m.length === 3) { totalWin += 1;
+            treasureAdd += 0.5; } else if (m.length === 4) { totalWin += 3;
+            treasureAdd += 1; } else if (m.length >= 5) { totalWin += 20;
+            treasureAdd += 5;
+            jackpot = true; }
+        });
+        if (totalWin > 0) { diamonds += totalWin;
+          saveDiamonds();
+          updateTreasure(treasureAdd);
+          showSpinWin(totalWin); }
+        if (jackpot) { const match = matches.find(m => m.length >= 5);
+          const icon = visibleGrid[match[0].row][match[0].col];
+          const wish = getRandomWish(icon);
+          addJackpotToHistory(icon, wish);
+          addToJackpotFeed(nickname, currentMode, 20);
+          saveJackpotFeedData();
+          playJackpotSound();
+          if (autoSpinning) {
+            autoSpinning = false;
+            autoSpinBtn.classList.remove('active');
+            autoSpinBtn.innerHTML = '🔄<br>AUTO';
+          }
+          showJackpotBanner();
+          startGiftRain();
+          setTimeout(() => {
+            triggerJackpot(icon, wish);
+          }, 5000);
+        } else if (totalWin > 0) { playWinSound();
+          showMessage(totalWin === 1 ? t('win3') : t('win4')); } else { playLoseSound();
+          showMessage(t('tryAgain')); }
+        updateFreeSpinsBadge();
+        
+        if (autoSpinning && !jackpot && !gamePaused) {
+          setTimeout(() => {
+            if (autoSpinning) {
+              spin();
+            }
+          }, 500);
+        }
+      }
 
-function ensureAC(){if(!soundOn)return null;if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();return audioCtx;}
-function playSound(type){if(!soundOn)return;try{var ac=ensureAC();if(!ac)return;var t=ac.currentTime;if(type==='drop'){var coinFreqs=[1200,1400,1000,1600,900,1300];coinFreqs.forEach(function(freq,i){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.value=freq;var st=t+i*.055;gn.gain.setValueAtTime(0,st);gn.gain.linearRampToValueAtTime(.18,st+.02);gn.gain.exponentialRampToValueAtTime(.001,st+.18);o.start(st);o.stop(st+.2);});return;}if(type==='gift'){[523,659,784,1047].forEach(function(freq,i){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.value=freq;var st=t+i*.08;gn.gain.setValueAtTime(0,st);gn.gain.linearRampToValueAtTime(.15,st+.04);gn.gain.exponentialRampToValueAtTime(.001,st+.25);o.start(st);o.stop(st+.3);});return;}if(type==='meteor'){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sawtooth';o.frequency.setValueAtTime(400,t);o.frequency.exponentialRampToValueAtTime(80,t+.4);gn.gain.setValueAtTime(.08,t);gn.gain.exponentialRampToValueAtTime(.001,t+.4);o.start(t);o.stop(t+.45);return;}if(type==='warn'){[[0,.18,.25],[.35,.18,.25],[.7,.35,.7]].forEach(function(p){var o=ac.createOscillator(),gn=ac.createGain();o.connect(gn);gn.connect(ac.destination);o.type='sine';o.frequency.setValueAtTime(160,t+p[0]);o.frequency.linearRampToValueAtTime(120,t+p[0]+p[2]);gn.gain.setValueAtTime(0,t+p[0]);gn.gain.linearRampToValueAtTime(.3,t+p[0]+.03);gn.gain.setValueAtTime(.3,t+p[0]+p[2]-.04);gn.gain.linearRampToValueAtTime(0,t+p[0]+p[2]);o.start(t+p[0]);o.stop(t+p[0]+p[2]+.02);});return;}var osc=ac.createOscillator(),gain=ac.createGain();osc.connect(gain);gain.connect(ac.destination);if(type==='collect'){osc.frequency.setValueAtTime(600,t);osc.frequency.exponentialRampToValueAtTime(100,t+.1);gain.gain.setValueAtTime(.1,t);osc.start(t);osc.stop(t+.1);}else if(type==='upgrade'){osc.type='sine';osc.frequency.setValueAtTime(180,t);osc.frequency.linearRampToValueAtTime(240,t+.1);osc.frequency.linearRampToValueAtTime(160,t+.3);gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(.35,t+.05);gain.gain.exponentialRampToValueAtTime(.001,t+.45);osc.start(t);osc.stop(t+.5);}else if(type==='boom'){osc.type='sawtooth';osc.frequency.setValueAtTime(100,t);osc.frequency.exponentialRampToValueAtTime(10,t+.5);gain.gain.setValueAtTime(.3,t);osc.start(t);osc.stop(t+.5);}else if(type==='error'){osc.type='sine';osc.frequency.setValueAtTime(880,t);gain.gain.setValueAtTime(.1,t);osc.start(t);osc.stop(t+.1);}else if(type==='rocket'){osc.type='sawtooth';osc.frequency.setValueAtTime(280,t);osc.frequency.linearRampToValueAtTime(180,t+.25);gain.gain.setValueAtTime(.06,t);osc.start(t);osc.stop(t+.3);}else if(type==='bonus'){osc.type='sine';osc.frequency.setValueAtTime(440,t);osc.frequency.linearRampToValueAtTime(880,t+.2);gain.gain.setValueAtTime(.2,t);osc.start(t);osc.stop(t+.25);}}catch(e){}}
+      function triggerJackpot(icon, wish) { winIcons.textContent = `${icon}${icon}${icon}`;
+        winMessage.textContent = wish;
+        winOverlay.classList.remove('hidden');
+        const winCard = winOverlay.querySelector('.win-card');
+        if (winCard) {
+          winCard.style.animation = 'none';
+          winCard.offsetHeight;
+          winCard.style.animation = 'winCardAppear 0.5s ease-out';
+        }
+        pendingJackpotIcon = icon;
+        pendingJackpotWish = wish; }
 
-function applyInput(cx,cy){if(g.isCtrl||g.isLkm||g.blockUpdate||g.paused)return;input.x=cx;input.y=cy;}
-function handleTouch(e){var node=e.target;while(node&&node!==scaler){var tag=node.tagName&&node.tagName.toLowerCase();if(tag==='button'||tag==='input'||tag==='label')return;node=node.parentNode;}e.preventDefault();if(e.touches.length>0)applyInput(e.touches[0].clientX,e.touches[0].clientY);}
-window.addEventListener('mousemove',function(e){applyInput(e.clientX,e.clientY);});window.addEventListener('mousedown',function(e){if(e.button===0)g.isLkm=true;});window.addEventListener('mouseup',function(){g.isLkm=false;});window.addEventListener('keydown',function(e){if(e.key==='Control')g.isCtrl=true;});window.addEventListener('keyup',function(e){if(e.key==='Control')g.isCtrl=false;});canvas.addEventListener('touchstart',handleTouch,{passive:false});canvas.addEventListener('touchmove',handleTouch,{passive:false});canvas.addEventListener('touchend',function(e){e.preventDefault();},{passive:false});
-var portalUI=document.getElementById('vx-portal-ui');var clearBtn=document.getElementById('vx-clear-btn');
-function clearPlanetLogic(){if(g.land>=g.landMax){g.land=0;playSound('upgrade');refreshUI();saveFullProgress();}}
-function handleClear(e){e.preventDefault();e.stopPropagation();if(g.land>=g.landMax){clearPlanetLogic();}}
-clearBtn.addEventListener('click',handleClear);clearBtn.addEventListener('touchend',handleClear,{passive:false});
-function updatePortalBtnPos(){portalUI.style.left=portal.x+'px';portalUI.style.top=portal.y+'px';}
-function clearAttackWarning(){rocketWarn=false;meteorWarn=false;warnedRocket=false;warnedMeteor=false;warnToken++;}
-var pauseMenu=document.getElementById('vx-pause-menu');
-document.getElementById('vx-pause-btn').onclick=function(e){e.stopPropagation();g.paused=true;clearAttackWarning();pauseMenu.classList.add('open');};
-document.getElementById('vx-btn-resume').onclick=function(){pauseMenu.classList.remove('open');g.paused=false;if(!drawRunning)draw();};
-document.getElementById('vx-btn-open-shop').onclick=function(){clearAttackWarning();pauseMenu.classList.remove('open');openHoleShop();};
-document.getElementById('vx-shop-close').onclick=function(){document.getElementById('vx-hole-shop').classList.remove('open');g.paused=false;if(!drawRunning)draw();};
-document.addEventListener('visibilitychange',function(){if(document.hidden){if(g.active&&!g.paused){tabPaused=true;tabHiddenAt=Date.now();g.paused=true;clearAttackWarning();}return;}if(tabPaused){var elapsed=Date.now()-tabHiddenAt;nextRocketTime+=elapsed;nextMeteorTime+=elapsed;nextBonusTime+=elapsed;nextRedHumanTime+=elapsed;nextGreenHumanTime+=elapsed;tabPaused=false;g.paused=false;if(!drawRunning)draw();}});
-function formatNumber(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
-function buildHoleShopCards(){var cont=document.getElementById('vx-shop-cards');cont.innerHTML='';HOLES.forEach(function(h){var card=document.createElement('div');card.className='vx-hole-card'+(h.owned?' owned':'');var pv=document.createElement('canvas');pv.className='vx-hole-preview';pv.width=48;pv.height=48;drawHolePreview(pv,h);var info=document.createElement('div');info.className='vx-hole-info';info.innerHTML='<b>'+h.name+'</b><small>'+h.desc.replace(/\n/g,'<br>')+'</small>';var btn=document.createElement('button');btn.className='vx-hole-buy';if(h.owned&&g_holeIdx===h.id){btn.textContent='АКТИВНА';btn.style.background='#ffd700';btn.style.color='#000';btn.disabled=true;}else if(h.owned){btn.textContent='ВЫБРАТЬ';btn.style.background='#4caf50';btn.style.color='#fff';btn.onclick=function(){g_holeIdx=h.id;buildHoleShopCards();saveFullProgress();};}else{btn.textContent='★'+formatNumber(h.price);btn.style.background=g.cash>=h.price?'linear-gradient(45deg,#6200ea,#00c6ff)':'#333';btn.style.color='#fff';btn.disabled=g.cash<h.price;btn.onclick=function(){if(g.cash>=h.price){g.cash-=h.price;h.owned=true;g_holeIdx=h.id;refreshUI();buildHoleShopCards();saveFullProgress();}};}card.appendChild(pv);card.appendChild(info);card.appendChild(btn);cont.appendChild(card);});}
-function openHoleShop(){buildHoleShopCards();document.getElementById('vx-hole-shop').classList.add('open');if(g.active&&!g.paused){g.paused=true;}}
-function drawHolePreview(pv,h){var bx=pv.getContext('2d'),cx=24,cy=24,r=18,ang=Date.now()*.002;bx.clearRect(0,0,48,48);if(!h.color){var glow=bx.createRadialGradient(cx,cy,r,cx,cy,r+6);glow.addColorStop(0,'rgba(180,180,180,.6)');glow.addColorStop(1,'rgba(180,180,180,0)');bx.fillStyle=glow;bx.beginPath();bx.arc(cx,cy,r+6,0,Math.PI*2);bx.fill();var gr=bx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);gr.addColorStop(0,'#888');gr.addColorStop(.5,'#ccc');gr.addColorStop(1,'#888');if(bx.createConicGradient){gr=bx.createConicGradient(ang,cx,cy);gr.addColorStop(0,'#888');gr.addColorStop(.5,'#ccc');gr.addColorStop(1,'#888');}bx.beginPath();bx.arc(cx,cy,r,0,Math.PI*2);bx.strokeStyle=gr;bx.lineWidth=4;bx.stroke();bx.fillStyle='#111';bx.beginPath();bx.arc(cx,cy,r-3,0,Math.PI*2);bx.fill();}else{var cs=h.color;var glow2=bx.createRadialGradient(cx,cy,r,cx,cy,r+6);glow2.addColorStop(0,cs[0]+'99');glow2.addColorStop(1,'rgba(0,0,0,0)');bx.fillStyle=glow2;bx.beginPath();bx.arc(cx,cy,r+6,0,Math.PI*2);bx.fill();var gr2=bx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);cs.forEach(function(c,i){gr2.addColorStop(i/(cs.length-1),c);});if(bx.createConicGradient){gr2=bx.createConicGradient(ang,cx,cy);cs.forEach(function(c,i){gr2.addColorStop(i/(cs.length),c);});gr2.addColorStop(1,cs[0]);}bx.beginPath();bx.arc(cx,cy,r,0,Math.PI*2);bx.strokeStyle=gr2;bx.lineWidth=4;bx.stroke();bx.fillStyle='#050508';bx.beginPath();bx.arc(cx,cy,r-3,0,Math.PI*2);bx.fill();}}
-function setup(){var w=canvas.width,h=canvas.height;for(var i=0;i<150;i++)stars.push({x:Math.random()*w,y:Math.random()*h,s:Math.random()*1.5,b:Math.random()*Math.PI*2});for(var i=0;i<30;i++)g.vortexParticles.push({angle:Math.random()*Math.PI*2,dist:Math.random()*g.rad,speed:.03+Math.random()*.12,size:1+Math.random()*3});nextRocketTime=Date.now()+(45000+Math.random()*30000);nextMeteorTime=Date.now()+(75000+Math.random()*30000);nextBonusTime=Date.now()+(90000+Math.random()*60000);nextRedHumanTime=Date.now()+(20000+Math.random()*25000);nextGreenHumanTime=Date.now()+(35000+Math.random()*30000);portal.x=w-70;portal.y=70;updatePop();}
-function updatePop(){var target=isMobile?12+(g.lvls.rad*1):25+(g.lvls.rad*2);if(target<(isMobile?8:15))target=(isMobile?8:15);if(target>(isMobile?20:40))target=(isMobile?20:40);var w=canvas.width,h=canvas.height;while(humans.length<target)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});while(humans.length>target)humans.pop();}
-function ensureMinHumans(){var minH=isMobile?8:15;var maxH=isMobile?20:40;var w=canvas.width,h=canvas.height;while(humans.length<minH)humans.push({x:Math.random()*w,y:Math.random()*h,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3});while(humans.length>maxH)humans.pop();}
-function buy(type){g.blockUpdate=true;if(type==='rad'){var maxLvl=10;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.rad+=5;g.pull+=12;g.prices.rad=Math.ceil(g.prices.rad*3);updatePop();}}else if(type==='cap'){var maxCapLvl=50;if(g.cash>=g.prices[type]&&g.lvls[type]<maxCapLvl){g.cash-=g.prices[type];g.lvls[type]++;g.max+=163;g.prices.cap=Math.ceil(g.prices.cap*2);g.landMax=2000+(g.lvls.cap*1000);}}else if(type==='spd'){var maxLvl=20;if(g.cash>=g.prices[type]&&g.lvls[type]<maxLvl){g.cash-=g.prices[type];g.lvls[type]++;g.spd+=.015;g.prices.spd=Math.ceil(g.prices.spd*2);g.landMax=2000+(g.lvls.cap*1000);}}refreshUI();playSound('upgrade');saveFullProgress();setTimeout(function(){g.blockUpdate=false;},100);}
-document.getElementById('vx-btn-rad').onclick=function(e){e.stopPropagation();buy('rad');};document.getElementById('vx-btn-cap').onclick=function(e){e.stopPropagation();buy('cap');};document.getElementById('vx-btn-spd').onclick=function(e){e.stopPropagation();buy('spd');};
-function refreshUI(){
-    document.getElementById('vx-cash').innerText=formatNumber(Math.floor(g.cash));
-    document.getElementById('vx-cargo').innerText=formatNumber(Math.floor(g.cargo));
-    document.getElementById('vx-max').innerText=formatNumber(g.max);
-    var p=(g.cargo/g.max)*100;
-    document.getElementById('vx-fill-bar').style.width=Math.min(p,100)+'%';
-    document.getElementById('vx-fill-bar').style.background=p>85?'#f00':'#0f0';
-    if(g.land>=g.landMax){portalUI.style.display='block';if(!errorInterval)errorInterval=setInterval(function(){playSound('error');},1000);}else{portalUI.style.display='none';if(errorInterval){clearInterval(errorInterval);errorInterval=null;}}
-    var radMax=10,capMax=50,spdMax=20;
-    var radBtn=document.getElementById('vx-btn-rad');radBtn.innerHTML='РАЗМЕР '+g.lvls.rad+'/'+radMax+'<br><span>★'+formatNumber(g.prices.rad)+'</span>';radBtn.disabled=g.cash<g.prices.rad||g.lvls.rad>=radMax;
-    var capBtn=document.getElementById('vx-btn-cap');capBtn.innerHTML='ЗАПАС '+g.lvls.cap+'/'+capMax+'<br><span>★'+formatNumber(g.prices.cap)+'</span>';capBtn.disabled=g.cash<g.prices.cap||g.lvls.cap>=capMax;
-    var spdBtn=document.getElementById('vx-btn-spd');spdBtn.innerHTML='ТЯГА '+g.lvls.spd+'/'+spdMax+'<br><span>★'+formatNumber(g.prices.spd)+'</span>';spdBtn.disabled=g.cash<g.prices.spd||g.lvls.spd>=spdMax;
-    radBtn.style.backgroundImage=radBtn.disabled?"url('https://i.ibb.co/ynyZ6Gmm/button-disabled.png')":"url('https://i.ibb.co/ccHd0Mck/button-active.png')";
-    capBtn.style.backgroundImage=capBtn.disabled?"url('https://i.ibb.co/ynyZ6Gmm/button-disabled.png')":"url('https://i.ibb.co/ccHd0Mck/button-active.png')";
-    spdBtn.style.backgroundImage=spdBtn.disabled?"url('https://i.ibb.co/ynyZ6Gmm/button-disabled.png')":"url('https://i.ibb.co/ccHd0Mck/button-active.png')";
-    updateBalanceDisplay();
-}
-function spawnLabel(text,sx,sy,color){earnLabels.push({text:text,x:sx,y:sy,life:1.0,color:color||'#ffff00'});}
-var warnedRocket=false,warnedMeteor=false;
-function scheduleRocket(){rocketWarn=false;warnedRocket=false;nextRocketTime=Date.now()+(45000+Math.random()*30000);}
-function scheduleRocketWarn(){var token=warnToken;setTimeout(function(){if(token!==warnToken||!g.active||g.paused||g.exploded)return;playSound('warn');rocketWarn=true;setTimeout(function(){if(token!==warnToken||!g.active||g.paused||g.exploded)return;spawnRocket();rocketWarn=false;scheduleRocket();},3000);},100);}
-function spawnRocket(){var count=2+Math.floor(Math.random()*4);var left=Math.random()<.5;for(var i=0;i<count;i++){rockets.push({x:left?-40:canvas.width+40,y:80+Math.random()*(canvas.height-160),vx:left?4:-4,type:Math.random()<.5?'bomb':'gift',hit:false,animTime:0});}playSound('rocket');}
-function scheduleMeteor(){meteorWarn=false;warnedMeteor=false;nextMeteorTime=Date.now()+(75000+Math.random()*30000);}
-function scheduleMeteorWarn(){var token=warnToken;setTimeout(function(){if(token!==warnToken||!g.active||g.paused||g.exploded)return;playSound('warn');meteorWarn=true;setTimeout(function(){if(token!==warnToken||!g.active||g.paused||g.exploded)return;spawnMeteor();meteorWarn=false;scheduleMeteor();},3000);},100);}
-function spawnMeteor(){var count=2+Math.floor(Math.random()*4);for(var i=0;i<count;i++){meteors.push({x:60+Math.random()*(canvas.width-120),y:-30-i*25,vy:2.5+Math.random()*2,vx:(Math.random()-.5)*1.5,type:Math.random()<.5?'bomb':'gift',rot:Math.random()*Math.PI*2,rotSpd:(Math.random()-.5)*.15,hit:false,trail:[],animTime:0});}playSound('meteor');}
-function spawnRedHumanIfNeeded(now){if(!redHuman&&now>=nextRedHumanTime){var tries=0,hx,hy;do{hx=50+Math.random()*(canvas.width-100);hy=70+Math.random()*(canvas.height-140);tries++;if(tries>200)break;}while(Math.hypot(player.x-hx,player.y-hy)<250);redHuman={x:hx,y:hy,w:30,walk:Math.random()*Math.PI*2,spd:.28+Math.random()*.2,born:Date.now(),dur:10000};nextRedHumanTime=Date.now()+(45000+Math.random()*30000);}}
-function spawnGreenHumanIfNeeded(now){if(!greenHuman&&now>=nextGreenHumanTime){var hx=50+Math.random()*(canvas.width-100),hy=70+Math.random()*(canvas.height-140);greenHuman={x:hx,y:hy,w:30,walk:Math.random()*Math.PI*2,spd:.28+Math.random()*.2,born:Date.now(),dur:10000};nextGreenHumanTime=Date.now()+(45000+Math.random()*30000);}}
-function drawSpecialHuman(h,color){ctx.save();ctx.translate(h.x,h.y);var limb=Math.sin(Date.now()*.01+h.walk)*5;ctx.fillStyle=color;ctx.fillRect(-3,-12,6,14);ctx.fillStyle=color;ctx.beginPath();ctx.arc(0,-17,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-1,2);ctx.lineTo(-2+limb,12);ctx.stroke();ctx.beginPath();ctx.moveTo(1,2);ctx.lineTo(2-limb,12);ctx.stroke();ctx.restore();}
-function spawnBonusPlanet(){var bx,by;do{bx=80+Math.random()*(canvas.width-160);by=80+Math.random()*(canvas.height-160);}while(Math.sqrt(Math.pow(bx-portal.x,2)+Math.pow(by-portal.y,2))<130);bonusPlanet={x:bx,y:by,r:40,born:Date.now(),dur:15000,ang:0};playSound('bonus');nextBonusTime=Date.now()+(90000+Math.random()*60000)+(g.lvls.rad*2000);}
-function triggerExplosion(){if(g.exploded)return;g.exploded=true;playSound('boom');document.getElementById('vx-death-msg').style.opacity='1';saveFullProgress();setTimeout(showSaveOverlay,1000);}
-function showSaveOverlay(){var overlay=document.getElementById('vx-save-overlay'),cc=g.cash;document.getElementById('vx-save-text').innerHTML='Вы можете сейчас потерять ★'+formatNumber(Math.floor(cc))+'!<br>Чтобы сохранить 90%, жмите "Сохранить"';overlay.style.display='flex';document.getElementById('vx-btn-save-confirm').onclick=function(){g.cash=Math.floor(cc*.9);finalizeDeath();};document.getElementById('vx-btn-save-cancel').onclick=function(){g.cash=10;finalizeDeath();};}
-function finalizeDeath(){document.getElementById('vx-save-overlay').style.display='none';document.getElementById('vx-death-msg').style.opacity='0';clearAttackWarning();g.cargo=0;g.land=0;g.exploded=false;g.shakeUntil=0;bonusPlanet=null;redHuman=null;greenHuman=null;refreshUI();}
-function drawMiniHole(mx,my,mrad){ctx.beginPath();ctx.arc(mx,my,mrad+3,0,Math.PI*2);var glow=ctx.createRadialGradient(mx,my,mrad*.3,mx,my,mrad+3);glow.addColorStop(0,'rgba(0,0,0,.9)');glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fill();ctx.beginPath();ctx.arc(mx,my,mrad,0,Math.PI*2);ctx.strokeStyle='#555';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(mx,my,mrad-1,0,Math.PI*2);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(mx,my,mrad-2,0,Math.PI*2);ctx.fill();}
-function drawHole(px,py,rad,angle){var h=HOLES[g_holeIdx];var glow=ctx.createRadialGradient(px,py,rad,px,py,rad+12);if(!h.color){glow.addColorStop(0,'rgba(180,180,180,.7)');glow.addColorStop(1,'rgba(180,180,180,0)');}else{glow.addColorStop(0,h.color[0]+'bb');glow.addColorStop(1,'rgba(0,0,0,0)');}ctx.fillStyle=glow;ctx.beginPath();ctx.arc(px,py,rad+16,0,Math.PI*2);ctx.fill();var gr;if(!h.color){gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);gr.addColorStop(0,'#888');gr.addColorStop(.33,'#ccc');gr.addColorStop(.66,'#aaa');gr.addColorStop(1,'#888');}}else{gr=ctx.createLinearGradient(px-rad,py-rad,px+rad,py+rad);var cs=h.color;cs.forEach(function(c,i){gr.addColorStop(i/(cs.length-1),c);});if(ctx.createConicGradient){gr=ctx.createConicGradient(angle,px,py);cs.forEach(function(c,i){gr.addColorStop(i/(cs.length),c);});gr.addColorStop(1,cs[0]);}}ctx.beginPath();ctx.arc(px,py,rad,0,Math.PI*2);ctx.strokeStyle=gr;ctx.lineWidth=6;ctx.stroke();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(px,py,rad-2,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,.6)';g.vortexParticles.forEach(function(p){p.angle+=p.speed;p.dist-=.5;if(p.dist<=0){p.dist=rad*Math.random();p.angle=Math.random()*Math.PI*2;}ctx.fillRect(px+Math.cos(p.angle)*p.dist,py+Math.sin(p.angle)*p.dist,p.size*(p.dist/rad),p.size*(p.dist/rad));});}
-function drawWarnFlash(now){if(!rocketWarn&&!meteorWarn)return;var flash=Math.abs(Math.sin(now*.01))*.25;ctx.fillStyle='rgba(255,80,0,'+flash+')';ctx.fillRect(0,0,canvas.width,canvas.height);}
-var drawRunning=false;
-function draw(){
-    if(!g.active||g.paused){drawRunning=false;return;}
-    drawRunning=true;var now=Date.now();var shX=0,shY=0;
-    if(now<g.shakeUntil){shX=(Math.random()-.5)*14;shY=(Math.random()-.5)*14;}
-    ctx.save();ctx.translate(shX,shY);
-    ctx.fillStyle='#050508';ctx.fillRect(-20,-20,canvas.width+40,canvas.height+40);
-    stars.forEach(function(s){s.b+=.02;ctx.fillStyle='rgba(255,255,255,'+(0.3+Math.sin(s.b)*.4)+')';ctx.fillRect(s.x,s.y,s.s,s.s);});
-    ensureMinHumans();
-    if(!g.exploded){
-        if(!warnedRocket&&now>=nextRocketTime-3000){warnedRocket=true;scheduleRocketWarn();}
-        if(!warnedMeteor&&now>=nextMeteorTime-3000){warnedMeteor=true;scheduleMeteorWarn();}
-        spawnRedHumanIfNeeded(now);spawnGreenHumanIfNeeded(now);
-        g.landAngle+=.01;
-        ctx.save();ctx.beginPath();ctx.arc(portal.x,portal.y,portal.r,0,Math.PI*2);ctx.clip();
-        ctx.fillStyle='#1e3a8a';ctx.fillRect(portal.x-portal.r,portal.y-portal.r,portal.r*2,portal.r*2);
-        ctx.fillStyle='#166534';for(var i=0;i<5;i++){ctx.beginPath();ctx.arc(portal.x+Math.sin(g.landAngle+i)*20,portal.y+Math.cos(g.landAngle*.5+i)*15,15,0,Math.PI*2);ctx.fill();}
-        var eg=ctx.createRadialGradient(portal.x-10,portal.y-10,5,portal.x,portal.y,portal.r);eg.addColorStop(0,'rgba(255,255,255,.2)');eg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=eg;ctx.fillRect(portal.x-portal.r,portal.y-portal.r,portal.r*2,portal.r*2);
+      function generateLuxuryCertificate(icon, wish, userName, partnerName) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1200;
+        canvas.height = 800;
+        const ctx = canvas.getContext('2d');
+        const certTexts = CERTIFICATE_TEXTS[currentLanguage] || CERTIFICATE_TEXTS.ru;
+        
+        // Background
+        ctx.fillStyle = '#0a0a0f';
+        ctx.fillRect(0, 0, 1200, 800);
+        
+        // Gold dots in background FIRST (before any text)
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 8;
+        for (let i = 0; i < 1200; i += 8) {
+          for (let j = 0; j < 800; j += 8) {
+            if (Math.random() > 0.7) {
+              ctx.beginPath();
+              if (Math.random() > 0.5) {
+                ctx.arc(i, j, 2 + Math.random() * 6, 0, Math.PI * 2);
+              } else {
+                ctx.fillRect(i, j, 3 + Math.random() * 5, 3 + Math.random() * 5);
+              }
+              ctx.fill();
+            }
+          }
+        }
+        ctx.shadowBlur = 0;
+        
+        // Border decorations
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 8;
+        ctx.shadowColor = '#ffd700';
+        ctx.shadowBlur = 30;
+        ctx.strokeRect(30, 30, 1140, 740);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#c9a13b';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(50, 50, 1100, 700);
+        [[50,50],[1150,50],[50,750],[1150,750]].forEach(([x,y]) => { ctx.fillStyle='#ffd700';
+          ctx.beginPath();
+          ctx.arc(x,y,15,0,Math.PI*2);
+          ctx.fill();
+          ctx.strokeStyle='#b8860b';
+          ctx.lineWidth=3;
+          ctx.stroke(); });
+        
+        // VDS Seal
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(600,420,90,0,Math.PI*2);
+        const g=ctx.createRadialGradient(600,420,20,600,420,90);
+        g.addColorStop(0,'#ffd700');
+        g.addColorStop(0.5,'#b8860b');
+        g.addColorStop(1,'#8b6508');
+        ctx.fillStyle=g;
+        ctx.fill();
+        ctx.strokeStyle='#ffea80';
+        ctx.lineWidth=5;
+        ctx.shadowColor='#ffd700';
+        ctx.shadowBlur=40;
+        ctx.stroke();
+        ctx.shadowBlur=0;
+        ctx.fillStyle='#0a0a0f';
+        ctx.font='bold 48px Times New Roman';
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.fillText('VDS',600,420);
         ctx.restore();
-        ctx.beginPath();ctx.arc(portal.x,portal.y,portal.r,0,Math.PI*2);ctx.strokeStyle=g.land>=g.landMax?'#f00':'#0ea5e9';ctx.lineWidth=3;ctx.stroke();
-        ctx.font = 'bold 16px "Segoe UI", Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = 'rgba(0,0,0,0.7)';
-        ctx.fillText(Math.floor(g.land) + ' / ' + g.landMax, portal.x + 1, portal.y + 1);
-        ctx.fillStyle = g.land >= g.landMax ? '#ff4444' : '#ffd700';
-        ctx.fillText(Math.floor(g.land) + ' / ' + g.landMax, portal.x, portal.y);
-        if(playerNickname){ctx.fillStyle='rgba(0,255,255,.8)';ctx.font='bold 9px Arial';ctx.fillText(playerNickname,portal.x,portal.y+portal.r+18);}
-        if(!bonusPlanet&&now>=nextBonusTime)spawnBonusPlanet();
-        if(bonusPlanet){var bp=bonusPlanet,elapsed=now-bp.born,frac=elapsed/bp.dur;if(frac>=1){bonusPlanet=null;}else{var timeLeft=Math.ceil((bp.dur-elapsed)/1000);bp.ang+=.04;var pulse=.6+Math.sin(now*.006)*.4;var bg1=ctx.createRadialGradient(bp.x,bp.y,bp.r*.3,bp.x,bp.y,bp.r*2);bg1.addColorStop(0,'rgba(0,230,118,'+(.25*pulse)+')');bg1.addColorStop(1,'rgba(0,200,83,0)');ctx.fillStyle=bg1;ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r*2,0,Math.PI*2);ctx.fill();ctx.save();ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.clip();ctx.fillStyle='#004d1a';ctx.fillRect(bp.x-bp.r,bp.y-bp.r,bp.r*2,bp.r*2);for(var li=0;li<6;li++){var lc=ctx.createRadialGradient(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,3,bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14);lc.addColorStop(0,'rgba(0,255,100,.9)');lc.addColorStop(1,'rgba(0,150,50,0)');ctx.fillStyle=lc;ctx.beginPath();ctx.arc(bp.x+Math.sin(bp.ang+li)*15,bp.y+Math.cos(bp.ang*.7+li)*12,14,0,Math.PI*2);ctx.fill();}ctx.restore();var bgr;if(ctx.createConicGradient){bgr=ctx.createConicGradient(bp.ang,bp.x,bp.y);}else{bgr=ctx.createLinearGradient(bp.x-bp.r,bp.y-bp.r,bp.x+bp.r,bp.y+bp.r);}bgr.addColorStop(0,'#00e676');bgr.addColorStop(.25,'#69f0ae');bgr.addColorStop(.5,'#00c853');bgr.addColorStop(.75,'#00e676');bgr.addColorStop(1,'#69f0ae');ctx.beginPath();ctx.arc(bp.x,bp.y,bp.r,0,Math.PI*2);ctx.strokeStyle=bgr;ctx.lineWidth=4;ctx.stroke();ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillText('x5 ' + timeLeft + 's', bp.x + 1, bp.y - 15);ctx.fillStyle='#00ff88';ctx.fillText('x5 ' + timeLeft + 's', bp.x, bp.y - 16);}}}
-    var slow=1+(g.cargo/g.max);
-    player.x+=(input.x-player.x)*(g.spd/slow);player.y+=(input.y-player.y)*(g.spd/slow);
-    player.x=Math.min(Math.max(player.x,g.rad),canvas.width-g.rad);player.y=Math.min(Math.max(player.y,g.rad),canvas.height-g.rad);
-    if(Math.sqrt(Math.pow(player.x-portal.x,2)+Math.pow(player.y-portal.y,2))<portal.r&&g.cargo>0&&g.land<g.landMax){var holeMulti=HOLES[g_holeIdx].multi;var earned=g.cargo*holeMulti;g.cash+=earned;g.land+=g.cargo;spawnLabel('+'+formatNumber(Math.floor(earned))+' ★',player.x,player.y,'#ffff00');g.cargo=0;refreshUI();playSound('drop');saveFullProgress();}
-    if(bonusPlanet&&g.cargo>0){var bdx=player.x-bonusPlanet.x,bdy=player.y-bonusPlanet.y;if(Math.sqrt(bdx*bdx+bdy*bdy)<bonusPlanet.r){var holeMulti2=HOLES[g_holeIdx].multi;var bearn=g.cargo*5*holeMulti2;g.cash+=bearn;spawnLabel('x5 +'+formatNumber(Math.floor(bearn))+' ★',player.x,player.y,'#00ff88');g.cargo=0;bonusPlanet=null;nextBonusTime=Date.now()+(90000+Math.random()*60000)+(g.lvls.rad*2000);refreshUI();playSound('gift');saveFullProgress();}}
-    if(g.cargo>g.max)triggerExplosion();
-    for(var mi2=0;mi2<g.miniHoles.length;mi2++){var mh=g.miniHoles[mi2];var mx=player.x+mh.offsetX,my=player.y+mh.offsetY;var currentAngle=Math.atan2(mh.offsetY,mh.offsetX);mh.offsetX+=(Math.cos(currentAngle)*(g.rad+20)-mh.offsetX)*0.1;mh.offsetY+=(Math.sin(currentAngle)*(g.rad+20)-mh.offsetY)*0.1;for(var hi=humans.length-1;hi>=0;hi--){var hhx=humans[hi].x,hhy=humans[hi].y;var mdx=hhx-mx,mdy=hhy-my;var md=Math.sqrt(mdx*mdx+mdy*mdy);if(md<mh.pull){humans[hi].x+=mdx*0.08;humans[hi].y+=mdy*0.08;if(md<mh.rad+3){var miniEarn=35;g.cash+=miniEarn;spawnLabel('+'+miniEarn+' ★',mx,my,'#aaa');humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}}drawMiniHole(mx,my,mh.rad);}
-    for(var ri=rockets.length-1;ri>=0;ri--){var rk=rockets[ri];rk.x+=rk.vx;rk.animTime+=0.1;if(!rk.hit){var rdx=rk.x-player.x,rdy=rk.y-player.y;if(Math.sqrt(rdx*rdx+rdy*rdy)<g.rad+22){rk.hit=true;if(rk.type==='bomb'){g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}else{var gift=10+Math.floor(Math.random()*70);g.cash+=gift;spawnLabel('+'+gift+' ★',player.x,player.y,'#ffd700');refreshUI();playSound('gift');}}}if(!rk.hit){ctx.save();ctx.translate(rk.x,rk.y);var dir=rk.vx>0?1:-1;ctx.scale(dir,1);var rocketGrad=ctx.createLinearGradient(0,-12,0,12);if(rk.type==='bomb'){rocketGrad.addColorStop(0,'#ff4444');rocketGrad.addColorStop(0.5,'#ff8800');rocketGrad.addColorStop(1,'#cc0000');}else{rocketGrad.addColorStop(0,'#2ecc71');rocketGrad.addColorStop(0.5,'#27ae60');rocketGrad.addColorStop(1,'#1e8449');}ctx.fillStyle=rocketGrad;ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(-10,8);ctx.lineTo(-10,-8);ctx.closePath();ctx.fill();ctx.fillStyle=rk.type==='bomb'?'#ffd700':'#ffffff';ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(30,0);ctx.lineTo(20,6);ctx.closePath();ctx.fill();var flameFlicker=Math.sin(rk.animTime*10)*0.3+0.7;var flameGrad=ctx.createLinearGradient(-10,0,-20,0);flameGrad.addColorStop(0,'rgba(255,200,50,'+flameFlicker+')');flameGrad.addColorStop(0.5,'rgba(255,100,0,'+(flameFlicker*0.8)+')');flameGrad.addColorStop(1,'rgba(255,50,0,0)');ctx.fillStyle=flameGrad;ctx.beginPath();ctx.moveTo(-10,-5);ctx.lineTo(-18,0);ctx.lineTo(-10,5);ctx.closePath();ctx.fill();ctx.fillStyle=rk.type==='bomb'?'#ffaa00':'#88ff88';ctx.beginPath();ctx.arc(-5,0,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.8)';ctx.beginPath();ctx.arc(-9,0,2,0,Math.PI*2);ctx.fill();ctx.restore();}if(rk.x<-70||rk.x>canvas.width+70||rk.hit)rockets.splice(ri,1);}
-    for(var mi=meteors.length-1;mi>=0;mi--){var mt=meteors[mi];mt.x+=mt.vx;mt.y+=mt.vy;mt.rot+=mt.rotSpd;mt.animTime+=0.05;mt.trail.push({x:mt.x,y:mt.y});if(mt.trail.length>20)mt.trail.shift();for(var ti=0;ti<mt.trail.length;ti++){var tp=mt.trail[ti];var alpha=(ti/mt.trail.length)*0.6;var size=3+(ti/mt.trail.length)*10;var trailGrad=ctx.createRadialGradient(tp.x,tp.y,0,tp.x,tp.y,size);if(mt.type==='bomb'){trailGrad.addColorStop(0,'rgba(255,100,0,'+alpha+')');trailGrad.addColorStop(0.5,'rgba(255,50,0,'+(alpha*0.5)+')');}else{trailGrad.addColorStop(0,'rgba(100,255,100,'+alpha+')');trailGrad.addColorStop(0.5,'rgba(0,200,0,'+(alpha*0.5)+')');}trailGrad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=trailGrad;ctx.beginPath();ctx.arc(tp.x,tp.y,size,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;if(!mt.hit){ctx.save();ctx.translate(mt.x,mt.y);ctx.rotate(mt.rot);var meteorGrad=ctx.createLinearGradient(0,-15,0,15);if(mt.type==='bomb'){meteorGrad.addColorStop(0,'#c0392b');meteorGrad.addColorStop(0.5,'#e74c3c');meteorGrad.addColorStop(1,'#7b241c');}else{meteorGrad.addColorStop(0,'#27ae60');meteorGrad.addColorStop(0.5,'#2ecc71');meteorGrad.addColorStop(1,'#1e8449');}ctx.fillStyle=meteorGrad;ctx.beginPath();ctx.moveTo(0,-15);ctx.lineTo(12,-6);ctx.lineTo(8,12);ctx.lineTo(-8,12);ctx.lineTo(-12,-6);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(255,255,255,0.3)';ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(6,-3);ctx.lineTo(4,8);ctx.lineTo(-4,8);ctx.lineTo(-6,-3);ctx.closePath();ctx.fill();var glowPulse=Math.sin(mt.animTime*5)*0.3+0.7;ctx.fillStyle=mt.type==='bomb'?'rgba(255,200,50,'+(glowPulse*0.8)+')':'rgba(200,255,200,'+(glowPulse*0.8)+')';ctx.beginPath();ctx.arc(2,-12,3,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.9)';ctx.beginPath();ctx.arc(0,-8,2,0,Math.PI*2);ctx.fill();ctx.restore();}if(!mt.hit){var mdx=mt.x-player.x,mdy=mt.y-player.y;if(Math.sqrt(mdx*mdx+mdy*mdy)<g.rad+18){mt.hit=true;if(mt.type==='bomb'){g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}else{var mgift=100+Math.floor(Math.random()*600);g.cash+=mgift;spawnLabel('+'+formatNumber(mgift)+' ★',player.x,player.y,'#00eaff');refreshUI();playSound('gift');}}}if(mt.y>canvas.height+70||mt.hit)meteors.splice(mi,1);}
-    ctx.globalAlpha=1;
-    if(redHuman){var rhElapsed=now-redHuman.born;if(rhElapsed>=redHuman.dur){redHuman=null;}else{redHuman.x+=Math.cos(redHuman.walk)*redHuman.spd;redHuman.y+=Math.sin(redHuman.walk)*redHuman.spd*.5;if(redHuman.x<22||redHuman.x>canvas.width-22)redHuman.walk=Math.PI-redHuman.walk;if(redHuman.y<22||redHuman.y>canvas.height-45)redHuman.walk=-redHuman.walk;drawSpecialHuman(redHuman,'#ff2a2a');if(Math.hypot(player.x-redHuman.x,player.y-redHuman.y)<g.rad+6){redHuman=null;g.shakeUntil=now+4000;setTimeout(triggerExplosion,4000);}}}
-    if(greenHuman){var ghElapsed=now-greenHuman.born;if(ghElapsed>=greenHuman.dur){greenHuman=null;}else{greenHuman.x+=Math.cos(greenHuman.walk)*greenHuman.spd;greenHuman.y+=Math.sin(greenHuman.walk)*greenHuman.spd*.5;if(greenHuman.x<22||greenHuman.x>canvas.width-22)greenHuman.walk=Math.PI-greenHuman.walk;if(greenHuman.y<22||greenHuman.y>canvas.height-45)greenHuman.walk=-greenHuman.walk;drawSpecialHuman(greenHuman,'#00d451');if(Math.hypot(player.x-greenHuman.x,player.y-greenHuman.y)<g.rad+6){greenHuman=null;g.cash+=100;spawnLabel('+100 ★',player.x,player.y,'#00ff88');refreshUI();playSound('gift');saveFullProgress();}}}
-    humans.forEach(function(h,hi){if(!g.exploded){var dx=player.x-h.x,dy=player.y-h.y,d=Math.sqrt(dx*dx+dy*dy);if(d<g.pull){h.x+=dx*.06;h.y+=dy*.06;if(d<g.rad){g.cargo+=35;humans[hi]={x:Math.random()*canvas.width,y:Math.random()*canvas.height,w:35,walk:Math.random()*Math.PI,spd:.2+Math.random()*.3};refreshUI();playSound('collect');}}else{h.x+=Math.cos(h.walk)*h.spd;if(h.x<0||h.x>canvas.width)h.walk=Math.PI-h.walk;}}var sk='#ffdbac';ctx.save();ctx.translate(h.x,h.y);var limb=Math.sin(now*.01+h.walk)*3;ctx.fillStyle=sk;ctx.fillRect(-2,-6,4,7);ctx.fillStyle=sk;ctx.beginPath();ctx.arc(0,-9,3,0,Math.PI*2);ctx.fill();ctx.strokeStyle=sk;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-1,1);ctx.lineTo(-1+limb,6);ctx.stroke();ctx.beginPath();ctx.moveTo(1,1);ctx.lineTo(1-limb,6);ctx.stroke();ctx.restore();});
-    g.angle+=.08;
-    drawHole(player.x,player.y,g.rad,g.angle);
-    drawWarnFlash(now);
-    for(var li=earnLabels.length-1;li>=0;li--){var lb=earnLabels[li];lb.x+=(50-lb.x)*.025;lb.y+=(25-lb.y)*.025;lb.life-=.013;if(lb.life<=0){earnLabels.splice(li,1);continue;}ctx.globalAlpha=Math.min(lb.life*2,1);ctx.font='bold 13px Arial';ctx.textAlign='center';ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillText(lb.text,lb.x+1,lb.y+1);ctx.fillStyle=lb.color;ctx.fillText(lb.text,lb.x,lb.y);ctx.globalAlpha=1;}
-    ctx.restore();
-    requestAnimationFrame(draw);
-}
-updateReferralDisplay();
-})();
-</script>
+        
+        // Title and subtitle
+        ctx.fillStyle='#ffd700';
+        ctx.font='bold 44px Cormorant Garamond, Times New Roman, serif';
+        ctx.textAlign='center';
+        ctx.fillText(certTexts.title,600,140);
+        ctx.fillStyle='#d4af37';
+        ctx.font='italic 28px Cormorant Garamond, Times New Roman, serif';
+        ctx.fillText(certTexts.subtitle,600,185);
+        ctx.strokeStyle='#ffd700';
+        ctx.lineWidth=2;
+        ctx.beginPath();
+        ctx.moveTo(200,210);
+        ctx.lineTo(1000,210);
+        ctx.stroke();
+        
+        // Icon
+        ctx.font='100px sans-serif';
+        ctx.fillText(icon,600,310);
+        
+        // Winner message
+        ctx.fillStyle='#f0dbb0';
+        ctx.font='bold 30px Segoe UI, Arial, sans-serif';
+        ctx.fillText(certTexts.wonMsg(userName,partnerName),600,530);
+        
+        // Wish text
+        ctx.fillStyle='#ffd966';
+        ctx.font='28px Cormorant Garamond, Times New Roman, serif';
+        const words=wish.split(' ');
+        let line='',y=580;
+        words.forEach(w=>{const tl=line+w+' ';if(ctx.measureText(tl).width>800){ctx.fillText(line,600,y);line=w+' ';y+=40;}else line=tl;});
+        ctx.fillText(line,600,y);
+        
+        // Official text
+        ctx.fillStyle='#cfaa4a';
+        ctx.font='18px monospace';
+        ctx.textAlign='center';
+        ctx.fillText(certTexts.official,600,680);
+        
+        // Red seal
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(1100,720,50,0,Math.PI*2);
+        ctx.fillStyle='#b22222';
+        ctx.fill();
+        ctx.strokeStyle='#ffd700';
+        ctx.lineWidth=4;
+        ctx.stroke();
+        ctx.fillStyle='#ffd700';
+        ctx.font='bold 22px Times New Roman';
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.fillText('VDS',1100,720);
+        ctx.restore();
+        
+        canvas.toBlob(b=>{const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`VDS_Wish_${icon}.png`;a.click();URL.revokeObjectURL(u);});
+      }
+
+      function openNameForm() { nameFormModal.classList.remove('hidden');
+        userNameInput.value = '';
+        partnerNameInput.value = ''; }
+      sendToPartnerBtn.addEventListener('click', openNameForm);
+      downloadWithNamesBtn.addEventListener('click', () => { const un = userNameInput.value.trim() || 'User', pn = partnerNameInput.value.trim() || 'Partner'; if (pendingJackpotIcon && pendingJackpotWish) generateLuxuryCertificate(pendingJackpotIcon, pendingJackpotWish, un, pn);
+        nameFormModal.classList.add('hidden'); });
+      closeNameFormBtn.addEventListener('click', () => nameFormModal.classList.add('hidden'));
+
+      function enterSlot() { mainMenu.classList.add('hidden');
+        slotUI.classList.remove('hidden');
+        createReels();
+        buildGrid();
+        applyGrid();
+        messageDisplay.textContent = '';
+        gamePaused = false;
+        spinButton.disabled = false;
+        updateGiftSize(treasureProgress);
+        updateTreasureProgress(0);
+        autoSpinning = false;
+        autoSpinBtn.classList.remove('active');
+        autoSpinBtn.innerHTML = '🔄<br>AUTO'; }
+
+      function backToMenu() { 
+        autoSpinning = false;
+        autoSpinBtn.classList.remove('active');
+        autoSpinBtn.innerHTML = '🔄<br>AUTO';
+        gamePaused = false;
+        slotUI.classList.add('hidden');
+        mainMenu.classList.remove('hidden');
+        winOverlay.classList.add('hidden');
+        paymentModal.classList.add('hidden');
+        historyModal.classList.add('hidden');
+        nameFormModal.classList.add('hidden');
+        customRewardsModal.classList.add('hidden');
+        jackpotPrizesModal.classList.add('hidden');
+        winDetailModal.classList.add('hidden');
+        supportModal.classList.add('hidden');
+        winningsModal.classList.add('hidden');
+        useCustomRewards = false;
+        updateMainBalance(); }
+
+      document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', function() { useCustomRewards = false;
+        currentMode = this.dataset.mode;
+        enterSlot(); }));
+      spinButton.addEventListener('click', spin);
+      backToMenuBtn.addEventListener('click', backToMenu);
+      donateButton.addEventListener('click', () => paymentModal.classList.remove('hidden'));
+      closeWinBtn.addEventListener('click', () => winOverlay.classList.add('hidden'));
+      closePaymentBtn.addEventListener('click', () => paymentModal.classList.add('hidden'));
+      document.querySelectorAll('.diamond-option').forEach(o => o.addEventListener('click', function() { diamonds += parseInt(this.dataset.diamonds);
+        saveDiamonds();
+        paymentModal.classList.add('hidden');
+        showMessage(`✨ +${this.dataset.diamonds}💎`); }));
+      historyBtn.addEventListener('click', () => { historyModal.classList.remove('hidden');
+        renderHistory(); });
+      closeHistoryBtn.addEventListener('click', () => historyModal.classList.add('hidden'));
+
+      function showPolicy(type) {
+        const policies = POLICIES[currentLanguage] || POLICIES.ru;
+        policyTitle.textContent = type === 'privacy' ? (currentLanguage === 'ru' ? 'Политика конфиденциальности' : currentLanguage === 'ua' ? 'Політика конфіденційності' : 'Privacy Policy') : (currentLanguage === 'ru' ? 'Условия использования' : currentLanguage === 'ua' ? 'Умови використання' : 'Terms of Use');
+        policyContent.innerHTML = type === 'privacy' ? policies.privacy : policies.terms;
+        policyModal.classList.remove('hidden');
+      }
+
+      privacyPolicyLink.addEventListener('click', () => showPolicy('privacy'));
+      termsOfUseLink.addEventListener('click', () => showPolicy('terms'));
+      closePolicyBtn.addEventListener('click', () => policyModal.classList.add('hidden'));
+
+      langRuOuter.addEventListener('click', () => setLanguage('ru'));
+      langUaOuter.addEventListener('click', () => setLanguage('ua'));
+      langEnOuter.addEventListener('click', () => setLanguage('en'));
+      [winOverlay, paymentModal, historyModal, nameFormModal, customRewardsModal, jackpotPrizesModal, winDetailModal, supportModal, policyModal, winningsModal].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+
+      setLanguage('ru');
+      updateAllTexts();
+      loadUserData();
+    })();
+  </script>
 </body>
 </html>
