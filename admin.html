@@ -1,411 +1,241 @@
-<?php
-// api.php - API для VDS Game (обновлённый)
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель VDS Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a1a; color: #e0e0e0; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        h1 { color: #ffd700; text-align: center; margin: 20px 0; font-size: 2rem; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+        h2 { color: #d4af37; margin: 20px 0 10px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        .login-form { max-width: 400px; margin: 100px auto; background: #1a1a2e; padding: 30px; border-radius: 16px; border: 2px solid #d4af37; }
+        .login-form input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #444; background: #0a0a1a; color: #fff; font-size: 1rem; }
+        .login-form button { width: 100%; padding: 12px; background: linear-gradient(135deg, #ffd700, #ff8c00); border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 12px; }
+        .error { color: #ff4444; margin: 8px 0; }
+        .success { color: #44ff44; margin: 8px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0; }
+        .stat-card { background: #1a1a2e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center; }
+        .stat-card .value { font-size: 2rem; color: #ffd700; font-weight: bold; }
+        .stat-card .label { color: #888; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #1a1a2e; border-radius: 8px; }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #333; font-size: 0.85rem; }
+        th { background: #2a2a3e; color: #ffd700; }
+        tr:hover { background: #222236; }
+        .btn-logout { background: #dc3545; color: #fff; padding: 8px 20px; border-radius: 8px; text-decoration: none; display: inline-block; margin: 10px 0; cursor: pointer; border: none; font-size: 0.9rem; }
+        .search-form { display: flex; gap: 8px; margin: 12px 0; }
+        .search-form input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #444; background: #0a0a1a; color: #fff; font-size: 0.9rem; }
+        .search-form button { padding: 10px 20px; background: #d4af37; border: none; border-radius: 8px; color: #000; font-weight: bold; cursor: pointer; }
+        .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .actions input { width: 70px; padding: 6px; border-radius: 6px; border: 1px solid #444; background: #0a0a1a; color: #fff; font-size: 0.8rem; }
+        .actions button { padding: 6px 10px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+        .btn-add { background: #28a745; color: #fff; }
+        .btn-remove { background: #dc3545; color: #fff; }
+        .btn-view { background: #007bff; color: #fff; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: #1a1a2e; padding: 30px; border-radius: 16px; border: 2px solid #d4af37; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginBlock" class="login-form">
+            <h1>🔐 Админ-панель VDS</h1>
+            <p style="color:#888;font-size:0.8rem;text-align:center;">Введите GitHub токен с правами repo</p>
+            <input type="password" id="githubToken" placeholder="GitHub Personal Access Token">
+            <input type="password" id="adminPassword" placeholder="Пароль админа">
+            <button onclick="adminLogin()">Войти</button>
+            <p class="error" id="loginError"></p>
+            <p style="color:#666;font-size:0.7rem;margin-top:10px;text-align:center;">Пароль по умолчанию: admin123</p>
+        </div>
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
+        <div id="adminPanel" style="display:none;">
+            <h1>🎮 Админ-панель VDS Game</h1>
+            <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
+            <p class="success" id="successMsg"></p>
+            <p class="error" id="errorMsg"></p>
 
-// Настройки БД
-$db_host = 'localhost';
-$db_name = 'vds_game_db';
-$db_user = 'root';
-$db_pass = '';
+            <h2>📊 Статистика</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="value" id="totalUsers">0</div><div class="label">Всего пользователей</div></div>
+                <div class="stat-card"><div class="value" id="onlineNow">0</div><div class="label">Онлайн (15 мин)</div></div>
+                <div class="stat-card"><div class="value" id="onlineToday">0</div><div class="label">За сегодня</div></div>
+            </div>
 
-try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'error' => 'Database connection failed: ' . $e->getMessage()]);
-    exit;
-}
+            <h2>💎 Потрачено алмазов по категориям</h2>
+            <table><thead><tr><th>Категория</th><th>Потрачено алмазов</th></tr></thead><tbody id="spentTable"></tbody></table>
 
-$input = json_decode(file_get_contents('php://input'), true);
-$action = $input['action'] ?? ($_GET['action'] ?? '');
+            <h2>🔍 Поиск пользователя</h2>
+            <div class="search-form">
+                <input type="text" id="searchQuery" placeholder="ID или email или имя...">
+                <button onclick="searchUsers()">Найти</button>
+                <button onclick="loadAllUsers()" style="background:#555;">Все</button>
+            </div>
 
-// Генерация уникального 8-значного ID
-function generateUID($pdo) {
-    do {
-        $uid = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE user_uid = ?");
-        $stmt->execute([$uid]);
-    } while ($stmt->fetchColumn() > 0);
-    return $uid;
-}
+            <h2>👥 Пользователи</h2>
+            <div style="overflow-x:auto;">
+                <table><thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Алмазы</th><th>Прогресс</th><th>Фриспины</th><th>Регистрация</th><th>Действия</th></tr></thead><tbody id="usersTable"></tbody></table>
+            </div>
 
-// Генерация токена
-function generateToken() {
-    return bin2hex(random_bytes(32));
-}
+            <h2>💳 Последние транзакции</h2>
+            <table><thead><tr><th>Время</th><th>ID</th><th>Имя</th><th>Сумма</th><th>Тип</th><th>Причина</th></tr></thead><tbody id="transactionsTable"></tbody></table>
 
-// Проверка админ-токена
-function checkAdminToken($pdo, $token) {
-    if (!$token) return false;
-    $stmt = $pdo->prepare("SELECT * FROM admins WHERE token = ? AND token_expires > NOW()");
-    $stmt->execute([$token]);
-    return $stmt->fetch() ? true : false;
-}
+            <h2>🎰 Последние джекпоты</h2>
+            <table><thead><tr><th>Время</th><th>ID</th><th>Имя</th><th>Режим</th><th>Желание</th><th>Выигрыш</th></tr></thead><tbody id="jackpotsTable"></tbody></table>
+        </div>
+    </div>
 
-function logOnline($pdo, $user_uid, $nickname, $action) {
-    $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
-    $stmt = $pdo->prepare("INSERT INTO online_log (user_uid, nickname, action, ip_address) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$user_uid, $nickname, $action, $ip]);
-}
+    <script src="api.js"></script>
+    <script>
+        const ADMIN_PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
 
-// ====== РЕГИСТРАЦИЯ ======
-if ($action === 'register') {
-    $nickname = trim($input['nickname'] ?? '');
-    $password = $input['password'] ?? '';
-    
-    if (strlen($nickname) < 2 || strlen($nickname) > 50) {
-        echo json_encode(['success' => false, 'error' => 'Никнейм должен быть от 2 до 50 символов']);
-        exit;
-    }
-    if (strlen($password) < 4) {
-        echo json_encode(['success' => false, 'error' => 'Пароль должен быть не менее 4 символов']);
-        exit;
-    }
-    
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE nickname = ?");
-    $stmt->execute([$nickname]);
-    if ($stmt->fetchColumn() > 0) {
-        echo json_encode(['success' => false, 'error' => 'Этот никнейм уже занят']);
-        exit;
-    }
-    
-    $user_uid = generateUID($pdo);
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
-    
-    $stmt = $pdo->prepare("INSERT INTO users (user_uid, nickname, password_hash) VALUES (?, ?, ?)");
-    $stmt->execute([$user_uid, $nickname, $password_hash]);
-    
-    logOnline($pdo, $user_uid, $nickname, 'login');
-    
-    echo json_encode([
-        'success' => true,
-        'user_uid' => $user_uid,
-        'nickname' => $nickname,
-        'diamonds' => 100,
-        'treasure_progress' => 0,
-        'free_spins' => 0
-    ]);
-    exit;
-}
+        async function adminLogin() {
+            const token = document.getElementById('githubToken').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            
+            if (!token || !password) {
+                document.getElementById('loginError').textContent = 'Введите токен и пароль';
+                return;
+            }
 
-// ====== ВХОД ======
-if ($action === 'login') {
-    $nickname = trim($input['nickname'] ?? '');
-    $password = $input['password'] ?? '';
-    
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE nickname = ?");
-    $stmt->execute([$nickname]);
-    $user = $stmt->fetch();
-    
-    if (!$user || !password_verify($password, $user['password_hash'])) {
-        echo json_encode(['success' => false, 'error' => 'Неверный никнейм или пароль']);
-        exit;
-    }
-    
-    logOnline($pdo, $user['user_uid'], $user['nickname'], 'login');
-    
-    echo json_encode([
-        'success' => true,
-        'user_uid' => $user['user_uid'],
-        'nickname' => $user['nickname'],
-        'diamonds' => (int)$user['diamonds'],
-        'treasure_progress' => (float)$user['treasure_progress'],
-        'free_spins' => (int)$user['free_spins'],
-        'jackpot_boost' => (bool)$user['jackpot_boost']
-    ]);
-    exit;
-}
+            const encoder = new TextEncoder();
+            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(password));
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-// ====== СОХРАНЕНИЕ ДАННЫХ ======
-if ($action === 'save') {
-    $user_uid = trim($input['user_uid'] ?? '');
-    $diamonds = intval($input['diamonds'] ?? 100);
-    $treasure_progress = floatval($input['treasure_progress'] ?? 0);
-    $free_spins = intval($input['free_spins'] ?? 0);
-    $jackpot_boost = intval($input['jackpot_boost'] ?? 0);
-    
-    $stmt = $pdo->prepare("UPDATE users SET diamonds = ?, treasure_progress = ?, free_spins = ?, jackpot_boost = ?, updated_at = NOW() WHERE user_uid = ?");
-    $stmt->execute([$diamonds, $treasure_progress, $free_spins, $jackpot_boost, $user_uid]);
-    
-    echo json_encode(['success' => true]);
-    exit;
-}
+            if (hashHex !== ADMIN_PASSWORD_HASH) {
+                document.getElementById('loginError').textContent = 'Неверный пароль';
+                return;
+            }
 
-// ====== ЗАГРУЗКА ДАННЫХ ======
-if ($action === 'load') {
-    $user_uid = trim($input['user_uid'] ?? '');
-    
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE user_uid = ?");
-    $stmt->execute([$user_uid]);
-    $user = $stmt->fetch();
-    
-    if (!$user) {
-        echo json_encode(['success' => false, 'error' => 'Пользователь не найден']);
-        exit;
-    }
-    
-    echo json_encode([
-        'success' => true,
-        'user_uid' => $user['user_uid'],
-        'nickname' => $user['nickname'],
-        'diamonds' => (int)$user['diamonds'],
-        'treasure_progress' => (float)$user['treasure_progress'],
-        'free_spins' => (int)$user['free_spins'],
-        'jackpot_boost' => (bool)$user['jackpot_boost']
-    ]);
-    exit;
-}
+            localStorage.setItem('vds_github_token', token);
+            document.getElementById('loginBlock').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadAllData();
+        }
 
-// ====== СОХРАНЕНИЕ ДЖЕКПОТА ======
-if ($action === 'save_jackpot') {
-    $user_uid = trim($input['user_uid'] ?? '');
-    $nickname = trim($input['nickname'] ?? '');
-    $mode_key = trim($input['mode_key'] ?? '18+');
-    $icon = trim($input['icon'] ?? '🎉');
-    $wish = trim($input['wish'] ?? '');
-    $diamonds_won = intval($input['diamonds_won'] ?? 20);
-    
-    $stmt = $pdo->prepare("INSERT INTO jackpot_history (user_uid, nickname, mode_key, icon, wish, diamonds_won) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$user_uid, $nickname, $mode_key, $icon, $wish, $diamonds_won]);
-    
-    echo json_encode(['success' => true]);
-    exit;
-}
+        function logout() {
+            localStorage.removeItem('vds_github_token');
+            location.reload();
+        }
 
-// ====== ЗАГРУЗКА ИСТОРИИ ДЖЕКПОТОВ ======
-if ($action === 'load_jackpots') {
-    $user_uid = trim($input['user_uid'] ?? '');
-    
-    $stmt = $pdo->prepare("SELECT jh.*, gm.mode_name_ru FROM jackpot_history jh LEFT JOIN game_modes gm ON jh.mode_key = gm.mode_key WHERE jh.user_uid = ? ORDER BY jh.created_at DESC LIMIT 50");
-    $stmt->execute([$user_uid]);
-    $jackpots = $stmt->fetchAll();
-    
-    echo json_encode(['success' => true, 'jackpots' => $jackpots]);
-    exit;
-}
+        function showError(msg) {
+            const el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            setTimeout(() => el.textContent = '', 4000);
+        }
 
-// ====== ЗАГРУЗКА ЛЕНТЫ ДЖЕКПОТОВ ======
-if ($action === 'load_jackpot_feed') {
-    $stmt = $pdo->query("SELECT jh.*, gm.mode_name_ru FROM jackpot_history jh LEFT JOIN game_modes gm ON jh.mode_key = gm.mode_key ORDER BY jh.created_at DESC LIMIT 50");
-    $jackpots = $stmt->fetchAll();
-    
-    echo json_encode(['success' => true, 'jackpots' => $jackpots]);
-    exit;
-}
+        function showSuccess(msg) {
+            const el = document.getElementById('successMsg');
+            el.textContent = msg;
+            setTimeout(() => el.textContent = '', 4000);
+        }
 
-// ====== ВЫХОД ======
-if ($action === 'logout') {
-    $user_uid = trim($input['user_uid'] ?? '');
-    $nickname = trim($input['nickname'] ?? '');
-    
-    if ($user_uid) {
-        logOnline($pdo, $user_uid, $nickname, 'logout');
-    }
-    
-    echo json_encode(['success' => true]);
-    exit;
-}
+        async function loadAllData() {
+            await Promise.all([loadStats(), loadAllUsers(), loadTransactions(), loadJackpots()]);
+        }
 
-// ====== АДМИН-ФУНКЦИИ ======
+        async function loadStats() {
+            const users = await API.getAllUsers();
+            const online = await API.getOnlineStats();
+            const spent = await API.getSpentByMode();
+            
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('onlineNow').textContent = online.online_now;
+            document.getElementById('onlineToday').textContent = online.online_today;
 
-// Админ-логин
-if ($action === 'admin_login') {
-    $username = trim($input['username'] ?? '');
-    $password = $input['password'] ?? '';
-    
-    $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
-    $stmt->execute([$username]);
-    $admin = $stmt->fetch();
-    
-    if (!$admin || !password_verify($password, $admin['password_hash'])) {
-        echo json_encode(['success' => false, 'error' => 'Неверный логин или пароль']);
-        exit;
-    }
-    
-    $token = generateToken();
-    $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
-    
-    // Добавляем колонки token и token_expires если их нет
-    try {
-        $stmt = $pdo->prepare("UPDATE admins SET token = ?, token_expires = ? WHERE id = ?");
-        $stmt->execute([$token, $expires, $admin['id']]);
-    } catch (PDOException $e) {
-        // Если колонок нет, добавляем их
-        $pdo->exec("ALTER TABLE admins ADD COLUMN IF NOT EXISTS token VARCHAR(64) NULL");
-        $pdo->exec("ALTER TABLE admins ADD COLUMN IF NOT EXISTS token_expires DATETIME NULL");
-        $stmt = $pdo->prepare("UPDATE admins SET token = ?, token_expires = ? WHERE id = ?");
-        $stmt->execute([$token, $expires, $admin['id']]);
-    }
-    
-    echo json_encode(['success' => true, 'token' => $token]);
-    exit;
-}
+            const modeNames = { '18+': '🔞 18+', 'home': '🏠 Для Дома', 'party': '🎉 Вечеринка', 'young': '💑 Молодая пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
+            const spentHTML = Object.entries(spent).map(([mode, total]) => 
+                `<tr><td>${modeNames[mode] || mode}</td><td>${total} 💎</td></tr>`
+            ).join('') || '<tr><td colspan="2">Нет данных</td></tr>';
+            document.getElementById('spentTable').innerHTML = spentHTML;
+        }
 
-// Проверка токена
-if ($action === 'admin_check_token') {
-    $token = $input['token'] ?? '';
-    $valid = checkAdminToken($pdo, $token);
-    echo json_encode(['success' => $valid]);
-    exit;
-}
+        async function loadAllUsers() {
+            const users = await API.getAllUsers();
+            renderUsers(users);
+        }
 
-// Админ: статистика
-if ($action === 'admin_get_stats') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    
-    $total_users = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
-    $online_now = $pdo->query("SELECT COUNT(DISTINCT user_uid) FROM online_log WHERE action = 'login' AND created_at >= DATE_SUB(NOW(), INTERVAL 15 MINUTE)")->fetchColumn();
-    $online_today = $pdo->query("SELECT COUNT(DISTINCT user_uid) FROM online_log WHERE action = 'login' AND DATE(created_at) = CURDATE()")->fetchColumn();
-    $spent_by_mode = $pdo->query("SELECT gm.mode_key, gm.mode_name_ru, COALESCE(SUM(jh.diamonds_won), 0) as total_spent FROM game_modes gm LEFT JOIN jackpot_history jh ON gm.mode_key = jh.mode_key GROUP BY gm.mode_key, gm.mode_name_ru")->fetchAll();
-    
-    echo json_encode([
-        'success' => true,
-        'total_users' => (int)$total_users,
-        'online_now' => (int)$online_now,
-        'online_today' => (int)$online_today,
-        'spent_by_mode' => $spent_by_mode
-    ]);
-    exit;
-}
+        async function searchUsers() {
+            const query = document.getElementById('searchQuery').value.trim();
+            if (!query) { loadAllUsers(); return; }
+            const users = await API.searchUsers(query);
+            renderUsers(users);
+        }
 
-// Админ: список пользователей
-if ($action === 'admin_get_users') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $users = $pdo->query("SELECT user_uid, nickname, diamonds, treasure_progress, free_spins, created_at FROM users ORDER BY created_at DESC LIMIT 50")->fetchAll();
-    echo json_encode(['success' => true, 'users' => $users]);
-    exit;
-}
+        function renderUsers(users) {
+            const html = users.map(u => `
+                <tr>
+                    <td><strong>${u.user_uid}</strong></td>
+                    <td>${u.nickname || u.name || '-'}</td>
+                    <td>${u.email || '-'}</td>
+                    <td>${u.diamonds || 0} 💎</td>
+                    <td>${u.treasure_progress || 0}%</td>
+                    <td>${u.free_spins || 0}</td>
+                    <td>${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
+                    <td class="actions">
+                        <input type="number" id="amt_${u.user_uid}" placeholder="Сумма" value="100" min="1" style="width:60px;">
+                        <button class="btn-add" onclick="addDiamonds('${u.user_uid}')">+</button>
+                        <button class="btn-remove" onclick="removeDiamonds('${u.user_uid}')">-</button>
+                    </td>
+                </tr>
+            `).join('') || '<tr><td colspan="8">Нет пользователей</td></tr>';
+            document.getElementById('usersTable').innerHTML = html;
+        }
 
-// Админ: поиск пользователей
-if ($action === 'admin_search_users') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $query = '%' . ($input['query'] ?? '') . '%';
-    $stmt = $pdo->prepare("SELECT user_uid, nickname, diamonds, treasure_progress, free_spins, created_at FROM users WHERE user_uid LIKE ? OR nickname LIKE ? LIMIT 50");
-    $stmt->execute([$query, $query]);
-    $users = $stmt->fetchAll();
-    echo json_encode(['success' => true, 'users' => $users]);
-    exit;
-}
+        async function addDiamonds(uid) {
+            const amount = parseInt(document.getElementById('amt_' + uid)?.value || 0);
+            if (!amount || amount <= 0) { showError('Введите сумму'); return; }
+            const result = await API.addDiamonds(uid, amount, 'admin');
+            if (result.success) { showSuccess(`+${amount}💎 → ${uid}`); loadAllData(); }
+            else showError(result.error);
+        }
 
-// Админ: начислить алмазы
-if ($action === 'admin_add_diamonds') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $user_uid = trim($input['user_uid'] ?? '');
-    $amount = intval($input['amount'] ?? 0);
-    if (!$user_uid || $amount <= 0) {
-        echo json_encode(['success' => false, 'error' => 'Неверные данные']);
-        exit;
-    }
-    $pdo->beginTransaction();
-    try {
-        $stmt = $pdo->prepare("UPDATE users SET diamonds = diamonds + ? WHERE user_uid = ?");
-        $stmt->execute([$amount, $user_uid]);
-        $stmt2 = $pdo->prepare("SELECT nickname FROM users WHERE user_uid = ?");
-        $stmt2->execute([$user_uid]);
-        $user = $stmt2->fetch();
-        $stmt3 = $pdo->prepare("INSERT INTO diamond_transactions (user_uid, nickname, amount, type, reason, admin_username) VALUES (?, ?, ?, 'add', 'Начисление админом', 'admin')");
-        $stmt3->execute([$user_uid, $user['nickname'] ?? '', $amount]);
-        $pdo->commit();
-        echo json_encode(['success' => true]);
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-    exit;
-}
+        async function removeDiamonds(uid) {
+            const amount = parseInt(document.getElementById('amt_' + uid)?.value || 0);
+            if (!amount || amount <= 0) { showError('Введите сумму'); return; }
+            const result = await API.removeDiamonds(uid, amount, 'admin');
+            if (result.success) { showSuccess(`-${amount}💎 → ${uid}`); loadAllData(); }
+            else showError(result.error);
+        }
 
-// Админ: списать алмазы
-if ($action === 'admin_remove_diamonds') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $user_uid = trim($input['user_uid'] ?? '');
-    $amount = intval($input['amount'] ?? 0);
-    if (!$user_uid || $amount <= 0) {
-        echo json_encode(['success' => false, 'error' => 'Неверные данные']);
-        exit;
-    }
-    $pdo->beginTransaction();
-    try {
-        $stmt = $pdo->prepare("UPDATE users SET diamonds = GREATEST(0, diamonds - ?) WHERE user_uid = ?");
-        $stmt->execute([$amount, $user_uid]);
-        $stmt2 = $pdo->prepare("SELECT nickname FROM users WHERE user_uid = ?");
-        $stmt2->execute([$user_uid]);
-        $user = $stmt2->fetch();
-        $stmt3 = $pdo->prepare("INSERT INTO diamond_transactions (user_uid, nickname, amount, type, reason, admin_username) VALUES (?, ?, ?, 'remove', 'Списание админом', 'admin')");
-        $stmt3->execute([$user_uid, $user['nickname'] ?? '', $amount]);
-        $pdo->commit();
-        echo json_encode(['success' => true]);
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-    exit;
-}
+        async function loadTransactions() {
+            const transactions = await API.getTransactions();
+            const html = transactions.slice(0, 50).map(t => `
+                <tr>
+                    <td>${t.created_at ? new Date(t.created_at).toLocaleString() : '-'}</td>
+                    <td>${t.user_uid}</td>
+                    <td>${t.nickname || '-'}</td>
+                    <td>${t.amount} 💎</td>
+                    <td>${t.type === 'add' ? '✅ Начислено' : '❌ Списано'}</td>
+                    <td>${t.reason || ''}</td>
+                </tr>
+            `).join('') || '<tr><td colspan="6">Нет транзакций</td></tr>';
+            document.getElementById('transactionsTable').innerHTML = html;
+        }
 
-// Админ: сменить пароль
-if ($action === 'admin_change_password') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $user_uid = trim($input['user_uid'] ?? '');
-    $new_password = $input['new_password'] ?? '';
-    if (!$user_uid || strlen($new_password) < 4) {
-        echo json_encode(['success' => false, 'error' => 'Пароль должен быть не менее 4 символов']);
-        exit;
-    }
-    $hash = password_hash($new_password, PASSWORD_BCRYPT);
-    $stmt = $pdo->prepare("UPDATE users SET password_hash = ? WHERE user_uid = ?");
-    $stmt->execute([$hash, $user_uid]);
-    echo json_encode(['success' => true]);
-    exit;
-}
+        async function loadJackpots() {
+            const jackpots = await API.getAllJackpots();
+            const modeNames = { '18+': '🔞 18+', 'home': '🏠 Дом', 'party': '🎉 Вечеринка', 'young': '💑 Пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
+            const html = jackpots.slice(0, 50).map(j => `
+                <tr>
+                    <td>${j.created_at ? new Date(j.created_at).toLocaleString() : '-'}</td>
+                    <td>${j.user_uid}</td>
+                    <td>${j.nickname || '-'}</td>
+                    <td>${modeNames[j.mode_key] || j.mode_key}</td>
+                    <td>${(j.wish || '').substring(0, 25)}...</td>
+                    <td>${j.diamonds_won} 💎</td>
+                </tr>
+            `).join('') || '<tr><td colspan="6">Нет джекпотов</td></tr>';
+            document.getElementById('jackpotsTable').innerHTML = html;
+        }
 
-// Админ: транзакции
-if ($action === 'admin_get_transactions') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $transactions = $pdo->query("SELECT * FROM diamond_transactions ORDER BY created_at DESC LIMIT 50")->fetchAll();
-    echo json_encode(['success' => true, 'transactions' => $transactions]);
-    exit;
-}
-
-// Админ: джекпоты
-if ($action === 'admin_get_jackpots') {
-    if (!checkAdminToken($pdo, $input['token'] ?? '')) {
-        echo json_encode(['success' => false, 'error' => 'Неавторизован']);
-        exit;
-    }
-    $jackpots = $pdo->query("SELECT jh.*, gm.mode_name_ru FROM jackpot_history jh LEFT JOIN game_modes gm ON jh.mode_key = gm.mode_key ORDER BY jh.created_at DESC LIMIT 50")->fetchAll();
-    echo json_encode(['success' => true, 'jackpots' => $jackpots]);
-    exit;
-}
-
-// ====== ПРОВЕРКА СВЯЗИ ======
-echo json_encode(['success' => true, 'message' => 'API is working']);
+        // Автовход если токен уже есть
+        if (localStorage.getItem('vds_github_token')) {
+            document.getElementById('loginBlock').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadAllData();
+        }
+    </script>
+</body>
+</html>
