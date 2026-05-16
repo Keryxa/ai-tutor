@@ -19,7 +19,7 @@
         .stat-card { background: #1a1a2e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center; }
         .stat-card .value { font-size: 2rem; color: #ffd700; font-weight: bold; }
         .stat-card .label { color: #888; font-size: 0.9rem; }
-        table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #1a1a2e; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #1a1a2e; border-radius: 8px; overflow-x: auto; }
         th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #333; font-size: 0.85rem; }
         th { background: #2a2a3e; color: #ffd700; }
         tr:hover { background: #222236; }
@@ -33,18 +33,22 @@
         .actions button { padding: 6px 10px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
         .btn-add { background: #28a745; color: #fff; }
         .btn-remove { background: #dc3545; color: #fff; }
+        .btn-delete { background: #ff4444; color: #fff; padding: 2px 8px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.65rem; margin-left: 8px; }
         .tabs { display: flex; gap: 4px; margin: 12px 0; flex-wrap: wrap; }
         .tab-btn { padding: 10px 20px; background: #1a1a2e; border: 1px solid #444; color: #888; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: bold; }
         .tab-btn.active { background: #2a2a3e; color: #ffd700; border-color: #d4af37; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .chat-message { padding: 10px; margin: 5px 0; border-radius: 12px; font-size: 0.85rem; }
+        .chat-message { padding: 10px; margin: 5px 0; border-radius: 12px; font-size: 0.85rem; position: relative; }
         .chat-message.from-user { background: rgba(75,44,110,0.4); border: 1px solid #cfaa4a; }
         .chat-message.from-admin { background: rgba(212,175,55,0.2); border: 1px solid #d4af37; }
+        .chat-message.deleted { opacity: 0.3; text-decoration: line-through; }
         .reply-box { display: flex; gap: 8px; margin-top: 8px; }
         .reply-box input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #444; background: #0a0a1a; color: #fff; font-size: 0.85rem; }
         .reply-box button { padding: 8px 16px; background: #007bff; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .unread-badge { background: #ff4444; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin-left: 6px; }
+        .notification-sound-toggle { display: inline-flex; align-items: center; gap: 6px; margin-left: 12px; cursor: pointer; color: #888; font-size: 0.8rem; }
+        .notification-sound-toggle.enabled { color: #44ff44; }
     </style>
 </head>
 <body>
@@ -61,6 +65,7 @@
             <h1>🎮 Админ-панель VDS Game</h1>
             <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
             <button class="btn-refresh" onclick="loadAllData()">🔄 Обновить</button>
+            <span class="notification-sound-toggle enabled" id="soundToggle" onclick="toggleSound()">🔔 Звук уведомлений</span>
             <p class="success" id="successMsg"></p>
             <p class="error" id="errorMsg"></p>
 
@@ -88,7 +93,7 @@
                     <button onclick="searchUsers()">Найти</button>
                     <button onclick="loadAllUsers()" style="background:#555;">Все</button>
                 </div>
-                <table><thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>💎 Алмазы</th><th>Прогресс</th><th>Фриспины</th><th>Регистрация</th><th>Действия</th></tr></thead><tbody id="usersTable"></tbody></table>
+                <table><thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>💎 Алмазы</th><th>💎 Потрачено</th><th>Регистрация</th><th>Действия</th></tr></thead><tbody id="usersTable"></tbody></table>
             </div>
 
             <div id="tab-support" class="tab-content">
@@ -97,7 +102,7 @@
                 <div id="supportUsersList"></div>
                 <div id="chatArea" style="display:none; margin-top:16px;">
                     <h3>Переписка с <span id="chatUserName"></span></h3>
-                    <div id="chatMessages" style="max-height:300px;overflow-y:auto;padding:10px;background:#111;border-radius:8px;margin:8px 0;"></div>
+                    <div id="chatMessages" style="max-height:400px;overflow-y:auto;padding:10px;background:#111;border-radius:8px;margin:8px 0;"></div>
                     <div class="reply-box">
                         <input type="text" id="replyInput" placeholder="Введите ответ...">
                         <button onclick="sendReply()">📤 Отправить</button>
@@ -126,6 +131,39 @@
     <script>
         let currentChatUID = null;
         let supportChats = {};
+        let notificationSound = true;
+        let previousUnreadCount = 0;
+        let audioCtx = null;
+
+        function playNotificationSound() {
+            if (!notificationSound) return;
+            try {
+                if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = 'sine';
+                o.frequency.setValueAtTime(800, audioCtx.currentTime);
+                o.frequency.setValueAtTime(1000, audioCtx.currentTime + 0.1);
+                g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3);
+                o.connect(g);
+                g.connect(audioCtx.destination);
+                o.start(audioCtx.currentTime);
+                o.stop(audioCtx.currentTime + 0.3);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            notificationSound = !notificationSound;
+            const el = document.getElementById('soundToggle');
+            if (notificationSound) {
+                el.classList.add('enabled');
+                el.textContent = '🔔 Звук уведомлений';
+            } else {
+                el.classList.remove('enabled');
+                el.textContent = '🔕 Звук выключен';
+            }
+        }
 
         async function sha256(message) {
             const encoder = new TextEncoder();
@@ -137,18 +175,15 @@
         async function adminLogin() {
             const password = document.getElementById('adminPassword').value;
             const errorEl = document.getElementById('loginError');
-
             if (!password) { errorEl.textContent = 'Введите пароль'; return; }
-
             const passwordHash = await sha256(password);
             const validHash = await sha256('admin123');
-
             if (passwordHash !== validHash) { errorEl.textContent = 'Неверный пароль'; return; }
-
             localStorage.setItem('vds_admin_logged_in', 'true');
             document.getElementById('loginBlock').style.display = 'none';
             document.getElementById('adminPanel').style.display = 'block';
             loadAllData();
+            startMessagePolling();
         }
 
         function logout() { localStorage.removeItem('vds_admin_logged_in'); location.reload(); }
@@ -167,64 +202,78 @@
             if (name === 'stats') loadStatsTab();
         }
 
+        function startMessagePolling() {
+            setInterval(async () => {
+                try {
+                    const chats = await API.getSupportChats();
+                    let unread = 0;
+                    Object.values(chats).forEach(chat => {
+                        if (chat.messages && chat.messages.some(m => !m.read && m.from === 'user')) unread++;
+                    });
+                    document.getElementById('unreadMessages').textContent = unread;
+                    if (unread > 0) {
+                        document.getElementById('unreadBadge').textContent = unread;
+                        document.getElementById('unreadBadge').classList.remove('hidden');
+                    } else {
+                        document.getElementById('unreadBadge').classList.add('hidden');
+                    }
+                    if (unread > previousUnreadCount) {
+                        playNotificationSound();
+                    }
+                    previousUnreadCount = unread;
+                    if (document.getElementById('tab-support').classList.contains('active')) {
+                        loadSupportChats();
+                    }
+                } catch (e) {}
+            }, 10000);
+        }
+
         async function loadAllData() {
             await Promise.all([loadStats(), loadAllUsers(), loadSupportChats(), loadJackpots(), loadTransactions()]);
         }
 
         async function loadStats() {
-            try {
-                const users = await API.getAllUsers();
-                const online = await API.getOnlineStats();
-                const spent = await API.getSpentByMode();
-                const chats = await API.getSupportChats();
+            const users = await API.getAllUsers();
+            const online = await API.getOnlineStats();
+            const spent = await API.getSpentByMode();
+            const chats = await API.getSupportChats();
 
-                document.getElementById('totalUsers').textContent = users.length;
-                document.getElementById('onlineNow').textContent = online.online_now;
-                document.getElementById('onlineToday').textContent = online.online_today;
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('onlineNow').textContent = online.online_now;
+            document.getElementById('onlineToday').textContent = online.online_today;
 
-                let unread = 0;
-                Object.values(chats).forEach(chat => {
-                    if (chat.messages && chat.messages.some(m => !m.read && m.from === 'user')) unread++;
-                });
-                document.getElementById('unreadMessages').textContent = unread;
-                if (unread > 0) {
-                    document.getElementById('unreadBadge').textContent = unread;
-                    document.getElementById('unreadBadge').classList.remove('hidden');
-                } else {
-                    document.getElementById('unreadBadge').classList.add('hidden');
-                }
-
-                const modeNames = { '18+': '🔞 18+', 'home': '🏠 Для Дома', 'party': '🎉 Вечеринка', 'young': '💑 Молодая пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
-                const spentHTML = Object.entries(spent).map(([mode, total]) => 
-                    '<tr><td>' + (modeNames[mode] || mode) + '</td><td>' + total + ' 💎</td></tr>'
-                ).join('') || '<tr><td colspan="2">Нет данных</td></tr>';
-                document.getElementById('spentTable').innerHTML = spentHTML;
-                document.getElementById('statsSpentTable').innerHTML = spentHTML;
-            } catch (e) {
-                console.error('Load stats error:', e);
+            let unread = 0;
+            Object.values(chats).forEach(chat => {
+                if (chat.messages && chat.messages.some(m => !m.read && m.from === 'user')) unread++;
+            });
+            document.getElementById('unreadMessages').textContent = unread;
+            if (unread > 0) {
+                document.getElementById('unreadBadge').textContent = unread;
+                document.getElementById('unreadBadge').classList.remove('hidden');
+            } else {
+                document.getElementById('unreadBadge').classList.add('hidden');
             }
+
+            const modeNames = { '18+': '🔞 18+', 'home': '🏠 Для Дома', 'party': '🎉 Вечеринка', 'young': '💑 Молодая пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
+            const spentHTML = Object.entries(spent).map(([mode, total]) => 
+                '<tr><td>' + (modeNames[mode] || mode) + '</td><td>' + total + ' 💎</td></tr>'
+            ).join('') || '<tr><td colspan="2">Нет данных</td></tr>';
+            document.getElementById('spentTable').innerHTML = spentHTML;
+            document.getElementById('statsSpentTable').innerHTML = spentHTML;
         }
 
         async function loadStatsTab() { await loadStats(); }
 
         async function loadAllUsers() {
-            try {
-                const users = await API.getAllUsers();
-                renderUsers(users);
-            } catch (e) {
-                console.error('Load users error:', e);
-            }
+            const users = await API.getAllUsers();
+            renderUsers(users);
         }
 
         async function searchUsers() {
             const query = document.getElementById('searchQuery').value.trim();
             if (!query) { loadAllUsers(); return; }
-            try {
-                const users = await API.searchUsers(query);
-                renderUsers(users);
-            } catch (e) {
-                console.error('Search users error:', e);
-            }
+            const users = await API.searchUsers(query);
+            renderUsers(users);
         }
 
         function renderUsers(users) {
@@ -234,14 +283,13 @@
                 '<td>' + (u.nickname || '-') + '</td>' +
                 '<td>' + (u.email || '-') + '</td>' +
                 '<td>' + (u.diamonds || 0) + ' 💎</td>' +
-                '<td>' + (u.treasure_progress || 0) + '%</td>' +
-                '<td>' + (u.free_spins || 0) + '</td>' +
+                '<td>' + (u.diamonds_spent || 0) + ' 💎</td>' +
                 '<td>' + (u.created_at ? new Date(u.created_at).toLocaleDateString() : '-') + '</td>' +
                 '<td class="actions"><input type="number" id="amt_' + u.user_uid + '" placeholder="Сумма" value="100" min="1" style="width:60px;">' +
                 '<button class="btn-add" onclick="addDiamonds(\'' + u.user_uid + '\')">+</button>' +
                 '<button class="btn-remove" onclick="removeDiamonds(\'' + u.user_uid + '\')">-</button></td>' +
                 '</tr>'
-            ).join('') || '<tr><td colspan="8">Нет пользователей</td></tr>';
+            ).join('') || '<tr><td colspan="7">Нет пользователей</td></tr>';
             document.getElementById('usersTable').innerHTML = html;
         }
 
@@ -277,8 +325,10 @@
             let html = '<table><thead><tr><th>ID</th><th>Имя</th><th>Последнее сообщение</th><th>Статус</th></tr></thead><tbody>';
             for (const [uid, chat] of Object.entries(supportChats)) {
                 if (!chat || !chat.messages || chat.messages.length === 0) continue;
-                const lastMsg = chat.messages[chat.messages.length - 1];
-                const hasUnread = chat.messages.some(m => !m.read && m.from === 'user');
+                const visibleMessages = chat.messages.filter(m => !m.deleted);
+                if (visibleMessages.length === 0) continue;
+                const lastMsg = visibleMessages[visibleMessages.length - 1];
+                const hasUnread = chat.messages.some(m => !m.read && m.from === 'user' && !m.deleted);
                 const preview = lastMsg ? lastMsg.text.substring(0, 40) + (lastMsg.text.length > 40 ? '...' : '') : 'Нет сообщений';
                 html += '<tr onclick="openChat(\'' + uid + '\')" style="cursor:pointer;' + (hasUnread ? 'background:rgba(255,215,0,0.1);' : '') + '">' +
                     '<td>' + uid + '</td><td>' + (chat.userName || '-') + '</td>' +
@@ -298,14 +348,16 @@
             const messagesDiv = document.getElementById('chatMessages');
             messagesDiv.innerHTML = '';
             if (chat.messages) {
-                chat.messages.forEach(msg => {
+                chat.messages.forEach((msg, index) => {
+                    if (msg.deleted) return;
                     const div = document.createElement('div');
                     div.className = 'chat-message ' + (msg.from === 'user' ? 'from-user' : 'from-admin');
                     div.innerHTML = '<strong>' + (msg.from === 'user' ? (chat.userName || 'Пользователь') : 'Админ') + ':</strong> ' + msg.text +
-                        '<br><small style="color:#888;">' + new Date(msg.time).toLocaleString() + '</small>';
+                        '<br><small style="color:#888;">' + new Date(msg.time).toLocaleString() + '</small>' +
+                        '<button class="btn-delete" onclick="deleteMessage(\'' + uid + '\', ' + index + ')">🗑</button>';
                     messagesDiv.appendChild(div);
                 });
-                chat.messages.forEach(m => m.read = true);
+                chat.messages.forEach(m => { if (!m.deleted) m.read = true; });
             }
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
             
@@ -313,12 +365,20 @@
             loadSupportChats();
         }
 
+        async function deleteMessage(uid, index) {
+            if (!confirm('Удалить сообщение?')) return;
+            await API.deleteSupportMessage(uid, index);
+            supportChats = await API.getSupportChats();
+            openChat(uid);
+            showSuccess('Сообщение удалено');
+        }
+
         async function sendReply() {
             if (!currentChatUID) return;
             const text = document.getElementById('replyInput').value.trim();
             if (!text) return;
 
-            if (!supportChats[currentChatUID]) supportChats[currentChatUID] = { messages: [], userName: 'Пользователь' };
+            if (!supportChats[currentChatUID]) supportChats[currentChatUID] = { messages: [], userName: 'Пользователь', deleted: [] };
             supportChats[currentChatUID].messages.push({ from: 'admin', text, time: new Date().toISOString(), read: true });
             await API.saveSupportChats(supportChats);
             
@@ -328,40 +388,33 @@
         }
 
         async function loadJackpots() {
-            try {
-                const jackpots = await API.getAllJackpots();
-                const modeNames = { '18+': '🔞 18+', 'home': '🏠 Дом', 'party': '🎉 Вечеринка', 'young': '💑 Пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
-                const html = jackpots.slice(0, 100).map(j =>
-                    '<tr><td>' + (j.created_at ? new Date(j.created_at).toLocaleString() : '-') + '</td>' +
-                    '<td>' + j.user_uid + '</td><td>' + (j.nickname || '-') + '</td>' +
-                    '<td>' + (modeNames[j.mode_key] || j.mode_key) + '</td>' +
-                    '<td>' + (j.wish || '').substring(0, 30) + '...</td><td>' + j.diamonds_won + ' 💎</td></tr>'
-                ).join('') || '<tr><td colspan="6">Нет джекпотов</td></tr>';
-                document.getElementById('jackpotsTable').innerHTML = html;
-            } catch (e) {
-                console.error('Load jackpots error:', e);
-            }
+            const jackpots = await API.getAllJackpots();
+            const modeNames = { '18+': '🔞 18+', 'home': '🏠 Дом', 'party': '🎉 Вечеринка', 'young': '💑 Пара', 'family': '👨‍👩‍👧 Семья', 'friends': '👫 Друзья' };
+            const html = jackpots.slice(0, 100).map(j =>
+                '<tr><td>' + (j.created_at ? new Date(j.created_at).toLocaleString() : '-') + '</td>' +
+                '<td>' + j.user_uid + '</td><td>' + (j.nickname || '-') + '</td>' +
+                '<td>' + (modeNames[j.mode_key] || j.mode_key) + '</td>' +
+                '<td>' + (j.wish || '').substring(0, 30) + '...</td><td>' + j.diamonds_won + ' 💎</td></tr>'
+            ).join('') || '<tr><td colspan="6">Нет джекпотов</td></tr>';
+            document.getElementById('jackpotsTable').innerHTML = html;
         }
 
         async function loadTransactions() {
-            try {
-                const transactions = await API.getTransactions();
-                const html = transactions.slice(0, 100).map(t =>
-                    '<tr><td>' + (t.created_at ? new Date(t.created_at).toLocaleString() : '-') + '</td>' +
-                    '<td>' + t.user_uid + '</td><td>' + (t.nickname || '-') + '</td>' +
-                    '<td>' + t.amount + ' 💎</td><td>' + (t.type === 'add' ? '✅ Начислено' : '❌ Списано') + '</td>' +
-                    '<td>' + (t.reason || '') + '</td></tr>'
-                ).join('') || '<tr><td colspan="6">Нет транзакций</td></tr>';
-                document.getElementById('transactionsTable').innerHTML = html;
-            } catch (e) {
-                console.error('Load transactions error:', e);
-            }
+            const transactions = await API.getTransactions();
+            const html = transactions.slice(0, 100).map(t =>
+                '<tr><td>' + (t.created_at ? new Date(t.created_at).toLocaleString() : '-') + '</td>' +
+                '<td>' + t.user_uid + '</td><td>' + (t.nickname || '-') + '</td>' +
+                '<td>' + t.amount + ' 💎</td><td>' + (t.type === 'add' ? '✅ Начислено' : '❌ Списано') + '</td>' +
+                '<td>' + (t.reason || '') + '</td></tr>'
+            ).join('') || '<tr><td colspan="6">Нет транзакций</td></tr>';
+            document.getElementById('transactionsTable').innerHTML = html;
         }
 
         if (localStorage.getItem('vds_admin_logged_in') === 'true') {
             document.getElementById('loginBlock').style.display = 'none';
             document.getElementById('adminPanel').style.display = 'block';
             loadAllData();
+            startMessagePolling();
         }
     </script>
 </body>
