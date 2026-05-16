@@ -48,7 +48,6 @@ class GameAPI {
         return uid;
     }
 
-    // ===== ПОЛЬЗОВАТЕЛИ =====
     async findUserByGoogleId(googleId) {
         const data = await this._fetch(`users?google_id=eq.${encodeURIComponent(googleId)}&limit=1`);
         return (data && data.length > 0) ? data[0] : null;
@@ -65,7 +64,6 @@ class GameAPI {
         let user = await this.findUserByGoogleId(googleId);
         
         if (user) {
-            // Обновляем last_login
             await this._fetch(`users?user_uid=eq.${encodeURIComponent(user.user_uid)}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -85,6 +83,7 @@ class GameAPI {
                 email: user.email || email,
                 picture: user.picture || picture,
                 diamonds: user.diamonds || 100,
+                diamonds_spent: user.diamonds_spent || 0,
                 treasure_progress: parseFloat(user.treasure_progress) || 0,
                 free_spins: user.free_spins || 0,
                 jackpot_boost: !!(user.jackpot_boost),
@@ -92,7 +91,6 @@ class GameAPI {
             };
         }
 
-        // Новый пользователь
         let uid;
         let existing;
         do {
@@ -107,6 +105,7 @@ class GameAPI {
             email: email,
             picture: picture,
             diamonds: 100,
+            diamonds_spent: 0,
             treasure_progress: 0,
             free_spins: 0,
             jackpot_boost: 0,
@@ -136,6 +135,7 @@ class GameAPI {
             email: email,
             picture: picture,
             diamonds: 100,
+            diamonds_spent: 0,
             treasure_progress: 0,
             free_spins: 0,
             jackpot_boost: false,
@@ -148,6 +148,7 @@ class GameAPI {
             method: 'PATCH',
             body: JSON.stringify({
                 diamonds: gameData.diamonds,
+                diamonds_spent: gameData.diamonds_spent || 0,
                 treasure_progress: gameData.treasure_progress,
                 free_spins: gameData.free_spins,
                 jackpot_boost: gameData.jackpot_boost ? 1 : 0,
@@ -166,13 +167,13 @@ class GameAPI {
             email: user.email,
             picture: user.picture,
             diamonds: user.diamonds,
+            diamonds_spent: user.diamonds_spent || 0,
             treasure_progress: parseFloat(user.treasure_progress) || 0,
             free_spins: user.free_spins || 0,
             jackpot_boost: !!(user.jackpot_boost)
         };
     }
 
-    // ===== ДЖЕКПОТЫ =====
     async saveJackpot(user_uid, nickname, mode_key, icon, wish, diamonds_won) {
         return await this._fetch('jackpots', {
             method: 'POST',
@@ -198,7 +199,6 @@ class GameAPI {
         return data || [];
     }
 
-    // ===== ОНЛАЙН =====
     async logOnline(user_uid, nickname, action) {
         return await this._fetch('online_logs', {
             method: 'POST',
@@ -234,7 +234,6 @@ class GameAPI {
         };
     }
 
-    // ===== ПОЛЬЗОВАТЕЛИ ДЛЯ АДМИНКИ =====
     async getAllUsers() {
         const data = await this._fetch('users?order=created_at.desc&limit=100');
         return data || [];
@@ -312,7 +311,8 @@ class GameAPI {
         data.forEach(chat => {
             chats[chat.user_uid] = {
                 messages: chat.messages || [],
-                userName: chat.user_name || ''
+                userName: chat.user_name || '',
+                deleted: chat.deleted || []
             };
         });
         return chats;
@@ -326,7 +326,8 @@ class GameAPI {
                 await this._fetch(`support_chats?user_uid=eq.${encodeURIComponent(uid)}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
-                        messages: chat.messages,
+                        messages: chat.messages || [],
+                        deleted: chat.deleted || [],
                         user_name: chat.userName,
                         updated_at: new Date().toISOString()
                     })
@@ -337,7 +338,8 @@ class GameAPI {
                     body: JSON.stringify({
                         user_uid: uid,
                         user_name: chat.userName,
-                        messages: chat.messages,
+                        messages: chat.messages || [],
+                        deleted: [],
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString()
                     })
@@ -345,6 +347,25 @@ class GameAPI {
             }
         }
         return true;
+    }
+
+    async deleteSupportMessage(uid, messageIndex) {
+        const chats = await this.getSupportChats();
+        if (chats[uid] && chats[uid].messages && chats[uid].messages[messageIndex]) {
+            if (!chats[uid].deleted) chats[uid].deleted = [];
+            chats[uid].deleted.push(messageIndex);
+            chats[uid].messages[messageIndex].deleted = true;
+            await this.saveSupportChats(chats);
+            return true;
+        }
+        return false;
+    }
+
+    async addSupportMessage(uid, message) {
+        const chats = await this.getSupportChats();
+        if (!chats[uid]) chats[uid] = { messages: [], userName: '', deleted: [] };
+        chats[uid].messages.push(message);
+        return await this.saveSupportChats(chats);
     }
 }
 
