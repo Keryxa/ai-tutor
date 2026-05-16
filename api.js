@@ -12,18 +12,17 @@ class GameAPI {
         const headers = {
             'apikey': SUPABASE_KEY,
             'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
+            'Content-Type': 'application/json'
         };
-        
-        if (options.select) {
-            headers['Prefer'] = 'return=representation';
-        }
 
         const config = {
-            headers: headers,
-            ...options
+            method: options.method || 'GET',
+            headers: headers
         };
+
+        if (options.body) {
+            config.body = options.body;
+        }
 
         try {
             const res = await fetch(url, config);
@@ -42,7 +41,11 @@ class GameAPI {
     }
 
     generateUID() {
-        return String(Math.floor(10000000 + Math.random() * 90000000));
+        let uid;
+        do {
+            uid = String(Math.floor(10000000 + Math.random() * 90000000));
+        } while (this._usedUIDs && this._usedUIDs.has(uid));
+        return uid;
     }
 
     // ===== ПОЛЬЗОВАТЕЛИ =====
@@ -63,7 +66,7 @@ class GameAPI {
         
         if (user) {
             // Обновляем last_login
-            await this._fetch(`users?user_uid=eq.${user.user_uid}`, {
+            await this._fetch(`users?user_uid=eq.${encodeURIComponent(user.user_uid)}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     last_login: new Date().toISOString(),
@@ -174,7 +177,12 @@ class GameAPI {
         return await this._fetch('jackpots', {
             method: 'POST',
             body: JSON.stringify({
-                user_uid, nickname, mode_key, icon, wish, diamonds_won,
+                user_uid: user_uid,
+                nickname: nickname,
+                mode_key: mode_key,
+                icon: icon,
+                wish: wish,
+                diamonds_won: diamonds_won,
                 created_at: new Date().toISOString()
             })
         });
@@ -195,7 +203,9 @@ class GameAPI {
         return await this._fetch('online_logs', {
             method: 'POST',
             body: JSON.stringify({
-                user_uid, nickname, action,
+                user_uid: user_uid,
+                nickname: nickname,
+                action: action,
                 created_at: new Date().toISOString()
             })
         });
@@ -267,7 +277,12 @@ class GameAPI {
         return await this._fetch('transactions', {
             method: 'POST',
             body: JSON.stringify({
-                user_uid, nickname, amount, type, reason, admin_username,
+                user_uid: user_uid,
+                nickname: nickname,
+                amount: amount,
+                type: type,
+                reason: reason,
+                admin_username: admin_username,
                 created_at: new Date().toISOString()
             })
         });
