@@ -113,7 +113,7 @@
     .diamond-option:hover { background: #3d2058; }
     .auth-title { color: #ffd700; font-size: 1.3rem; margin-bottom: 12px; text-shadow: 0 0 12px gold; }
     .custom-reward-input { width: 100%; padding: 8px; margin: 3px 0; border-radius: 16px; border: 1px solid #d4af37; background: #2a1540; color: #ffd966; font-size: 0.85rem; text-align: center; outline: none; }
-    .footer { text-align: center; color: #b8945f; font-size: 0.65rem; margin-top: 8px; z-index: 1; position: relative; max-width: 650px; width: 100%; }
+    .footer { text-align: center; color: #b8945f; font-size: 0.65rem; margin-top: 8px; z-index: 1; position: relative; max-width: 650px; width: 100%; padding-bottom: 10px; }
     .footer a { color: #d4af37; text-decoration: underline; cursor: pointer; margin: 0 6px; }
     .footer a:hover { color: #ffd700; }
     .policy-text { text-align: left; color: #ddd; font-size: 0.8rem; line-height: 1.4; max-height: 280px; overflow-y: auto; padding: 8px; }
@@ -332,7 +332,7 @@
   </div>
 
   <script src="api.js"></script>
-  <script>
+    <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         const swCode = `
@@ -355,7 +355,7 @@
           scope: 'email profile openid',
           callback: async (response) => {
             if (response.error) {
-              $('authError').textContent = 'Ошибка входа через Google';
+              document.getElementById('authError').textContent = 'Ошибка входа через Google';
               return;
             }
             const token = response.access_token;
@@ -373,7 +373,7 @@
             if (result.success) {
               onLoginSuccess(result);
             } else {
-              $('authError').textContent = result.error || 'Ошибка';
+              document.getElementById('authError').textContent = result.error || 'Ошибка';
             }
           }
         });
@@ -423,18 +423,15 @@
       };
 
       const CERTIFICATE_TEXTS = {
-        ru: { title: 'VDS СЕРТИФИКАТ ВЫИГРЫША', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} выиграл(а) задание для тебя, ${p}!`, official: 'ОФИЦИАЛЬНЫЙ ЧЕК ВЫИГРЫША • VDS СЕРТИФИЦИРОВАНО' },
-        ua: { title: 'VDS СЕРТИФІКАТ ВИГРАШУ', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} виграв(ла) завдання для тебе, ${p}!`, official: 'ОФІЦІЙНИЙ ЧЕК ВИГРАШУ • VDS СЕРТИФІКОВАНО' },
-        en: { title: 'VDS WINNINGS CERTIFICATE', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => `${u} won a task for you, ${p}!`, official: 'OFFICIAL WINNINGS CHECK • VDS CERTIFIED' }
+        ru: { title: 'VDS СЕРТИФИКАТ ВЫИГРЫША', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => u + ' выиграл(а) задание для тебя, ' + p + '!', official: 'ОФИЦИАЛЬНЫЙ ЧЕК ВЫИГРЫША • VDS СЕРТИФИЦИРОВАНО' },
+        ua: { title: 'VDS СЕРТИФІКАТ ВИГРАШУ', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => u + ' виграв(ла) завдання для тебе, ' + p + '!', official: 'ОФІЦІЙНИЙ ЧЕК ВИГРАШУ • VDS СЕРТИФІКОВАНО' },
+        en: { title: 'VDS WINNINGS CERTIFICATE', subtitle: 'Vibe Dare Smile', wonMsg: (u, p) => u + ' won a task for you, ' + p + '!', official: 'OFFICIAL WINNINGS CHECK • VDS CERTIFIED' }
       };
 
       const TRANSLATIONS = {
         ru: {
-          loginTitle: '🔐 ВХОД', registerTitle: '📝 РЕГИСТРАЦИЯ', loginPlaceholder: 'Введите никнейм', registerPlaceholder: 'Придумайте никнейм',
-          loginBtn: 'ВОЙТИ', registerBtn: 'ЗАРЕГИСТРИРОВАТЬСЯ', showRegisterBtn: '📝 РЕГИСТРАЦИЯ', showLoginBtn: '↩️ НАЗАД К ВХОДУ',
-          customRewardsBtn: 'Мои желания', historyBtn: 'История',
-          menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара',
-          menuFriends: '👫 Для Друзей',
+          loginTitle: '🔐 ВХОД', customRewardsBtn: 'Мои желания', historyBtn: 'История',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дома', menuParty: '🎉 Для Вечеринки', menuYoung: '💑 Молодая Пара', menuFamily: '👨‍👩‍👧 Семейная Пара', menuFriends: '👫 Для Друзей',
           diamondsLabel: '💎 Алмазы:', donateButton: '💎 Пополнить', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Отправить Партнёру', closeBtn: 'ЗАКРЫТЬ',
           nameFormTitle: '📝 Введите имена', userNamePlaceholder: 'Ваше имя', partnerNamePlaceholder: 'Имя партнёра', downloadBtn: '📥 Скачать', cancelBtn: 'Отмена',
@@ -447,14 +444,12 @@
           win3: '🎉 3 совпадения! +1💎', win4: '🔥 4 совпадения! +3💎', logoutBtn: '🚪 Выйти',
           mainTopUpBtn: '💎 Пополнить', viewBtn: '👁 Смотреть', winDetailTitle: '📋 Детали выигрыша',
           supportTitle: '💬 Онлайн поддержка', supportPlaceholder: 'Введите сообщение...', sendBtn: '📤',
-          winningsBtn: '🏆 Выигрыши', winningsTitle: '🏆 Последние джекпоты', noWinnings: 'Пока нет джекпотов'
+          winningsBtn: '🏆 Выигрыши', winningsTitle: '🏆 Последние джекпоты', noWinnings: 'Пока нет джекпотов',
+          supportGreeting: '👋 Здравствуйте! Чем могу помочь?'
         },
         ua: {
-          loginTitle: '🔐 ВХІД', registerTitle: '📝 РЕЄСТРАЦІЯ', loginPlaceholder: 'Введіть нікнейм', registerPlaceholder: 'Придумайте нікнейм',
-          loginBtn: 'УВІЙТИ', registerBtn: 'ЗАРЕЄСТРУВАТИСЬ', showRegisterBtn: '📝 РЕЄСТРАЦІЯ', showLoginBtn: '↩️ НАЗАД ДО ВХОДУ',
-          customRewardsBtn: 'Мої бажання', historyBtn: 'Історія',
-          menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара',
-          menuFriends: '👫 Для Друзів',
+          loginTitle: '🔐 ВХІД', customRewardsBtn: 'Мої бажання', historyBtn: 'Історія',
+          menu18: '🔞 18+', menuHome: '🏠 Для Дому', menuParty: '🎉 Для Вечірки', menuYoung: '💑 Молода Пара', menuFamily: '👨‍👩‍👧 Сімейна Пара', menuFriends: '👫 Для Друзів',
           diamondsLabel: '💎 Алмази:', donateButton: '💎 Поповнити', backToMenu: '↩️ МЕНЮ', spinBtn: '🚀 ЗАПУСК',
           jackpotTitle: '🎉 ДЖЕКПОТ!', sendToPartner: '💌 Надіслати Партнеру', closeBtn: 'ЗАКРИТИ',
           nameFormTitle: '📝 Введіть імена', userNamePlaceholder: 'Ваше ім\'я', partnerNamePlaceholder: 'Ім\'я партнера', downloadBtn: '📥 Завантажити', cancelBtn: 'Скасувати',
@@ -467,14 +462,12 @@
           win3: '🎉 3 збіги! +1💎', win4: '🔥 4 збіги! +3💎', logoutBtn: '🚪 Вийти',
           mainTopUpBtn: '💎 Поповнити', viewBtn: '👁 Дивитись', winDetailTitle: '📋 Деталі виграшу',
           supportTitle: '💬 Онлайн підтримка', supportPlaceholder: 'Введіть повідомлення...', sendBtn: '📤',
-          winningsBtn: '🏆 Виграші', winningsTitle: '🏆 Останні джекпоти', noWinnings: 'Поки немає джекпотів'
+          winningsBtn: '🏆 Виграші', winningsTitle: '🏆 Останні джекпоти', noWinnings: 'Поки немає джекпотів',
+          supportGreeting: '👋 Здравствуйте! Чим можу допомогти?'
         },
         en: {
-          loginTitle: '🔐 LOGIN', registerTitle: '📝 REGISTER', loginPlaceholder: 'Enter nickname', registerPlaceholder: 'Create nickname',
-          loginBtn: 'LOGIN', registerBtn: 'REGISTER', showRegisterBtn: '📝 REGISTER', showLoginBtn: '↩️ BACK TO LOGIN',
-          customRewardsBtn: 'My Wishes', historyBtn: 'History',
-          menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple',
-          menuFriends: '👫 For Friends',
+          loginTitle: '🔐 LOGIN', customRewardsBtn: 'My Wishes', historyBtn: 'History',
+          menu18: '🔞 18+', menuHome: '🏠 For Home', menuParty: '🎉 For Party', menuYoung: '💑 Young Couple', menuFamily: '👨‍👩‍👧 Family Couple', menuFriends: '👫 For Friends',
           diamondsLabel: '💎 Diamonds:', donateButton: '💎 Top Up', backToMenu: '↩️ MENU', spinBtn: '🚀 LAUNCH',
           jackpotTitle: '🎉 JACKPOT!', sendToPartner: '💌 Send to Partner', closeBtn: 'CLOSE',
           nameFormTitle: '📝 Enter Names', userNamePlaceholder: 'Your name', partnerNamePlaceholder: 'Partner name', downloadBtn: '📥 Download', cancelBtn: 'Cancel',
@@ -487,7 +480,8 @@
           win3: '🎉 3 matches! +1💎', win4: '🔥 4 matches! +3💎', logoutBtn: '🚪 Logout',
           mainTopUpBtn: '💎 Top Up', viewBtn: '👁 View', winDetailTitle: '📋 Win Details',
           supportTitle: '💬 Online Support', supportPlaceholder: 'Enter message...', sendBtn: '📤',
-          winningsBtn: '🏆 Winnings', winningsTitle: '🏆 Latest Jackpots', noWinnings: 'No jackpots yet'
+          winningsBtn: '🏆 Winnings', winningsTitle: '🏆 Latest Jackpots', noWinnings: 'No jackpots yet',
+          supportGreeting: '👋 Hello! How can I help you?'
         }
       };
 
@@ -517,22 +511,22 @@
       let customRewards = [];
       let useCustomRewards = false;
       let audioCtx = null;
-      let chatMessages = [];
       let jackpotFeedData = [];
       let saveTimeout = null;
+      let supportMessages = [];
 
       function t(key) { return TRANSLATIONS[currentLanguage]?.[key] || TRANSLATIONS.ru[key] || key; }
       function $(id) { return document.getElementById(id); }
       function initAudio() { if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
-      function playTone(f, d, type = 'sine', v = 0.08) { try { const c = initAudio(); const o = c.createOscillator(); const g = c.createGain(); o.type = type; o.frequency.value = f; g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d); o.connect(g); g.connect(c.destination); o.start(c.currentTime); o.stop(c.currentTime + d); } catch (e) {} }
-      function playSpinClickSound() { playTone(600, 0.1, 'square', 0.06); setTimeout(() => playTone(800, 0.1, 'square', 0.05), 50); }
+      function playTone(f, d, type, v) { type = type || 'sine'; v = v || 0.08; try { const c = initAudio(); const o = c.createOscillator(); const g = c.createGain(); o.type = type; o.frequency.value = f; g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d); o.connect(g); g.connect(c.destination); o.start(c.currentTime); o.stop(c.currentTime + d); } catch (e) {} }
+      function playSpinClickSound() { playTone(600, 0.1, 'square', 0.06); setTimeout(function() { playTone(800, 0.1, 'square', 0.05); }, 50); }
       function playReelSpinSound() { playTone(150 + Math.random() * 80, 0.06, 'sawtooth', 0.02); }
       function playReelStopSound() { playTone(300, 0.12, 'triangle', 0.04); }
-      function playWinSound() { playTone(523, 0.15, 'sine', 0.06); setTimeout(() => playTone(659, 0.15, 'sine', 0.06), 120); }
+      function playWinSound() { playTone(523, 0.15); setTimeout(function() { playTone(659, 0.15); }, 120); }
       function playLoseSound() { playTone(200, 0.2, 'sawtooth', 0.03); }
-      function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => setTimeout(() => playTone(f, 0.3, 'sine', 0.07), i * 100)); }
+      function playJackpotSound() { [523, 659, 784, 1047, 1319, 1568].forEach(function(f, i) { setTimeout(function() { playTone(f, 0.3, 'sine', 0.07); }, i * 100); }); }
       function playGiftShakeSound() { playTone(250 + Math.random() * 50, 0.05, 'square', 0.03); }
-      function playGiftExplosionSound() { [300, 400, 500, 600, 700, 800, 900, 1000].forEach((f, i) => setTimeout(() => playTone(f, 0.15, 'triangle', 0.05), i * 30)); }
+      function playGiftExplosionSound() { [300, 400, 500, 600, 700, 800, 900, 1000].forEach(function(f, i) { setTimeout(function() { playTone(f, 0.15, 'triangle', 0.05); }, i * 30); }); }
 
       function onLoginSuccess(data) {
         userData = data;
@@ -554,43 +548,33 @@
         loadJackpotFeed();
         loadCustomRewards();
         loadJackpotFeedData();
+        loadSupportHistory();
       }
 
       async function logout() {
         if (userData) await API.logOut(userData.user_uid, nickname);
-        userData = null;
-        nickname = '';
-        diamonds = 100;
-        treasureProgress = 0;
-        freeSpins = 0;
-        jackpotBoost = false;
-        jackpotHistory = [];
-        customRewards = [];
-        useCustomRewards = false;
-        $('authOverlay').classList.remove('hidden');
-        $('mainMenu').classList.add('hidden');
-        $('slotUI').classList.add('hidden');
-        $('userIdDisplay').textContent = '';
-        $('userAvatar').classList.add('hidden');
-        updateMainBalance();
+        userData = null; nickname = ''; diamonds = 100; treasureProgress = 0; freeSpins = 0; jackpotBoost = false;
+        jackpotHistory = []; customRewards = []; useCustomRewards = false; supportMessages = [];
+        $('authOverlay').classList.remove('hidden'); $('mainMenu').classList.add('hidden'); $('slotUI').classList.add('hidden');
+        $('userIdDisplay').textContent = ''; $('userAvatar').classList.add('hidden'); updateMainBalance();
       }
 
       function updateGiftSize(progress) {
         if (!$('giftIcon')) return;
         if (progress >= 100) { $('giftIcon').style.fontSize = '1.5rem'; }
-        else { const scale = 0.5 + (progress / 100) * 2.5; $('giftIcon').style.fontSize = (1.2 * scale) + 'rem'; }
+        else { var scale = 0.5 + (progress / 100) * 2.5; $('giftIcon').style.fontSize = (1.2 * scale) + 'rem'; }
       }
 
       function spawnParticles() {
         if (!$('treasureSection') || !$('giftIcon')) return;
-        const container = $('treasureSection');
-        const giftRect = $('giftIcon').getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        const centerX = giftRect.left + giftRect.width / 2 - containerRect.left;
-        const centerY = giftRect.top + giftRect.height / 2 - containerRect.top;
-        const colors = ['#ff3333', '#ff4444', '#cc0000', '#3333ff', '#4444ff', '#0000cc', '#ffdd00', '#ffcc00', '#ffaa00'];
-        for (let i = 0; i < 30; i++) {
-          const particle = document.createElement('div');
+        var container = $('treasureSection');
+        var giftRect = $('giftIcon').getBoundingClientRect();
+        var containerRect = container.getBoundingClientRect();
+        var centerX = giftRect.left + giftRect.width / 2 - containerRect.left;
+        var centerY = giftRect.top + giftRect.height / 2 - containerRect.top;
+        var colors = ['#ff3333', '#ff4444', '#cc0000', '#3333ff', '#4444ff', '#0000cc', '#ffdd00', '#ffcc00', '#ffaa00'];
+        for (var i = 0; i < 30; i++) {
+          var particle = document.createElement('div');
           particle.className = 'particle';
           particle.style.position = 'absolute';
           particle.style.left = centerX + 'px';
@@ -599,13 +583,13 @@
           particle.style.width = (4 + Math.random() * 8) + 'px';
           particle.style.height = (4 + Math.random() * 8) + 'px';
           particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-          const angle = Math.random() * Math.PI * 2;
-          const distance = 30 + Math.random() * 80;
+          var angle = Math.random() * Math.PI * 2;
+          var distance = 30 + Math.random() * 80;
           particle.style.setProperty('--px', Math.cos(angle) * distance + 'px');
           particle.style.setProperty('--py', Math.sin(angle) * distance + 'px');
           particle.style.animationDuration = (0.8 + Math.random() * 1.5) + 's';
           container.appendChild(particle);
-          setTimeout(() => { if (particle.parentNode) particle.remove(); }, 2000);
+          setTimeout(function() { if (particle.parentNode) particle.remove(); }, 2000);
         }
       }
 
@@ -615,27 +599,27 @@
         gamePaused = true;
         $('spinButton').disabled = true;
         $('giftIcon').classList.add('gift-shake');
-        const shakeInterval = setInterval(() => playGiftShakeSound(), 150);
-        setTimeout(() => {
+        var shakeInterval = setInterval(function() { playGiftShakeSound(); }, 150);
+        setTimeout(function() {
           clearInterval(shakeInterval);
           $('giftIcon').classList.remove('gift-shake');
           spawnParticles();
           playGiftExplosionSound();
           $('giftIcon').classList.add('gift-explosion');
-          setTimeout(() => {
+          setTimeout(function() {
             $('giftIcon').classList.remove('gift-explosion');
             $('giftIcon').classList.add('gift-reappear');
             $('giftIcon').style.fontSize = '1.2rem';
             treasureProgress = 0;
             $('progressFill').style.width = '0%';
-            const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+            var bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
             $('progressText').textContent = bonusWord + ': 0/100%';
             freeSpins += 10;
             jackpotBoost = true;
             updateFreeSpinsBadge();
             showMessage(t('bonusOpened'));
             debouncedSave();
-            setTimeout(() => {
+            setTimeout(function() {
               $('giftIcon').classList.remove('gift-reappear');
               gamePaused = false;
               $('spinButton').disabled = false;
@@ -646,43 +630,15 @@
 
       function updateWinningsList() {
         if (!$('winningsList')) return;
-        const recentJackpots = jackpotFeedData.slice(0, 10);
-        if (recentJackpots.length === 0) {
-          $('winningsList').innerHTML = '<p style="text-align:center;color:#b8945f;">' + t('noWinnings') + '</p>';
-          return;
-        }
-        $('winningsList').innerHTML = recentJackpots.map(item => '<div class="history-item"><span>👤 ' + item.nickname + '</span><span>💰 +' + item.amount + '💎</span><span>📂 ' + item.mode + '</span><span>🕐 ' + item.date + ' ' + item.time + '</span></div>').join('');
+        var recent = jackpotFeedData.slice(0, 10);
+        if (recent.length === 0) { $('winningsList').innerHTML = '<p style="text-align:center;color:#b8945f;">' + t('noWinnings') + '</p>'; return; }
+        $('winningsList').innerHTML = recent.map(function(item) { return '<div class="history-item"><span>👤 ' + item.nickname + '</span><span>💰 +' + item.amount + '💎</span><span>📂 ' + item.mode + '</span><span>🕐 ' + item.date + ' ' + item.time + '</span></div>'; }).join('');
       }
 
       function addToJackpotFeed(nick, mode, amount) {
-        const now = new Date();
+        var now = new Date();
         jackpotFeedData.unshift({ nickname: nick, mode: mode, amount: amount, date: now.toLocaleDateString(), time: now.toLocaleTimeString() });
         if (jackpotFeedData.length > 50) jackpotFeedData.pop();
-      }
-
-      function addChatMessage(text, type) {
-        chatMessages.push({ text, type });
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-message ' + type;
-        msgDiv.textContent = text;
-        $('chatMessages').appendChild(msgDiv);
-        $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
-      }
-
-      function handleChatSend() {
-        const text = $('chatInput').value.trim();
-        if (!text) return;
-        addChatMessage(text, 'user');
-        $('chatInput').value = '';
-        setTimeout(() => {
-          const responses = {
-            ru: ['Спасибо за обращение!', 'Мы получили ваше сообщение.', 'Ваш запрос передан в поддержку.'],
-            ua: ['Дякуємо за звернення!', 'Ми отримали ваше повідомлення.', 'Ваш запит передано в підтримку.'],
-            en: ['Thank you!', 'Message received.', 'Request forwarded to support.']
-          };
-          const resp = responses[currentLanguage] || responses.ru;
-          addChatMessage(resp[Math.floor(Math.random() * resp.length)], 'admin');
-        }, 1000);
       }
 
       function showWinDetail(item) {
@@ -692,21 +648,21 @@
       }
 
       function showJackpotPrizes() {
-        let prizes = [];
+        var prizes = [];
         if (useCustomRewards && customRewards.length >= 3) prizes = customRewards;
         else prizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
-        $('jackpotPrizesList').innerHTML = prizes.map(p => '<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ' + p + '</div>').join('');
+        $('jackpotPrizesList').innerHTML = prizes.map(function(p) { return '<div style="padding:6px 0;border-bottom:1px solid rgba(212,175,55,0.3);">🎁 ' + p + '</div>'; }).join('');
         $('jackpotPrizesModal').classList.remove('hidden');
       }
 
       function updateAllTexts() {
         $('customRewardsBtn').textContent = t('customRewardsBtn');
         $('historyBtn').textContent = t('historyBtn');
-        const modeBtns = document.querySelectorAll('[data-mode]');
-        const modeKeys = ['18+', 'home', 'party', 'young', 'family', 'friends'];
-        modeBtns.forEach(b => {
-          const idx = modeKeys.indexOf(b.dataset.mode);
-          if (idx >= 0) { const keys = ['menu18', 'menuHome', 'menuParty', 'menuYoung', 'menuFamily', 'menuFriends']; b.innerHTML = t(keys[idx]); }
+        var modeBtns = document.querySelectorAll('[data-mode]');
+        var modeKeys = ['18+', 'home', 'party', 'young', 'family', 'friends'];
+        modeBtns.forEach(function(b) {
+          var idx = modeKeys.indexOf(b.dataset.mode);
+          if (idx >= 0) { var keys = ['menu18', 'menuHome', 'menuParty', 'menuYoung', 'menuFamily', 'menuFriends']; b.innerHTML = t(keys[idx]); }
         });
         $('diamondsLabel').textContent = t('diamondsLabel');
         $('donateButton').innerHTML = t('donateButton');
@@ -751,70 +707,109 @@
         nickname = localStorage.getItem('wdVdsNickname') || '';
         if (!nickname) { $('authOverlay').classList.remove('hidden'); $('mainMenu').classList.add('hidden'); $('slotUI').classList.add('hidden'); }
         else { $('authOverlay').classList.add('hidden'); $('mainMenu').classList.remove('hidden'); $('nicknameDisplay').textContent = nickname; }
-        loadDiamonds();
-        loadHistory();
-        loadCustomRewards();
-        loadJackpotFeedData();
-        updateMainBalance();
+        loadDiamonds(); loadHistory(); loadCustomRewards(); loadJackpotFeedData(); updateMainBalance();
       }
 
-      function loadJackpotFeedData() {
-        const k = 'wdVdsJackpotFeed';
-        jackpotFeedData = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : [];
-      }
-
-      function saveJackpotFeedData() {
-        localStorage.setItem('wdVdsJackpotFeed', JSON.stringify(jackpotFeedData));
-        updateWinningsList();
-      }
-
-      function loadDiamonds() { const k = 'wdVdsDiamonds_' + nickname; diamonds = localStorage.getItem(k) ? parseInt(localStorage.getItem(k)) : 100; updateDiamondsDisplay(); updateMainBalance(); }
+      function loadJackpotFeedData() { var k = 'wdVdsJackpotFeed'; jackpotFeedData = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : []; }
+      function saveJackpotFeedData() { localStorage.setItem('wdVdsJackpotFeed', JSON.stringify(jackpotFeedData)); updateWinningsList(); }
+      function loadDiamonds() { var k = 'wdVdsDiamonds_' + nickname; diamonds = localStorage.getItem(k) ? parseInt(localStorage.getItem(k)) : 100; updateDiamondsDisplay(); updateMainBalance(); }
       function saveDiamonds() { localStorage.setItem('wdVdsDiamonds_' + nickname, diamonds); updateDiamondsDisplay(); updateMainBalance(); }
       function updateDiamondsDisplay() { if ($('diamondsCount')) $('diamondsCount').textContent = diamonds; }
       function updateMainBalance() { if ($('mainBalanceDisplay')) $('mainBalanceDisplay').textContent = diamonds; }
 
       async function loadJackpotHistory() {
         if (!userData) return;
-        try {
-          const data = await API.getJackpotsByUser(userData.user_uid);
-          jackpotHistory = data.map(j => ({ icon: j.icon, wish: j.wish, date: new Date(j.created_at).toLocaleDateString(), time: new Date(j.created_at).toLocaleTimeString() }));
-          renderHistory();
-        } catch (e) { loadHistory(); }
+        try { var data = await API.getJackpotsByUser(userData.user_uid); jackpotHistory = data.map(function(j) { return { icon: j.icon, wish: j.wish, date: new Date(j.created_at).toLocaleDateString(), time: new Date(j.created_at).toLocaleTimeString() }; }); renderHistory(); } catch (e) { loadHistory(); }
       }
 
       async function loadJackpotFeed() {
-        try {
-          const data = await API.getAllJackpots();
-          jackpotFeedData = data.slice(0, 10).map(j => ({ nickname: j.nickname, mode: j.mode_key, amount: j.diamonds_won, date: new Date(j.created_at).toLocaleDateString(), time: new Date(j.created_at).toLocaleTimeString() }));
-          updateWinningsList();
-        } catch (e) { loadJackpotFeedData(); }
+        try { var data = await API.getAllJackpots(); jackpotFeedData = data.slice(0, 10).map(function(j) { return { nickname: j.nickname, mode: j.mode_key, amount: j.diamonds_won, date: new Date(j.created_at).toLocaleDateString(), time: new Date(j.created_at).toLocaleTimeString() }; }); updateWinningsList(); } catch (e) { loadJackpotFeedData(); }
       }
 
-      function loadHistory() { const k = 'wdVdsHistory_' + nickname; jackpotHistory = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : []; renderHistory(); }
+      function loadHistory() { var k = 'wdVdsHistory_' + nickname; jackpotHistory = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : []; renderHistory(); }
       function saveHistory() { localStorage.setItem('wdVdsHistory_' + nickname, JSON.stringify(jackpotHistory)); renderHistory(); }
-      function addJackpotToHistory(icon, wish) { jackpotHistory.unshift({ icon, wish, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }); if (jackpotHistory.length > 50) jackpotHistory.pop(); saveHistory(); }
+      function addJackpotToHistory(icon, wish) { jackpotHistory.unshift({ icon: icon, wish: wish, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }); if (jackpotHistory.length > 50) jackpotHistory.pop(); saveHistory(); }
 
       function renderHistory() {
         if (!$('historyList')) return;
-        $('historyList').innerHTML = jackpotHistory.length === 0 ? '<p style="text-align:center;">' + t('noJackpots') + '</p>' : jackpotHistory.map((item, i) => '<div class="history-item"><span>' + item.icon + ' ' + item.wish.substring(0,20) + '...</span><span>' + item.date + '</span><div><button onclick="window.downloadHistory(' + i + ')">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(' + i + ')">' + t('viewBtn') + '</button></div></div>').join('');
+        $('historyList').innerHTML = jackpotHistory.length === 0 ? '<p style="text-align:center;">' + t('noJackpots') + '</p>' : jackpotHistory.map(function(item, i) { return '<div class="history-item"><span>' + item.icon + ' ' + item.wish.substring(0,20) + '...</span><span>' + item.date + '</span><div><button onclick="window.downloadHistory(' + i + ')">📥</button> <button class="view-btn" onclick="window.viewHistoryItem(' + i + ')">' + t('viewBtn') + '</button></div></div>'; }).join('');
       }
 
-      window.downloadHistory = function(i) { const item = jackpotHistory[i]; if (!item) return; pendingJackpotIcon = item.icon; pendingJackpotWish = item.wish; $('nameFormModal').classList.remove('hidden'); };
-      window.viewHistoryItem = function(i) { const item = jackpotHistory[i]; if (!item) return; showWinDetail(item); };
+      window.downloadHistory = function(i) { var item = jackpotHistory[i]; if (!item) return; pendingJackpotIcon = item.icon; pendingJackpotWish = item.wish; $('nameFormModal').classList.remove('hidden'); };
+      window.viewHistoryItem = function(i) { var item = jackpotHistory[i]; if (!item) return; showWinDetail(item); };
 
-      function loadCustomRewards() { const k = 'wdVdsCustomRewards_' + (userData ? userData.user_uid : nickname); customRewards = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : []; renderCustomRewards(); }
-      function saveCustomRewardsData() { const k = 'wdVdsCustomRewards_' + (userData ? userData.user_uid : nickname); localStorage.setItem(k, JSON.stringify(customRewards)); renderCustomRewards(); }
+      function loadCustomRewards() { var k = 'wdVdsCustomRewards_' + (userData ? userData.user_uid : nickname); customRewards = localStorage.getItem(k) ? JSON.parse(localStorage.getItem(k)) : []; renderCustomRewards(); }
+      function saveCustomRewardsData() { var k = 'wdVdsCustomRewards_' + (userData ? userData.user_uid : nickname); localStorage.setItem(k, JSON.stringify(customRewards)); renderCustomRewards(); }
 
       function renderCustomRewards() {
         if (!$('customRewardsList')) return;
-        $('customRewardsList').innerHTML = customRewards.map((r, i) => '<div style="display:flex;gap:5px;margin:4px 0;"><input class="custom-reward-input" value="' + r + '" onchange="window.updateCustomReward(' + i + ', this.value)" placeholder="' + t('customRewardsDesc') + '"><button onclick="window.removeCustomReward(' + i + ')" style="background:#b22222;color:white;border:none;border-radius:20px;padding:5px 10px;cursor:pointer;">✕</button></div>').join('');
+        $('customRewardsList').innerHTML = customRewards.map(function(r, i) { return '<div style="display:flex;gap:5px;margin:4px 0;"><input class="custom-reward-input" value="' + r + '" onchange="window.updateCustomReward(' + i + ', this.value)" placeholder="' + t('customRewardsDesc') + '"><button onclick="window.removeCustomReward(' + i + ')" style="background:#b22222;color:white;border:none;border-radius:20px;padding:5px 10px;cursor:pointer;">✕</button></div>'; }).join('');
       }
 
       window.updateCustomReward = function(i, v) { customRewards[i] = v; };
       window.removeCustomReward = function(i) { customRewards.splice(i, 1); renderCustomRewards(); };
 
+      async function loadSupportHistory() {
+        if (!userData) { supportMessages = []; return; }
+        try {
+          var chats = await API.getSupportChats();
+          var uid = userData.user_uid;
+          if (chats[uid] && chats[uid].messages) supportMessages = chats[uid].messages;
+          else supportMessages = [];
+        } catch (e) { supportMessages = []; }
+      }
+
+      async function saveSupportMessage() {
+        if (!userData) return;
+        try {
+          var chats = await API.getSupportChats();
+          var uid = userData.user_uid;
+          if (!chats[uid]) chats[uid] = { messages: [], userName: nickname };
+          chats[uid].messages = supportMessages;
+          chats[uid].userName = nickname;
+          await API.saveSupportChats(chats);
+        } catch (e) { console.error('Save support error:', e); }
+      }
+
+      function renderSupportMessages() {
+        var container = $('chatMessages');
+        if (!container) return;
+        container.innerHTML = '';
+        var greeting = t('supportGreeting');
+        if (supportMessages.length === 0) {
+          var div = document.createElement('div');
+          div.className = 'chat-message admin';
+          div.textContent = greeting;
+          container.appendChild(div);
+          supportMessages.push({ from: 'admin', text: greeting, time: new Date().toISOString(), read: true });
+          saveSupportMessage();
+        } else {
+          supportMessages.forEach(function(msg) {
+            var div = document.createElement('div');
+            div.className = 'chat-message ' + (msg.from === 'admin' ? 'admin' : 'user');
+            div.textContent = msg.text;
+            container.appendChild(div);
+          });
+        }
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function handleChatSend() {
+        var text = $('chatInput').value.trim();
+        if (!text) return;
+        var msg = { from: 'user', text: text, time: new Date().toISOString(), read: false };
+        supportMessages.push(msg);
+        var div = document.createElement('div');
+        div.className = 'chat-message user';
+        div.textContent = text;
+        $('chatMessages').appendChild(div);
+        $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
+        $('chatInput').value = '';
+        saveSupportMessage();
+      }
+
       function showPolicy(type) {
-        const policies = POLICIES[currentLanguage] || POLICIES.ru;
+        var policies = POLICIES[currentLanguage] || POLICIES.ru;
         $('policyTitle').textContent = type === 'privacy' ? (currentLanguage === 'ru' ? 'Политика конфиденциальности' : currentLanguage === 'ua' ? 'Політика конфіденційності' : 'Privacy Policy') : (currentLanguage === 'ru' ? 'Условия использования' : currentLanguage === 'ua' ? 'Умови використання' : 'Terms of Use');
         $('policyContent').innerHTML = type === 'privacy' ? policies.privacy : policies.terms;
         $('policyModal').classList.remove('hidden');
@@ -822,12 +817,11 @@
 
       function setLanguage(lang) {
         currentLanguage = lang;
-        [$('langRuOuter'), $('langUaOuter'), $('langEnOuter')].forEach(b => b.classList.remove('active'));
+        [$('langRuOuter'), $('langUaOuter'), $('langEnOuter')].forEach(function(b) { b.classList.remove('active'); });
         if (lang === 'ru') $('langRuOuter').classList.add('active');
         else if (lang === 'ua') $('langUaOuter').classList.add('active');
         else $('langEnOuter').classList.add('active');
-        updateAllTexts();
-        updateFreeSpinsBadge();
+        updateAllTexts(); updateFreeSpinsBadge();
       }
 
       function updateFreeSpinsBadge() {
@@ -838,68 +832,64 @@
       function updateTreasureProgress(add) {
         treasureProgress = Math.min(100, treasureProgress + add);
         $('progressFill').style.width = treasureProgress + '%';
-        const bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
+        var bonusWord = currentLanguage === 'ru' ? 'Бонус' : currentLanguage === 'ua' ? 'Бонус' : 'Bonus';
         $('progressText').textContent = bonusWord + ': ' + treasureProgress.toFixed(1) + '/100%';
-        updateGiftSize(treasureProgress);
-        debouncedSave();
+        updateGiftSize(treasureProgress); debouncedSave();
       }
 
       function updateTreasure(add) { updateTreasureProgress(add); if (treasureProgress >= 100) animateGiftShakeAndExplosion(); }
-
-      function showMessage(text) { $('messageDisplay').textContent = text; setTimeout(() => { if ($('messageDisplay').textContent === text) $('messageDisplay').textContent = ''; }, 3000); }
+      function showMessage(text) { $('messageDisplay').textContent = text; setTimeout(function() { if ($('messageDisplay').textContent === text) $('messageDisplay').textContent = ''; }, 3000); }
 
       function showSpinWin(amount) {
         $('spinWinDisplay').textContent = '+' + amount + '💎';
         $('spinWinDisplay').classList.remove('show');
         void $('spinWinDisplay').offsetWidth;
         $('spinWinDisplay').classList.add('show');
-        setTimeout(() => $('spinWinDisplay').classList.remove('show'), 2000);
+        setTimeout(function() { $('spinWinDisplay').classList.remove('show'); }, 2000);
       }
 
       function startGiftRain() {
-        const giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
-        for (let i = 0; i < 50; i++) {
-          setTimeout(() => {
-            const gift = document.createElement('div');
+        var giftTypes = ['🎁', '🎀', '💝', '🎊', '🎉', '✨', '💎', '🌟', '🎈', '🎪'];
+        for (var i = 0; i < 50; i++) {
+          setTimeout(function() {
+            var gift = document.createElement('div');
             gift.className = 'falling-gift';
             gift.textContent = giftTypes[Math.floor(Math.random() * giftTypes.length)];
             gift.style.left = Math.random() * 100 + '%';
             gift.style.animationDuration = (2 + Math.random() * 3) + 's';
             gift.style.fontSize = (1.5 + Math.random() * 2) + 'rem';
             document.body.appendChild(gift);
-            setTimeout(() => { if (gift.parentNode) gift.remove(); }, 5000);
+            setTimeout(function() { if (gift.parentNode) gift.remove(); }, 5000);
           }, i * 100);
         }
       }
 
       function showJackpotBanner() {
-        const banner = document.createElement('div');
+        var banner = document.createElement('div');
         banner.className = 'jackpot-banner';
         banner.textContent = '🎉 JACKPOT 🎉';
         document.body.appendChild(banner);
-        setTimeout(() => { if (banner.parentNode) banner.remove(); }, 5000);
+        setTimeout(function() { if (banner.parentNode) banner.remove(); }, 5000);
       }
 
-      function getSymbolHeight() { const s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 40 : 40; }
+      function getSymbolHeight() { var s = document.querySelector('.symbol'); return s ? parseFloat(getComputedStyle(s).height) || 40 : 40; }
 
       function createReels() {
-        $('machine').innerHTML = '';
-        strips = [];
-        for (let c = 0; c < GRID; c++) {
-          const reel = document.createElement('div'); reel.className = 'reel';
-          const strip = document.createElement('div'); strip.className = 'strip';
-          for (let i = 0; i < 80; i++) { const sym = document.createElement('div'); sym.className = 'symbol'; sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)]; strip.appendChild(sym); }
+        $('machine').innerHTML = ''; strips = [];
+        for (var c = 0; c < GRID; c++) {
+          var reel = document.createElement('div'); reel.className = 'reel';
+          var strip = document.createElement('div'); strip.className = 'strip';
+          for (var i = 0; i < 80; i++) { var sym = document.createElement('div'); sym.className = 'symbol'; sym.textContent = ICONS[Math.floor(Math.random() * ICONS.length)]; strip.appendChild(sym); }
           reel.appendChild(strip); $('machine').appendChild(reel); strips.push(strip);
         }
       }
 
-      function buildGrid() { visibleGrid = []; for (let r = 0; r < GRID; r++) { visibleGrid[r] = []; for (let c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
-
-      function applyGrid() { for (let c = 0; c < GRID; c++) { const ch = strips[c].children; for (let r = 0; r < GRID; r++) ch[r + 6].textContent = visibleGrid[r][c]; strips[c].style.top = -(6 * getSymbolHeight()) + 'px'; } }
+      function buildGrid() { visibleGrid = []; for (var r = 0; r < GRID; r++) { visibleGrid[r] = []; for (var c = 0; c < GRID; c++) visibleGrid[r][c] = ICONS[Math.floor(Math.random() * ICONS.length)]; } }
+      function applyGrid() { for (var c = 0; c < GRID; c++) { var ch = strips[c].children; for (var r = 0; r < GRID; r++) ch[r + 6].textContent = visibleGrid[r][c]; strips[c].style.top = -(6 * getSymbolHeight()) + 'px'; } }
 
       function findMatches() {
-        const matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
-        dirs.forEach(([dr, dc]) => { for (let r = 0; r < GRID; r++) for (let c = 0; c < GRID; c++) { const sym = visibleGrid[r][c]; const match = [{ row: r, col: c }]; let nr = r + dr, nc = c + dc; while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && visibleGrid[nr][nc] === sym) { match.push({ row: nr, col: nc }); nr += dr; nc += dc; } if (match.length >= 3) { const pr = r - dr, pc = c - dc; if (pr < 0 || pr >= GRID || pc < 0 || pc >= GRID || visibleGrid[pr][pc] !== sym) matches.push(match); } } });
+        var matches = [], dirs = [[0,1],[1,0],[1,1],[1,-1]];
+        dirs.forEach(function(d) { var dr = d[0], dc = d[1]; for (var r = 0; r < GRID; r++) for (var c = 0; c < GRID; c++) { var sym = visibleGrid[r][c]; var match = [{ row: r, col: c }]; var nr = r + dr, nc = c + dc; while (nr >= 0 && nr < GRID && nc >= 0 && nc < GRID && visibleGrid[nr][nc] === sym) { match.push({ row: nr, col: nc }); nr += dr; nc += dc; } if (match.length >= 3) { var pr = r - dr, pc = c - dc; if (pr < 0 || pr >= GRID || pc < 0 || pc >= GRID || visibleGrid[pr][pc] !== sym) matches.push(match); } } });
         return matches;
       }
 
@@ -907,14 +897,14 @@
 
       function drawLines(matches) {
         clearLines();
-        const reels = [...document.querySelectorAll('.reel')];
-        matches.forEach(match => { for (let i = 0; i < match.length - 1; i++) { const a = match[i], b = match[i + 1]; const ra = reels[a.col], rb = reels[b.col]; const rA = ra.getBoundingClientRect(), rB = rb.getBoundingClientRect(); const wr = $('winLines').getBoundingClientRect(); const sh = rA.height / 5; const x1 = rA.left + rA.width / 2 - wr.left, y1 = rA.top + (a.row * sh) + sh / 2 - wr.top; const x2 = rB.left + rB.width / 2 - wr.left, y2 = rB.top + (b.row * sh) + sh / 2 - wr.top; const dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx) * 180 / Math.PI; const line = document.createElement('div'); line.className = 'win-line'; line.style.left = x1 + 'px'; line.style.top = y1 + 'px'; line.style.width = len + 'px'; line.style.transform = 'rotate(' + ang + 'deg)'; $('winLines').appendChild(line); } });
+        var reels = [].slice.call(document.querySelectorAll('.reel'));
+        matches.forEach(function(match) { for (var i = 0; i < match.length - 1; i++) { var a = match[i], b = match[i + 1]; var ra = reels[a.col], rb = reels[b.col]; var rA = ra.getBoundingClientRect(), rB = rb.getBoundingClientRect(); var wr = $('winLines').getBoundingClientRect(); var sh = rA.height / 5; var x1 = rA.left + rA.width / 2 - wr.left, y1 = rA.top + (a.row * sh) + sh / 2 - wr.top; var x2 = rB.left + rB.width / 2 - wr.left, y2 = rB.top + (b.row * sh) + sh / 2 - wr.top; var dx = x2 - x1, dy = y2 - y1, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dy, dx) * 180 / Math.PI; var line = document.createElement('div'); line.className = 'win-line'; line.style.left = x1 + 'px'; line.style.top = y1 + 'px'; line.style.width = len + 'px'; line.style.transform = 'rotate(' + ang + 'deg)'; $('winLines').appendChild(line); } });
         setTimeout(clearLines, 2800);
       }
 
       function getRandomWish(icon) {
         if (useCustomRewards && customRewards.length >= 3) return customRewards[Math.floor(Math.random() * customRewards.length)];
-        const modePrizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
+        var modePrizes = MODE_PRIZES[currentMode]?.[currentLanguage] || MODE_PRIZES['18+'][currentLanguage] || [];
         return modePrizes[Math.floor(Math.random() * modePrizes.length)] || WISH_TEXTS[icon]?.[currentLanguage] || 'желание';
       }
 
@@ -924,21 +914,21 @@
         if (freeSpins > 0) { freeSpins--; updateFreeSpinsBadge(); if (freeSpins === 0) jackpotBoost = false; debouncedSave(); }
         else { if (diamonds < 5) { if (autoSpinning) { autoSpinning = false; $('autoSpinBtn').classList.remove('active'); $('autoSpinBtn').innerHTML = '🔄<br>AUTO'; } showMessage(t('notEnoughDiamonds')); return; } diamonds -= 5; updateDiamondsDisplay(); updateMainBalance(); debouncedSave(); }
         spinning = true; clearLines(); $('spinButton').disabled = true; playSpinClickSound(); buildGrid();
-        if (jackpotBoost && Math.random() < 0.03) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)]; const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
-        else if (Math.random() < 0.005) { const sym = ICONS[Math.floor(Math.random() * ICONS.length)]; const row = Math.floor(Math.random() * GRID); for (let c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
-        strips.forEach((strip, idx) => { let pos = -getSymbolHeight(); const reelSoundInterval = setInterval(() => playReelSpinSound(), 80); const loop = setInterval(() => { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymbolHeight(); strip.style.top = pos + 'px'; }, 40); setTimeout(() => { clearInterval(loop); clearInterval(reelSoundInterval); playReelStopSound(); applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); });
+        if (jackpotBoost && Math.random() < 0.03) { var sym = ICONS[Math.floor(Math.random() * ICONS.length)]; var row = Math.floor(Math.random() * GRID); for (var c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
+        else if (Math.random() < 0.005) { var sym = ICONS[Math.floor(Math.random() * ICONS.length)]; var row = Math.floor(Math.random() * GRID); for (var c = 0; c < GRID; c++) visibleGrid[row][c] = sym; }
+        strips.forEach(function(strip, idx) { var pos = -getSymbolHeight(); var reelSoundInterval = setInterval(function() { playReelSpinSound(); }, 80); var loop = setInterval(function() { pos -= 28 + Math.random() * 7; if (pos < -3500) pos = -getSymbolHeight(); strip.style.top = pos + 'px'; }, 40); setTimeout(function() { clearInterval(loop); clearInterval(reelSoundInterval); playReelStopSound(); applyGrid(); if (idx === GRID - 1) setTimeout(finishSpin, 400); }, 1700 + idx * 400); });
       }
 
       async function finishSpin() {
         spinning = false; $('spinButton').disabled = gamePaused ? true : false;
-        const matches = findMatches(); if (matches.length) drawLines(matches);
-        let totalWin = 0, jackpot = false, treasureAdd = 0;
-        matches.forEach(m => { if (m.length === 3) { totalWin += 1; treasureAdd += 0.5; } else if (m.length === 4) { totalWin += 3; treasureAdd += 1; } else if (m.length >= 5) { totalWin += 20; treasureAdd += 5; jackpot = true; } });
+        var matches = findMatches(); if (matches.length) drawLines(matches);
+        var totalWin = 0, jackpot = false, treasureAdd = 0;
+        matches.forEach(function(m) { if (m.length === 3) { totalWin += 1; treasureAdd += 0.5; } else if (m.length === 4) { totalWin += 3; treasureAdd += 1; } else if (m.length >= 5) { totalWin += 20; treasureAdd += 5; jackpot = true; } });
         if (totalWin > 0) { diamonds += totalWin; updateDiamondsDisplay(); updateMainBalance(); updateTreasure(treasureAdd); showSpinWin(totalWin); debouncedSave(); }
         if (jackpot) {
-          const match = matches.find(m => m.length >= 5);
-          const icon = visibleGrid[match[0].row][match[0].col];
-          const wish = getRandomWish(icon);
+          var match = matches.find(function(m) { return m.length >= 5; });
+          var icon = visibleGrid[match[0].row][match[0].col];
+          var wish = getRandomWish(icon);
           addJackpotToHistory(icon, wish);
           if (userData) API.saveJackpot(userData.user_uid, nickname, currentMode, icon, wish, 20);
           addToJackpotFeed(nickname, currentMode, 20);
@@ -947,11 +937,11 @@
           if (autoSpinning) { autoSpinning = false; $('autoSpinBtn').classList.remove('active'); $('autoSpinBtn').innerHTML = '🔄<br>AUTO'; }
           showJackpotBanner();
           startGiftRain();
-          setTimeout(() => { triggerJackpot(icon, wish); }, 5000);
+          setTimeout(function() { triggerJackpot(icon, wish); }, 5000);
         } else if (totalWin > 0) { playWinSound(); showMessage(totalWin === 1 ? t('win3') : t('win4')); }
         else { playLoseSound(); showMessage(t('tryAgain')); }
         updateFreeSpinsBadge();
-        if (autoSpinning && !jackpot && !gamePaused) { setTimeout(() => { if (autoSpinning) spin(); }, 500); }
+        if (autoSpinning && !jackpot && !gamePaused) { setTimeout(function() { if (autoSpinning) spin(); }, 500); }
       }
 
       function triggerJackpot(icon, wish) {
@@ -963,28 +953,28 @@
       }
 
       function generateLuxuryCertificate(icon, wish, userName, partnerName) {
-        const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 800; const ctx = canvas.getContext('2d');
-        const certTexts = CERTIFICATE_TEXTS[currentLanguage] || CERTIFICATE_TEXTS.ru;
+        var canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 800; var ctx = canvas.getContext('2d');
+        var certTexts = CERTIFICATE_TEXTS[currentLanguage] || CERTIFICATE_TEXTS.ru;
         ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0, 0, 1200, 800);
         ctx.fillStyle = 'rgba(255,215,0,0.3)'; ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 8;
-        for (let i = 0; i < 1200; i += 8) { for (let j = 0; j < 800; j += 8) { if (Math.random() > 0.7) { ctx.beginPath(); if (Math.random() > 0.5) ctx.arc(i, j, 2 + Math.random() * 6, 0, Math.PI * 2); else ctx.fillRect(i, j, 3 + Math.random() * 5, 3 + Math.random() * 5); ctx.fill(); } } }
+        for (var i = 0; i < 1200; i += 8) { for (var j = 0; j < 800; j += 8) { if (Math.random() > 0.7) { ctx.beginPath(); if (Math.random() > 0.5) ctx.arc(i, j, 2 + Math.random() * 6, 0, Math.PI * 2); else ctx.fillRect(i, j, 3 + Math.random() * 5, 3 + Math.random() * 5); ctx.fill(); } } }
         ctx.shadowBlur = 0;
         ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 8; ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 30; ctx.strokeRect(30, 30, 1140, 740); ctx.shadowBlur = 0;
         ctx.strokeStyle = '#c9a13b'; ctx.lineWidth = 3; ctx.strokeRect(50, 50, 1100, 700);
-        [[50,50],[1150,50],[50,750],[1150,750]].forEach(([x,y]) => { ctx.fillStyle = '#ffd700'; ctx.beginPath(); ctx.arc(x, y, 15, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#b8860b'; ctx.lineWidth = 3; ctx.stroke(); });
-        ctx.save(); ctx.beginPath(); ctx.arc(600, 420, 90, 0, Math.PI * 2); const g = ctx.createRadialGradient(600, 420, 20, 600, 420, 90); g.addColorStop(0, '#ffd700'); g.addColorStop(0.5, '#b8860b'); g.addColorStop(1, '#8b6508'); ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#ffea80'; ctx.lineWidth = 5; ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 40; ctx.stroke(); ctx.shadowBlur = 0; ctx.fillStyle = '#0a0a0f'; ctx.font = 'bold 48px Times New Roman'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('VDS', 600, 420); ctx.restore();
-        ctx.fillStyle = '#ffd700'; ctx.font = 'bold 44px Cormorant Garamond, Times New Roman, serif'; ctx.textAlign = 'center'; ctx.fillText(certTexts.title, 600, 140);
-        ctx.fillStyle = '#d4af37'; ctx.font = 'italic 28px Cormorant Garamond, Times New Roman, serif'; ctx.fillText(certTexts.subtitle, 600, 185);
+        [[50,50],[1150,50],[50,750],[1150,750]].forEach(function(p) { var x = p[0], y = p[1]; ctx.fillStyle = '#ffd700'; ctx.beginPath(); ctx.arc(x, y, 15, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#b8860b'; ctx.lineWidth = 3; ctx.stroke(); });
+        ctx.save(); ctx.beginPath(); ctx.arc(600, 420, 90, 0, Math.PI * 2); var g = ctx.createRadialGradient(600, 420, 20, 600, 420, 90); g.addColorStop(0, '#ffd700'); g.addColorStop(0.5, '#b8860b'); g.addColorStop(1, '#8b6508'); ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = '#ffea80'; ctx.lineWidth = 5; ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 40; ctx.stroke(); ctx.shadowBlur = 0; ctx.fillStyle = '#0a0a0f'; ctx.font = 'bold 48px Times New Roman'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('VDS', 600, 420); ctx.restore();
+        ctx.fillStyle = '#ffd700'; ctx.font = 'bold 44px serif'; ctx.textAlign = 'center'; ctx.fillText(certTexts.title, 600, 140);
+        ctx.fillStyle = '#d4af37'; ctx.font = 'italic 28px serif'; ctx.fillText(certTexts.subtitle, 600, 185);
         ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(200, 210); ctx.lineTo(1000, 210); ctx.stroke();
         ctx.font = '100px sans-serif'; ctx.fillText(icon, 600, 310);
-        ctx.fillStyle = '#f0dbb0'; ctx.font = 'bold 30px Segoe UI, Arial, sans-serif'; ctx.fillText(certTexts.wonMsg(userName, partnerName), 600, 530);
-        ctx.fillStyle = '#ffd966'; ctx.font = '28px Cormorant Garamond, Times New Roman, serif';
-        const words = wish.split(' '); let line = '', y = 580;
-        words.forEach(w => { const tl = line + w + ' '; if (ctx.measureText(tl).width > 800) { ctx.fillText(line, 600, y); line = w + ' '; y += 40; } else line = tl; });
+        ctx.fillStyle = '#f0dbb0'; ctx.font = 'bold 30px sans-serif'; ctx.fillText(certTexts.wonMsg(userName, partnerName), 600, 530);
+        ctx.fillStyle = '#ffd966'; ctx.font = '28px serif';
+        var words = wish.split(' '); var line = '', y = 580;
+        words.forEach(function(w) { var tl = line + w + ' '; if (ctx.measureText(tl).width > 800) { ctx.fillText(line, 600, y); line = w + ' '; y += 40; } else line = tl; });
         ctx.fillText(line, 600, y);
         ctx.fillStyle = '#cfaa4a'; ctx.font = '18px monospace'; ctx.textAlign = 'center'; ctx.fillText(certTexts.official, 600, 680);
         ctx.save(); ctx.beginPath(); ctx.arc(1100, 720, 50, 0, Math.PI * 2); ctx.fillStyle = '#b22222'; ctx.fill(); ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 4; ctx.stroke(); ctx.fillStyle = '#ffd700'; ctx.font = 'bold 22px Times New Roman'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('VDS', 1100, 720); ctx.restore();
-        canvas.toBlob(b => { const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = 'VDS_Wish_' + icon + '.png'; a.click(); URL.revokeObjectURL(u); });
+        canvas.toBlob(function(b) { var u = URL.createObjectURL(b); var a = document.createElement('a'); a.href = u; a.download = 'VDS_Wish_' + icon + '.png'; a.click(); URL.revokeObjectURL(u); });
       }
 
       function openNameForm() { $('nameFormModal').classList.remove('hidden'); $('userNameInput').value = ''; $('partnerNameInput').value = ''; }
@@ -1000,44 +990,44 @@
         useCustomRewards = false; updateMainBalance(); debouncedSave();
       }
 
-      async function debouncedSave() { if (!userData) { saveDiamonds(); return; } if (saveTimeout) clearTimeout(saveTimeout); saveTimeout = setTimeout(async () => { await API.saveUserData(userData.user_uid, { diamonds, treasure_progress, free_spins, jackpot_boost: jackpotBoost ? 1 : 0 }); }, 2000); }
+      async function debouncedSave() { if (!userData) { saveDiamonds(); return; } if (saveTimeout) clearTimeout(saveTimeout); saveTimeout = setTimeout(async function() { await API.saveUserData(userData.user_uid, { diamonds: diamonds, treasure_progress: treasureProgress, free_spins: freeSpins, jackpot_boost: jackpotBoost ? 1 : 0 }); }, 2000); }
 
       // Event listeners
       $('logoutBtn').addEventListener('click', logout);
-      $('mainTopUpBtn').addEventListener('click', () => $('paymentModal').classList.remove('hidden'));
-      document.querySelectorAll('.thread-btn[data-mode]').forEach(b => b.addEventListener('click', function() { useCustomRewards = false; currentMode = this.dataset.mode; enterSlot(); }));
+      $('mainTopUpBtn').addEventListener('click', function() { $('paymentModal').classList.remove('hidden'); });
+      document.querySelectorAll('.thread-btn[data-mode]').forEach(function(b) { b.addEventListener('click', function() { useCustomRewards = false; currentMode = this.dataset.mode; enterSlot(); }); });
       $('spinButton').addEventListener('click', spin);
       $('backToMenu').addEventListener('click', backToMenu);
-      $('donateButton').addEventListener('click', () => $('paymentModal').classList.remove('hidden'));
-      $('closeWinBtn').addEventListener('click', () => $('winOverlay').classList.add('hidden'));
-      $('closePaymentBtn').addEventListener('click', () => $('paymentModal').classList.add('hidden'));
-      document.querySelectorAll('.diamond-option').forEach(o => o.addEventListener('click', function() { diamonds += parseInt(this.dataset.diamonds); updateDiamondsDisplay(); updateMainBalance(); debouncedSave(); $('paymentModal').classList.add('hidden'); showMessage('✨ +' + this.dataset.diamonds + '💎'); }));
-      $('historyBtn').addEventListener('click', () => { if (userData) loadJackpotHistory(); else { loadHistory(); renderHistory(); } $('historyModal').classList.remove('hidden'); });
-      $('closeHistoryBtn').addEventListener('click', () => $('historyModal').classList.add('hidden'));
-      $('winningsBtn').addEventListener('click', () => { if (userData) loadJackpotFeed(); else loadJackpotFeedData(); $('winningsModal').classList.remove('hidden'); });
-      $('closeWinningsBtn').addEventListener('click', () => $('winningsModal').classList.add('hidden'));
-      $('autoSpinBtn').addEventListener('click', () => { if (gamePaused) return; autoSpinning = !autoSpinning; if (autoSpinning) { $('autoSpinBtn').classList.add('active'); $('autoSpinBtn').innerHTML = '🔄<br>STOP'; if (!spinning) spin(); } else { $('autoSpinBtn').classList.remove('active'); $('autoSpinBtn').innerHTML = '🔄<br>AUTO'; } });
+      $('donateButton').addEventListener('click', function() { $('paymentModal').classList.remove('hidden'); });
+      $('closeWinBtn').addEventListener('click', function() { $('winOverlay').classList.add('hidden'); });
+      $('closePaymentBtn').addEventListener('click', function() { $('paymentModal').classList.add('hidden'); });
+      document.querySelectorAll('.diamond-option').forEach(function(o) { o.addEventListener('click', function() { diamonds += parseInt(this.dataset.diamonds); updateDiamondsDisplay(); updateMainBalance(); debouncedSave(); $('paymentModal').classList.add('hidden'); showMessage('✨ +' + this.dataset.diamonds + '💎'); }); });
+      $('historyBtn').addEventListener('click', function() { if (userData) loadJackpotHistory(); else { loadHistory(); renderHistory(); } $('historyModal').classList.remove('hidden'); });
+      $('closeHistoryBtn').addEventListener('click', function() { $('historyModal').classList.add('hidden'); });
+      $('winningsBtn').addEventListener('click', function() { if (userData) loadJackpotFeed(); else loadJackpotFeedData(); $('winningsModal').classList.remove('hidden'); });
+      $('closeWinningsBtn').addEventListener('click', function() { $('winningsModal').classList.add('hidden'); });
+      $('autoSpinBtn').addEventListener('click', function() { if (gamePaused) return; autoSpinning = !autoSpinning; if (autoSpinning) { $('autoSpinBtn').classList.add('active'); $('autoSpinBtn').innerHTML = '🔄<br>STOP'; if (!spinning) spin(); } else { $('autoSpinBtn').classList.remove('active'); $('autoSpinBtn').innerHTML = '🔄<br>AUTO'; } });
       $('sendToPartnerBtn').addEventListener('click', openNameForm);
-      $('downloadWithNamesBtn').addEventListener('click', () => { const un = $('userNameInput').value.trim() || 'User', pn = $('partnerNameInput').value.trim() || 'Partner'; if (pendingJackpotIcon && pendingJackpotWish) generateLuxuryCertificate(pendingJackpotIcon, pendingJackpotWish, un, pn); $('nameFormModal').classList.add('hidden'); });
-      $('closeNameFormBtn').addEventListener('click', () => $('nameFormModal').classList.add('hidden'));
-      $('closeWinDetailBtn').addEventListener('click', () => $('winDetailModal').classList.add('hidden'));
-      $('customRewardsBtn').addEventListener('click', () => { renderCustomRewards(); $('customRewardsModal').classList.remove('hidden'); });
-      $('closeCustomRewardsBtn').addEventListener('click', () => $('customRewardsModal').classList.add('hidden'));
-      $('addCustomRewardBtn').addEventListener('click', () => { if (customRewards.length >= 10) return; customRewards.push(''); renderCustomRewards(); });
-      $('saveAndPlayBtn').addEventListener('click', () => { const valid = customRewards.filter(r => r.trim() !== ''); if (valid.length < 3) { alert(currentLanguage === 'ru' ? 'Нужно минимум 3 желания!' : currentLanguage === 'ua' ? 'Потрібно мінімум 3 бажання!' : 'Need at least 3 wishes!'); return; } customRewards = valid; saveCustomRewardsData(); useCustomRewards = true; $('customRewardsModal').classList.add('hidden'); enterSlot(); showMessage('🎁 ' + (currentLanguage === 'ru' ? 'Игра с вашими желаниями!' : currentLanguage === 'ua' ? 'Гра з вашими бажаннями!' : 'Playing with your wishes!')); });
+      $('downloadWithNamesBtn').addEventListener('click', function() { var un = $('userNameInput').value.trim() || 'User', pn = $('partnerNameInput').value.trim() || 'Partner'; if (pendingJackpotIcon && pendingJackpotWish) generateLuxuryCertificate(pendingJackpotIcon, pendingJackpotWish, un, pn); $('nameFormModal').classList.add('hidden'); });
+      $('closeNameFormBtn').addEventListener('click', function() { $('nameFormModal').classList.add('hidden'); });
+      $('closeWinDetailBtn').addEventListener('click', function() { $('winDetailModal').classList.add('hidden'); });
+      $('customRewardsBtn').addEventListener('click', function() { renderCustomRewards(); $('customRewardsModal').classList.remove('hidden'); });
+      $('closeCustomRewardsBtn').addEventListener('click', function() { $('customRewardsModal').classList.add('hidden'); });
+      $('addCustomRewardBtn').addEventListener('click', function() { if (customRewards.length >= 10) return; customRewards.push(''); renderCustomRewards(); });
+      $('saveAndPlayBtn').addEventListener('click', function() { var valid = customRewards.filter(function(r) { return r.trim() !== ''; }); if (valid.length < 3) { alert(currentLanguage === 'ru' ? 'Нужно минимум 3 желания!' : currentLanguage === 'ua' ? 'Потрібно мінімум 3 бажання!' : 'Need at least 3 wishes!'); return; } customRewards = valid; saveCustomRewardsData(); useCustomRewards = true; $('customRewardsModal').classList.add('hidden'); enterSlot(); showMessage('🎁 ' + (currentLanguage === 'ru' ? 'Игра с вашими желаниями!' : currentLanguage === 'ua' ? 'Гра з вашими бажаннями!' : 'Playing with your wishes!')); });
       $('jackpotPrizesBtn').addEventListener('click', showJackpotPrizes);
-      $('closeJackpotPrizesBtn').addEventListener('click', () => $('jackpotPrizesModal').classList.add('hidden'));
-      $('supportBtn').addEventListener('click', () => { $('supportModal').classList.remove('hidden'); $('chatMessages').innerHTML = ''; chatMessages = []; const greeting = { ru: '👋 Здравствуйте! Чем могу помочь?', ua: '👋 Здравствуйте! Чим можу допомогти?', en: '👋 Hello! How can I help you?' }; addChatMessage(greeting[currentLanguage] || greeting.ru, 'admin'); });
+      $('closeJackpotPrizesBtn').addEventListener('click', function() { $('jackpotPrizesModal').classList.add('hidden'); });
+      $('supportBtn').addEventListener('click', function() { loadSupportHistory().then(function() { renderSupportMessages(); $('supportModal').classList.remove('hidden'); }); });
       $('sendChatBtn').addEventListener('click', handleChatSend);
-      $('chatInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChatSend(); });
-      $('closeSupportBtn').addEventListener('click', () => $('supportModal').classList.add('hidden'));
-      $('privacyPolicyLink').addEventListener('click', () => showPolicy('privacy'));
-      $('termsOfUseLink').addEventListener('click', () => showPolicy('terms'));
-      $('closePolicyBtn').addEventListener('click', () => $('policyModal').classList.add('hidden'));
-      $('langRuOuter').addEventListener('click', () => setLanguage('ru'));
-      $('langUaOuter').addEventListener('click', () => setLanguage('ua'));
-      $('langEnOuter').addEventListener('click', () => setLanguage('en'));
-      [$('winOverlay'), $('paymentModal'), $('historyModal'), $('nameFormModal'), $('customRewardsModal'), $('jackpotPrizesModal'), $('winDetailModal'), $('supportModal'), $('policyModal'), $('winningsModal')].forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.add('hidden'); }));
+      $('chatInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') handleChatSend(); });
+      $('closeSupportBtn').addEventListener('click', function() { $('supportModal').classList.add('hidden'); });
+      $('privacyPolicyLink').addEventListener('click', function() { showPolicy('privacy'); });
+      $('termsOfUseLink').addEventListener('click', function() { showPolicy('terms'); });
+      $('closePolicyBtn').addEventListener('click', function() { $('policyModal').classList.add('hidden'); });
+      $('langRuOuter').addEventListener('click', function() { setLanguage('ru'); });
+      $('langUaOuter').addEventListener('click', function() { setLanguage('ua'); });
+      $('langEnOuter').addEventListener('click', function() { setLanguage('en'); });
+      [$('winOverlay'), $('paymentModal'), $('historyModal'), $('nameFormModal'), $('customRewardsModal'), $('jackpotPrizesModal'), $('winDetailModal'), $('supportModal'), $('policyModal'), $('winningsModal')].forEach(function(m) { m.addEventListener('click', function(e) { if (e.target === m) m.classList.add('hidden'); }); });
 
       setLanguage('ru');
       updateAllTexts();
